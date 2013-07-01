@@ -1,0 +1,10 @@
+find_package(GLFW)
+
+add_library(Platform STATIC PreciseClock.cpp InputDevice.cpp ButtonPressEvent.cpp)
+if(GLFW_FOUND)
+	add_subdirectory(GLFW)
+	target_link_libraries(Platform PlatformGLFW)
+else()
+	message(WARNING "No Backend for Platform found.")
+	message(WARNING "Please install GLFW or you won't be able to use the Platform module.")
+endif()

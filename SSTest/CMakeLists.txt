@@ -1,0 +1,1 @@
+add_library(SSTest STATIC SSTest.cpp)

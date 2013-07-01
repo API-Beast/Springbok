@@ -1,0 +1,4 @@
+#cmakedefine SPRINGBOK_WINDOWS
+#cmakedefine SPRINGBOK_MAC
+#cmakedefine SPRINGBOK_LINUX
+#cmakedefine SPRINGBOK_UNKNOWN
