@@ -16,8 +16,8 @@ highlightTint.SaturationMult = 0.5f;
 highlightTint.LumaAdd = +0.4f;
 
 ColorHSY           base = ColorRGB::Green;
-ColorHSY    shadowColor = base.applyTint(shadowTint);
-ColorHSY highlightColor = base.applyTint(highlightTint);
+ColorHSY    shadowColor = base.tint(shadowTint);
+ColorHSY highlightColor = base.tint(highlightTint);
 ```
 
 ColorRGB also provides mathematical operators between two colors for different kinds of blending:

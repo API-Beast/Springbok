@@ -37,7 +37,7 @@ ColorHSY::operator ColorRGB()
 	return unsaturated.blend(saturated, Saturation).clip();
 }
 
-ColorHSY ColorHSY::tint(const ColorHSY& other)
+ColorHSY ColorHSY::tint(const TintHSY& t)
 {
-	return {Hue + other.Hue, BoundBy(0.f, Saturation * other.Saturation, 1.f), BoundBy(0.f, Luma * other.Luma, 1.f) };
+	return {Hue + t.HueShift, BoundBy(0.f, Saturation * t.SaturationMult + t.SaturationAdd, 1.f), BoundBy(0.f, Luma * t.LumaMult + t.LumaAdd, 1.f) };
 }

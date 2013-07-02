@@ -44,7 +44,7 @@ struct ColorHSY
 	float Luma;
 	/** Conversion to ColorRGB. */
 	operator ColorRGB() const;
-	ColorHSY applyTint(const TintHSY& other) const;
+	ColorHSY tint(const TintHSY& other) const;
 };
 
 struct TintHSY
