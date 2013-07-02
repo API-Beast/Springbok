@@ -62,11 +62,11 @@ constexpr float Vec2<T>::dot(Vec2<T> other) const
 	return X*other.X + Y*other.Y;
 }
 
-template<typename T>
+/*template<typename T>
 Vec2<T> Vec2<T>::projected(Vec2<T> line) const
 {
 	return this->dot(line.normalize()) * (*this);
-}
+}*/
 
 template<typename T>
 float Vec2<T>::projectAxis(Vec2<T> axis) const
