@@ -23,9 +23,11 @@ public:
   };
 	//! @endcond
 	/** @var T X;
-	 * The X component of this Vec2. */
+	 * @memberof Vec2
+	 * @brief The X component of this Vec2. */
 	/** @var T Y;
-	 * The Y component of this Vec2. */
+	 * @memberof Vec2
+	 * @brief The Y component of this Vec2. */
   
   constexpr Vec2() : X(), Y() {};
   template<typename P>
@@ -50,27 +52,33 @@ public:
 	/*Vec2<T> projected(Vec2<T> line) const; //!< Project this two dimensional vector onto \a axis. @return The projected vector in the 2D space. */// <- Superflucious?
 	float projectAxis(Vec2<T> axis) const; //!< Project this two dimensional vector onto \a axis. @return The position of the vector on \a axis.
 	
-/** @fn template<typename P> constexpr Vec2<T> operator OPER(const P& val);
+/** @fn template<typename P> constexpr Vec2<T> operatorOPER(const P& val);
+ *  @memberof Vec2
  *  Call operator OPER (+, -, * or /) for every component of \c this with \a val as parameter.
  *  @returns A Vec2<T> with the results of the operation.
  */
-/** @fn template<typename P> constexpr Vec2<T> operator OPER(const Vec2<P>& other); 
+/** @fn template<typename P> constexpr Vec2<T> operatorOPER(const Vec2<P>& other); 
+ *  @memberof Vec2
  *  Call operator OPER (+, -, * or /) on every component of \c this with the corresponding component of \a other as parameter.
  *  @returns A Vec2<T> with the results of the operation.
  */
-/** @fn template<typename P> constexpr Vec2<T> operator ASSIGN(const P& val);
+/** @fn template<typename P> constexpr Vec2<T> operatorASSIGN(const P& val);
+ *  @memberof Vec2
  *  Call assignment operator ASSIGN (+=, -=, *= or /=) for every component of \c this with \a val as parameter.
  *  @returns Reference to \c *this.
  */
-/** @fn template<typename P> constexpr Vec2<T> operator ASSIGN(const Vec2<P>& other); 
+/** @fn template<typename P> constexpr Vec2<T> operatorASSIGN(const Vec2<P>& other); 
+ *  @memberof Vec2
  *  Call assignment operator ASSIGN (+=, -=, *= or /=) on every component of \c this with the corresponding component of \a other as parameter.
  *  @returns Reference to \c *this.
  */
-/** @fn template<typename P> constexpr bool operator COMPARE(const P& val);
+/** @fn template<typename P> constexpr bool operatorCOMPARE(const P& val);
+ *  @memberof Vec2
  *  Compare the length of \a Vec2<P>(val, val) with the length of \a this using operator COMPARE (>, <, >= or <=).
  *  @returns The result of the comparison.
  */
-/** @fn template<typename P> constexpr bool operator COMPARE(const Vec2<P>& val);
+/** @fn template<typename P> constexpr bool operatorCOMPARE(const Vec2<P>& val);
+ *  @memberof Vec2
  *  Compare the length of \a val with the length of \a this using operator COMPARE (>, <, >= or <=).
  *  @returns The result of the comparison.
  */

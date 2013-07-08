@@ -32,6 +32,9 @@
 #endif
 #undef GET_RID_OF_CONSTANTS
 
+//! @ingroup Math
+//@{
+
 template<typename T>
 constexpr T Min(T a, T b)
 {
@@ -44,16 +47,41 @@ constexpr T Max(T a, T b)
 	return (a < b) ? b : a;
 };
 
+/** Returns the maximum of all arguments.
+ * Examples:
+ * ~~~
+ * Max(12, 3);        // -> 12
+ * Max(3, 6, 9, 1);   // -> 9
+ * Max(0.62f, 12.0f); // -> 12.0f
+ * ~~~
+ */
 template<typename T, typename... Args>
 constexpr T Max(T a, T b, Args... c)
 {
 	return Max(Max(a, b), c...);
 };
-	
-template<typename T>
-constexpr T BoundBy(T a, T b, T c)
+
+/** Returns the minimum of all arguments.
+ * Examples:
+ * ~~~
+ * Min(12, 3);        // -> 3
+ * Min(3, 6, 9, 1);   // -> 1
+ * Min(0.62f, 12.0f); // -> 0.62f
+ * ~~~
+ */
+template<typename T, typename... Args>
+constexpr T Min(T a, T b, Args... c)
 {
-	return (b < a) ? a :((c < b) ? c : b);
+	return Min(Min(a, b), c...);
+};
+	
+/** Returns \a value clipped to the \a lowerBound...upperBound range.
+ * \a value will be returned if it is between \a lowerBound and \a upperBound. If it is smaller than \a lowerBound, \a lowerBound will be returned, if it is bigger \a upperBound will be returned instead.
+ */
+template<typename T>
+constexpr T BoundBy(T lowerBound, T value, T upperBound)
+{
+	return (value < lowerBound) ? lowerBound : ((upperBound < value) ? upperBound : value);
 };
 
 constexpr float Sin(const Radian r)
@@ -125,3 +153,5 @@ constexpr auto SquareRoot(const A& a) -> decltype(std::sqrt(a))
 {
 	return std::sqrt(a);
 }
+
+//@}

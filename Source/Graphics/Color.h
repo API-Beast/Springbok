@@ -7,10 +7,7 @@
 
 #include <Geometry/Angle.h>
 
-//! @defgroup Color
-//! @ingroup Graphics
-
-//! @addtogroup Color
+//! @addtogroup groupColor
 //! @{
 
 struct ColorRGB;

@@ -8,8 +8,8 @@
 TopDownShooter::TopDownShooter()
 {
 	mSurface = new GameSurface("TopDownShooter Example", GameSurface::Windowed);
-	mInput = new InputMonitor(mSurface);
-	mClock = new PreciseClock();
+	mInput   = new InputMonitor(mSurface);
+	mClock   = new PreciseClock();
 }
 
 TopDownShooter::~TopDownShooter()

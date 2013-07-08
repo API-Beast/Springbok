@@ -34,7 +34,7 @@ void replaceWith()
 	ObjectPointer<int> ptrB = x;
 	ptrA.replaceWith(y);
 	// *ptrA == *ptrB == *y == 1000 now
-	*y = 2000;
+	*ptrB = 2000;
 	// *ptrA == *ptrB == *y == 2000 now
 	//! [replaceWith]
 	SST_M_ASSERT_START;
