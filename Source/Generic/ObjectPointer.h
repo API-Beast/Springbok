@@ -39,11 +39,17 @@ private:
 	std::list<AbstractObjectPointer*>::iterator mIter;
 };
 
+/** @name pointer_cast
+ *  Converts to \a ptr to raw pointer which is then cast to a pointer of type \a X.
+ *  @returns The cast pointer.
+ *  @relates ObjectPointer */
+//@{
 template<typename X, template<typename> class T, typename Y>
-X* dynamic_pointer_cast(const T<Y>&); ///< @relates ObjectPointer
+X* dynamic_pointer_cast(const T<Y>& ptr);
 template<typename X, template<typename> class T, typename Y>
-X* reinterpret_pointer_cast(const T<Y>&); ///< @relates ObjectPointer
+X* reinterpret_pointer_cast(const T<Y>& ptr);
 template<typename X, template<typename> class T, typename Y>
-X* static_pointer_cast(const T<Y>&); ///< @relates ObjectPointer
+X* static_pointer_cast(const T<Y>& ptr);
+//@}
 
 #include "ObjectPointer_Templates.hpp"

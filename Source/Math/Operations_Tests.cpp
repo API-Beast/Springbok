@@ -1,6 +1,7 @@
 #include <SSTest.h>
 #include "Operations.h"
-
+namespace
+{
 bool tests()
 {
 	SST_M_ASSERT_START;
@@ -23,3 +24,4 @@ bool tests()
 }
 
 SST::SimpleTest a("Math/Operations", &tests, SST::Required);
+}

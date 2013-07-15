@@ -19,8 +19,9 @@ struct Line2
 	bool isIntersecting(const Line2< T >& other) const;
 	/** Returns the direction of the line. */
 	Vec2<T> direction() const;
-	/** The start point of the */
+	/** The starting point of the line. */
 	Vec2<T> Start;
+	/** The ending point of the line. */
 	Vec2<T> End;
 };
 

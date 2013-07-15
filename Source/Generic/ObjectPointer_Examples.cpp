@@ -11,7 +11,7 @@ void basicUsage()
 	ObjectPointer<int> ptrA = x;
 	ObjectPointer<int> ptrB = ptrA;
 	ObjectPointer<float> ptrC = reinterpret_cast<float*>(x);
-	// Calls "delete x;" and makes ever ObjectPointer pointing to x nullptr
+	// Calls "delete x;" and sets every ObjectPointer pointing to 'x' to nullptr.
 	ptrA.destroy();
 	// ptrA, ptrB and ptrC are all nullptr now.
 	//! [Basic usage]
