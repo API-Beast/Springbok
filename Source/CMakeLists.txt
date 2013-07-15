@@ -21,8 +21,8 @@ set(GRAPHICS_SOURCES Graphics/Image.cpp Graphics/RenderManager.cpp Graphics/Text
 set(GENERIC_SOURCES Generic/ObjectPointer.cpp)
 set(DEPENDENCY_SOURCES Dependencies/lodepng.cpp)
 set(GEOMETRY_SOURCES Geometry/Angle.cpp Geometry/CollisionDetection.cpp)
-ADD_SSTEST_FILE(libBeastTest Math/Operations_Tests.cpp Generic/ObjectPointer_Examples.cpp)
 set(MATH_SOURCES)
+ADD_SSTEST_FILE(SpringbokTest Math/Operations_Tests.cpp Math/Range_Examples.cpp Generic/ObjectPointer_Examples.cpp Animation/KeyframeList_Examples.cpp)
 
 set(ALL_SOURCES ${CORE_SOURCES} ${AUDIO_SOURCES} ${GENERIC_SOURCES} ${MATH_SOURCES} ${GEOMETRY_SOURCES} ${GRAPHICS_SOURCES} ${DEPENDENCY_SOURCES})
 file(GLOB_RECURSE ALL_HEADERS ${CMAKE_CURRENT_BINARY_DIR}/Springbok/Config.h *.h *.hpp)

@@ -6,35 +6,56 @@
 #pragma once
 
 #include "Range.h"
-#include <Math/Operations.h>
+#include <Springbok/Math/Operations.h>
 
 template<typename T>
-Range<T>::Range(T start, T end)
+constexpr Range<T>::Range(T start, T end) : Start(Min(start, end)), End(Max(start, end))
 {
-	this->Start = Start;
-	this->End   = End;
 }
 
 template<typename T>
-Range<T>::operator bool()
+template<typename P>
+constexpr Range<T>::Range(const Range<P>& other)
+ : Start(other.Start), End(other.End) {}
+
+template<typename T>
+constexpr Range<T>::operator bool()
 {
 	return Start != End;
 }
 
 template<typename T>
-Range<T> Range::getIntersection(const Range<T>& other)
+constexpr Range<T> Range<T>::getIntersection(const Range<T>& other)
 {
-	Range<T> retVal;
-	retVal.Start = Max(other.Start, Start);
-	retVal.End   = Min(other.End, End);
-	if(retVal.Start > retVal.End) return Range<T>();
-	return retVal;
+	return (Max(other.Start, Start) > Min(other.End, End)) ? Range<T>() : Range<T>(Max(other.Start, Start), Min(other.End, End));
 }
 
-Range Range::getUnion(const Range& other)
+template<typename T>
+constexpr Range<T> Range<T>::getUnion(const Range<T>& other)
 {
-	Range retVal;
-	retVal.Start = Min(other.Start, Start);
-	retVal.End   = Max(other.End, End);
-	return retVal;
+	return Range<T>(Min(other.Start, Start), Max(other.End, End));
 }
+
+template<typename T>
+constexpr Range<T> Range<T>::getIntersection(const T& a, const T& b)
+{
+	return getIntersection(Range<T>(a, b));
+}
+
+template<typename T>
+constexpr Range<T> Range<T>::getUnion(const T& a, const T& b)
+{
+	return getUnion(Range<T>(a, b));
+}
+
+template<typename T>
+constexpr T Range<T>::bound(const T& val)
+{
+	return BoundBy(val, this->Start, this->End);
+}
+
+template<typename T>
+constexpr T BoundBy(T value, Range<T> range)
+{
+	return (value < range.Start) ? range.Start : ((range.End < value) ? range.End : value);
+};
