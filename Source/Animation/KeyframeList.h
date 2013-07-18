@@ -7,6 +7,7 @@
 
 #include <Springbok/Generic/Structures/SkipList.h>
 #include <Springbok/Generic/Structures/Associative.h>
+#include "Interpolation.h"
 
 template<typename T>
 class KeyframeList
@@ -21,12 +22,18 @@ public:
 
 		float Index;
 		SkipListNode< Associative<float, T> >* Node;
-		SkipList< Associative<float, T> >* List;
+		KeyframeList* Parent;
 	};
 public:
+	~KeyframeList();
+	template<typename E>
+	void setInterpolationMethod(Interpolation interpolation, const E& easingFunction);
 	ReferencePoint operator[](float position);
 private:
+	Interpolation InterpolationMethod = Interpolation::Linear;
+	EasingFunctionBase* EasingFunction = nullptr;
 	SkipList< Associative<float, T> > Keyframes;
+	friend ReferencePoint;
 };
 
 #include "KeyframeList_Templates.hpp"

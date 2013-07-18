@@ -12,12 +12,22 @@ template<typename T>
 KeyframeList<T>::ReferencePoint::operator T() const
 {
 	auto nextNode = Node->Next;
+	auto prevNode = Node->Previous;
+	auto nextNextNode = Node;
 	if(nextNode == nullptr)
 		nextNode = Node;
+	else
+		nextNextNode = nextNode->Next;
+	if(prevNode == nullptr)
+		prevNode = Node;
+	if(nextNextNode == nullptr)
+		nextNextNode = Node;
 	
+	auto prev     = prevNode->Data;
 	auto start    = Node->Data;
-	auto end      = nextNode->Data; 
-	return InterpolateLinear(start.Value, end.Value, start.Key, end.Key, this->Index);
+	auto end      = nextNode->Data;
+	auto next     = nextNextNode->Data;
+	return Interpolate(Parent->InterpolationMethod, prev.Value, start.Value, end.Value, next.Value, start.Key, end.Key, this->Index, *Parent->EasingFunction);
 }
 
 template<typename T>
@@ -31,7 +41,7 @@ void KeyframeList<T>::ReferencePoint::insert(const T& value)
 			return;
 		}
 	}
-	List->insert(Associative<float, T>(Index, value));
+	Parent->Keyframes.insert(Associative<float, T>(Index, value));
 	// TODO: Save iteration and don't do the whole thing again for inseration
 }
 
@@ -41,6 +51,20 @@ typename KeyframeList<T>::ReferencePoint KeyframeList<T>::operator[](float posit
 	KeyframeList<T>::ReferencePoint retVal;
 	retVal.Node = Keyframes.find(position);
 	retVal.Index = position;
-	retVal.List = &Keyframes;
+	retVal.Parent = this;
 	return retVal;
+}
+
+template<typename T>
+template<typename E>
+void KeyframeList<T>::setInterpolationMethod(Interpolation interpolation, const E& easingFunction)
+{
+	InterpolationMethod = interpolation;
+	EasingFunction = new E(easingFunction);
+}
+
+template<typename T>
+KeyframeList<T>::~KeyframeList()
+{
+	delete EasingFunction;
 }
