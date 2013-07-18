@@ -95,6 +95,18 @@ constexpr float Cos(const Radian r)
 }
 
 template<typename T>
+constexpr T Abs(const T val)
+{
+	return (val > T()) ? val : -val;
+}
+
+template<typename T>
+constexpr int Sign(const T val)
+{
+	return (val > T()) ? 1 : -1;
+}
+
+template<typename T>
 constexpr const Radian Atan2(const T a, const T b)
 {
 	return std::atan2(a, b);
