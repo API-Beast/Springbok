@@ -16,7 +16,7 @@ namespace Buttons
 	ButtonSpec Right(Keyboard, GLFW_KEY_RIGHT, Keyboard, GLFW_KEY_D);
 	
 	ButtonSpec Confirm(Keyboard, GLFW_KEY_SPACE, Keyboard, GLFW_KEY_X, Keyboard, GLFW_KEY_Q, Keyboard, GLFW_KEY_ENTER);
-	ButtonSpec Abort (Keyboard, GLFW_KEY_E, Keyboard, GLFW_KEY_C);
+	ButtonSpec Abort  (Keyboard, GLFW_KEY_E, Keyboard, GLFW_KEY_C);
 	
 	ButtonSpec ActionA(Keyboard, GLFW_KEY_X, Keyboard, GLFW_KEY_Q);
 	ButtonSpec ActionB(Keyboard, GLFW_KEY_C, Keyboard, GLFW_KEY_E);
@@ -33,15 +33,15 @@ namespace Buttons
 	ButtonSpec RightMouseButton (Mouse, GLFW_MOUSE_BUTTON_RIGHT);
 	ButtonSpec MiddleMouseButton(Mouse, GLFW_MOUSE_BUTTON_MIDDLE);
 	
-	ButtonSpec F1(Keyboard, GLFW_KEY_F1);
-	ButtonSpec F2(Keyboard, GLFW_KEY_F2);
-	ButtonSpec F3(Keyboard, GLFW_KEY_F3);
-	ButtonSpec F4(Keyboard, GLFW_KEY_F4);
-	ButtonSpec F5(Keyboard, GLFW_KEY_F5);
-	ButtonSpec F6(Keyboard, GLFW_KEY_F6);
-	ButtonSpec F7(Keyboard, GLFW_KEY_F7);
-	ButtonSpec F8(Keyboard, GLFW_KEY_F8);
-	ButtonSpec F9(Keyboard, GLFW_KEY_F9);
+	ButtonSpec F1 (Keyboard, GLFW_KEY_F1);
+	ButtonSpec F2 (Keyboard, GLFW_KEY_F2);
+	ButtonSpec F3 (Keyboard, GLFW_KEY_F3);
+	ButtonSpec F4 (Keyboard, GLFW_KEY_F4);
+	ButtonSpec F5 (Keyboard, GLFW_KEY_F5);
+	ButtonSpec F6 (Keyboard, GLFW_KEY_F6);
+	ButtonSpec F7 (Keyboard, GLFW_KEY_F7);
+	ButtonSpec F8 (Keyboard, GLFW_KEY_F8);
+	ButtonSpec F9 (Keyboard, GLFW_KEY_F9);
 	ButtonSpec F10(Keyboard, GLFW_KEY_F10);
 	ButtonSpec F11(Keyboard, GLFW_KEY_F11);
 	ButtonSpec F12(Keyboard, GLFW_KEY_F12);

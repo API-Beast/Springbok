@@ -1,5 +1,6 @@
 #pragma once
 #include "Easing.h"
+#include <Springbok/Math/Operations.h>
 
 enum class Interpolation
 {
@@ -40,30 +41,38 @@ T Interpolate(Interpolation kind, const T& prev, const T& start, const T& end, c
 	switch(kind)
 	{
 		case Interpolation::Constant:
-			return start;
+			return factor >= 1.f ? end : start;
 		case Interpolation::Linear:
 			return InterpolateLinear<T>(start, end, factor);
 		case Interpolation::Cubic:
 			return InterpolateCubic<T>(prev, start, end, after, factor);
 		case Interpolation::AutoEase:
-			T slopeCurrent  =   end - start;
+			T slopeCurrent  = end - start;
 			T slopePrevious = start - prev;
 			T slopeNext     = after - end;
 			if(slopeCurrent > slopePrevious)
 			{
-				// Bigger than last, but less than next: Continous, don't interpolate
+				//   /
+				// _/
+				// Continous, don't ease
 				if(slopeCurrent < slopeNext)
 					return InterpolateLinear(start, end, factor);
-				// Next slope is less than current: Slow down, ease out
+				//   _
+				// _/
+				// Slow down, ease out
 				else
 					return func.easeOut(InterpolateLinear(start, end, factor));
 			}
 			else
 			{
-				// Slower than last & slower than next: Speed up, ease in
+				//  _/
+				// /
+				// Speed up, ease in
 				if(slopeCurrent < slopeNext)
 					return func.easeIn(InterpolateLinear(start, end, factor));
-				// Faster than next, but slower than last: Neutral
+				//  /\
+				// /
+				// Neutral
 				else
 					return func.easeInOut(InterpolateLinear(start, end, factor));
 			}
