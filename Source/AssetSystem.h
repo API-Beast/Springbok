@@ -1,4 +1,4 @@
-#include "Core/AssetManager.h"
+#include "AssetSystem/AssetManager.h"
 
 //! @defgroup Core
 
