@@ -16,14 +16,14 @@ ColorRGB ColorRGB::clip()
 	return ColorRGB{BoundBy(0.f, Red, 1.f), BoundBy(0.f, Green, 1.f), BoundBy(0.f, Blue, 1.f)};
 }
 
-ColorHSY::operator ColorRGB()
+ColorHSY::operator ColorRGB() const
 {	
 	float ma[3] = {+1.0000, +1.0000, +1.0000};
 	float mb[3] = {+0.7010, -0.2990, -0.2990};
 	float mc[3] = {+0.2731, -0.3043, +0.8504};
 	float chroma, c1, c2;
 	ColorRGB saturated;
-	RGBColor unsaturated={Luma, Luma, Luma};
+	ColorRGB unsaturated={Luma, Luma, Luma};
 	
 	float lumaMatch = (1 - Saturation) * Luma;
 	
@@ -37,7 +37,7 @@ ColorHSY::operator ColorRGB()
 	return unsaturated.blend(saturated, Saturation).clip();
 }
 
-ColorHSY ColorHSY::tint(const TintHSY& t)
+ColorHSY ColorHSY::tint(const TintHSY& t) const
 {
 	return {Hue + t.HueShift, BoundBy(0.f, Saturation * t.SaturationMult + t.SaturationAdd, 1.f), BoundBy(0.f, Luma * t.LumaMult + t.LumaAdd, 1.f) };
 }
