@@ -50,7 +50,7 @@ void SoundManager::manageSoundInstance(SoundInstance* instance)
 
 bool SoundManager::canManageMoreSoundInstances()
 {
-	return mSoundInstances.size() >= 31; // Arbitary number, most OpenAL implementations should atleast support this many.
+	return mSoundInstances.size() < 32; // Arbitary number, most OpenAL implementations should atleast support this many.
 }
 
 void SoundManager::cleanUp()
