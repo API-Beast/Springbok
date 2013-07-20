@@ -16,13 +16,14 @@ public:
 	class ReferencePoint
 	{
 	public:
+		ReferencePoint() = default;
 		void insert(const T& value);
 		void remove();
 		operator T() const;
 
 		float Index;
-		SkipListNode< Associative<float, T> >* Node;
-		KeyframeList* Parent;
+		typename SkipList< Associative<float, T> >::SearchResult NodePath;
+		KeyframeList<T>* Parent = nullptr;
 	};
 public:
 	~KeyframeList();

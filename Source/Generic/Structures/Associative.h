@@ -11,6 +11,8 @@ struct Associative
 	Associative(const K& key) : Key(key)
 	{};
 	
+	Associative() = default;
+	
 	Associative<K, V>& operator=(const Associative<K, V>& other)
 	{
 		Key = other.Key;

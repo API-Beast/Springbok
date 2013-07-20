@@ -11,20 +11,21 @@
 template<typename T>
 KeyframeList<T>::ReferencePoint::operator T() const
 {
-	auto nextNode = Node->Next;
-	auto prevNode = Node->Previous;
-	auto nextNextNode = Node;
+	auto node = NodePath.BaseNode;
+	auto nextNode = node->Next;
+	auto prevNode = node->Previous;
+	auto nextNextNode = node;
 	if(nextNode == nullptr)
-		nextNode = Node;
+		nextNode = node;
 	else
 		nextNextNode = nextNode->Next;
 	if(prevNode == nullptr)
-		prevNode = Node;
+		prevNode = node;
 	if(nextNextNode == nullptr)
-		nextNextNode = Node;
+		nextNextNode = node;
 	
 	auto prev     = prevNode->Data;
-	auto start    = Node->Data;
+	auto start    = node->Data;
 	auto end      = nextNode->Data;
 	auto next     = nextNextNode->Data;
 	return Interpolate(Parent->InterpolationMethod, prev.Value, start.Value, end.Value, next.Value, start.Key, end.Key, this->Index, *Parent->EasingFunction);
@@ -32,24 +33,24 @@ KeyframeList<T>::ReferencePoint::operator T() const
 
 template<typename T>
 void KeyframeList<T>::ReferencePoint::insert(const T& value)
-{
-	if(Node)
-	{
-		if(Node->Data.Key == Index)
-		{
-			Node->Data.Value = value;
-			return;
-		}
-	}
-	Parent->Keyframes.insert(Associative<float, T>(Index, value));
-	// TODO: Save iteration and don't do the whole thing again for inseration
+{;
+	if(!NodePath.hasFoundValue())
+		NodePath.insert();
+	NodePath.BaseNode->Data.Value = value;
+}
+
+template<typename T>
+void KeyframeList<T>::ReferencePoint::remove()
+{;
+	if(NodePath.hasFoundValue())
+		NodePath.remove();
 }
 
 template<typename T>
 typename KeyframeList<T>::ReferencePoint KeyframeList<T>::operator[](float position)
 {
 	KeyframeList<T>::ReferencePoint retVal;
-	retVal.Node = Keyframes.find(position);
+	retVal.NodePath = Keyframes.findNode(position);
 	retVal.Index = position;
 	retVal.Parent = this;
 	return retVal;

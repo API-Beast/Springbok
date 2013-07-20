@@ -19,53 +19,47 @@ SkipList<T>::~SkipList()
 }
 
 template<typename T>
-SkipListNode<T>* SkipList<T>::insert(const T& value)
+void SkipList<T>::SearchResult::insert()
 {
-	RingBuffer<SkipListNode<T>*, MaxLevel> levels;
-	SkipListNode<T>* insertPosition = find(value, levels);
-	
 	// No element in this SkipList yet? Well, congratulations.
-	if(insertPosition == nullptr)
+	if(BaseNode == nullptr)
 	{
-		CurrentLevel = 0;
-		SkipListNode<T>* newNode = new SkipListNode<T>(value);
-		Head[CurrentLevel] = newNode;
-		Tail = newNode;
+		List->CurrentLevel = 0;
+		SkipListNode<T>* newNode = new SkipListNode<T>(Value);
+		List->Head[0] = newNode;
+		
+		BaseNode = newNode;
 	}
 	else
 	{
 		// This might seem weird but is required to make SkipList work as associative array.
-		if(insertPosition->Data == value)
+		if(BaseNode->Data == Value)
 		{
-			insertPosition->Data = value;
-			return insertPosition;
+			BaseNode->Data = Value;
+			return;
 		}
 		
-		SkipListNode<T>* newNode = new SkipListNode<T>(value);
-		SkipListNode<T>* after   = insertPosition->Next;
-		insertPosition->Next = newNode;
-		newNode->Previous = insertPosition;
+		SkipListNode<T>* newNode = new SkipListNode<T>(Value);
+		SkipListNode<T>* after   = BaseNode->Next;
+		BaseNode->Next = newNode;
+		newNode->Previous = BaseNode;
 		newNode->Next     = after;
 		
-		if(Tail == insertPosition)
-			Tail = newNode;
+		BaseNode = newNode;
+		
 		// TODO: Insert higher levels. That's what we need the levels variable for.
-		return newNode;
+		return;
 	}
 }
 
 template<typename T>
-SkipListNode<T>* SkipList<T>::find(const T& value)
+typename SkipList<T>::SearchResult SkipList<T>::findNode(const T& value)
 {
-	RingBuffer<SkipListNode<T>*, MaxLevel> levels;
-	return find(value, levels);
-}
-
-template<typename T>
-SkipListNode<T>* SkipList<T>::find(const T& value, RingBuffer<SkipListNode<T>*, MaxLevel>& levels)
-{
+	SearchResult result;
+	result.Value = value;
+	result.List = this;
 	if(CurrentLevel == -1)
-		return nullptr; // This Skiplist has no values yet
+		return result;
 	
 	SkipListNode<T>* curNode  = Head[CurrentLevel];
 	SkipListNode<T>* lastNode = curNode;
@@ -74,16 +68,26 @@ SkipListNode<T>* SkipList<T>::find(const T& value, RingBuffer<SkipListNode<T>*, 
 		while(curNode->getData() < value)
 		{
 			if(curNode->Next == nullptr)
-				return Tail;
+			{
+				if(curNode->IsBaseNode)
+					result.BaseNode = curNode;
+				else
+					result.BaseNode = curNode->BaseChild;
+				return result;
+			}
 			
 			lastNode = curNode;
 			curNode = curNode->Next;
 		}
 		if(lastNode->IsBaseNode)
-			return lastNode;
-		levels.pushBack(lastNode);
+		{
+			result.BaseNode = lastNode;
+			return result;
+		}
+		result.Levels.pushBack(lastNode);
 		curNode = lastNode->Child;
 	}
+	return result;
 }
 
 template<typename T>
@@ -92,4 +96,12 @@ const T& SkipListNode<T>::getData()
 	if(IsBaseNode)
 		return Data;
 	return BaseChild->Data;
+}
+
+
+template<typename T>
+bool SkipList<T>::SearchResult::hasFoundValue() const
+{
+	if(BaseNode == nullptr) return false;
+	return BaseNode->Data == Value;
 }

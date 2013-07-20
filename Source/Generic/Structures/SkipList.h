@@ -5,21 +5,29 @@
 template<typename T>
 struct SkipListNode;
 
+/* Low level container, API is designed to be efficient and as such it doesn't have the usual convenience of Springbok. */
 template<typename T>
 struct SkipList
 {
+	static constexpr int MaxLevel = 16;
+	struct SearchResult
+	{
+		T Value;
+		SkipListNode<T>* BaseNode = nullptr;
+		RingBuffer<SkipListNode<T>*, MaxLevel> Levels;
+		SkipList* List;
+		
+		void remove();
+		void insert();
+		bool hasFoundValue() const;
+	};
+public:
 	~SkipList();
 	
-	SkipListNode<T>* find(const T& value);
-	SkipListNode<T>* insert(const T& value);
+	SearchResult findNode(const T& value);
 	
-	// 10 levels should be sufficient for up to 22k elements. log(22000) < 10
-	static constexpr int MaxLevel = 10;
 	SkipListNode<T>* Head[MaxLevel];
-	SkipListNode<T>* Tail = nullptr;
 	int CurrentLevel = -1;
-private:
-	SkipListNode<T>* find(const T& value, RingBuffer< SkipListNode< T >*, MaxLevel >& levels);
 };
 
 template<typename T>
