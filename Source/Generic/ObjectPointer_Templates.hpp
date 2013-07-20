@@ -6,40 +6,46 @@
 #pragma once
 #include "ObjectPointer.h"
 #include <algorithm>
-#include <iostream>
+#include <cassert>
 
 template<typename T>
 ObjectPointer<T>::ObjectPointer()
 {
 	mPointer = nullptr;
-	mIter = gInstances.insert(gInstances.begin(), this);
 }
 
 template<typename T>
-ObjectPointer<T>::ObjectPointer(T* ptr)
+void Destructor<T>::destroy(void* pointer)
 {
-	mPointer = ptr;
-	mIter = gInstances.insert(gInstances.begin(), this);
+	delete reinterpret_cast<T*>(pointer);
+};
+
+template<typename T>
+template<typename U>
+ObjectPointer<T>::ObjectPointer(U* ptr)
+{
+	auto nodePath = ObjectData::gObjects.findNode(ptr);
+	if(nodePath.hasFoundValue() == false)
+	{
+		nodePath.insert();
+		mPointer = &(nodePath.BaseNode->Data);
+		mPointer->Destructor = new Destructor<U>;
+		mPointer->MemoryLocation = ptr;
+	}
+	else
+		mPointer = &(nodePath.BaseNode->Data);
 }
 
 template<typename T>
 ObjectPointer<T>::ObjectPointer(const ObjectPointer<T>& other)
 {
 	mPointer = other.mPointer;
-	mIter = gInstances.insert(gInstances.begin(), this);
 }
 
 template<typename T>
-ObjectPointer<T>::~ObjectPointer()
+ObjectPointer<T>::ObjectPointer(std::nullptr_t null)
 {
-	gInstances.erase(mIter);
-}
-
-template<typename T>
-ObjectPointer<T>& ObjectPointer<T>::operator =(T* ptr)
-{
-	mPointer = ptr;
-	return *this;
+	mPointer = nullptr;
 }
 
 template<typename T>
@@ -52,44 +58,28 @@ ObjectPointer<T>& ObjectPointer<T>::operator =(const ObjectPointer<T>& other)
 template<typename T>
 ObjectPointer<T>::operator T*() const
 {
-	return mPointer;
+	return reinterpret_cast<T*>(mPointer->MemoryLocation);
 }
 
 template<typename T>
-void ObjectPointer<T>::destroy(bool del)
+T* ObjectPointer<T>::operator->() const
 {
-	if(del) delete mPointer;
-	for(AbstractObjectPointer* ptr : AbstractObjectPointer::gInstances)
-		ptr->onDestruction((void*)mPointer);
+	return reinterpret_cast<T*>(mPointer->MemoryLocation);
 }
 
 template<typename T>
-void ObjectPointer<T>::replaceWith(T* newPointer, bool del)
+void ObjectPointer<T>::replaceWith(T* newPtr)
 {
-	if(del) delete mPointer;
-	for(AbstractObjectPointer* ptr : AbstractObjectPointer::gInstances)
-		ptr->onReplace(mPointer, newPointer);
-}
-
-
-template<typename T>
-void ObjectPointer<T>::onDestruction(void* ptr)
-{
-	if(mPointer == ptr)
-		mPointer = nullptr;
+	// Ensure that the right destructor is called.
+	mPointer->MemoryLocation = newPtr;
 }
 
 template<typename T>
-void ObjectPointer<T>::onReplace(void* oldPtr, void* newPtr)
+void ObjectPointer<T>::destroy()
 {
-	if(mPointer == oldPtr)
-		mPointer = (T*)newPtr;
-}
-
-template<typename T>
-void ObjectPointer<T>::markAsDestroyed(T* memory)
-{
-
+	// Ensure that the right destructor is called.
+	mPointer->Destructor->destroy(mPointer->MemoryLocation);
+	mPointer->MemoryLocation = nullptr;
 }
 
 template<typename X, template<typename> class T, typename Y>

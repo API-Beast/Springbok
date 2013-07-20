@@ -81,7 +81,10 @@ typename SkipList<T>::SearchResult SkipList<T>::findNode(const T& value)
 		}
 		if(lastNode->IsBaseNode)
 		{
-			result.BaseNode = lastNode;
+			if(curNode->getData() == value)
+				result.BaseNode = curNode;
+			else
+				result.BaseNode = lastNode;
 			return result;
 		}
 		result.Levels.pushBack(lastNode);

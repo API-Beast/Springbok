@@ -5,4 +5,21 @@
 
 #include "ObjectPointer.h"
 
-std::list<AbstractObjectPointer*> AbstractObjectPointer::gInstances;
+#include <cassert>
+
+SkipList<ObjectData> ObjectData::gObjects;
+
+void DestructorBase::destroy(void* pointer)
+{
+	assert(pointer == nullptr);
+}
+
+void Destructor<void>::destroy(void* pointer)
+{
+	assert(pointer == nullptr);
+};
+
+ObjectData::~ObjectData()
+{
+	delete Destructor;
+}
