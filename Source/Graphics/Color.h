@@ -18,9 +18,9 @@ struct ColorRGB
 {
 	constexpr ColorRGB()=default;
 	constexpr ColorRGB(float r, float g, float b) : Red(r), Green(g), Blue(b){};
-	float Red   = 0.0f;
-	float Green = 0.0f;
-	float Blue  = 0.0f;
+	float Red   = 1.0f;
+	float Green = 1.0f;
+	float Blue  = 1.0f;
 	/** Blend between \a this and \a other with a opacity of \a factor. */
 	ColorRGB blend(const ColorRGB& other, float factor);
 	/** Clip all components to \c 0...1 range. */
