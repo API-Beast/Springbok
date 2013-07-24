@@ -6,6 +6,14 @@
 #pragma once
 
 #include <Springbok/Platform.h>
+#include <Springbok/Animation.h>
+#include <Springbok/Graphics.h>
+
+struct Enemy
+{
+	Vec2F Position;
+	Vec2F Speed;
+};
 
 class TopDownShooter
 {
@@ -17,7 +25,12 @@ public:
 	void update(float deltaTime);
 	void render();
 private:
-	GameSurface* mSurface;
-	InputMonitor* mInput;
-	PreciseClock* mClock;
+	GameSurface*  Surface;
+	InputMonitor* Input;
+	PreciseClock* Clock;
+	
+	//
+	KeyframeList<float> EnemyHoming;
+	KeyframeList<float> EnemyAccleration;
+	Image EnemySprite = Image("Enemy.png");
 };

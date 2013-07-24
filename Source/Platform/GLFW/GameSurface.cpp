@@ -26,6 +26,11 @@ GameSurface::GameSurface(const std::string& title, int flags)
 	}
 	glfwMakeContextCurrent(d->Window);
 	glfwSetInputMode(d->Window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	
+	int x, y;
+	glfwGetWindowSize(d->Window, &x, &y);
+	glLoadIdentity();
+	glOrtho(0, x, y, 0, 2.0, -2.0);
 }
 
 GameSurface::~GameSurface()
