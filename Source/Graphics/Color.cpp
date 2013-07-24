@@ -4,7 +4,7 @@
 // 0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "Color.h"
-#include <Math/Operations.h>
+#include <Springbok/Math/Operations.h>
 
 ColorRGB ColorRGB::blend(const ColorRGB& other, float factor)
 {

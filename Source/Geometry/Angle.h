@@ -6,7 +6,7 @@
 #pragma once
 
 #include "Vec2.h"
-#include <Math/Radian.h>
+#include <Springbok/Math/Radian.h>
 
 //! @ingroup Angle
 //! @{

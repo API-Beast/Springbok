@@ -4,7 +4,7 @@
 // 0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "Angle.h"
-#include <Math/Operations.h>
+#include <Springbok/Math/Operations.h>
 
 Vec2F Angle::toDirection(Vec2F up) const
 {

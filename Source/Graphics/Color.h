@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <Geometry/Angle.h>
+#include <Springbok/Geometry/Angle.h>
 
 //! @addtogroup groupColor
 //! @{
