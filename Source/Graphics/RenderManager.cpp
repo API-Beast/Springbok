@@ -5,10 +5,15 @@
 
 #include "RenderManager.h"
 #include <GL/gl.h>
-
-
+#include <Springbok/Generic/PointerGuard.h>
 
 RenderManager* RenderManager::gInstance = nullptr;
+
+// Make sure that gInstance gets deleted when the application gets closed
+namespace
+{
+	PointerGuard<RenderManager> guard(&RenderManager::gInstance);
+}
 
 RenderManager::~RenderManager()
 {
@@ -20,6 +25,17 @@ RenderManager* RenderManager::GetInstance()
 	if(gInstance == nullptr)
 		gInstance = new RenderManager;
 	return gInstance;
+}
+
+void RenderManager::Setup2DEnvironment()
+{
+	glEnable(GL_BLEND);
+	glEnable(GL_TEXTURE_2D);
+	glDisable(GL_DEPTH);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glAlphaFunc(GL_ALWAYS, 0);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 void RenderManager::loadDefaults()

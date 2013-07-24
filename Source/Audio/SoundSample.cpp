@@ -4,7 +4,7 @@
 // 0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "SoundSample.h"
-#include "Dependencies/stb_vorbis.c"
+#include "../Dependencies/stb_vorbis.c"
 #include "SoundManager.h"
 #include <AL/al.h>
 

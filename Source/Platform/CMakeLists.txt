@@ -1,6 +1,6 @@
 find_package(GLFW)
 
-add_library(sbPlatform STATIC PreciseClock.cpp InputDevice.cpp ButtonPressEvent.cpp)
+add_library(sbPlatform STATIC FileInfo.cpp PreciseClock.cpp InputDevice.cpp ButtonPressEvent.cpp)
 if(GLFW_FOUND)
 	add_subdirectory(GLFW)
 	target_link_libraries(sbPlatform sbPlatformGLFW)

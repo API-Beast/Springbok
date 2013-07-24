@@ -7,7 +7,8 @@
 
 #include <string>
 
-#include <Geometry/Rect.h>
+#include <Springbok/Geometry/Rect.h>
+#include <Springbok/Generic/ObjectPointer.h>
 
 class Texture;
 
@@ -23,7 +24,9 @@ public:
 	void drawStretched(Vec2< int > size);
 	Vec2<int> getSize();
 private:
-	Texture* mTexture = nullptr;
+	void lazyLoad();
+	ObjectPointer<Texture> mTexture = nullptr;
+	std::string mPath;
 	RectF mTexCoords = RectF(0.0, 0.0, 1.f, 1.f);
 	Vec2<int> mSize = Vec2<int>(0, 0);
 };

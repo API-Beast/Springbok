@@ -6,13 +6,13 @@
 #include "SoundInstance.h"
 #include "SoundSource.h"
 #include "SoundManager.h"
+#include "SoundSample.h"
 
-#include <Core/AssetManager.h>
-
+#include <Springbok/Resources/ResourceManager.h>
 
 SoundSource::SoundSource(const std::string& filename)
 {
-	Sample = AssetManager::GetInstance()->Sounds[filename];
+	Sample = ResourceManager::GetInstance()->getResource<SoundSample>(filename);
 }
 
 SoundInstance* SoundSource::play(Vec2F position)

@@ -1,9 +1,9 @@
-#include "AssetSystem/AssetManager.h"
+#include "Resources/ResourceManager.h"
 
 //! @defgroup Core
 
 //! @defgroup ObjectPointer
 //! @ingroup Core
 
-//! @defgroup AssetManager
+//! @defgroup ResourceManager
 //! @ingroup Core

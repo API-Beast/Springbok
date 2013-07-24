@@ -5,9 +5,9 @@
 
 #pragma once
 
-#include <Geometry/Vec2.h>
-#include <Geometry/Rect.h>
-#include <Math/Radian.h>
+#include <Springbok/Geometry/Vec2.h>
+#include <Springbok/Geometry/Rect.h>
+#include <Springbok/Math/Radian.h>
 
 #include "Color.h"
 
@@ -24,8 +24,12 @@ public:
 	Radian      Rotation = 0.0f;
 	unsigned int LastBoundTexture = 0;
 public:
+//!@name Static
+///@{
 	static RenderManager* gInstance;
 	static RenderManager* GetInstance();
+	static void Setup2DEnvironment();
+///@}
 public:
 	~RenderManager();
   template<typename T>

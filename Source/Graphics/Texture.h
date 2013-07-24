@@ -6,17 +6,21 @@
 #pragma once
 
 #include <string>
-#include <Geometry/Rect.h>
+#include <Springbok/Geometry/Rect.h>
 
 //! @addtogroup Graphics
 //! @{
 
 struct Texture
 {
+	Texture() = delete;
 	Texture(const std::string& filename);
-	~Texture();
+	Texture(Texture&& other);
+	Texture(const Texture&) = delete;
+	virtual ~Texture();
 	
-	unsigned int Index;
+	bool Valid = false;
+	unsigned int Index = 0;
 	int Width, Height;
 	int TextureWidth, TextureHeight;
   RectF TextureCoordinates;

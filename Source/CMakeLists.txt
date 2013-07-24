@@ -15,20 +15,18 @@ endif()
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 configure_file(Config.h.in ${CMAKE_CURRENT_BINARY_DIR}/Springbok/Config.h)
 
-## ------------------ ##
-##       Library      ##
-## ------------------ ##
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${OPENAL_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
+## -------------------- ##
+##       Library        ##
+## -------------------- ##
 
 add_subdirectory(Animation)
-add_subdirectory(AssetSystem)
 add_subdirectory(Audio)
 add_subdirectory(Generic)
 add_subdirectory(Geometry)
 add_subdirectory(Graphics)
 add_subdirectory(Math)
 add_subdirectory(Platform)
+add_subdirectory(Resources)
 
-add_library(Springbok SHARED dummy.cpp)
-target_link_libraries(Springbok sbAnimation sbAudio sbAssetSystem sbGeneric sbGeometry sbGraphics sbMath sbPlatform)
+add_library(Springbok SHARED dummy.cpp Dependencies/lodepng.cpp)
+target_link_libraries(Springbok sbAnimation sbAudio sbGeneric sbGeometry sbGraphics sbMath sbPlatform sbResources)

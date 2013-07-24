@@ -5,8 +5,10 @@
 
 #pragma once
 
-#include <Geometry/Vec2.h>
 #include <string>
+
+#include <Springbok/Geometry/Vec2.h>
+#include <Springbok/Generic/ObjectPointer.h>
 	
 class SoundInstance;
 class SoundSample;
@@ -17,7 +19,7 @@ class SoundSource
 public:
 	float Volume = 1.f;
 	float Pitch  = 1.f;
-	SoundSample* Sample = nullptr;
+	ObjectPointer<SoundSample> Sample = nullptr;
 public:
 	SoundSource()=default;
 	SoundSource(const std::string& filename);

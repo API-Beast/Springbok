@@ -5,8 +5,16 @@
 
 #include "SoundManager.h"
 #include <cassert>
+#include <Springbok/Generic/PointerGuard.h>
 
 SoundManager* SoundManager::gInstance = nullptr;
+
+// Make sure that gInstance gets deleted when the application gets closed
+namespace
+{
+	PointerGuard<SoundManager> guard(&SoundManager::gInstance);
+}
+
 
 SoundManager* SoundManager::GetInstance()
 {

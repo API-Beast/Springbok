@@ -68,11 +68,11 @@ private:
  *  @relates ObjectPointer */
 //@{
 template<typename X, template<typename> class T, typename Y>
-X* dynamic_pointer_cast(const T<Y>& ptr);
+X dynamic_pointer_cast(const T<Y>& ptr);
 template<typename X, template<typename> class T, typename Y>
-X* reinterpret_pointer_cast(const T<Y>& ptr);
+X reinterpret_pointer_cast(const T<Y>& ptr);
 template<typename X, template<typename> class T, typename Y>
-X* static_pointer_cast(const T<Y>& ptr);
+X static_pointer_cast(const T<Y>& ptr);
 //@}
 
 #include "ObjectPointer_Templates.hpp"

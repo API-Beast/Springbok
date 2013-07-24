@@ -58,12 +58,16 @@ ObjectPointer<T>& ObjectPointer<T>::operator =(const ObjectPointer<T>& other)
 template<typename T>
 ObjectPointer<T>::operator T*() const
 {
+	if(!mPointer)
+		return nullptr;
 	return reinterpret_cast<T*>(mPointer->MemoryLocation);
 }
 
 template<typename T>
 T* ObjectPointer<T>::operator->() const
 {
+	if(!mPointer)
+		return nullptr;
 	return reinterpret_cast<T*>(mPointer->MemoryLocation);
 }
 
@@ -83,22 +87,22 @@ void ObjectPointer<T>::destroy()
 }
 
 template<typename X, template<typename> class T, typename Y>
-X* dynamic_pointer_cast(const T<Y>& input)
+X dynamic_pointer_cast(const T<Y>& input)
 {
 	Y* inPtr = input;
-	return dynamic_cast<X*>(inPtr);
+	return dynamic_cast<X>(inPtr);
 }
 
 template<typename X, template<typename> class T, typename Y>
-X* reinterpret_pointer_cast(const T<Y>& input)
+X reinterpret_pointer_cast(const T<Y>& input)
 {
 	Y* inPtr = input;
-	return reinterpret_cast<X*>(inPtr);
+	return reinterpret_cast<X>(inPtr);
 }
 
 template<typename X, template<typename> class T, typename Y>
-X* static_pointer_cast(const T<Y>& input)
+X static_pointer_cast(const T<Y>& input)
 {
 	Y* inPtr = input;
-	return static_cast<X*>(inPtr);
+	return static_cast<X>(inPtr);
 }

@@ -4,21 +4,22 @@
 // 0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "Image.h"
-#include <Core/AssetManager.h>
-#include <Graphics/RenderManager.h>
+#include "Texture.h"
+#include <Springbok/Resources/ResourceManager.h>
+#include "RenderManager.h"
 #include <GL/gl.h>
-
-
+#include <iostream>
 
 Image::Image(const std::string& filename)
 {
-	mTexture = AssetManager::GetInstance()->Textures[filename];
-	mTexCoords = mTexture->TextureCoordinates;
-	mSize = Vec2<int>(mTexture->Width, mTexture->Height);
+	mPath = filename;
+	lazyLoad();
 }
 
 void Image::draw()
 {
+	lazyLoad();
+	
 	RenderManager* r = RenderManager::GetInstance();
   Rect<int> vertices = r->getTransformedRect<int>(Vec2<int>(0, 0), mSize);
 	
@@ -36,6 +37,8 @@ void Image::draw()
 
 void Image::drawStretched(Vec2<int> size)
 {
+	lazyLoad();
+	
 	RenderManager* r = RenderManager::GetInstance();
   Rect<int> vertices = r->getTransformedRect<int>(Vec2<int>(0, 0), size);
 	
@@ -53,6 +56,21 @@ void Image::drawStretched(Vec2<int> size)
 
 Vec2< int > Image::getSize()
 {
+	lazyLoad();
+	
 	return mSize;
 }
 
+void Image::lazyLoad()
+{
+	if(mTexture != nullptr)
+		if(mTexture->Valid)
+			return ;
+		
+	mTexture = ResourceManager::GetInstance()->getResource<Texture>(mPath, true);
+	if(mTexture->Valid == false)
+		return;
+	
+	mTexCoords = mTexture->TextureCoordinates;
+	mSize = Vec2<int>(mTexture->Width, mTexture->Height);
+}
