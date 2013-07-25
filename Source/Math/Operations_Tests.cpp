@@ -19,7 +19,21 @@ bool tests()
 	auto testRoot = Root(27.f, 3);
 	auto testPower= Power(testRoot, 3);
 	SST_M_ASSERT(testPower == 27.f);
+	
+	SST_M_ASSERT(Round(3.215f) == 3);
+	SST_M_ASSERT(Round(3.215f, 0.1f) == 3.2f);
+	
+	SST_M_ASSERT(Round(4.f) == 4);
+	SST_M_ASSERT(Round(4.f, 0.1f) == 4.f);
+	
+	auto testRound = Round(4.31, 0.2);
+	float testRoundA = Round(testRound, 0.1f);
+	SST_M_ASSERT(testRound == 4.4);
+	SST_M_ASSERT(testRoundA == 4.4f);
+ 
 	SST_M_ASSERT_END;
+	
+	
 	return true;
 }
 

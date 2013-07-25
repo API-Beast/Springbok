@@ -166,4 +166,40 @@ constexpr auto SquareRoot(const A& a) -> decltype(std::sqrt(a))
 	return std::sqrt(a);
 }
 
+template<typename A>
+constexpr int RoundDown(const A& a)
+{
+	return a;
+}
+
+template<typename A>
+constexpr int RoundUp(const A& a)
+{
+	return a == int(a) ? a : a + 1;
+}
+
+template<typename A>
+constexpr int Round(const A& a)
+{
+	return (Modulo(a, 1.0) >= 0.5) ? RoundUp(a) : RoundDown(a);
+}
+
+template<typename A, typename B>
+constexpr auto RoundDown(const A& a, const B& precision) -> decltype(a - Modulo(a, precision))
+{
+	return a - Modulo(a, precision);
+}
+
+template<typename A, typename B>
+constexpr auto RoundUp(const A& a, const B& precision) -> decltype(a - Modulo(a, precision))
+{
+	return a + (precision - Modulo(a, precision));
+}
+
+template<typename A, typename B>
+constexpr auto Round(const A& a, const B& precision) -> decltype(a - Modulo(a, precision))
+{
+	return (Modulo(a, precision) >= precision/2) ? RoundUp(a, precision) : RoundDown(a, precision); 
+}
+
 //@}
