@@ -6,7 +6,7 @@
 #include "Image.h"
 #include "Texture.h"
 #include <Springbok/Resources/ResourceManager.h>
-#include "RenderManager.h"
+#include "RenderContext.h"
 #include <GL/gl.h>
 #include <iostream>
 
@@ -16,17 +16,16 @@ Image::Image(const std::string& filename)
 	lazyLoad();
 }
 
-void Image::draw()
+void Image::draw(const RenderContext& r)
 {
 	lazyLoad();
 	
-	RenderManager* r = RenderManager::GetInstance();
-  Rect<int> vertices = r->getTransformedRect<int>(Vec2<int>(0, 0), mSize);
+  Rect<int> vertices = r.getTransformedRect(Vec2I(0, 0), mSize);
 	
-	if(r->LastBoundTexture != mTexture->Index)
+	if(r.LastBoundTexture != mTexture->Index)
 	{
 		glBindTexture(GL_TEXTURE_2D, mTexture->Index);
-		r->LastBoundTexture = mTexture->Index;
+		r.LastBoundTexture = mTexture->Index;
 	}
 	
   static const GLubyte indices[4] = {0, 1, 2, 3};
@@ -35,17 +34,16 @@ void Image::draw()
   glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, indices);
 }
 
-void Image::drawStretched(Vec2<int> size)
+void Image::drawStretched(Vec2< int > size, const RenderContext& r)
 {
 	lazyLoad();
 	
-	RenderManager* r = RenderManager::GetInstance();
-  Rect<int> vertices = r->getTransformedRect<int>(Vec2<int>(0, 0), size);
+  Rect<int> vertices = r.getTransformedRect(Vec2I(0, 0), size);
 	
-	if(r->LastBoundTexture != mTexture->Index)
+	if(r.LastBoundTexture != mTexture->Index)
 	{
 		glBindTexture(GL_TEXTURE_2D, mTexture->Index);
-		r->LastBoundTexture = mTexture->Index;
+		r.LastBoundTexture = mTexture->Index;
 	}
 	
   static const GLubyte indices[4] = {0, 1, 2, 3};

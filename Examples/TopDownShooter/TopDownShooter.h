@@ -30,7 +30,9 @@ private:
 	PreciseClock* Clock;
 	
 	//
+	RenderContext r;
 	KeyframeList<float> EnemyHoming;
 	KeyframeList<float> EnemyAccleration;
+	KeyframeList<Vec2I> TestAnimation;
 	Image EnemySprite = Image("Enemy.png");
 };

@@ -10,6 +10,8 @@
 #include <Springbok/Geometry/Rect.h>
 #include <Springbok/Generic/ObjectPointer.h>
 
+class RenderContext;
+
 class Texture;
 
 //! @addtogroup Graphics
@@ -20,8 +22,8 @@ class Image
 public:
 	Image(const std::string& filename);
 	Image(){};
-	void draw();
-	void drawStretched(Vec2< int > size);
+	void draw(const RenderContext& r);
+	void drawStretched(Vec2< int > size, const RenderContext& r);
 	Vec2<int> getSize();
 private:
 	void lazyLoad();
