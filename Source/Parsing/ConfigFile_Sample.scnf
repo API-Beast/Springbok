@@ -1,0 +1,25 @@
+UnnestedValue = ABC
+
+[SimpleObject]
+NestedValue = DEF
+
+King
+{
+	Name = Joffrey
+  Baron
+  {
+		Name = Baratheon
+		
+		[Peasant]
+		Name = Joe
+  }
+  
+  Baron
+  {
+		Name = Beartastic
+  
+		[Peasant]
+		Name = Jeff
+  }
+}
+

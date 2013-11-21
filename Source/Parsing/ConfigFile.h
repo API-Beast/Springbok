@@ -9,10 +9,22 @@
 class ConfigFile
 {
 public:
+	struct PossibleArray
+	{
+		operator std::string&(){ if(Data.empty()) Data.push_back(""); return Data.back(); };
+		operator std::vector<std::string>&(){ return Data; };
+		operator std::string() const { if(Data.empty()) return ""; else return Data.back(); };
+		operator const std::vector<std::string>&() const{ return Data; };
+		PossibleArray& operator=(const std::vector<std::string>& other);
+		PossibleArray& operator=(const std::string& other);
+		bool operator==(const std::string& s);
+		bool operator==(const std::vector<std::string>& v);
+		std::vector<std::string> Data;
+	};
 	struct KeyValue
 	{
 		std::string Key;
-		std::vector<std::string> Value;
+		PossibleArray Value;
 	};
 	struct Object
 	{
@@ -21,11 +33,15 @@ public:
 		std::vector<Object> Children;
 		Object* Parent = nullptr;
 		
-		std::vector<std::string>& operator[](const std::string& key);
+		PossibleArray& operator[](const std::string& key);
 	};
 public:
+	ConfigFile();
 	ConfigFile(const std::string& path);
+	void loadFromBuffer(const std::string& content);
+	void loadFromFile(const std::string& path);
 	operator ConfigFile::Object&(){ return Root; };
+	PossibleArray& operator[](const std::string& key){ return Root[key]; };
 public:
 	Object Root;
 };
