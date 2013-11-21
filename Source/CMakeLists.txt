@@ -27,6 +27,7 @@ add_subdirectory(Graphics)
 add_subdirectory(Math)
 add_subdirectory(Platform)
 add_subdirectory(Resources)
+add_subdirectory(Parsing)
 
 add_library(Springbok SHARED dummy.cpp Dependencies/lodepng.cpp)
-target_link_libraries(Springbok sbAnimation sbAudio sbGeneric sbGeometry sbGraphics sbMath sbPlatform sbResources)
+target_link_libraries(Springbok sbAnimation sbAudio sbGeneric sbGeometry sbGraphics sbMath sbPlatform sbResources sbParsing)
