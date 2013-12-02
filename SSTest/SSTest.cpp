@@ -9,16 +9,108 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <unistd.h>
+#include <signal.h>
+#include <execinfo.h>
 
 using namespace std;
 
 SST::TestCollector* SST::TestCollector::gInstance = nullptr;
 
-bool SST::SimpleTest::run(ostream& out)
+struct ThrownSignal
 {
-	out << "Running test " << getIdentifier() << endl;
+	const char* signal;
+};
+
+void HandleSignal(int signal)
+{
+	void *array[10];
+	size_t size;
+
+	size = backtrace(array, 10);
+	backtrace_symbols_fd(array+2, size-2-5, STDERR_FILENO);
+	
+	if(signal == SIGSEGV)
+		throw ThrownSignal{"Memory Access Violation"};
+	if(signal == SIGFPE)
+		throw ThrownSignal{"Floating Point Exception"};
+	if(signal == SIGILL)
+		throw ThrownSignal{"Illegal Instruction"};
+	if(signal == SIGABRT)
+		throw ThrownSignal{"Abort"};
+}
+
+SST::TestCollector::TestCollector()
+{
+	signal(SIGSEGV, &HandleSignal);
+	signal(SIGFPE, &HandleSignal);
+	signal(SIGILL, &HandleSignal);
+	//signal(SIGABRT, &HandleSignal);
+}
+
+bool SST::SimpleTest::run(ostream& out, bool catchExceptions)
+{
 	bool result = true;
-	try
+	std::string clReset = "";
+	std::string clHighlight = "";
+	std::string clAccent = "";
+	if(false)
+	{
+		clReset = "\033[0m";
+		clHighlight = "\033[1m";
+		clAccent = "\033[1;31m";
+	}
+	auto printAssert = [&](SST::AssertFailure& a)
+	{
+		out << clHighlight << "Asserts failed: '" << clReset << a.Expression << "' in " << a.File << "::" << a.Line << " in function " << a.Function << endl;
+		if(!a.ExtraInfo.empty())
+			out << "   -> " << clAccent << a.ExtraInfo << clReset << endl;
+	};
+	
+	if(catchExceptions)
+	{
+		try
+		{
+			if(mFunc) mFunc();
+			else
+			{
+				out << "Can't run, test is misconfigured." << endl;
+				result = false;
+			}
+		}
+		catch(std::out_of_range& e)
+		{
+			out << "Exception: out_of_range " << e.what() << endl;
+			result = false;
+		}
+		catch(std::exception& e)
+		{
+			out << "Exception: " << e.what() << endl;
+			result = false;
+		}
+		catch(SST::AssertFailure& a)
+		{
+			printAssert(a);
+			result = false;
+		}
+		catch(std::vector<SST::AssertFailure>& vec)
+		{
+			for(SST::AssertFailure& a : vec)
+				printAssert(a);
+			result = false;
+		}
+		catch(ThrownSignal& s)
+		{
+			out << "Signal: " << s.signal << endl;
+			result = false;
+		}
+		catch(...)
+		{
+			out << "Unhandled and unknown exception catched." << endl;
+			result = false;
+		}
+	}
+	else
 	{
 		if(mFunc) mFunc();
 		else
@@ -26,27 +118,6 @@ bool SST::SimpleTest::run(ostream& out)
 			out << "Can't run, test is misconfigured." << endl;
 			result = false;
 		}
-	}
-	catch(std::exception& e)
-	{
-		out << "Exception: " << e.what() << endl;
-		result = false;
-	}
-	catch(SST::AssertFailure& a)
-	{
-		out << "Assert failed: '" << a.Expression << "' in " << a.File << "::" << a.Line << " in function " << a.Function << endl;
-		result = false;
-	}
-	catch(std::vector<SST::AssertFailure>& vec)
-	{
-		for(SST::AssertFailure& a : vec)
-			out << "Assert failed: '" << a.Expression << "' in " << a.File << "::" << a.Line << " in function " << a.Function << endl;
-		result = false;
-	}
-	catch(...)
-	{
-		out << "Unhandled and unknown exception catched." << endl;
-		result = false;
 	}
 	if(result) out << "SUCESS" << endl;
 	else out << "FAIL" << endl;
@@ -88,10 +159,23 @@ SST::AssertFailure::AssertFailure(const string& expression, const char* file, co
 	Line = line;
 }
 
+SST::AssertFailure::AssertFailure(const string& expression, const string& extra, const char* file, const char* function, int line)
+{
+	Expression = expression;
+	ExtraInfo = extra;
+	File = file;
+	Function = function;
+	Line = line;
+}
+
 bool SST::TestCollector::runTests(int argc, char* argv[])
 {
 	if(argc == 1) return runAllTests();
-	else if(argc == 2) if(std::string(argv[1]) == "-l") return listTests();
+	else if(argc == 2)
+	{
+		if(std::string(argv[1]) == "-l") return listTests();
+		if(std::string(argv[1]) == "-d") return runAllTests(false);
+	}
 	bool returnVal = true;
 	try
 	{
@@ -113,7 +197,7 @@ struct TestCategory
 	bool Required;
 };
 
-bool SST::TestCollector::runAllTests()
+bool SST::TestCollector::runAllTests(bool catchExceptions)
 {
 	TestCategory testCategories[2] = {{"Required", mRequiredTests, 0, true}, {"Optional", mOptionalTests, 0, false}};
 	
@@ -129,7 +213,13 @@ bool SST::TestCollector::runAllTests()
 			std::string buffer;
 			
 			currentTest++;
-			bool sucess = (test->run(status));
+			
+			std::stringstream tempBuffer;
+			tempBuffer << right << "["<< setfill('0') << setw(3) << currentTest << "/" << setw(3) << cat.Container.size() << "] ";
+			std::string prepend = tempBuffer.str();
+			cout << prepend << "Running test " << test->getIdentifier() << endl;
+			
+			bool sucess = (test->run(status, catchExceptions));
 			if(!sucess)
 			{
 				failedTests.push_back(test);
@@ -140,8 +230,9 @@ bool SST::TestCollector::runAllTests()
 			{
 				getline(status, buffer);
 				if(buffer.empty()) continue;
-				cerr << right << "["<< setfill('0') << setw(3) << currentTest << "/" << setw(3) << cat.Container.size() << "] " << buffer << endl;
+				cerr << prepend << buffer << endl;
 			}
+			cout << prepend << "~~~~~~~~~~~~~~" << endl;
 		}
 	}
 	
