@@ -130,6 +130,17 @@ void UTF8::SkipBackward(const std::string& str, int* position, int characters)
 	}
 }
 
+std::string UTF8::Chop(const std::string& str, int fromStart, int fromEnd)
+{
+	int start = 0;
+	int end = str.size();
+	
+	UTF8::SkipForward(str, &start, fromStart);
+	UTF8::SkipBackward(str, &end, fromEnd);
+	
+	return str.substr(start, end-start);
+}
+
 std::string UTF8::EncodeDebug(Codepoint c)
 {
 	return Encode(UCS::Substitute(c));

@@ -18,33 +18,41 @@ namespace
 		ConfigFile::Object* shallowContext = parent;
 		p.StripWhitespace = true;
 		p.SkipWhitespace  = true;
-		p.SingleLineCommentCharacter = ';';
 		while(!p.atEnd())
 		{
-			std::string key = p.advanceTo(_or(_or(eq('='),eq('{')), eq('[')));
+			std::string key = p.advanceTo(_or(_or(_or(eq('='),eq('{')), eq('[')), eq(';')));
 			Codepoint oper = p.last();
 			// Assignment
 			if(oper == '=')
 			{
 				auto parseArray = [](StringParser p)
 				{
+					p.next(); // Skip the first '['
 					vector<string> result;
 					while(!p.atEnd())
 					{
 						auto curItem = p.advanceTo(',');
-						result.push_back(UTF8::Strip(curItem, '"'));
+						if(p.atEnd())
+							if(curItem.back() == ']')
+								curItem = UTF8::Chop(curItem, 0, 1);
+						
+						if(curItem[0] == '"' && curItem.back() == '"')
+							curItem = UTF8::Chop(curItem, 1, 1);
+						
+						result.push_back(curItem);
 					};
 					return result;
 				};
-				// Explicit strings
-				if(p.peek(+1) == '"')
-					(*shallowContext)[key] = p.advanceTo('"');
+				p.skipAhead();
+				std::string value = p.advanceTo('\n');
 				// Arrays
-				else if(p.peek(+1) == '[')
-					(*shallowContext)[key] = parseArray(p.advanceToNested('[', ']'));
-				// Implicit strings
+				if(value[0] == '[' && value.back() == ']')
+					(*shallowContext)[key] = parseArray(value);
+				else if(value[0] == '"' && value.back() == '"')
+					(*shallowContext)[key] = UTF8::Chop(value, 1, 1);
 				else
-					(*shallowContext)[key] = p.advanceTo('\n');
+					(*shallowContext)[key] = value;
+					
 			}
 			// Shallow Child Object
 			else if(oper == '[')
@@ -58,6 +66,9 @@ namespace
 				context->Children.emplace_back(key, context);
 				parseObject(p.advanceToNested('{', '}'), &(context->Children.back()));
 			}
+			// Comment
+			else if(oper == ';')
+				p.advanceTo('\n');
 		}
 	}
 }

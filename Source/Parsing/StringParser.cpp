@@ -31,12 +31,33 @@ std::string StringParser::advanceToNested(Codepoint open, Codepoint close)
 
 Codepoint StringParser::peek(int i)
 {
-	return UTF8::DecodeAt(mStringToParse, mCurPosition+i);
+	int temp = mCurPosition;
+	UTF8::SkipForward(mStringToParse, &temp, i);
+	return UTF8::DecodeAt(mStringToParse, temp);
+}
+
+Codepoint StringParser::skipAhead()
+{
+	Codepoint cur = UTF8::DecodeAt(mStringToParse, mCurPosition);
+	if(SkipWhitespace)
+		while(UCS::IsWhitespace(cur))
+			cur = UTF8::DecodeNext(mStringToParse, &mCurPosition);
+	return mCurPosition;
+}
+
+Codepoint StringParser::peekAhead()
+{
+	int temp = mCurPosition;
+	Codepoint cur = UTF8::DecodeAt(mStringToParse, temp);
+	if(SkipWhitespace)
+		while(UCS::IsWhitespace(cur))
+			cur = UTF8::DecodeNext(mStringToParse, &temp);
+	return UTF8::DecodeNext(mStringToParse, &temp);
 }
 
 Codepoint StringParser::last()
 {
-	return UTF8::DecodeAt(mStringToParse, mCurPosition-1);
+	return peek(-1);
 }
 
 void StringParser::reset(int to)

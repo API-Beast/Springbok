@@ -116,6 +116,21 @@ inline void decorateVal(std::ostream& str, std::string val)
 	str << '"' << val << '"';
 }
 
+template<typename T>
+void decorateVal(std::ostream& str, const std::vector<T>& val)
+{
+	str << '{';
+	bool isFirst = true;
+	for(auto Z : val)
+	{
+		if(!isFirst)
+			str << ", ";
+		decorateVal(str, Z);
+		isFirst = false;
+	};
+	str << '}';
+};
+
 template <typename T>
 typename std::enable_if<std::is_convertible<T, std::string>::value, std::string>::type ToString(T value)
 {

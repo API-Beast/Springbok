@@ -14,6 +14,8 @@ public:
 	template<typename Condition>
 	std::string advanceTo(const Condition& cond);
 	Codepoint next();
+	Codepoint skipAhead();
+	Codepoint peekAhead();
 	Codepoint peek(int i = 0);
 	Codepoint last();
 	std::string advanceToNested(Codepoint start, Codepoint stop);
@@ -23,7 +25,6 @@ public:
 public:
 	bool StripWhitespace = true;
 	bool SkipWhitespace = true;
-	Codepoint SingleLineCommentCharacter = 0;
 private:
 	std::string mStringToParse;
 	int mCurPosition;

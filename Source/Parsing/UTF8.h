@@ -28,6 +28,8 @@ namespace UTF8
 	template<typename Condition> std::string Strip     (const std::string& str, const Condition& c);
 	template<typename Condition> std::string StripLeft (const std::string& str, const Condition& c);
 	template<typename Condition> std::string StripRight(const std::string& str, const Condition& c);
+	
+	std::string Chop(const std::string& str, int fromStart, int fromEnd);
 }
 
 #include "UTF8_Templates.hpp"
