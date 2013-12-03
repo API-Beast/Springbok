@@ -19,15 +19,26 @@ public:
 		PossibleArray& operator=(const std::string& other);
 		bool operator==(const std::string& s);
 		bool operator==(const std::vector<std::string>& v);
+		PossibleArray(const std::string& s){ Data.push_back(s); };
 		std::vector<std::string> Data;
 	};
 	struct KeyValue
 	{
+		KeyValue(const std::string& k, const PossibleArray& parray) : Key(k), Value(parray){};
 		std::string Key;
 		PossibleArray Value;
 	};
 	struct Object
 	{
+		Object() = default;
+		Object(std::string name, Object* parent)
+		{
+			TypeHint = name;
+			Parent = parent;
+			Values.reserve(1);
+			Children.reserve(1);
+		};
+		
 		std::string TypeHint = "__undefined__";
 		std::vector<KeyValue> Values;
 		std::vector<Object> Children;

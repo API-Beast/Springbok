@@ -5,29 +5,29 @@
 
 #include <string>
 #include <vector>
-#include "UTF8Decoder.h"
+#include "UTF8.h"
 
 class StringParser
 {
 public:
-	StringParser(const std::string& toParse, size_t start = 0);
-	StringParser(const UTF8SubString& string);
-	UTF8SubString advanceTo(std::vector<Codepoint> characters);
-	UTF8SubString advanceTo(Codepoint character);
+	StringParser(const std::string& toParse, int start = 0);
+	template<typename Condition>
+	std::string advanceTo(const Condition& cond);
 	Codepoint next();
-	Codepoint cur();
-	UTF8SubString getNested(Codepoint start, Codepoint stop);
-	template<typename T>
-	auto getNested(Codepoint start, Codepoint stop, T call) -> decltype(call(UTF8SubString(std::string(), 0, 0)))
-	{
-		return call(getNested(start, stop));
-	};
+	Codepoint peek(int i = 0);
+	Codepoint last();
+	std::string advanceToNested(Codepoint start, Codepoint stop);
 	bool atEnd();
 	std::string str();
+	void reset(int to=0);
 public:
 	bool StripWhitespace = true;
 	bool SkipWhitespace = true;
 	Codepoint SingleLineCommentCharacter = 0;
 private:
-	const std::string& mParent;
+	std::string mStringToParse;
+	int mCurPosition;
+	std::string postProcess(const std::string& s);
 };
+
+#include "StringParser_Templates.hpp"
