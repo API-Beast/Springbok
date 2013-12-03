@@ -51,6 +51,22 @@ struct LogicNot
 	T arg;
 };
 
+template<class T>
+struct LogicInSet
+{
+	LogicInSet(const T& _arg) : arg(_arg){};
+	template<class C>
+	bool operator()(const C& val) const
+	{ 
+		for(auto& a : arg)
+			if(val == a) return true;
+		return false;
+	};
+	template<class C>
+	bool operator==(const C& arg) const { return (*this)(arg); };
+	T arg;
+};
+
 template<class A, class B>
 bool LogicCompare(const A& a, const B& b)
 {

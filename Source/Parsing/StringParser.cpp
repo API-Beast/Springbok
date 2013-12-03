@@ -26,6 +26,7 @@ std::string StringParser::advanceToNested(Codepoint open, Codepoint close)
 		cur = UTF8::DecodeNext(mStringToParse, &stop);
 	}
 	mCurPosition = stop;
+	UTF8::SkipForward(mStringToParse, &mCurPosition, 1);
 	return postProcess(mStringToParse.substr(start, stop-start));
 }
 

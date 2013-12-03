@@ -46,6 +46,7 @@ public:
 		Object* Parent = nullptr;
 		
 		PossibleArray& operator[](const std::string& key);
+		Object& getObject(const std::string& key);
 	};
 public:
 	ConfigFile();
@@ -54,6 +55,7 @@ public:
 	void loadFromFile(const std::string& path);
 	operator ConfigFile::Object&(){ return Root; };
 	PossibleArray& operator[](const std::string& key){ return Root[key]; };
+	Object& getObject(const std::string& key){ return Root.getObject(key); };
 public:
 	Object Root;
 };

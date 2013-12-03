@@ -16,11 +16,12 @@ namespace
 		StringParser p(content);
 		ConfigFile::Object* context = parent;
 		ConfigFile::Object* shallowContext = parent;
+		ConfigFile::Object* curLineContext = shallowContext;
 		p.StripWhitespace = true;
 		p.SkipWhitespace  = true;
 		while(!p.atEnd())
 		{
-			std::string key = p.advanceTo(_or(_or(_or(eq('='),eq('{')), eq('[')), eq(';')));
+			std::string key = p.advanceTo(X().inSet({'=', '{', '[', ';', ':'}));
 			Codepoint oper = p.last();
 			// Assignment
 			if(oper == '=')
@@ -47,18 +48,25 @@ namespace
 				std::string value = p.advanceTo('\n');
 				// Arrays
 				if(value[0] == '[' && value.back() == ']')
-					(*shallowContext)[key] = parseArray(value);
+					(*curLineContext)[key] = parseArray(value);
 				else if(value[0] == '"' && value.back() == '"')
-					(*shallowContext)[key] = UTF8::Chop(value, 1, 1);
+					(*curLineContext)[key] = UTF8::Chop(value, 1, 1);
 				else
-					(*shallowContext)[key] = value;
-					
+					(*curLineContext)[key] = value;
+				curLineContext = shallowContext;
 			}
 			// Shallow Child Object
 			else if(oper == '[')
 			{
 				context->Children.emplace_back(p.advanceTo(']'), context);
 				shallowContext = &(context->Children.back());
+				curLineContext = shallowContext;
+			}
+			// One-line Child Object
+			else if(oper == ':')
+			{
+				context->Children.emplace_back(key, context);
+				curLineContext = &(context->Children.back());
 			}
 			// Hierachies
 			else if(oper == '{')
@@ -71,6 +79,28 @@ namespace
 				p.advanceTo('\n');
 		}
 	}
+}
+
+ConfigFile::Object& ConfigFile::Object::getObject(const string& key)
+{
+	StringParser p(key);
+	ConfigFile::Object* context = this;
+	while(!p.atEnd())
+	{
+		std::string value = p.advanceTo('.');
+		auto hintEqualTo = [&value](ConfigFile::Object& obj){ return obj.TypeHint == value; };
+		ConfigFile::Object* oldContext = context;
+		auto it = std::find_if(context->Children.begin(), context->Children.end(), hintEqualTo);
+		if(it == context->Children.end())
+		{
+			oldContext->Children.emplace_back();
+			oldContext->Children.back().TypeHint = value;
+			context = &(oldContext->Children.back());
+		}
+		else
+			context = &(*it);
+	}
+	return *context;
 }
 
 ConfigFile::PossibleArray& ConfigFile::Object::operator[](const string& key)
