@@ -16,7 +16,9 @@ include_directories(${CMAKE_SOURCE_DIR}/SSTest/)
 
 add_subdirectory(SSTest)
 add_subdirectory(Source)
-add_subdirectory(Examples)
+if(BUILD_PLATFORM)
+	add_subdirectory(Examples)
+endif()
 
 enable_testing()
 add_sstest_executable(SpringbokTest) 
