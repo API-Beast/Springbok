@@ -5,7 +5,6 @@
 
 #include "../ButtonPressEvent.h"
 #include "../InputDevice.h"
-#include "ButtonSpecs.h"
 #include <GLFW/glfw3.h>
 
 namespace Buttons
