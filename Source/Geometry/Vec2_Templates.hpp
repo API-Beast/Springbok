@@ -11,13 +11,13 @@
 template<typename T>
 constexpr Vec2<T>::operator bool() const
 {
-  return X || Y;
+	return X || Y;
 }
 
 template<typename T>
 T& Vec2<T>::operator[](int i)
 {
-  return Val[i];
+	return Val[i];
 }
 
 template<typename T>
@@ -43,14 +43,14 @@ Vec2<T> Vec2<T>::rotated(Radian angle, Vec2<T> up) const
 {
 	float length = getLength();
 	Radian myAngle = getAngle(up);
-	return Vec2<T>(length * Sin(myAngle+angle), length * -Cos(myAngle+angle));
+	return Vec2<T>(length * Sin(myAngle + angle), length * -Cos(myAngle + angle));
 }
 
 template<typename T>
 Vec2<T> Vec2<T>::normalized() const
 {
-	float length=getLength();
-	if (length != 0)
+	float length = getLength();
+	if(length != 0)
 		return (*this) / length;
 	else
 		return *this;
@@ -59,7 +59,7 @@ Vec2<T> Vec2<T>::normalized() const
 template<typename T>
 constexpr float Vec2<T>::dot(Vec2<T> other) const
 {
-	return X*other.X + Y*other.Y;
+	return X * other.X + Y * other.Y;
 }
 
 /*template<typename T>

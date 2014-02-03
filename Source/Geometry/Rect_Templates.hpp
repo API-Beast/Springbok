@@ -10,13 +10,13 @@
 template<typename T>
 Rect<T>::Rect(T x, T y, T width, T height)
 {
-  set(x, y, width, height);
+	set(x, y, width, height);
 };
 
 template<typename T>
 Rect<T>::Rect(Vec2<T> pos, Vec2<T> size)
 {
-  set(pos, size);
+	set(pos, size);
 };
 
 template<typename T>
@@ -28,20 +28,20 @@ Rect<T>::operator bool() const
 template<typename T>
 void Rect<T>::set(Vec2<T> pos, Vec2<T> size)
 {
-  set(pos.X, pos.Y, size.X, size.Y);
+	set(pos.X, pos.Y, size.X, size.Y);
 };
 
 template<typename T>
 void Rect<T>::set(T x, T y, T width, T height)
 {
-  Points[0][0]=x;
-  Points[0][1]=y;
-  Points[1][0]=x+width;
-  Points[1][1]=y;
-  Points[2][0]=x;
-  Points[2][1]=y+height;
-  Points[3][0]=x+width;
-  Points[3][1]=y+height;
+	Points[0][0] = x;
+	Points[0][1] = y;
+	Points[1][0] = x + width;
+	Points[1][1] = y;
+	Points[2][0] = x;
+	Points[2][1] = y + height;
+	Points[3][0] = x + width;
+	Points[3][1] = y + height;
 };
 
 template<typename T>
@@ -66,7 +66,7 @@ template<typename T>
 Rect<T> Rect<T>::grown(Vec2<T> growth) const
 {
 	Rect<T> copy = *this;
-	copy.set(getOrigin()-growth, getSize()+growth*2);
+	copy.set(getOrigin() - growth, getSize() + growth * 2);
 	return copy;
 };
 
@@ -93,7 +93,7 @@ Rect<T> Rect<T>::mirroredVertical() const
 template<typename T>
 Vec2<T> Rect<T>::getSize() const
 {
-	return Points[3]-Points[0];
+	return Points[3] - Points[0];
 };
 
 template<typename T>

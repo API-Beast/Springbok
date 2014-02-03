@@ -24,7 +24,7 @@ union HorzSide
 	};
 };
 /** @endcond */
-	
+
 template<typename T>
 struct Rect
 {
@@ -41,7 +41,7 @@ public:
 	};
 	/** @endcond */
 public:
-	Rect(){};
+	Rect() {};
 	Rect(T x, T y, T width, T height);
 	Rect(Vec2<T> pos, Vec2<T> size);
 	/** Returns \c true if the rectangle has a size != 0. */
