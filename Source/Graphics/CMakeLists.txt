@@ -7,4 +7,7 @@ include_directories(${OPENGL_INCLUDE_DIR})
 add_library(sbGraphics STATIC ${H_FILES} ${CPP_FILES})
 target_link_libraries(sbGraphics sbResources ${OPENGL_LIBRARY})
 
+set_property(TARGET sbGraphics PROPERTY PUBLIC_HEADER ${H_FILES})
+install(TARGETS sbGraphics PUBLIC_HEADER DESTINATION include/Springbok/Graphics ARCHIVE DESTINATION lib/Springbok)
+
 #ADD_SSTEST_FILE(SpringbokTest file.cpp)

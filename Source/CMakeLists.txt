@@ -30,4 +30,11 @@ add_subdirectory(Resources)
 add_subdirectory(Parsing)
 
 add_library(Springbok SHARED dummy.cpp Dependencies/lodepng.cpp)
-target_link_libraries(Springbok sbAnimation sbAudio sbGeneric sbGeometry sbGraphics sbMath sbPlatform sbResources sbParsing)
+set(SUBTARGETS sbAnimation sbAudio sbGeneric sbGeometry sbGraphics sbMath sbPlatform sbResources sbParsing)
+target_link_libraries(Springbok ${SUBTARGETS})
+
+set_property(TARGET Springbok PROPERTY PUBLIC_HEADER ${CMAKE_CURRENT_BINARY_DIR}/Springbok/Config.h Animation.h Audio.h Graphics.h Math.h Platform.h Resources.h ${INHERITED_HEADERS})
+
+install(TARGETS Springbok
+				LIBRARY DESTINATION lib
+				PUBLIC_HEADER DESTINATION include/Springbok)
