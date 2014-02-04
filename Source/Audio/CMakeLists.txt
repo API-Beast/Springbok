@@ -5,6 +5,7 @@ set(CPP_FILES SoundInstance.cpp SoundManager.cpp SoundSample.cpp SoundSource.cpp
 
 include_directories(${OPENAL_INCLUDE_DIR})
 add_library(sbAudio STATIC ${H_FILES} ${CPP_FILES})
+set_property(TARGET sbAudio PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(sbAudio ${OPENAL_LIBRARY} sbResources)
 
 set_property(TARGET sbAudio PROPERTY PUBLIC_HEADER ${H_FILES})

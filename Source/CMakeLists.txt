@@ -29,9 +29,10 @@ add_subdirectory(Platform)
 add_subdirectory(Resources)
 add_subdirectory(Parsing)
 
-add_library(Springbok SHARED dummy.cpp Dependencies/lodepng.cpp)
 set(SUBTARGETS sbAnimation sbAudio sbGeneric sbGeometry sbGraphics sbMath sbPlatform sbResources sbParsing)
-target_link_libraries(Springbok ${SUBTARGETS})
+add_library(Springbok SHARED dummy.cpp Dependencies/lodepng.cpp)
+# Very hacky, need to be replaced
+target_link_libraries(Springbok "-Wl,--whole-archive -z muldefs" ${SUBTARGETS} -Wl,--no-whole-archive)
 
 set_property(TARGET Springbok PROPERTY PUBLIC_HEADER ${CMAKE_CURRENT_BINARY_DIR}/Springbok/Config.h Animation.h Audio.h Graphics.h Math.h Platform.h Resources.h ${INHERITED_HEADERS})
 

@@ -5,6 +5,7 @@ set(CPP_FILES Color.cpp ColorPalette.cpp Image.cpp RenderContext.cpp Texture.cpp
 
 include_directories(${OPENGL_INCLUDE_DIR})
 add_library(sbGraphics STATIC ${H_FILES} ${CPP_FILES})
+set_property(TARGET sbGraphics PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(sbGraphics sbResources ${OPENGL_LIBRARY})
 
 set_property(TARGET sbGraphics PROPERTY PUBLIC_HEADER ${H_FILES})
