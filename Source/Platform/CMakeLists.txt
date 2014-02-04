@@ -1,6 +1,6 @@
 find_package(GLFW)
 
-set(H_FILES FileInfo.h PreciseClock.h InputDevice.h ButtonPressEvent.h InputMonitor.h)
+set(H_FILES FileInfo.h PreciseClock.h InputDevice.h ButtonPressEvent.h InputMonitor.h GameSurface.h)
 set(CPP_FILES FileInfo.cpp PreciseClock.cpp InputDevice.cpp ButtonPressEvent.cpp)
 
 add_library(sbPlatform STATIC ${CPP_FILES} ${H_FILES})
