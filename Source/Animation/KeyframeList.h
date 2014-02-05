@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include <Springbok/Generic/Structures/SkipList.h>
-#include <Springbok/Generic/Structures/Associative.h>
+#include <Springbok/Containers/SkipList.h>
+#include <Springbok/Containers/Associative.h>
 #include "Interpolation.h"
 
 template<typename T>
