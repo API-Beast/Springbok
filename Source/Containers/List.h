@@ -11,17 +11,17 @@
 struct AllocatedMemoryFull{};
 
 template <typename T>
-class SimpleList
+class List
 {
 public:
-	SimpleList(T* memory, int length, int used=0);
-	SimpleList(char* memory, int length);
+	List(T* memory, int length, int used=0);
+	List(char* memory, int length);
 	template<int ArraySize>
-	SimpleList(T (&array)[ArraySize]);
-	SimpleList(int length);
-	SimpleList(const std::initializer_list<T>& list);
-	SimpleList();
-	~SimpleList();
+	List(T (&array)[ArraySize]);
+	List(int length);
+	List(const std::initializer_list<T>& list);
+	List();
+	~List();
 	
 	T& operator[](int index){ return *(Memory+index); };
 	T& pushBack(const T& value);
@@ -48,18 +48,18 @@ public:
 	int UsedLength = 0;
 };
 
-/** A @ref SimpleList that is assumed to be sorted by \a Member of \a T.  */
+/** A @ref List that is assumed to be sorted by \a Member of \a T and thus can search for a specific key value in logarithmic time.  */
 template <typename T, typename C, C T::*Member>
-class SimpleMap
+class Map
 {
 public:
 	/** Constructor, data will get sorted. */
-	SimpleMap(const std::initializer_list<T>& list) : Data(list) { sort(); };
-	SimpleMap(T* memory, int length, int used=0) : Data(memory, length, used){ sort(); };
+	Map(const std::initializer_list<T>& list) : Data(list) { sort(); };
+	Map(T* memory, int length, int used=0) : Data(memory, length, used){ sort(); };
 	template<int ArraySize>
-	SimpleMap(T (&array)[ArraySize]) : Data(array) { sort(); };
-	SimpleMap(int length) : Data(length){};
-	SimpleMap() : Data(){};
+	Map(T (&array)[ArraySize]) : Data(array) { sort(); };
+	Map(int length) : Data(length){};
+	Map() : Data(){};
 	T& operator[](const C& item);
 	template<typename X, X T::*member>
 	void findBy(const X& item){};
@@ -68,7 +68,7 @@ public:
 protected:
 	int findIndex(const C& item);
 public:
-	SimpleList<T> Data;
+	List<T> Data;
 };
 
-#include "SimpleList_Templates.hpp"
+#include "List_Templates.hpp"

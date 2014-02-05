@@ -1,8 +1,8 @@
-#include "SimpleList.h"
+#include "List.h"
 #pragma once
 
 template<typename T>
-T& SimpleList<T>::pushBack(const T& value)
+T& List<T>::pushBack(const T& value)
 {
 	if(UsedLength >= MemoryLength)
 	{
@@ -15,14 +15,14 @@ T& SimpleList<T>::pushBack(const T& value)
 };
 
 template<typename T>
-T SimpleList<T>::popBack()
+T List<T>::popBack()
 {
 	T retVal = Memory[--UsedLength];
 	return retVal;
 }
 
 template<typename T>
-SimpleList<T>::SimpleList(int length)
+List<T>::List(int length)
 {
 	Memory = new T[length];
 	UsedLength = MemoryLength = length;
@@ -31,7 +31,7 @@ SimpleList<T>::SimpleList(int length)
 };
 
 template<typename T>
-SimpleList<T>::SimpleList(char* memory, int length)
+List<T>::List(char* memory, int length)
 {
 	Memory = new(memory) T[length];
 	MemoryLength = length;
@@ -39,7 +39,7 @@ SimpleList<T>::SimpleList(char* memory, int length)
 };
 
 template<typename T>
-SimpleList<T>::SimpleList()
+List<T>::List()
 {
 	Memory = nullptr;
 	UsedLength = MemoryLength = 0;
@@ -48,7 +48,7 @@ SimpleList<T>::SimpleList()
 };
 
 template<typename T>
-SimpleList<T>::SimpleList(const std::initializer_list<T>& list)
+List<T>::List(const std::initializer_list<T>& list)
 {
 	Memory = new T[list.size()];
 	memMove(Memory, list.begin(), list.size());
@@ -58,14 +58,14 @@ SimpleList<T>::SimpleList(const std::initializer_list<T>& list)
 }
 
 template<typename T>
-SimpleList<T>::~SimpleList()
+List<T>::~List()
 {
 	if(OwnsMemory)
 		delete[] Memory;
 };
 
 template<typename T>
-SimpleList<T>::SimpleList(T* memory, int length, int usedLength)
+List<T>::List(T* memory, int length, int usedLength)
 {
 	Memory = memory;
 	MemoryLength = length;
@@ -74,7 +74,7 @@ SimpleList<T>::SimpleList(T* memory, int length, int usedLength)
 
 template<typename T>
 template<int ArraySize>
-SimpleList<T>::SimpleList(T (&array)[ArraySize])
+List<T>::List(T (&array)[ArraySize])
 {
 	Memory = array;
 	MemoryLength = ArraySize;
@@ -82,14 +82,14 @@ SimpleList<T>::SimpleList(T (&array)[ArraySize])
 };
 
 template<typename T>
-void SimpleList<T>::reallocate(int elements)
+void List<T>::reallocate(int elements)
 {
 	moveMemoryTo(new T[elements], elements);
 	OwnsMemory = true;
 }
 
 template<typename T>
-T& SimpleList<T>::makeSpace(int position, int elements)
+T& List<T>::makeSpace(int position, int elements)
 {
 	if((UsedLength + elements) > MemoryLength)
 	{
@@ -109,7 +109,7 @@ T& SimpleList<T>::makeSpace(int position, int elements)
 }
 
 template<typename T>
-T& SimpleList<T>::insert(int position, const T& value)
+T& List<T>::insert(int position, const T& value)
 {
 	makeSpace(position, 1);
 	return Memory[position] = value;
@@ -117,7 +117,7 @@ T& SimpleList<T>::insert(int position, const T& value)
 
 
 template<typename T>
-void SimpleList<T>::moveMemoryTo(T* memory, int length)
+void List<T>::moveMemoryTo(T* memory, int length)
 {
 	if(UsedLength < length)
 		memMove(memory, Memory, UsedLength);
@@ -132,7 +132,7 @@ void SimpleList<T>::moveMemoryTo(T* memory, int length)
 }
 
 template<typename T>
-void SimpleList<T>::memMove(T* dst, const T* src, int length)
+void List<T>::memMove(T* dst, const T* src, int length)
 {
 	T* copy = new T[length*sizeof(T)];
 	for(int i = 0; i < length; ++i)
@@ -146,7 +146,7 @@ void SimpleList<T>::memMove(T* dst, const T* src, int length)
 }
 
 template <typename T, typename C, C T::*Member>
-int SimpleMap<T,C,Member>::findIndex(const C& index)
+int Map<T,C,Member>::findIndex(const C& index)
 {
 	int min = 0;
 	int max = Data.UsedLength-1;
@@ -165,7 +165,7 @@ int SimpleMap<T,C,Member>::findIndex(const C& index)
 };
 
 template <typename T, typename C, C T::*Member>
-T& SimpleMap<T,C,Member>::operator[](const C& index)
+T& Map<T,C,Member>::operator[](const C& index)
 {
 	int i = findIndex(index);
 	if(i < Data.UsedLength)
@@ -178,14 +178,14 @@ T& SimpleMap<T,C,Member>::operator[](const C& index)
 }
 
 template <typename T, typename C, C T::*Member>
-T& SimpleMap<T,C,Member>::insert(const T& t)
+T& Map<T,C,Member>::insert(const T& t)
 {
 	int i = findIndex(t.*Member);
 	return Data.insert(i, t);
 }
 
 template <typename T, typename C, C T::*Member>
-void SimpleMap<T,C,Member>::sort()
+void Map<T,C,Member>::sort()
 {
 	for (int i = 1; i < Data.UsedLength; ++i)
 	{

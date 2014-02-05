@@ -1,4 +1,4 @@
-#include "SimpleList.h"
+#include "List.h"
 #include "SSTest.h"
 
 namespace
@@ -8,7 +8,7 @@ void list()
 {
 	int memoryArea[5];
 	memoryArea[4] = 999;
-	SimpleList<int> b(memoryArea, 4);
+	List<int> b(memoryArea, 4);
 	b.pushBack(0);
 	b.pushBack(1);
 	b.pushBack(2);
@@ -34,7 +34,7 @@ void list()
 void insert()
 {
 	int memoryArea[6] = {0, 1, 2, 3, 4, 5};
-	SimpleList<int> b(memoryArea, 6, 5);
+	List<int> b(memoryArea, 6, 5);
 	b.insert(2, 99);
 
 	SST_M_ASSERT_START;
@@ -47,7 +47,7 @@ void insert()
 void pop()
 {
 	std::string memoryArea[5] = {"A", "B", "C", "D", "E"};
-	SimpleList<std::string> b(memoryArea);
+	List<std::string> b(memoryArea);
 
 	SST_M_ASSERT_START;
 	SST_M_ASSERT_EQ(b.popBack(), "E");
@@ -56,7 +56,7 @@ void pop()
 
 void initializer()
 {
-	SimpleList<std::string> a{"0", "9", "1"};
+	List<std::string> a{"0", "9", "1"};
 	
 	SST_M_ASSERT_START;
 	SST_M_ASSERT_EQ(a[0], "0");
@@ -77,7 +77,7 @@ struct Object
 
 void podMap()
 {
-	SimpleMap<Object, char, &Object::Key> objects(0);
+	Map<Object, char, &Object::Key> objects(0);
 	objects.insert({  0, 'F'});
 	objects.insert({ 90, 'A'});
 	objects.insert({100, 'Y'});
@@ -108,7 +108,7 @@ struct Names
 
 void map()
 {
-	SimpleMap<Names, std::string, &Names::Key> names;
+	Map<Names, std::string, &Names::Key> names;
 	names["Me"]  = "Nathan";
 	names["You"] = "John";
 	
@@ -120,7 +120,7 @@ void map()
 
 void mapInitializer()
 {
-	SimpleMap<Names, std::string, &Names::Key> a{{"0", "a"}, {"9", "c"}, {"1", "b"}};
+	Map<Names, std::string, &Names::Key> a{{"0", "a"}, {"9", "c"}, {"1", "b"}};
 	
 	SST_M_ASSERT_START;
 	// Make sure its sorted
@@ -134,11 +134,11 @@ void mapInitializer()
 	SST_M_ASSERT_END;
 }
 
-SST::SimpleTest GSL("Generic/SimpleList", &list,  SST::Required);
-SST::SimpleTest GSLi("Generic/SimpleList::insert", &insert,  SST::Required);
-SST::SimpleTest GSLpb("Generic/SimpleList::popBack", &pop,  SST::Required);
-SST::SimpleTest GSLil("Generic/SimpleList::initializer", &initializer,  SST::Required);
-SST::SimpleTest GSMpod("Generic/SimpleMap::plainOldData", &podMap,  SST::Required);
-SST::SimpleTest GSMc("Generic/SimpleMap::complex", &map,  SST::Required);
+SST::SimpleTest GSL("Generic/List", &list,  SST::Required);
+SST::SimpleTest GSLi("Generic/List::insert", &insert,  SST::Required);
+SST::SimpleTest GSLpb("Generic/List::popBack", &pop,  SST::Required);
+SST::SimpleTest GSLil("Generic/List::initializer", &initializer,  SST::Required);
+SST::SimpleTest GSMpod("Generic/Map::plainOldData", &podMap,  SST::Required);
+SST::SimpleTest GSMc("Generic/Map::complex", &map,  SST::Required);
 
 }
