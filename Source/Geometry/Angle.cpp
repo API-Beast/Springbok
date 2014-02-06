@@ -149,7 +149,7 @@ Angle Angle::FromRadians(float radians)
 	return radians / Tau;
 }
 
-float Angle::toRadians() const
+Radian Angle::toRadians() const
 {
 	return angle * Tau;
 }

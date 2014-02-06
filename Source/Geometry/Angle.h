@@ -32,9 +32,15 @@ struct Angle
 	bool operator!=(Angle other) const;
 	bool operator>=(Angle other) const;
 	bool operator<=(Angle other) const;
+	bool operator >(float other) const{ return operator >(Angle(other)); };
+	bool operator <(float other) const{ return operator <(Angle(other)); };
+	bool operator==(float other) const{ return operator==(Angle(other)); };
+	bool operator!=(float other) const{ return operator!=(Angle(other)); };
+	bool operator>=(float other) const{ return operator>=(Angle(other)); };
+	bool operator<=(float other) const{ return operator<=(Angle(other)); };
 	static Angle FromRadians(float radians);
 	static Angle FromDegree (float degree);
-	float toRadians() const;
+	Radian toRadians() const;
  	float toDegree() const;
 	float difference(Angle other) const;
 	Angle average(Angle other, float factor) const;
