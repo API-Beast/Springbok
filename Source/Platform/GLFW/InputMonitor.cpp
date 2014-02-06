@@ -17,6 +17,13 @@ struct GLFWMouse : public InputDevice
 	{
 		return glfwGetMouseButton(mWindow, index);
 	};
+	virtual bool anyButtonPressed() const
+	{
+		for (int i = 0; i < GLFW_MOUSE_BUTTON_LAST; ++i)
+			if(glfwGetMouseButton(mWindow, i))
+				return true;
+		return false;
+	};
 	
 	virtual Vec2F getCursorPosition(int index) const 
 	{
@@ -38,6 +45,13 @@ struct GLFWKeyboard : public InputDevice
 	{
 		return glfwGetKey(mWindow, index);
 	};
+	virtual bool anyButtonPressed() const
+	{
+		for (int i = 1; i < 100; ++i)
+			if(glfwGetKey(mWindow, i))
+				return true;
+		return false;
+	};
 };
 
 struct InputMonitorData
@@ -45,6 +59,7 @@ struct InputMonitorData
 	GLFWwindow* Window;
 	GLFWKeyboard KeyboardDevice;
 	GLFWMouse MouseDevice;
+	std::vector<InputDevice*> Devices;
 	std::vector<ButtonPressEvent> Events;
 };
 
@@ -79,26 +94,22 @@ InputMonitor::InputMonitor(GameSurface* surface)
 	d = new InputMonitorData;
 	GLFWwindow* window = (GLFWwindow*)surface->getWindowHandle();
 	d->Window = window;
+	d->Devices = {&(d->KeyboardDevice), &(d->MouseDevice)};
+	d->KeyboardDevice.mWindow = window;
+	d->MouseDevice.mWindow = window;
 	glfwSetKeyCallback(window, &keyCallback);
 	glfwSetMouseButtonCallback(window, &mouseButtonCallback);
 	glfwSetWindowUserPointer(window, d);
 };
 
-int InputMonitor::numberOfDevices()
+std::vector< InputDevice* > InputMonitor::getDevices() const
 {
-	return 2;
-};
+	return d->Devices;
+}
 
-InputDevice* InputMonitor::deviceByIndex(int index)
+InputDevice* InputMonitor::getPrimaryPointerDevice() const
 {
-	switch(index)
-	{
-		case 0:
-			return &(d->KeyboardDevice);
-		case 1:
-			return &(d->MouseDevice);
-	}
-	return nullptr;
+	return &(d->MouseDevice);
 }
 
 InputMonitor::~InputMonitor()

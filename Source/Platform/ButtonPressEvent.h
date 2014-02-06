@@ -4,8 +4,10 @@
 // 0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #pragma once
+#include "InputMonitor.h"
 
 class InputDevice;
+class InputMonitor;
 
 enum ButtonType
 {
@@ -39,6 +41,7 @@ public:
 	~ButtonSpec();
 public:
 	bool matches(const ButtonPressEvent& event);
+	bool isPressed(InputMonitor* monitor);
 };
 
 constexpr ButtonSpec::ButtonSpec(ButtonType type, int button) : Type(type), Button(button){};

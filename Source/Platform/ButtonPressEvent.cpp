@@ -25,6 +25,43 @@ bool ButtonSpec::matches(const ButtonPressEvent& event)
 	return retVal;
 }
 
+bool ButtonSpec::isPressed(InputMonitor* monitor)
+{
+	bool retVal;
+	for(InputDevice* device : monitor->getDevices())
+	{
+		if(device->anyButtonPressed())
+		{
+			retVal = true;
+			if(From)
+				retVal = retVal && (device == From);
+			if(Type)
+			{
+				if(Type == Mouse)
+					retVal = retVal && device->isMouse();
+				else if(Type == Keyboard)
+					retVal = retVal && device->isKeyboard();
+				else if(Type == Gamepad)
+					retVal = retVal && device->isGamepad();
+			}
+			if(Button != -1)
+				retVal = retVal && device->getButtonState(Button);
+			if(ComboButton != -1)
+				retVal = retVal && device->getButtonState(ComboButton);
+		}
+		else retVal = false;
+		
+		if(retVal)
+			break;
+	}
+	
+	if(retVal == false)
+		if(Alternative)
+			retVal = Alternative->isPressed(monitor);
+		
+	return retVal;
+}
+
 ButtonSpec::~ButtonSpec()
 {
 	delete Alternative;

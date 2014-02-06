@@ -21,6 +21,7 @@ public:
 	
 	virtual int   numberOfButtons() const;
 	virtual bool  getButtonState(int index) const;
+	virtual bool  anyButtonPressed() const;
 	
 	virtual int   numberOfCursors() const;
 	virtual Vec2F getCursorPosition(int index) const;
