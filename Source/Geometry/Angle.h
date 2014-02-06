@@ -45,6 +45,8 @@ struct Angle
 	float difference(Angle other) const;
 	Angle average(Angle other, float factor) const;
 	Vec2F toDirection(Vec2F up=Vec2F(0.0f, -1.0f)) const;
+public:
+	static Angle FromBooleanDirectionMatrix(bool up, bool right, bool down, bool left);
 private:
 	float angle=0.f;
 };

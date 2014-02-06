@@ -160,3 +160,16 @@ Angle Angle::average(Angle other, float factor) const
 	float diff = difference(other);
 	return (*this) + diff*factor;
 }
+
+Angle Angle::FromBooleanDirectionMatrix(bool up, bool down, bool right, bool left)
+{
+	if(up   && left ) return 0.875f;
+	if(up   && right) return 0.125f;
+	if(down && left ) return 0.625f;
+	if(down && right) return 0.375f;
+	if(down )         return 0.50f;
+	if(up   )         return 0.0f;
+	if(left )         return 0.75f;
+	if(right)         return 0.25f;
+	return 0.0f;
+}
