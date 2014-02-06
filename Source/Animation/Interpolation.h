@@ -91,3 +91,18 @@ T Interpolate(Interpolation kind, const T& prev, const T& start, const T& end, c
 {
 	return Interpolate<T>(kind, prev, start, end, after, (curT-startT)/(endT-startT), func);
 };
+
+template<typename T>
+T Approach(const T& from, const T& to, float factor, float limit)
+{
+	auto diff = Abs(from - to);
+	limit = Min<T>(diff*factor, limit);
+	if(diff > limit)
+	{
+		if(from < to)
+			return from - limit;
+		else
+			return from + limit;
+	}
+	return from*(1-factor) + to*factor;
+};
