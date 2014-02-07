@@ -7,7 +7,12 @@ T& List<T>::pushBack(const T& value)
 	if(UsedLength >= MemoryLength)
 	{
 		if(AllowReallocation)
-			reallocate((UsedLength * 2) || 2);
+		{
+			int newLength = 2;
+			if(MemoryLength)
+				newLength = MemoryLength * 2;
+			reallocate(newLength);
+		}
 		else
 			throw AllocatedMemoryFull();
 	}
@@ -25,7 +30,8 @@ template<typename T>
 List<T>::List(int length)
 {
 	Memory = new T[length];
-	UsedLength = MemoryLength = length;
+	UsedLength = 0;
+	MemoryLength = length;
 	OwnsMemory = true;
 	AllowReallocation = true;
 };

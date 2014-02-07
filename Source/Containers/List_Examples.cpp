@@ -65,6 +65,30 @@ void initializer()
 	SST_M_ASSERT_END;
 }
 
+void listCold()
+{
+	List<int> a;
+	a.pushBack(1);
+	a.pushBack(2);
+	a.pushBack(3);
+	
+	List<int> b(2);
+	b.pushBack(1);
+	b.pushBack(2);
+	b.pushBack(3);
+	b.pushBack(4);
+	
+	SST_M_ASSERT_START;
+	SST_M_ASSERT_EQ(a[0], 1);
+	SST_M_ASSERT_EQ(a[1], 2);
+	SST_M_ASSERT_EQ(a[2], 3);
+	SST_M_ASSERT_EQ(b[0], 1);
+	SST_M_ASSERT_EQ(b[1], 2);
+	SST_M_ASSERT_EQ(b[2], 3);
+	SST_M_ASSERT_EQ(b[3], 4);
+	SST_M_ASSERT_END;
+}
+
 struct Object
 {
 	Object(){};
@@ -135,6 +159,7 @@ void mapInitializer()
 }
 
 SST::SimpleTest GSL("Generic/List", &list,  SST::Required);
+SST::SimpleTest GSLcold("Generic/List::coldStart", &listCold,  SST::Required);
 SST::SimpleTest GSLi("Generic/List::insert", &insert,  SST::Required);
 SST::SimpleTest GSLpb("Generic/List::popBack", &pop,  SST::Required);
 SST::SimpleTest GSLil("Generic/List::initializer", &initializer,  SST::Required);
