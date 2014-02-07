@@ -19,8 +19,8 @@ struct Angle
 	operator Radian() const;
 	Angle operator+(float value) const;
 	Angle operator-(float value) const;
-	Angle operator*(float value) const;
-	Angle operator/(float value) const;
+	float operator*(float value) const;
+	float operator/(float value) const;
 	Angle& operator+=(float value);
 	Angle& operator-=(float value);
 	Angle& operator*=(float value);

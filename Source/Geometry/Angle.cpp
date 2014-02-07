@@ -55,12 +55,12 @@ Angle Angle::operator-(float value) const
 	return angle - value;
 }
 
-Angle Angle::operator*(float value) const
+float Angle::operator*(float value) const
 {
 	return angle * value;
 }
 
-Angle Angle::operator/(float value) const
+float Angle::operator/(float value) const
 {
 	return angle / value;
 }
@@ -109,12 +109,12 @@ float Angle::difference(Angle other) const
 		return differenceA;
 }
 
-bool Angle::operator>(Angle other) const
+bool Angle::operator<(Angle other) const
 {
 	return difference(other) > 0.f && other.angle != this->angle;
 }
 
-bool Angle::operator<(Angle other) const
+bool Angle::operator>(Angle other) const
 {
 	return difference(other) < 0.f && other.angle != this->angle;
 }
@@ -129,12 +129,12 @@ bool Angle::operator!=(Angle other) const
 	return this->angle != other.angle;
 }
 
-bool Angle::operator>=(Angle other) const
+bool Angle::operator<=(Angle other) const
 {
 	return *this > other || *this == other;
 }
 
-bool Angle::operator<=(Angle other) const
+bool Angle::operator>=(Angle other) const
 {
 	return *this < other || *this == other;
 }
