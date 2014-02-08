@@ -41,3 +41,28 @@ ColorHSY ColorHSY::tint(const TintHSY& t) const
 {
 	return {Hue + t.HueShift, BoundBy(0.f, Saturation * t.SaturationMult + t.SaturationAdd, 1.f), BoundBy(0.f, Luma * t.LumaMult + t.LumaAdd, 1.f) };
 }
+
+ColorRGB ColorRGB::operator+(ColorRGB other) const
+{
+	return ColorRGB(Red+other.Red, Green+other.Green, Blue+other.Blue);
+}
+
+ColorRGB ColorRGB::operator-(ColorRGB other) const
+{
+	return ColorRGB(Red-other.Red, Green-other.Green, Blue-other.Blue);
+}
+
+ColorRGB ColorRGB::operator*(float factor) const
+{
+	return ColorRGB(Red*factor, Green*factor, Blue*factor);
+}
+
+bool ColorRGB::operator<(ColorRGB other) const
+{
+	return (Red+Green+Blue) < (other.Red+other.Green+other.Blue);
+}
+
+bool ColorRGB::operator>(ColorRGB other) const
+{
+	return (Red+Green+Blue) > (other.Red+other.Green+other.Blue);
+}

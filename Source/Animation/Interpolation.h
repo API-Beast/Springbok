@@ -61,7 +61,7 @@ T Interpolate(Interpolation kind, const T& prev, const T& start, const T& end, c
 				// _/
 				// Slow down, ease out
 				else
-					return func.easeOut(InterpolateLinear(start, end, factor));
+					return InterpolateLinear(start, end, func.easeOut(factor));
 			}
 			else
 			{
@@ -69,12 +69,12 @@ T Interpolate(Interpolation kind, const T& prev, const T& start, const T& end, c
 				// /
 				// Speed up, ease in
 				if(slopeCurrent < slopeNext)
-					return func.easeIn(InterpolateLinear(start, end, factor));
+					return InterpolateLinear(start, end, func.easeIn(factor));
 				//  /\
 				// /
 				// Neutral
 				else
-					return func.easeInOut(InterpolateLinear(start, end, factor));
+					return InterpolateLinear(start, end, func.easeInOut(factor));
 			}
 		break;
 	}

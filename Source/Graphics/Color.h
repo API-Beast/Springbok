@@ -25,6 +25,12 @@ struct ColorRGB
 	ColorRGB blend(const ColorRGB& other, float factor);
 	/** Clip all components to \c 0...1 range. */
 	ColorRGB clip();
+	
+	ColorRGB operator+(ColorRGB other) const;
+	ColorRGB operator-(ColorRGB other) const;
+	ColorRGB operator*(float factor) const;
+	bool operator<(ColorRGB other) const;
+	bool operator>(ColorRGB other) const;
 };
 
 typedef ColorRGB Color; /**< @related ColorRGB */
