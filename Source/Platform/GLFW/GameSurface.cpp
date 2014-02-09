@@ -6,7 +6,7 @@ struct GameSurfaceData
 	GLFWwindow* Window;
 };
 
-GameSurface::GameSurface(const std::string& title, int flags)
+GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
 {
 	d = new GameSurfaceData;
 	
@@ -15,7 +15,7 @@ GameSurface::GameSurface(const std::string& title, int flags)
 	{
 		glfwWindowHint(GLFW_RESIZABLE, false);
 		glfwWindowHint(GLFW_DECORATED, true);
-		d->Window = glfwCreateWindow(800, 600, title.c_str(), NULL, NULL );
+		d->Window = glfwCreateWindow(sizeHint.X, sizeHint.Y, title.c_str(), NULL, NULL );
 	}
 	else
 	{
