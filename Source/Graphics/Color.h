@@ -29,8 +29,11 @@ struct ColorRGB
 	ColorRGB operator+(ColorRGB other) const;
 	ColorRGB operator-(ColorRGB other) const;
 	ColorRGB operator*(float factor) const;
+	
 	bool operator<(ColorRGB other) const;
 	bool operator>(ColorRGB other) const;
+	bool operator!=(ColorRGB other) const;
+	bool operator==(ColorRGB other) const;
 };
 
 typedef ColorRGB Color; /**< @related ColorRGB */

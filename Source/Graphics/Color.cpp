@@ -66,3 +66,13 @@ bool ColorRGB::operator>(ColorRGB other) const
 {
 	return (Red+Green+Blue) > (other.Red+other.Green+other.Blue);
 }
+
+bool ColorRGB::operator!=(ColorRGB other) const
+{
+	return (Red != other.Red) || (Blue != other.Blue) || (Green != other.Green);
+}
+
+bool ColorRGB::operator==(ColorRGB other) const
+{
+	return (Red == other.Red) && (Blue == other.Blue) && (Green == other.Green);
+}
