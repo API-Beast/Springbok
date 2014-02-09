@@ -33,6 +33,8 @@ public:
 	T* begin(){ return Memory; };
 	T*   end(){ return Memory+UsedLength; };
 	
+	T quickRemove(int index); /// Changes element order
+	
 	void moveMemoryTo(T* memory, int length);
 	void reallocate(int elements);
 	

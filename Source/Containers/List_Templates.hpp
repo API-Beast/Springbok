@@ -27,6 +27,14 @@ T List<T>::popBack()
 }
 
 template<typename T>
+T List<T>::quickRemove(int index)
+{
+	T retVal = Memory[index];
+	Memory[index] = Memory[--UsedLength];
+	return retVal;
+}
+
+template<typename T>
 List<T>::List(int length)
 {
 	Memory = new T[length];
