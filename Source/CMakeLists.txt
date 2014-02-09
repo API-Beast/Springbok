@@ -29,8 +29,9 @@ add_subdirectory(Platform)
 add_subdirectory(Resources)
 add_subdirectory(Parsing)
 add_subdirectory(Containers)
+add_subdirectory(Procedural)
 
-set(SUBTARGETS sbAnimation sbAudio sbGeneric sbGeometry sbGraphics sbMath sbPlatform sbResources sbParsing sbContainers)
+set(SUBTARGETS sbAnimation sbAudio sbGeneric sbGeometry sbGraphics sbMath sbPlatform sbResources sbParsing sbContainers sbProcedural)
 add_library(Springbok SHARED dummy.cpp Dependencies/lodepng.cpp)
 # Very hacky, need to be replaced
 target_link_libraries(Springbok "-Wl,--whole-archive -z muldefs" ${SUBTARGETS} -Wl,--no-whole-archive)
