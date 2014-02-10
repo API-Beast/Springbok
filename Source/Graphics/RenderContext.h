@@ -15,6 +15,13 @@
 struct RenderContext
 {
 public:
+	enum BlendingMode
+	{
+		Default,
+		Additive,
+		Multiplicative
+	};
+public:
 	Vec2I  Offset    = Vec2I(0, 0);
 	Vec2F  Scale     = Vec2F(+1.0f, +1.0f);
 	Vec2F  Alignment = Vec2F(+0.5f, +0.5f);
@@ -27,13 +34,20 @@ public:
 	static void Setup2DEnvironment();
 ///@}
 public:
+	RenderContext()=default;
+	RenderContext(const RenderContext& parent);
+	~RenderContext();
 	template<typename T>
 	Rect<T> getTransformedRect(Vec2<T> pos, Vec2<T> size) const;
 	void setOffsetRelativeToViewport(Vec2I pos);
 	void setColor(const ColorRGB& color, float alpha=1.f);
+	void setBlendingMode(BlendingMode mode);
 	void loadDefaults();
 private:
-	RenderContext* mParent = nullptr;
+	const RenderContext* mParent = nullptr;
+	ColorRGB mSetColor = Colors::White;
+	float mSetAlpha = 1.f;
+	BlendingMode mSetBlendingMode = Default;
 };
 
 template<typename T>

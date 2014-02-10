@@ -19,7 +19,7 @@ public:
 		NoVSync = 2
 	};
 public:
-	GameSurface(const std::string& title, int flags = None);
+	GameSurface(const std::string& title, int flags = None, Vec2U sizeHint = Vec2U(800, 600));
 	~GameSurface();
 	
 	Vec2I getSize() const;

@@ -61,7 +61,7 @@ T Interpolate(Interpolation kind, const T& prev, const T& start, const T& end, c
 				// _/
 				// Slow down, ease out
 				else
-					return func.easeOut(InterpolateLinear(start, end, factor));
+					return InterpolateLinear(start, end, func.easeOut(factor));
 			}
 			else
 			{
@@ -69,12 +69,12 @@ T Interpolate(Interpolation kind, const T& prev, const T& start, const T& end, c
 				// /
 				// Speed up, ease in
 				if(slopeCurrent < slopeNext)
-					return func.easeIn(InterpolateLinear(start, end, factor));
+					return InterpolateLinear(start, end, func.easeIn(factor));
 				//  /\
 				// /
 				// Neutral
 				else
-					return func.easeInOut(InterpolateLinear(start, end, factor));
+					return InterpolateLinear(start, end, func.easeInOut(factor));
 			}
 		break;
 	}
@@ -90,4 +90,20 @@ template<typename T>
 T Interpolate(Interpolation kind, const T& prev, const T& start, const T& end, const T& after, float startT, float endT, float curT, const EasingFunctionBase& func = LinearEasing())
 {
 	return Interpolate<T>(kind, prev, start, end, after, (curT-startT)/(endT-startT), func);
+};
+
+template<typename T, typename D>
+T Approach(const T& from, const T& to, D limit)
+{
+	D diff = Abs((D)(from - to));
+	limit = Min<D>(diff, limit);
+	if(diff > limit)
+	{
+		if(from < to)
+			return from + limit;
+		else
+			return from - limit;
+	}
+	else
+		return to;
 };

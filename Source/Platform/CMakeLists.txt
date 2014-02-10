@@ -1,12 +1,13 @@
-find_package(GLFW)
+find_package(GLFW REQUIRED)
 
-add_library(sbPlatform STATIC FileInfo.cpp PreciseClock.cpp InputDevice.cpp ButtonPressEvent.cpp)
-if(GLFW_FOUND)
-	set(BUILD_PLATFORM 1)
-	add_subdirectory(GLFW)
-	target_link_libraries(sbPlatform sbPlatformGLFW)
-else()
-	set(BUILD_PLATFORM 0)
-	message(WARNING "No Backend for Platform found.")
-	message(WARNING "Please install GLFW or you won't be able to use the Platform module.")
-endif()
+set(H_FILES FileInfo.h PreciseClock.h InputDevice.h ButtonPressEvent.h InputMonitor.h GameSurface.h)
+set(CPP_FILES FileInfo.cpp PreciseClock.cpp InputDevice.cpp ButtonPressEvent.cpp)
+
+add_subdirectory(GLFW)
+
+add_library(sbPlatform STATIC ${CPP_FILES} ${H_FILES} $<TARGET_OBJECTS:sbPlatformGLFW>)
+set_property(TARGET sbPlatform PROPERTY POSITION_INDEPENDENT_CODE ON)
+target_link_libraries(sbPlatform ${GLFW_LIBRARIES})
+
+set_property(TARGET sbPlatform PROPERTY PUBLIC_HEADER ${H_FILES})
+install(TARGETS sbPlatform PUBLIC_HEADER DESTINATION include/Springbok/Platform ARCHIVE DESTINATION lib/Springbok)

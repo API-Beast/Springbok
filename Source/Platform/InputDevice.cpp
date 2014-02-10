@@ -54,3 +54,8 @@ int InputDevice::numberOfCursors() const
 {
 	return 0;
 }
+
+bool InputDevice::anyButtonPressed() const
+{
+	return false;
+}

@@ -9,14 +9,17 @@
 
 class GameSurface;
 class InputMonitorData;
+class InputDevice;
+class ButtonPressEvent;
 class InputMonitor
 {
 public:
 	InputMonitor(GameSurface* surface);
 	~InputMonitor();
-	int numberOfDevices();
-	InputDevice* deviceByIndex(int index);
-	InputDevice* primaryPointerDevice();
+	/*int numberOfDevices();
+	InputDevice* deviceByIndex(int index);*/
+	std::vector<InputDevice*> getDevices() const;
+	InputDevice* getPrimaryPointerDevice() const;
 	
 	std::vector<ButtonPressEvent>  poll();
 private:

@@ -23,7 +23,7 @@ public:
 	Image(const std::string& filename);
 	Image(){};
 	void draw(const RenderContext& r);
-	void drawStretched(Vec2< int > size, const RenderContext& r);
+	void drawStretched(Vec2I size, const RenderContext& r);
 	Vec2<int> getSize();
 private:
 	void lazyLoad();
