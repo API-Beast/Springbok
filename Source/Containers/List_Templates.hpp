@@ -4,6 +4,7 @@
 template<typename T>
 T& List<T>::pushBack(const T& value)
 {
+	Version++;
 	if(UsedLength >= MemoryLength)
 	{
 		if(AllowReallocation)
@@ -22,6 +23,7 @@ T& List<T>::pushBack(const T& value)
 template<typename T>
 T List<T>::popBack()
 {
+	Version++;
 	T retVal = Memory[--UsedLength];
 	return retVal;
 }
@@ -29,6 +31,7 @@ T List<T>::popBack()
 template<typename T>
 T List<T>::quickRemove(int index)
 {
+	Version++;
 	T retVal = Memory[index];
 	Memory[index] = Memory[--UsedLength];
 	return retVal;
@@ -125,6 +128,7 @@ T& List<T>::makeSpace(int position, int elements)
 template<typename T>
 T& List<T>::insert(int position, const T& value)
 {
+	Version++;
 	makeSpace(position, 1);
 	return Memory[position] = value;
 }

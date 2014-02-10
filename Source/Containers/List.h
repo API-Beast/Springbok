@@ -48,6 +48,7 @@ public:
 	T* Memory = nullptr;
 	int MemoryLength = 0;
 	int UsedLength = 0;
+	int Version = 0;
 };
 
 /** A @ref List that is assumed to be sorted by \a Member of \a T and thus can search for a specific key value in logarithmic time.  */
