@@ -1,9 +1,7 @@
 set(H_FILES ResourceManager.h ResourceManager_Templates.hpp)
 set(CPP_FILES ResourceManager.cpp)
-add_library(sbResources STATIC ${H_FILES} ${CPP_FILES})
-target_link_libraries(sbResources sbGeneric sbPlatform)
-#ADD_SSTEST_FILE(SpringbokTest file.cpp)
+add_library(sbResources OBJECT ${H_FILES} ${CPP_FILES})
 
-set_property(TARGET sbResources PROPERTY POSITION_INDEPENDENT_CODE ON)
-set_property(TARGET sbResources PROPERTY PUBLIC_HEADER ${H_FILES})
-install(TARGETS sbResources PUBLIC_HEADER DESTINATION include/Springbok/Resources ARCHIVE DESTINATION lib/Springbok)
+set_property(TARGET sbResources PROPERTY OBJ_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set_property(TARGET sbResources PROPERTY OBJ_INSTALL_HEADERS ${H_FILES})
+set_property(TARGET sbResources PROPERTY OBJ_INSTALL_LOCATION Resources)

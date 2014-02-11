@@ -1,8 +1,9 @@
-set(H_FILES ObjectPointer.h ObjectPointer_Templates.hpp)
+set(H_FILES ObjectPointer.h ObjectPointer_Templates.hpp LogicChain.h LogicChain_Templates.hpp PointerGuard.h)
 set(CPP_FILES ObjectPointer.cpp)
-add_library(sbGeneric STATIC ${H_FILES} ${CPP_FILES})
-set_property(TARGET sbGeneric PROPERTY POSITION_INDEPENDENT_CODE ON)
-ADD_SSTEST_FILE(SpringbokTest ObjectPointer_Examples.cpp)
+add_library(sbGeneric OBJECT ${H_FILES} ${CPP_FILES})
 
-set_property(TARGET sbGeneric PROPERTY PUBLIC_HEADER ${H_FILES})
-install(TARGETS sbGeneric PUBLIC_HEADER DESTINATION include/Springbok/Generic ARCHIVE DESTINATION lib/Springbok)
+set_property(TARGET sbGeneric PROPERTY OBJ_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set_property(TARGET sbGeneric PROPERTY OBJ_INSTALL_HEADERS ${H_FILES})
+set_property(TARGET sbGeneric PROPERTY OBJ_INSTALL_LOCATION Generic)
+
+ADD_SSTEST_FILE(SpringbokTest ObjectPointer_Examples.cpp)

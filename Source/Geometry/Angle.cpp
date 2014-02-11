@@ -22,7 +22,7 @@ Angle::Angle(float value)
 	{
 		value = 1.f + value;
 	}
-	angle = std::fmod(value, 1.f);
+	angle = Modulo(value, 1.f);
 }
 
 Angle::Angle(Radian value)
@@ -32,7 +32,7 @@ Angle::Angle(Radian value)
 	{
 		val = 1.f + val;
 	}
-	angle = std::fmod(val, 1.f);
+	angle = Modulo(val, 1.f);
 }
 
 Angle::operator float() const
@@ -47,12 +47,12 @@ Angle::operator Radian() const
 
 Angle Angle::operator+(float value) const
 {
-	return angle + value;
+	return Modulo(angle + value, 1.f);
 }
 
 Angle Angle::operator-(float value) const
 {
-	return angle - value;
+	return Modulo(angle - value, 1.f);
 }
 
 float Angle::operator*(float value) const

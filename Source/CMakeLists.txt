@@ -15,6 +15,8 @@ endif()
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 configure_file(Config.h.in ${CMAKE_CURRENT_BINARY_DIR}/Springbok/Config.h)
 
+option(BUILD_STATIC "If ON Springbok will be build as static lib instead." ON)
+
 ## -------------------- ##
 ##       Library        ##
 ## -------------------- ##
@@ -30,14 +32,22 @@ add_subdirectory(Resources)
 add_subdirectory(Parsing)
 add_subdirectory(Containers)
 add_subdirectory(Procedural)
+add_subdirectory(Dependencies)
 
-set(SUBTARGETS sbAnimation sbAudio sbGeneric sbGeometry sbGraphics sbMath sbPlatform sbResources sbParsing sbContainers sbProcedural)
-add_library(Springbok SHARED dummy.cpp Dependencies/lodepng.cpp)
-# Very hacky, need to be replaced
-target_link_libraries(Springbok "-Wl,--whole-archive -z muldefs" ${SUBTARGETS} -Wl,--no-whole-archive)
+set(SUBTARGETS sbAnimation sbAudio sbDependencies sbGeneric sbGeometry sbGraphics sbMath sbPlatform sbResources sbParsing sbContainers sbProcedural)
 
-set_property(TARGET Springbok PROPERTY PUBLIC_HEADER ${CMAKE_CURRENT_BINARY_DIR}/Springbok/Config.h Animation.h Audio.h Graphics.h Math.h Platform.h Resources.h ${INHERITED_HEADERS})
+GET_SUBTARGET_OBJECTS(SUBTARGETS_EXPANDED ${SUBTARGETS})
 
-install(TARGETS Springbok
-				LIBRARY DESTINATION lib
-				PUBLIC_HEADER DESTINATION include/Springbok)
+if(BUILD_STATIC)
+	add_library(Springbok STATIC ${SUBTARGETS_EXPANDED})
+else()
+	set_property(TARGET ${SUBTARGETS} PROPERTY POSITION_INDEPENDENT_CODE ON)
+	add_library(Springbok SHARED ${SUBTARGETS_EXPANDED})
+endif()
+
+LINK_SUBTARGET_DEPENDENCIES(Springbok ${SUBTARGETS})
+
+install(TARGETS Springbok LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+install(FILES Animation.h Audio.h ${CMAKE_CURRENT_BINARY_DIR}/Springbok/Config.h Graphics.h Math.h Platform.h Resources.h
+				DESTINATION include/Springbok)
+INSTALL_SUBTARGET_HEADERS(include/Springbok ${SUBTARGETS})

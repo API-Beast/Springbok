@@ -4,11 +4,11 @@ set(H_FILES Color.h ColorPalette.h Image.h RenderContext.h Texture.h)
 set(CPP_FILES Color.cpp ColorPalette.cpp Image.cpp RenderContext.cpp Texture.cpp)
 
 include_directories(${OPENGL_INCLUDE_DIR})
-add_library(sbGraphics STATIC ${H_FILES} ${CPP_FILES})
-set_property(TARGET sbGraphics PROPERTY POSITION_INDEPENDENT_CODE ON)
-target_link_libraries(sbGraphics sbResources ${OPENGL_LIBRARY})
+add_library(sbGraphics OBJECT ${H_FILES} ${CPP_FILES})
 
-set_property(TARGET sbGraphics PROPERTY PUBLIC_HEADER ${H_FILES})
-install(TARGETS sbGraphics PUBLIC_HEADER DESTINATION include/Springbok/Graphics ARCHIVE DESTINATION lib/Springbok)
+set_property(TARGET sbGraphics PROPERTY OBJ_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set_property(TARGET sbGraphics PROPERTY OBJ_INSTALL_HEADERS ${H_FILES})
+set_property(TARGET sbGraphics PROPERTY OBJ_INSTALL_LOCATION Graphics)
+set_property(TARGET sbGraphics PROPERTY OBJ_DEPENDENCIES ${OPENGL_LIBRARY})
 
 #ADD_SSTEST_FILE(SpringbokTest file.cpp)
