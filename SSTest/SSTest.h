@@ -178,11 +178,13 @@ typename std::enable_if<!std::is_convertible<T, To>::value, T>::type ToType(cons
 };
 
 
+#define SST_ABS(a) (((a)<(0.f))?-(a):a)
 #define SST_S_ASSERT(x) if(!(x)) throw SST::AssertFailure(#x , __FILE__, __PRETTY_FUNCTION__, __LINE__)
 #define SST_S_ASSERT_EQ(x, y) { auto ass__a = (x); auto ass__b = (y); if(!(ass__a == ass__b)) throw SST::AssertFailure( std::string(#x " == " #y), SST::ToString(SST::ToType<decltype(ass__b)>(ass__a)) + " != " + SST::ToString(ass__b), __FILE__, __PRETTY_FUNCTION__, __LINE__); }
 #define SST_M_ASSERT_START { std::vector<SST::AssertFailure> __asserts__
 #define SST_M_ASSERT(x) if(!(x)) __asserts__.push_back(SST::AssertFailure(#x , __FILE__, __PRETTY_FUNCTION__, __LINE__));
 #define SST_M_ASSERT_EQ(x, y) { auto ass__a = (x); auto ass__b = (y); if(!(ass__a == ass__b)) __asserts__.push_back(SST::AssertFailure( std::string(#x " == " #y), SST::ToString(SST::ToType<decltype(ass__b)>(ass__a)) + " != " + SST::ToString(ass__b), __FILE__, __PRETTY_FUNCTION__, __LINE__)); }
+#define SST_M_ASSERT_EQf(x, y) { auto ass__a = (x); auto ass__b = (y); if(SST_ABS(ass__a - ass__b) > 0.0001f) __asserts__.push_back(SST::AssertFailure( std::string(#x " == " #y), SST::ToString(SST::ToType<decltype(ass__b)>(ass__a)) + " != " + SST::ToString(ass__b), __FILE__, __PRETTY_FUNCTION__, __LINE__)); }
 #define SST_M_ASSERT_END if(!__asserts__.empty()) throw __asserts__; }
 
 }

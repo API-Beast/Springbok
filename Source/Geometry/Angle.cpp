@@ -18,21 +18,13 @@ float Angle::toDegree() const
 
 Angle::Angle(float value)
 {
-	while(value < 0.f)
-	{
-		value = 1.f + value;
-	}
-	angle = Modulo(value, 1.f);
+	angle = PositiveModulo(value, 1.f);
 }
 
 Angle::Angle(Radian value)
 {
 	float val=value / Tau;
-	while(val < 0.f)
-	{
-		val = 1.f + val;
-	}
-	angle = Modulo(val, 1.f);
+	angle = PositiveModulo(val, 1.f);
 }
 
 Angle::operator float() const
@@ -47,12 +39,12 @@ Angle::operator Radian() const
 
 Angle Angle::operator+(float value) const
 {
-	return Modulo(angle + value, 1.f);
+	return PositiveModulo(angle + value, 1.f);
 }
 
 Angle Angle::operator-(float value) const
 {
-	return Modulo(angle - value, 1.f);
+	return PositiveModulo(angle - value, 1.f);
 }
 
 float Angle::operator*(float value) const
@@ -68,28 +60,28 @@ float Angle::operator/(float value) const
 Angle& Angle::operator+=(float value)
 {
 	angle += value;
-	angle = Modulo(angle, 1.f);
+	angle = PositiveModulo(angle, 1.f);
 	return *this;
 }
 
 Angle& Angle::operator-=(float value)
 {
 	angle -= value;
-	angle = Modulo(angle, 1.f);
+	angle = PositiveModulo(angle, 1.f);
 	return *this;
 }
 
 Angle& Angle::operator*=(float value)
 {
 	angle *= value;
-	angle = Modulo(angle, 1.f);
+	angle = PositiveModulo(angle, 1.f);
 	return *this;
 }
 
 Angle& Angle::operator/=(float value)
 {
 	angle /= value;
-	angle = Modulo(angle, 1.f);
+	angle = PositiveModulo(angle, 1.f);
 	return *this;
 }
 

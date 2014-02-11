@@ -130,10 +130,16 @@ constexpr auto Modulo(const A& a, const B& b) -> decltype(a - (b * int(a/b)))
 	return a - (b * int(a/b));
 }
 
+template<typename T>
+constexpr T ChoosePositive(T a, T b)
+{
+	return (a > 0.f) ? a : b;
+};
+
 template<typename A, typename B>
 constexpr auto PositiveModulo(const A& a, const B& b) -> decltype(a - (b * int(a/b)))
 {
-	return Max(a - (b * int(a/b)), b - Abs(a - (b * int(a/b))));
+	return ChoosePositive(a - (b * int(a/b)), b - Abs(a - (b * int(a/b))));
 }
 
 template<typename A>

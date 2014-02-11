@@ -19,32 +19,32 @@ bool tests()
 	
 	
 	// Square Root
-	SST_M_ASSERT_EQ(Root<2>(432.324f), SquareRoot(432.324f));
+	SST_M_ASSERT_EQf(Root<2>(432.324f), SquareRoot(432.324f));
 	auto testRoot = Root(27.f, 3);
 	auto testPower= Power(testRoot, 3);
-	SST_M_ASSERT_EQ(testPower, 27.f);
+	SST_M_ASSERT_EQf(testPower, 27.f);
 	
 	
 	// Round
-	SST_M_ASSERT_EQ(Round(3.215f), 3);
-	SST_M_ASSERT_EQ(Round(3.215f, 0.1f), 3.2f);
+	SST_M_ASSERT_EQf(Round(3.215f), 3);
+	SST_M_ASSERT_EQf(Round(3.215f, 0.1f), 3.2f);
 	
-	SST_M_ASSERT_EQ(Round(4.f), 4);
-	SST_M_ASSERT_EQ(Round(4.f, 0.1f), 4.f);
+	SST_M_ASSERT_EQf(Round(4.f), 4);
+	SST_M_ASSERT_EQf(Round(4.f, 0.1f), 4.f);
 	
 	auto testRound = Round(4.31, 0.2);
 	float testRoundA = Round(testRound, 0.1f);
-	SST_M_ASSERT_EQ(testRound, 4.4);
-	SST_M_ASSERT_EQ(testRoundA, 4.4f);
+	SST_M_ASSERT_EQf(testRound, 4.4);
+	SST_M_ASSERT_EQf(testRoundA, 4.4f);
 	
 	
 	// Modulo
-	SST_M_ASSERT_EQ(Modulo( 1.5f, 1.f), fmod( 1.5f, 1.f));
-	SST_M_ASSERT_EQ(Modulo( 1.9f, 1.f), fmod( 1.9f, 1.f));
+	SST_M_ASSERT_EQf(Modulo( 1.5f, 1.f), fmod( 1.5f, 1.f));
+	SST_M_ASSERT_EQf(Modulo( 1.9f, 1.f), fmod( 1.9f, 1.f));
 	
-	SST_M_ASSERT_EQ(PositiveModulo(-0.1f, 1.f), 0.9f);
-	SST_M_ASSERT_EQ(PositiveModulo(-0.5f, 1.f), 0.5f);
-	SST_M_ASSERT_EQ(PositiveModulo(-1.5f, 1.f), 0.5f);
+	SST_M_ASSERT_EQf(PositiveModulo(-0.1f, 1.f), 0.9f);
+	SST_M_ASSERT_EQf(PositiveModulo(-0.4f, 1.f), 0.6f);
+	SST_M_ASSERT_EQf(PositiveModulo(-1.6f, 1.f), 0.4f);
  
 	SST_M_ASSERT_END;
 	
