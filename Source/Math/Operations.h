@@ -74,7 +74,7 @@ constexpr T Min(T a, T b, Args... c)
 {
 	return Min(Min(a, b), c...);
 };
-	
+
 /** Returns \a value clipped to the \a lowerBound...upperBound range.
  * \a value will be returned if it is between \a lowerBound and \a upperBound. If it is smaller than \a lowerBound, \a lowerBound will be returned, if it is bigger \a upperBound will be returned instead.
  */
@@ -130,6 +130,7 @@ constexpr auto Modulo(const A& a, const B& b) -> decltype(a - (b * int(a/b)))
 	return a - (b * int(a/b));
 }
 
+/** Return \a a if it is positive, else return \a b. */
 template<typename T>
 constexpr T ChoosePositive(T a, T b)
 {
@@ -213,5 +214,29 @@ constexpr auto Round(const A& a, const B& precision) -> decltype(a - Modulo(a, p
 {
 	return (Modulo(a, precision) >= precision/2) ? RoundUp(a, precision) : RoundDown(a, precision); 
 }
+
+template<typename T>
+constexpr T MinAbs(T a, T b)
+{
+	return (Abs(a) > Abs(b)) ? b : a;
+};
+
+template<typename T>
+constexpr T MaxAbs(T a, T b)
+{
+	return (Abs(a) < Abs(b)) ? b : a;
+};
+
+template<typename T, typename... Args>
+constexpr T MaxAbs(T a, T b, Args... c)
+{
+	return MaxAbs(MaxAbs(a, b), c...);
+};
+	
+template<typename T, typename... Args>
+constexpr T MinAbs(T a, T b, Args... c)
+{
+	return MinAbs(MaxAbs(a, b), c...);
+};
 
 //@}
