@@ -21,6 +21,13 @@ T& Vec2<T>::operator[](int i)
 }
 
 template<typename T>
+const T& Vec2<T>::operator[](int i) const
+{
+	return Val[i];
+}
+
+
+template<typename T>
 constexpr Vec2<T> Vec2<T>::operator-() const
 {
 	return Vec2<T>(-X, -Y);

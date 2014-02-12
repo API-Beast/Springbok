@@ -38,6 +38,7 @@ public:
 	constexpr Vec2(const P1& vx, const P2& vy) : X(vx), Y(vy) {};
 	
 	T& operator[](int x);
+	const T& operator[](int x) const;
 	constexpr Vec2<T> operator-() const; //!< Returns the opposite of this vector. Equals Vec2(-X, -Y).
 	constexpr operator bool()     const; //!< Returns \c true if either X or Y have a value != 0.
 	
