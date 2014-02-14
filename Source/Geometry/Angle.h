@@ -6,17 +6,21 @@
 #pragma once
 
 #include "Vec2.h"
-#include <Springbok/Math/Radian.h>
+#include <cmath>
+
+//! A half turn in radians. Equal to the ratio of a circle's circumference to it's diameter.
+constexpr float PI  = 3.14159;
+//! A full turn in radians. Equal to the ratio of a circle's circumference to it's radius.
+constexpr float Tau = PI * 2;
 
 //! @ingroup Angle
 //! @{
 struct Angle
 {
-	explicit constexpr Angle(float value) : Data((PositiveModulo(value, 1.f) > 0.5f) ? (PositiveModulo(value, 1.f) - 1.0f) : PositiveModulo(value, 1.f)){};
-	Angle(Radian value);
+	explicit constexpr Angle(float value) : Data((PositiveModulo(value, Tau) > PI) ? (PositiveModulo(value, Tau) - Tau) : PositiveModulo(value, Tau)){};
+	explicit Angle(Vec2F vec, Vec2F up=Vec2F(0.0f, -1.0f));
 	Angle()=default;
 	explicit operator float() const;
-	operator Radian() const;
 	Angle operator+(Angle value) const;
 	Angle operator-(Angle value) const;
 	Angle operator*(float value) const;
@@ -38,31 +42,36 @@ struct Angle
 	bool operator!=(float other) const{ return operator!=(Angle(other)); };
 	bool operator>=(float other) const{ return operator>=(Angle(other)); };
 	bool operator<=(float other) const{ return operator<=(Angle(other)); };
+	static constexpr Angle FromTurn  (float turns);
 	static constexpr Angle FromRadians(float radians);
 	static constexpr Angle FromDegree (float degree);
-	Radian toRadians() const;
+	float toRadians() const;
  	float toDegree() const;
-	Vec2F toDirection(Vec2F up=Vec2F(0.0f, -1.0f)) const;
+	float toTurn() const;
+	Vec2F toDirection() const;
+	Vec2F rotateVec(Vec2F vec) const;
 	void sanitize();
+	
+	constexpr double sin();
+	constexpr double cos();
+	static constexpr Angle Atan2(double a, double b);
+	static constexpr Angle Acos(double A);
+	static constexpr Angle Asin(double A);
+	
 public:
 	static Angle FromBooleanDirectionMatrix(bool up, bool right, bool down, bool left);
 public:
 	float Data=0.f;
 };
 
-constexpr Angle Angle::FromDegree(float degree)
-{
-	return Angle(degree / 360);
-}
+Angle operator*(float value, Angle angle);
+Angle operator/(float value, Angle angle);
 
-constexpr Angle Angle::FromRadians(float radians)
-{
-	return Angle(radians / Tau);
-}
+#include "Angle_constexpr.h"
 
 // User defined suffixes should actually start with a underscore, but fuck the system.
-constexpr Angle operator "" _turn(long double num){ return Angle(num); };
-constexpr Angle operator "" _turn(unsigned long long num){ return Angle(num); };
+constexpr Angle operator "" _turn(long double num){ return Angle::FromTurn(num); };
+constexpr Angle operator "" _turn(unsigned long long num){ return Angle::FromTurn(num); };
 constexpr Angle operator "" _deg(long double num){ return Angle::FromDegree(num); };
 constexpr Angle operator "" _deg(unsigned long long num){ return Angle::FromDegree(num); };
 constexpr Angle operator "" _rad(long double num){ return Angle::FromRadians(num); };

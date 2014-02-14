@@ -28,8 +28,8 @@ ColorHSY::operator ColorRGB() const
 	float lumaMatch = (1 - Saturation) * Luma;
 	
 	chroma = (1.7320508 * Saturation) / fmod(-(float(Hue) / 6 * PI), 1.f);
-	c1 =  chroma * Cos(Hue);
-	c2 = -chroma * Sin(Hue);
+	c1 =  chroma * Hue.cos();
+	c2 = -chroma * Hue.sin();
 	
 	saturated.Red   = ma[0] * Luma + mb[0] * c1 + mc[0] * c2;
 	saturated.Green = ma[1] * Luma + mb[1] * c1 + mc[1] * c2;

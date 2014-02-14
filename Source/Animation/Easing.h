@@ -1,5 +1,5 @@
 #pragma once
-#include <Springbok/Math/Operations.h>
+#include <Springbok/Geometry/Angle.h>
 
 class EasingFunctionBase
 {
@@ -29,7 +29,7 @@ struct SinusEasing : public EasingFunctionBase
 {
 	float easeIn(float val) const
 	{
-		return Sin(val * PI/4) * (1/Sin(PI/4));
+		return std::sin(val * PI/4) * (1/std::sin(PI/4));
 	};
 };
 

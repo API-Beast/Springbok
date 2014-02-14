@@ -1,4 +1,4 @@
-set(H_FILES Operations.h Radian.h Range.h Range_Templates.hpp)
+set(H_FILES Operations.h Range.h Range_Templates.hpp)
 set(CPP_FILES dummy.cpp) # Template only
 add_library(sbMath OBJECT ${H_FILES} ${CPP_FILES})
 

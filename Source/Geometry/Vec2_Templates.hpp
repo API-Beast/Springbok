@@ -39,20 +39,6 @@ constexpr float Vec2<T>::getLength() const
 }
 
 template<typename T>
-constexpr Radian Vec2<T>::getAngle(Vec2<T> up) const
-{
-	return Atan2(Y, X) - Atan2(up.Y, up.X);
-}
-
-template<typename T>
-Vec2<T> Vec2<T>::rotated(Radian angle, Vec2<T> up) const
-{
-	float length = getLength();
-	Radian myAngle = getAngle(up);
-	return Vec2<T>(length * Sin(myAngle + angle), length * -Cos(myAngle + angle));
-}
-
-template<typename T>
 Vec2<T> Vec2<T>::normalized() const
 {
 	float length = getLength();

@@ -48,7 +48,7 @@ public:
 	operator bool() const;
 	void set(Vec2<T> pos, Vec2<T> size);
 	void set(T x, T y, T width, T height);
-	Rect<T> rotated(Radian rotation) const;
+	Rect<T> rotated(Angle rotation) const;
 	Rect<T> moved(Vec2<T> movement) const;
 	Rect<T> grown(Vec2<T> growth) const;
 	Rect<T> mirroredHorizontal() const;

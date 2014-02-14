@@ -26,7 +26,7 @@ void RenderContext::loadDefaults()
 	Scale     = Vec2F(+1.0f, +1.0f);
 	Alignment = Vec2F(+0.5f, +0.5f);
 	CameraPos = Vec2F(0, 0);
-	Rotation  = 0.0f;
+	Rotation  = 0_turn;
 	LastBoundTexture = 0;
 }
 

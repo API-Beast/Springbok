@@ -5,7 +5,6 @@
 
 #pragma once
 
-#include <Springbok/Math/Radian.h>
 #include <ostream>
 
 template<typename T>
@@ -47,10 +46,7 @@ public:
 	
 	constexpr float  getLength() const;  //!< Returns the \c length of this vector. This is the distance to Vec2(0, 0).
 	Vec2<T> normalized() const;          //!< Returns the normalized version of \c this. A normalized vector (also called unit vector) has a length of 1 or 0.
-	
-	constexpr Radian getAngle(Vec2<T> up=Vec2<T>(0, -1.f)) const;     //!< Returns the the angle difference between the direction of \c this and \a up.
-	Vec2<T> rotated(Radian angle, Vec2<T> up=Vec2<T>(0, -1.f)) const; //!< Returns \c this rotated by \a angle, whereas the angle is relative to the \a up unit vector.
-	
+
 	constexpr float dot(Vec2<T> other) const; //!< Returns the dot product between \c this and \c other.
 	
 	/*Vec2<T> projected(Vec2<T> line) const; //!< Project this two dimensional vector onto \a axis. @return The projected vector in the 2D space. */// <- Superflucious?

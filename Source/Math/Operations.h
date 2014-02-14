@@ -10,7 +10,6 @@
 #endif
 
 #include <cmath>
-#include "Radian.h"
 
 // Get rid of the cmath constants
 #ifdef GET_RID_OF_CONSTANTS
@@ -84,16 +83,6 @@ constexpr T BoundBy(T lowerBound, T value, T upperBound)
 	return (value < lowerBound) ? lowerBound : ((upperBound < value) ? upperBound : value);
 };
 
-constexpr float Sin(const Radian r)
-{
-	return std::sin(r);
-}
-
-constexpr float Cos(const Radian r)
-{
-	return std::cos(r);
-}
-
 template<typename T>
 constexpr T Abs(const T val)
 {
@@ -104,24 +93,6 @@ template<typename T>
 constexpr int Sign(const T val)
 {
 	return (val > T()) ? 1 : -1;
-}
-
-template<typename T>
-constexpr const Radian Atan2(const T a, const T b)
-{
-	return std::atan2(a, b);
-}
-
-template<typename T>
-constexpr const Radian Acos(const T A)
-{
-	return std::acos(A);
-}
-
-template<typename T>
-constexpr const Radian Asin(const T A)
-{
-	return std::asin(A);
 }
 
 template<typename A, typename B>

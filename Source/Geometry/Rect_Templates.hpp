@@ -45,11 +45,11 @@ void Rect<T>::set(T x, T y, T width, T height)
 };
 
 template<typename T>
-Rect<T> Rect<T>::rotated(Radian rotation) const
+Rect<T> Rect<T>::rotated(Angle rotation) const
 {
 	Rect<T> copy = *this;
 	for(Vec2<T>& point : copy.Points)
-		point = point.rotated(rotation);
+		point = rotation.rotateVec(point);
 	return copy;
 };
 

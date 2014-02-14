@@ -5,9 +5,9 @@
 
 #pragma once
 
+#include <Springbok/Geometry/Angle.h>
 #include <Springbok/Geometry/Vec2.h>
 #include <Springbok/Geometry/Rect.h>
-#include <Springbok/Math/Radian.h>
 
 #include "Color.h"
 
@@ -22,11 +22,11 @@ public:
 		Multiplicative
 	};
 public:
-	Vec2I  Offset    = Vec2I(0, 0);
-	Vec2F  Scale     = Vec2F(+1.0f, +1.0f);
-	Vec2F  Alignment = Vec2F(+0.5f, +0.5f);
-	Vec2F  CameraPos = Vec2F(0, 0);
-	Radian Rotation  = 0.0f;
+	Vec2I Offset    = Vec2I(0, 0);
+	Vec2F Scale     = Vec2F(+1.0f, +1.0f);
+	Vec2F Alignment = Vec2F(+0.5f, +0.5f);
+	Vec2F CameraPos = Vec2F(0, 0);
+	Angle Rotation  = 0.0_turn;
 	static unsigned LastBoundTexture;
 public:
 //!@name Static

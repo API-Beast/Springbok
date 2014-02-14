@@ -6,37 +6,38 @@
 #include "Angle.h"
 #include <Springbok/Math/Operations.h>
 
-Vec2F Angle::toDirection(Vec2F up) const
+Vec2F Angle::toDirection() const
 {
-	return up.rotated(*this);
+	return Vec2F(sin(), -cos());
+}
+
+Vec2F Angle::rotateVec(Vec2F vec) const
+{
+	float length = vec.getLength();
+	Angle angle = Angle(vec) + *this;
+	return Vec2F(length * angle.sin(), length * -angle.cos());
 }
 
 float Angle::toDegree() const
 {
-	return Data * 360;
+	return Data / Tau * 360;
 }
 
 void Angle::sanitize()
 {
-	Data = PositiveModulo(Data, 1.f);
-	if(Data > 0.5f)
-		Data -= 1.f;
+	Data = PositiveModulo(Data, Tau);
+	if(Data > PI)
+		Data -= Tau;
 }
 
-Angle::Angle(Radian value)
+Angle::Angle(Vec2F vec, Vec2F up)
 {
-	Data = value / Tau;
-	sanitize();
+	*this = (Atan2(vec.Y, vec.X) - Atan2(up.Y, up.X));
 }
 
 Angle::operator float() const
 {
 	return Data;
-}
-
-Angle::operator Radian() const
-{
-	return Data * Tau;
 }
 
 Angle Angle::operator+(Angle value) const
@@ -122,9 +123,14 @@ bool Angle::operator>=(Angle other) const
 	return *this < other || *this == other;
 }
 
-Radian Angle::toRadians() const
+float Angle::toRadians() const
 {
-	return Data * Tau;
+	return Data;
+}
+
+float Angle::toTurn() const
+{
+	return Data / Tau;
 }
 
 Angle Angle::FromBooleanDirectionMatrix(bool up, bool down, bool right, bool left)
@@ -142,6 +148,15 @@ Angle Angle::FromBooleanDirectionMatrix(bool up, bool down, bool right, bool lef
 
 std::ostream& operator<<(std::ostream& stream, const Angle obj)
 {
-	return stream << (obj.Data * 360) << "°";
+	return stream << (obj.toDegree()) << "°";
 };
 
+Angle operator*(float value, Angle angle)
+{
+	return angle * value;
+}
+
+Angle operator/(float value, Angle angle)
+{
+	return angle / value;
+}
