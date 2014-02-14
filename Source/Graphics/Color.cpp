@@ -39,7 +39,7 @@ ColorHSY::operator ColorRGB() const
 
 ColorHSY ColorHSY::tint(const TintHSY& t) const
 {
-	return {Hue + t.HueShift, BoundBy(0.f, Saturation * t.SaturationMult + t.SaturationAdd, 1.f), BoundBy(0.f, Luma * t.LumaMult + t.LumaAdd, 1.f) };
+	return ColorHSY{Hue + t.HueShift, BoundBy(0.f, Saturation * t.SaturationMult + t.SaturationAdd, 1.f), BoundBy(0.f, Luma * t.LumaMult + t.LumaAdd, 1.f) };
 }
 
 ColorRGB ColorRGB::operator+(ColorRGB other) const

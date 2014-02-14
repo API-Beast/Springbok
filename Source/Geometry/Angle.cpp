@@ -13,112 +13,103 @@ Vec2F Angle::toDirection(Vec2F up) const
 
 float Angle::toDegree() const
 {
-	return angle * 360;
+	return Data * 360;
 }
 
-Angle::Angle(float value)
+void Angle::sanitize()
 {
-	angle = PositiveModulo(value, 1.f);
+	Data = PositiveModulo(Data, 1.f);
+	if(Data > 0.5f)
+		Data -= 1.f;
 }
 
 Angle::Angle(Radian value)
 {
-	float val=value / Tau;
-	angle = PositiveModulo(val, 1.f);
+	Data = value / Tau;
+	sanitize();
 }
 
 Angle::operator float() const
 {
-	return angle;
+	return Data;
 }
 
 Angle::operator Radian() const
 {
-	return angle * Tau;
+	return Data * Tau;
 }
 
-Angle Angle::operator+(float value) const
+Angle Angle::operator+(Angle value) const
 {
-	return PositiveModulo(angle + value, 1.f);
+	return Angle(Data + value.Data);
 }
 
-Angle Angle::operator-(float value) const
+Angle Angle::operator-(Angle value) const
 {
-	return PositiveModulo(angle - value, 1.f);
+	return Angle(Data - value.Data);
 }
 
-float Angle::operator*(float value) const
+Angle Angle::operator*(float value) const
 {
-	return angle * value;
+	return Angle(Data * value);
 }
 
-float Angle::operator/(float value) const
+Angle Angle::operator/(float value) const
 {
-	return angle / value;
+	return Angle(Data / value);
 }
 
-Angle& Angle::operator+=(float value)
+Angle& Angle::operator+=(Angle value)
 {
-	angle += value;
-	angle = PositiveModulo(angle, 1.f);
+	Data += value.Data;
+	sanitize();
 	return *this;
 }
 
-Angle& Angle::operator-=(float value)
+Angle& Angle::operator-=(Angle value)
 {
-	angle -= value;
-	angle = PositiveModulo(angle, 1.f);
+	Data -= value.Data;
+	sanitize();
 	return *this;
 }
 
 Angle& Angle::operator*=(float value)
 {
-	angle *= value;
-	angle = PositiveModulo(angle, 1.f);
+	Data *= value;
+	sanitize();
 	return *this;
 }
 
 Angle& Angle::operator/=(float value)
 {
-	angle /= value;
-	angle = PositiveModulo(angle, 1.f);
+	Data /= value;
+	sanitize();
 	return *this;
 }
 
 Angle Angle::operator-() const
 {
-	return angle+0.5;
-}
-
-float Angle::difference(Angle other) const
-{
-	if(other.angle < angle) return -other.difference(*this);
-	float differenceA = other.angle - angle;
-	float differenceB = 1 - differenceA;
-	if(differenceA > differenceB)
-		return -differenceB;
-	else
-		return differenceA;
+	return Angle(-Data);
 }
 
 bool Angle::operator<(Angle other) const
 {
-	return difference(other) > 0.f && other.angle != this->angle;
+	return Angle(this->Data - other.Data).Data < 0.f;
 }
 
 bool Angle::operator>(Angle other) const
 {
-	return difference(other) < 0.f && other.angle != this->angle;
+	return Angle(this->Data - other.Data).Data > 0.f;
 }
 
 bool Angle::operator==(Angle other) const
 {
-	return this->angle == other.angle;
+	return this->Data == other.Data;
 }
 
 bool Angle::operator!=(Angle other) const
 {
-	return this->angle != other.angle;
+	return this->Data != other.Data;
 }
 
 bool Angle::operator<=(Angle other) const
@@ -131,37 +122,26 @@ bool Angle::operator>=(Angle other) const
 	return *this < other || *this == other;
 }
 
-Angle Angle::FromDegree(float degree)
-{
-	return degree / 360;
-}
-
-Angle Angle::FromRadians(float radians)
-{
-	return radians / Tau;
-}
-
 Radian Angle::toRadians() const
 {
-	return angle * Tau;
-}
-
-Angle Angle::average(Angle other, float factor) const
-{
-	//if(other.angle > this->angle) return other.average(*this, 1-factor);
-	float diff = difference(other);
-	return (*this) + diff*factor;
+	return Data * Tau;
 }
 
 Angle Angle::FromBooleanDirectionMatrix(bool up, bool down, bool right, bool left)
 {
-	if(up   && left ) return 0.875f;
-	if(up   && right) return 0.125f;
-	if(down && left ) return 0.625f;
-	if(down && right) return 0.375f;
-	if(down )         return 0.50f;
-	if(up   )         return 0.0f;
-	if(left )         return 0.75f;
-	if(right)         return 0.25f;
-	return 0.0f;
+	if(up   && left ) return - 45_deg;
+	if(up   && right) return   45_deg;
+	if(down && left ) return -135_deg;
+	if(down && right) return  135_deg;
+	if(down )         return  180_deg;
+	if(up   )         return    0_deg;
+	if(left )         return - 90_deg;
+	if(right)         return   90_deg;
+	return 0.0_deg;
 }
+
+std::ostream& operator<<(std::ostream& stream, const Angle obj)
+{
+	return stream << (obj.Data * 360) << "°";
+};
+

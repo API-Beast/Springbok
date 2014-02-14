@@ -41,7 +41,7 @@ typedef ColorRGB Color; /**< @related ColorRGB */
 /** A color in a Hue/Saturation/Luma color space. This is the a very convenient and predictable color space for generating patterns of colors. */
 struct ColorHSY
 {
-	ColorHSY(float h, float s, float y):Hue(h),Saturation(s),Luma(y){};
+	ColorHSY(Angle h, float s, float y):Hue(h),Saturation(s),Luma(y){};
 	/** The Hue of the color. \c 0.00 is Red, \c 0.33 is Blue, \c 0.66 is Green and \c 1.00 is Red again. */
 	Angle Hue;
 	/** The Saturation of the color. \c 0.0 will make the color look Grey, \c 1.0 will make the color look vibrant. */
@@ -55,7 +55,7 @@ struct ColorHSY
 
 struct TintHSY
 {
-	Angle HueShift = 0.0f;
+	Angle HueShift = 0.0_turn;
 	float SaturationMult = 1.0f;
 	float SaturationAdd  = 0.0f;
 	float LumaMult = 1.0f;

@@ -19,6 +19,7 @@
 #include <type_traits>
 #include <locale>
 #include <iomanip>
+#include <limits>
 
 namespace SST
 {
@@ -89,7 +90,8 @@ public:
 template <typename T>
 inline void decorateVal(std::ostream& str, T val)
 {
-	str << val;
+	str.precision(std::numeric_limits<float>::digits10+2);
+	str << std::fixed << val;
 }
 
 template <>
@@ -177,14 +179,14 @@ typename std::enable_if<!std::is_convertible<T, To>::value, T>::type ToType(cons
 	return value;
 };
 
+bool AlmostEqual(float A, float B, int maxUlps);
 
-#define SST_ABS(a) (((a)<(0.f))?-(a):a)
 #define SST_S_ASSERT(x) if(!(x)) throw SST::AssertFailure(#x , __FILE__, __PRETTY_FUNCTION__, __LINE__)
 #define SST_S_ASSERT_EQ(x, y) { auto ass__a = (x); auto ass__b = (y); if(!(ass__a == ass__b)) throw SST::AssertFailure( std::string(#x " == " #y), SST::ToString(SST::ToType<decltype(ass__b)>(ass__a)) + " != " + SST::ToString(ass__b), __FILE__, __PRETTY_FUNCTION__, __LINE__); }
 #define SST_M_ASSERT_START { std::vector<SST::AssertFailure> __asserts__
 #define SST_M_ASSERT(x) if(!(x)) __asserts__.push_back(SST::AssertFailure(#x , __FILE__, __PRETTY_FUNCTION__, __LINE__));
 #define SST_M_ASSERT_EQ(x, y) { auto ass__a = (x); auto ass__b = (y); if(!(ass__a == ass__b)) __asserts__.push_back(SST::AssertFailure( std::string(#x " == " #y), SST::ToString(SST::ToType<decltype(ass__b)>(ass__a)) + " != " + SST::ToString(ass__b), __FILE__, __PRETTY_FUNCTION__, __LINE__)); }
-#define SST_M_ASSERT_EQf(x, y) { auto ass__a = (x); auto ass__b = (y); if(SST_ABS(ass__a - ass__b) > 0.0001f) __asserts__.push_back(SST::AssertFailure( std::string(#x " == " #y), SST::ToString(SST::ToType<decltype(ass__b)>(ass__a)) + " != " + SST::ToString(ass__b), __FILE__, __PRETTY_FUNCTION__, __LINE__)); }
+#define SST_M_ASSERT_EQf(x, y) { auto ass__a = (x); auto ass__b = (y); if(!SST::AlmostEqual(float(ass__a), float(ass__b), 20)) __asserts__.push_back(SST::AssertFailure( std::string(#x " == " #y), SST::ToString(SST::ToType<decltype(ass__b)>(ass__a)) + " != " + SST::ToString(ass__b), __FILE__, __PRETTY_FUNCTION__, __LINE__)); }
 #define SST_M_ASSERT_END if(!__asserts__.empty()) throw __asserts__; }
 
 }

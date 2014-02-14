@@ -9,9 +9,9 @@
 #include <Springbok/Math/Operations.h>
 
 template<typename T>
-constexpr Vec2<T>::operator bool() const
+constexpr bool Vec2<T>::isNull() const
 {
-	return X || Y;
+	return !X && !Y;
 }
 
 template<typename T>
@@ -25,7 +25,6 @@ const T& Vec2<T>::operator[](int i) const
 {
 	return Val[i];
 }
-
 
 template<typename T>
 constexpr Vec2<T> Vec2<T>::operator-() const
