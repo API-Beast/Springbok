@@ -40,6 +40,44 @@ namespace
 			ang += Angle::FromTurn(1.0/3.85);
 		SST_M_ASSERT_ST(Abs(ang), 0.01_turn);
 		
+		Angle angA = 0_turn;
+		Angle angB;
+		for(int i = 0; i < 5; ++i)
+		{
+			angB = angA;
+			angA -= 0.4_turn;
+			SST_M_ASSERT_SIM(angB - angA, +0.4_turn, 0.001_turn);
+		}
+		
+		angA = 0_turn;
+		angB;
+		for(int i = 0; i < 5; ++i)
+		{
+			angB = angA;
+			angA += 0.4_turn;
+			SST_M_ASSERT_SIM(angB - angA, -0.4_turn, 0.001_turn);
+		}
+		
+		angA = 0_turn;
+		angB = 0_turn;
+		Angle difference = 0_turn;
+		for(int i = 0; i < 5; ++i)
+		{
+			angA += 0.4_turn;
+			difference -= 0.4_turn;
+			SST_M_ASSERT_SIM(angB - angA, difference, 0.001_turn);
+		}
+
+		angA = 0_turn;
+		angB = 0_turn;
+		difference = 0_turn;
+		for(int i = 0; i < 5; ++i)
+		{
+			angA -= 0.4_turn;
+			difference += 0.4_turn;
+			SST_M_ASSERT_SIM(angB - angA, difference, 0.001_turn);
+		}
+		
 		SST_M_ASSERT_END;
 	}
 	

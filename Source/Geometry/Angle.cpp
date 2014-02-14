@@ -93,6 +93,11 @@ Angle Angle::operator-() const
 	return Angle(-Data);
 }
 
+Angle Angle::operator+() const
+{
+	return Angle(+Data);
+}
+
 bool Angle::operator<(Angle other) const
 {
 	return Angle(this->Data - other.Data).Data < 0.f;
