@@ -25,7 +25,7 @@ public:
 	void insert(float position, const T& value);
 	void clear(){ Keyframes.clear(); };
 private:
-	Interpolation InterpolationMethod = Interpolation::Linear;
+	Interpolation InterpolationMethod = Interpolation::Cubic;
 	EasingFunctionBase* EasingFunction = nullptr;
 	Map<Keyframe, float, &Keyframe::Time> Keyframes;
 };
