@@ -19,10 +19,12 @@ struct Texture
 	Texture(const Texture&) = delete;
 	virtual ~Texture();
 	
+	RectF calcTextureCoordinates(Vec2I pos, Vec2I size);
+	
 	bool Valid = false;
 	unsigned int Index = 0;
-	int Width, Height;
-	int TextureWidth, TextureHeight;
+	Vec2I ImageSize;
+	Vec2I TextureSize;
   RectF TextureCoordinates;
 };
 

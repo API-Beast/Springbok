@@ -21,6 +21,11 @@ namespace
   };
 }
 
+RectF Texture::calcTextureCoordinates(Vec2I pos, Vec2I size)
+{
+	return RectF(pos / Vec2F(TextureSize), ImageSize / Vec2F(TextureSize));
+}
+
 Texture::Texture(const std::string& filename)
 {
 	std::vector<unsigned char> bitmap;
@@ -47,21 +52,19 @@ Texture::Texture(const std::string& filename)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
 	
-	Width  = width;
-	Height = height;
-	TextureWidth  = makePowerOfTwo(Width );
-	TextureHeight = makePowerOfTwo(Height);
+	ImageSize = Vec2I{width, height};
+	TextureSize = Vec2I{makePowerOfTwo(width), makePowerOfTwo(height)};
 	
-	if(TextureWidth != Width || TextureHeight != Height)
+	if(!(TextureSize == ImageSize))
 	{
-		std::vector<uint32_t> empty(TextureWidth*TextureHeight, 0);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, TextureWidth, TextureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, empty.data());
-		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, Width, Height, GL_RGBA, GL_UNSIGNED_BYTE, bitmap.data());
+		std::vector<uint32_t> empty(TextureSize.X * TextureSize.Y, 0);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, TextureSize.X, TextureSize.Y, 0, GL_RGBA, GL_UNSIGNED_BYTE, empty.data());
+		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, ImageSize.X, ImageSize.Y, GL_RGBA, GL_UNSIGNED_BYTE, bitmap.data());
 	}
 	else
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, TextureWidth, TextureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, bitmap.data());
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, TextureSize.X, TextureSize.Y, 0, GL_RGBA, GL_UNSIGNED_BYTE, bitmap.data());
 	
-	TextureCoordinates = RectF(0.f, 0.f, Width / float(TextureWidth), Height / float(TextureHeight));
+	TextureCoordinates = calcTextureCoordinates(0, ImageSize);
 	
 	assert(!glGetError());
 	
@@ -73,12 +76,10 @@ Texture::Texture(const std::string& filename)
 Texture::Texture(Texture&& other)
 {
 	this->Valid  = other.Valid;
-	this->Width  = other.Width;
-	this->Height = other.Height;
+	this->ImageSize = other.ImageSize;
 	this->Index  = other.Index;
 	this->TextureCoordinates = other.TextureCoordinates;
-	this->TextureWidth       = other.TextureWidth;
-	this->TextureHeight      = other.TextureHeight;
+	this->TextureSize = other.TextureSize;
 	
 	other.Valid  = false;
 }

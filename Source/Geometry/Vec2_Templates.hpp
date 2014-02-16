@@ -39,6 +39,18 @@ constexpr float Vec2<T>::getLength() const
 }
 
 template<typename T>
+Vec2<T> Vec2<T>::lowerBound(Vec2<T> other) const
+{
+	return Vec2<T>{Min(X, other.X), Min(Y, other.Y)};
+}
+
+template<typename T>
+Vec2<T> Vec2<T>::upperBound(Vec2<T> other) const
+{
+	return Vec2<T>{Max(X, other.X), Max(Y, other.Y)};
+}
+
+template<typename T>
 Vec2<T> Vec2<T>::normalized() const
 {
 	float length = getLength();

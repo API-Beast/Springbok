@@ -16,6 +16,16 @@ Image::Image(const std::string& filename)
 	lazyLoad();
 }
 
+Image::Image(const Image& other, Vec2I position, Vec2I size)
+{
+	mTexture = other.mTexture;
+	mPath = other.mPath;
+	mOffset = other.mOffset + position;
+	mSize = size.lowerBound(other.mSize - position);
+	
+	mTexCoords = mTexture->calcTextureCoordinates(mOffset, mSize);
+}
+
 void Image::draw(const RenderContext& r)
 {
 	lazyLoad();
@@ -52,6 +62,11 @@ void Image::drawStretched(Vec2< int > size, const RenderContext& r)
   glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, indices);
 }
 
+Image Image::cut(Vec2I position, Vec2I size)
+{
+	return Image(*this, position, size);
+}
+
 Vec2< int > Image::getSize()
 {
 	lazyLoad();
@@ -70,5 +85,5 @@ void Image::lazyLoad()
 		return;
 	
 	mTexCoords = mTexture->TextureCoordinates;
-	mSize = Vec2<int>(mTexture->Width, mTexture->Height);
+	mSize = mTexture->ImageSize;
 }

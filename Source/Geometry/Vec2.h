@@ -40,6 +40,7 @@ public:
 	T& operator[](int x);
 	const T& operator[](int x) const;
 	template<typename P> constexpr bool operator==(const Vec2<P>& other){ return X == other.X && Y == other.Y;  };
+	//template<typename P> constexpr bool operator!=(const Vec2<P>& other){ return X != other.X || Y != other.Y;  };
 	template<typename P> constexpr bool operator>(const Vec2<P>& other){ return X > other.X || Y > other.Y;  };
 	template<typename P> constexpr bool operator<(const Vec2<P>& other){ return X < other.X && Y < other.Y;  };
 	constexpr Vec2<T> operator-() const; //!< Returns the opposite of this vector. Equals Vec2(-X, -Y).
@@ -49,6 +50,9 @@ public:
 
 	constexpr float dot(Vec2<T> other) const; //!< Returns the dot product between \c this and \c other.
 	
+	Vec2<T> lowerBound(Vec2<T> other) const;
+	Vec2<T> upperBound(Vec2<T> other) const;
+	
 	/*Vec2<T> projected(Vec2<T> line) const; //!< Project this two dimensional vector onto \a axis. @return The projected vector in the 2D space. */// <- Superflucious?
 	float projectAxis(Vec2<T> axis) const; //!< Project this two dimensional vector onto \a axis. @return The position of the vector on \a axis.
 	
@@ -56,9 +60,9 @@ public:
 };
 
 #define def_operator(OPER)\
-template<typename T, typename P> constexpr auto operator OPER(const Vec2<T>& vec, const Vec2<P>& val) -> Vec2<decltype(vec.X OPER val.X)> { return Vec2<T>( vec.X OPER val.X, vec.Y OPER val.Y); }\
-template<typename T, typename P> constexpr auto operator OPER(const Vec2<T>& vec, const P& val) -> Vec2<decltype(vec.X OPER val)> { return Vec2<T>( vec.X OPER val, vec.Y OPER val); }\
-template<typename T, typename P> constexpr auto operator OPER(const P& val, const Vec2<T>& vec) -> Vec2<decltype(vec.X OPER val)> { return Vec2<T>( vec.X OPER val, vec.Y OPER val); }
+template<typename T, typename P> constexpr auto operator OPER(const Vec2<T>& vec, const Vec2<P>& val) -> Vec2<decltype(vec.X OPER val.X)> { return {vec.X OPER val.X, vec.Y OPER val.Y}; }\
+template<typename T, typename P> constexpr auto operator OPER(const Vec2<T>& vec, const P& val) -> Vec2<decltype(vec.X OPER val)> { return {vec.X OPER val, vec.Y OPER val}; }\
+template<typename T, typename P> constexpr auto operator OPER(const P& val, const Vec2<T>& vec) -> Vec2<decltype(vec.X OPER val)> { return {vec.X OPER val, vec.Y OPER val}; }
 def_operator(+);
 def_operator(-);
 def_operator(/);
