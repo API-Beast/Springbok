@@ -27,6 +27,9 @@ GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
 	glfwMakeContextCurrent(d->Window);
 	glfwSetInputMode(d->Window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 	
+	if(flags & NoVSync);
+	else glfwSwapInterval(1);
+	
 	int x, y;
 	glfwGetWindowSize(d->Window, &x, &y);
 	glLoadIdentity();
