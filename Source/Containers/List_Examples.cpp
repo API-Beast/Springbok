@@ -6,6 +6,7 @@ namespace
 	
 void list()
 {
+	SST_M_ASSERT_START;
 	int memoryArea[5];
 	memoryArea[4] = 999;
 	List<int> b(memoryArea, 4);
@@ -13,14 +14,17 @@ void list()
 	b.pushBack(1);
 	b.pushBack(2);
 	b.pushBack(3);
+	SST_M_ASSERT_EQ(b.UsedLength, 4);
 	
 	bool catched = false;
 	try{ b.pushBack(4);}
 	catch(AllocatedMemoryFull e){ catched = true; }
 	b.reallocate(5);
+	SST_M_ASSERT_EQ(b.UsedLength, 4);
 	b.pushBack(4);
+	SST_M_ASSERT_EQ(b.UsedLength, 5);
 	
-	SST_M_ASSERT_START;
+	
 	SST_M_ASSERT_EQ(b[0], 0);
 	SST_M_ASSERT_EQ(b[1], 1);
 	SST_M_ASSERT_EQ(b[2], 2);
@@ -56,12 +60,15 @@ void pop()
 
 void initializer()
 {
-	List<std::string> a{"0", "9", "1"};
+	List<std::string> a{"0", "9", "1", "12", "15"};
 	
 	SST_M_ASSERT_START;
 	SST_M_ASSERT_EQ(a[0], "0");
 	SST_M_ASSERT_EQ(a[1], "9");
 	SST_M_ASSERT_EQ(a[2], "1");
+	SST_M_ASSERT_EQ(a[3], "12");
+	SST_M_ASSERT_EQ(a[4], "15");
+	SST_M_ASSERT_EQ(a.UsedLength, 5);
 	SST_M_ASSERT_END;
 }
 
@@ -102,20 +109,20 @@ struct Object
 void podMap()
 {
 	Map<Object, char, &Object::Key> objects(0);
-	objects.insert({  0, 'F'});
-	objects.insert({ 90, 'A'});
-	objects.insert({100, 'Y'});
-	objects.insert({100, 'Z'});
+	objects.insert({  1, 'F'});
+	objects.insert({  2, 'A'});
+	objects.insert({  3, 'Y'});
+	objects.insert({  4, 'Z'});
 	
 	SST_M_ASSERT_START;
 	SST_M_ASSERT_EQ(objects['F'].Key, 'F');
 	SST_M_ASSERT_EQ(objects['A'].Key, 'A');
 	SST_M_ASSERT_EQ(objects['Y'].Key, 'Y');
 	SST_M_ASSERT_EQ(objects['Z'].Key, 'Z');
-	SST_M_ASSERT_EQ(objects['F'].ID, 0);
-	SST_M_ASSERT_EQ(objects['A'].ID, 90);
-	SST_M_ASSERT_EQ(objects['Y'].ID, 100);
-	SST_M_ASSERT_EQ(objects['Z'].ID, 100);
+	SST_M_ASSERT_EQ(objects['F'].ID, 1);
+	SST_M_ASSERT_EQ(objects['A'].ID, 2);
+	SST_M_ASSERT_EQ(objects['Y'].ID, 3);
+	SST_M_ASSERT_EQ(objects['Z'].ID, 4);
 	SST_M_ASSERT_EQ(objects['F'].Health, 100);
 	SST_M_ASSERT_EQ(objects['A'].Health, 100);
 	SST_M_ASSERT_EQ(objects['Y'].Health, 100);
@@ -165,5 +172,6 @@ SST::SimpleTest GSLpb("Generic/List::popBack", &pop,  SST::Required);
 SST::SimpleTest GSLil("Generic/List::initializer", &initializer,  SST::Required);
 SST::SimpleTest GSMpod("Generic/Map::plainOldData", &podMap,  SST::Required);
 SST::SimpleTest GSMc("Generic/Map::complex", &map,  SST::Required);
+SST::SimpleTest GSMil("Generic/Map::maxInitializer", &mapInitializer,  SST::Required);
 
 }

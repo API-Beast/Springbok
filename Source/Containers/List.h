@@ -20,18 +20,31 @@ public:
 	List(T (&array)[ArraySize]);
 	List(int length);
 	List(const std::initializer_list<T>& list);
+	List(const List<T>& other){ *this = other; };
+	List(List<T>&& other){ *this = other; };
 	List();
 	~List();
 	
+	List<T>& operator=(const List<T>& other);
+	List<T>& operator=(List<T>&& other);
+	
 	T& operator[](int index){ return *(Memory+index); };
+	T operator[](int index) const{ if((Memory+index) < end()) return *(Memory+index); return T(); };
+	
 	T& pushBack(const T& value);
 	T   popBack();
 	
 	T&  back(int i=0){ return operator[](UsedLength - 1 - i); };
 	T& front(int i=0){ return operator[](i); };
 	
+	const T&  back(int i=0) const { return operator[](UsedLength - 1 - i); };
+	const T& front(int i=0) const { return operator[](i); };
+	
 	T* begin(){ return Memory; };
 	T*   end(){ return Memory+UsedLength; };
+	
+	const T* begin() const{ return Memory; };
+	const T*   end() const{ return Memory+UsedLength; };
 	
 	T quickRemove(int index); /// Changes element order
 	
@@ -40,6 +53,8 @@ public:
 	
 	T& insert(int position, const T& value);
 	T& makeSpace(int position, int elements=1);
+	
+	void clear();
 protected:
 	void memMove(T* dst, const T* src, int length);
 public:
@@ -64,12 +79,13 @@ public:
 	Map(int length) : Data(length){};
 	Map() : Data(){};
 	T& operator[](const C& item);
-	template<typename X, X T::*member>
-	void findBy(const X& item){};
+	T operator[](const C& index) const;
 	T& insert(const T& t);
 	void sort();
-protected:
-	int findIndex(const C& item);
+	int findIndex(const C& item, int min, int max, int mid) const;
+	int findIndex(const C& item) const;
+	
+	void clear(){ Data.clear(); };
 public:
 	List<T> Data;
 };

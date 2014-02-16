@@ -5,36 +5,29 @@
 
 #pragma once
 
-#include <Springbok/Containers/SkipList.h>
-#include <Springbok/Containers/Associative.h>
+#include <Springbok/Containers/List.h>
 #include "Interpolation.h"
 
 template<typename T>
 class KeyframeList
 {
 public:
-	class ReferencePoint
-	{
-	public:
-		ReferencePoint() = default;
-		void insert(const T& value);
-		void remove();
-		operator T() const;
-
-		float Index;
-		typename SkipList< Associative<float, T> >::SearchResult NodePath;
-		KeyframeList<T>* Parent = nullptr;
-	};
+	struct Keyframe{ float Time; T Value;  };
 public:
+	KeyframeList() = default;
+	KeyframeList(const std::initializer_list<Keyframe>& list) : Keyframes(list){};
+	KeyframeList(const T& value){ Keyframes.insert({0.0f, value}); };
 	~KeyframeList();
 	template<typename E>
 	void setInterpolationMethod(Interpolation interpolation, const E& easingFunction);
-	ReferencePoint operator[](float position);
+	void setInterpolationMethod(Interpolation interpolation);
+	T operator[](float position) const;
+	void insert(float position, const T& value);
+	void clear(){ Keyframes.clear(); };
 private:
 	Interpolation InterpolationMethod = Interpolation::Linear;
 	EasingFunctionBase* EasingFunction = nullptr;
-	SkipList< Associative<float, T> > Keyframes;
-	friend ReferencePoint;
+	Map<Keyframe, float, &Keyframe::Time> Keyframes;
 };
 
 #include "KeyframeList_Templates.hpp"

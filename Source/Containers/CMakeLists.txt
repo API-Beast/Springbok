@@ -1,4 +1,4 @@
-set(H_FILES Associative.h Ringbuffer.h List.h List_Templates.hpp SkipList.h SkipList_Templates.hpp)
+set(H_FILES Associative.h Ringbuffer.h List.h List_Templates.hpp SkipList.h SkipList_Templates.hpp View.h View_Templates.hpp)
 set(CPP_FILES dummy.cpp)
 add_library(sbContainers OBJECT ${H_FILES} ${CPP_FILES})
 

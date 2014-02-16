@@ -9,51 +9,35 @@
 #include "Interpolation.h"
 
 template<typename T>
-KeyframeList<T>::ReferencePoint::operator T() const
+T KeyframeList<T>::operator[](float position) const
 {
-	auto node = NodePath.BaseNode;
-	auto nextNode = node->Next;
-	auto prevNode = node->Previous;
-	auto nextNextNode = node;
-	if(nextNode == nullptr)
-		nextNode = node;
-	else
-		nextNextNode = nextNode->Next;
-	if(prevNode == nullptr)
-		prevNode = node;
-	if(nextNextNode == nullptr)
-		nextNextNode = node;
+	int index = Keyframes.findIndex(position);
 	
-	auto prev     = prevNode->Data;
-	auto start    = node->Data;
-	auto end      = nextNode->Data;
-	auto next     = nextNextNode->Data;
-	return Interpolate(Parent->InterpolationMethod, prev.Value, start.Value, end.Value, next.Value, start.Key, end.Key, this->Index, *Parent->EasingFunction);
-}
+	// For linear interpolation
+	Keyframe start = Keyframes.Data[index];
+	Keyframe end = start;
+	
+	// For cubic interpolation
+	Keyframe prev = start;
+	Keyframe next = start;
+	
+	if(index + 1 < Keyframes.Data.UsedLength)
+		end = Keyframes.Data[index+1];
+	if(index + 2 < Keyframes.Data.UsedLength)
+		next = Keyframes.Data[index+2];
+	if(index > 0)
+		prev = Keyframes.Data[index-1];
+	
+	if(start.Time == end.Time)
+		return start.Value;
+	
+	return Interpolate(InterpolationMethod, prev.Value, start.Value, end.Value, next.Value, start.Time, end.Time, position, *EasingFunction);
+};
 
 template<typename T>
-void KeyframeList<T>::ReferencePoint::insert(const T& value)
-{;
-	if(!NodePath.hasFoundValue())
-		NodePath.insert();
-	NodePath.BaseNode->Data.Value = value;
-}
-
-template<typename T>
-void KeyframeList<T>::ReferencePoint::remove()
-{;
-	if(NodePath.hasFoundValue())
-		NodePath.remove();
-}
-
-template<typename T>
-typename KeyframeList<T>::ReferencePoint KeyframeList<T>::operator[](float position)
+void KeyframeList<T>::insert(float position, const T& value)
 {
-	KeyframeList<T>::ReferencePoint retVal;
-	retVal.NodePath = Keyframes.findNode(position);
-	retVal.Index = position;
-	retVal.Parent = this;
-	return retVal;
+	Keyframes.insert({position, value});
 }
 
 template<typename T>
@@ -62,6 +46,12 @@ void KeyframeList<T>::setInterpolationMethod(Interpolation interpolation, const 
 {
 	InterpolationMethod = interpolation;
 	EasingFunction = new E(easingFunction);
+}
+
+template<typename T>
+void KeyframeList<T>::setInterpolationMethod(Interpolation interpolation)
+{
+	InterpolationMethod = interpolation;
 }
 
 template<typename T>

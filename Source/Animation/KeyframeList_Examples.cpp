@@ -7,25 +7,29 @@ namespace
 void basicUsage()
 {
 	KeyframeList<float> frames;
-	frames[0.00f].insert( 0.0f);
-	frames[0.50f].insert( 1.0f);
-	frames[1.00f].insert(10.0f);
-	
-	/*frames[0.80f].insert(18.0f);
-	// oops, we didn't want that keyframe, delete it again
-	frames[0.80f].remove();*/
-	
-	float valueA = frames[0.25f];
-	float valueB = frames[0.50f];
-	float valueC = frames[0.75f];
-	// valueA == 0.5f
-	// valueB == 1.0f
-	// valueC == 5.5f
+	frames.insert(0.0f,  0.0f);
+	frames.insert(0.5f,  1.0f);
+	frames.insert(1.0f, 10.0f);
 	
 	SST_M_ASSERT_START;
-	SST_M_ASSERT(valueA == 0.5f);
-	SST_M_ASSERT(valueB == 1.0f);
-	SST_M_ASSERT(valueC == 5.5f);
+	SST_M_ASSERT_EQ(frames[0.25f], 0.5f);
+	SST_M_ASSERT_EQ(frames[0.50f], 1.0f);
+	SST_M_ASSERT_EQ(frames[0.75f], 5.5f);
+	
+	KeyframeList<float> scale = 1.f;
+	scale.insert(0.25, 4.f);
+	scale.insert(0.75, 3.f);
+	scale.insert(1.00, 4.f);
+	
+	SST_M_ASSERT_EQ(scale[0.25], 4.0f);
+	SST_M_ASSERT_EQ(scale[0.50], 3.5f);
+	SST_M_ASSERT_EQ(scale[0.75], 3.0f);
+	
+	KeyframeList<float> fallback = 1.f;
+	SST_M_ASSERT_EQ(fallback[0.00f], 1.0f);
+	SST_M_ASSERT_EQ(fallback[0.25f], 1.0f);
+	SST_M_ASSERT_EQ(fallback[0.50f], 1.0f);
+	SST_M_ASSERT_EQ(fallback[0.75f], 1.0f);
 	SST_M_ASSERT_END;
 }
 
