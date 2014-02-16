@@ -7,6 +7,7 @@ namespace
 void basicUsage()
 {
 	KeyframeList<float> frames;
+	frames.setInterpolationMethod(Interpolation::Linear);
 	frames.insert(0.0f,  0.0f);
 	frames.insert(0.5f,  1.0f);
 	frames.insert(1.0f, 10.0f);
@@ -17,6 +18,7 @@ void basicUsage()
 	SST_M_ASSERT_EQ(frames[0.75f], 5.5f);
 	
 	KeyframeList<float> scale = 1.f;
+	scale.setInterpolationMethod(Interpolation::Linear);
 	scale.insert(0.25, 4.f);
 	scale.insert(0.75, 3.f);
 	scale.insert(1.00, 4.f);
