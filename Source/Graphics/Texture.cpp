@@ -23,7 +23,7 @@ namespace
 
 RectF Texture::calcTextureCoordinates(Vec2I pos, Vec2I size)
 {
-	return RectF(pos / Vec2F(TextureSize), ImageSize / Vec2F(TextureSize));
+	return RectF(pos / Vec2F(TextureSize), (size) / Vec2F(TextureSize));
 }
 
 Texture::Texture(const std::string& filename)

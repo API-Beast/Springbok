@@ -25,6 +25,8 @@ public:
 	Image(){};
 	void draw(const RenderContext& r);
 	void drawStretched(Vec2I size, const RenderContext& r);
+	void drawRepeated(const RenderContext& r);
+	void drawRepeated(const RenderContext& context, Vec2F clippingPos, Vec2F clippingSize);
 	Vec2<int> getSize();
 	Image cut(Vec2I position, Vec2I size);
 private:

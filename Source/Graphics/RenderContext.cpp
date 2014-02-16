@@ -56,6 +56,9 @@ RenderContext::RenderContext(const RenderContext& parent)
 	Alignment = mParent->Alignment;
 	CameraPos = mParent->CameraPos;
 	Rotation  = mParent->Rotation;
+	Parallaxity = mParent->Parallaxity;
+	RenderTargetOrigin = mParent->RenderTargetOrigin;
+	RenderTargetSize = mParent->RenderTargetSize;
 	mSetColor = mParent->mSetColor;
 	mSetAlpha = mParent->mSetAlpha;
 	mSetBlendingMode = mParent->mSetBlendingMode;
