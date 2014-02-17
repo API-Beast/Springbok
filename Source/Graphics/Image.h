@@ -28,6 +28,8 @@ public:
 	void drawRepeated(const RenderContext& r);
 	void drawRepeated(const RenderContext& context, Vec2F clippingPos, Vec2F clippingSize);
 	Vec2<int> getSize();
+	Vec2<int> getSize() const;
+	bool valid() const;
 	Image cut(Vec2I position, Vec2I size);
 private:
 	void lazyLoad();

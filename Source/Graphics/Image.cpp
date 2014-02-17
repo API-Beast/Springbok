@@ -103,10 +103,19 @@ Image Image::cut(Vec2I position, Vec2I size)
 }
 
 Vec2< int > Image::getSize()
-{
+{	
 	lazyLoad();
-	
 	return mSize;
+}
+
+Vec2< int > Image::getSize() const
+{	
+	return mSize;
+}
+
+bool Image::valid() const
+{
+	return mTexture && mTexture->Valid;
 }
 
 void Image::lazyLoad()
