@@ -124,7 +124,7 @@ void Image::lazyLoad()
 		if(mTexture->Valid)
 			return ;
 		
-	mTexture = ResourceManager::GetInstance()->getResource<Texture>(mPath, true);
+	mTexture = ResourceManager::GetInstance()->getResource<Texture>(mPath);
 	if(mTexture->Valid == false)
 		return;
 	
