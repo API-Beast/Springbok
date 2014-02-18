@@ -17,8 +17,8 @@ namespace Buttons
 	ButtonSpec Confirm(Keyboard, GLFW_KEY_SPACE, Keyboard, GLFW_KEY_X, Keyboard, GLFW_KEY_Q, Keyboard, GLFW_KEY_ENTER);
 	ButtonSpec Abort  (Keyboard, GLFW_KEY_E, Keyboard, GLFW_KEY_C);
 	
-	ButtonSpec ActionA(Keyboard, GLFW_KEY_X, Keyboard, GLFW_KEY_Q);
-	ButtonSpec ActionB(Keyboard, GLFW_KEY_C, Keyboard, GLFW_KEY_E);
+	ButtonSpec ActionA(Keyboard, GLFW_KEY_X, Keyboard, GLFW_KEY_E);
+	ButtonSpec ActionB(Keyboard, GLFW_KEY_C, Keyboard, GLFW_KEY_Q);
 	ButtonSpec ActionC(Keyboard, GLFW_KEY_V);
 	ButtonSpec ActionD(Keyboard, GLFW_KEY_B);
 	
