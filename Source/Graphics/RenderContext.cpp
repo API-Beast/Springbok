@@ -48,6 +48,12 @@ void RenderContext::setBlendingMode(RenderContext::BlendingMode mode)
 		glBlendFunc(GL_DST_COLOR, GL_ZERO);
 }
 
+RenderContext::RenderContext()
+{
+	setColor(Colors::White);
+	setBlendingMode(Default);
+}
+
 RenderContext::RenderContext(const RenderContext& parent)
 {
 	mParent = &parent;

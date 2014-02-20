@@ -37,7 +37,7 @@ public:
 	static void Setup2DEnvironment();
 ///@}
 public:
-	RenderContext()=default;
+	RenderContext();
 	RenderContext(const RenderContext& parent);
 	~RenderContext();
 	template<typename T>
