@@ -1,6 +1,6 @@
 find_package(OpenGL REQUIRED)
 
-set(H_FILES BitmapFont.h Color.h ColorPalette.h Image.h RenderContext.h Texture.h)
+set(H_FILES BitmapFont.h Color.h Image.h RenderContext.h Texture.h)
 set(CPP_FILES BitmapFont.cpp Color.cpp Image.cpp RenderContext.cpp Texture.cpp)
 
 include_directories(${OPENGL_INCLUDE_DIR})

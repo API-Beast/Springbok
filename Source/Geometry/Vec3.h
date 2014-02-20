@@ -74,4 +74,17 @@ using Vec3I = Vec3<int>;
 using Vec3U = Vec3<unsigned>;
 //! @}
 
+template<typename T> constexpr
+Vec3<T> Reorder(const Vec3<T>& vec, const Vec3I& elementOrder)
+{
+	return { vec[elementOrder[0]], vec[elementOrder[1]], vec[elementOrder[2]] };
+};
+
+static constexpr Vec3I XYZ = Vec3I(0, 1, 2);
+static constexpr Vec3I ZXY = Vec3I(2, 0, 1);
+static constexpr Vec3I YZX = Vec3I(1, 2, 0);
+static constexpr Vec3I ZYX = Vec3I(2, 1, 0);
+static constexpr Vec3I XZY = Vec3I(0, 2, 1);
+static constexpr Vec3I YXZ = Vec3I(1, 0, 2);
+
 #include "Vec3_Templates.hpp"
