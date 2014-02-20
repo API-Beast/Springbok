@@ -42,13 +42,13 @@ constexpr float Vec3<T>::getLength() const
 template<typename T>
 Vec3<T> Vec3<T>::lowerBound(Vec3<T> other) const
 {
-	return Vec3<T>{Min(X, other.X), Min(Y, other.Y), Min(Z, other.Z)};
+	return Vec3<T>{Max(X, other.X), Max(Y, other.Y), Max(Z, other.Z)};
 }
 
 template<typename T>
 Vec3<T> Vec3<T>::upperBound(Vec3<T> other) const
 {
-	return Vec3<T>{Max(X, other.X), Max(Y, other.Y), Max(Z, other.Z)};
+	return Vec3<T>{Min(X, other.X), Min(Y, other.Y), Min(Z, other.Z)};
 }
 
 template<typename T>

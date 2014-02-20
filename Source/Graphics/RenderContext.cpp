@@ -34,6 +34,7 @@ void RenderContext::setColor(const Color& color, float alpha)
 {
 	mSetColor = color;
 	mSetAlpha = alpha;
+	Color clipped = color.lowerBound(0.f).upperBound(1.f);
 	glColor4f(color[0], color[1], color[2], alpha);
 }
 
