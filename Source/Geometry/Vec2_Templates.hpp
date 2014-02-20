@@ -53,7 +53,7 @@ Vec2<T> Vec2<T>::upperBound(Vec2<T> other) const
 template<typename T>
 constexpr Vec2<T> Vec2<T>::normalized() const
 {
-	return (*this) / (getLength() || 1);
+	return getLength() > 0 ? ((*this) / getLength()) : Vec2<T>(0);
 }
 
 template<typename T>

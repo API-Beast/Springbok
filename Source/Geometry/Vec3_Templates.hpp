@@ -54,5 +54,5 @@ Vec3<T> Vec3<T>::upperBound(Vec3<T> other) const
 template<typename T>
 constexpr Vec3<T> Vec3<T>::normalized() const
 {
-	return (*this) / (getLength() || 1);
+	return getLength() > 0 ? ((*this) / getLength()) : Vec3<T>(0);
 }
