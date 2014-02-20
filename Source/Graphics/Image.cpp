@@ -21,7 +21,7 @@ Image::Image(const Image& other, Vec2I position, Vec2I size)
 	mTexture = other.mTexture;
 	mPath = other.mPath;
 	mOffset = other.mOffset + position;
-	mSize = size.lowerBound(other.mSize - position);
+	mSize = size.upperBound(other.mSize - position);
 	
 	mTexCoords = mTexture->calcTextureCoordinates(mOffset, mSize);
 }
