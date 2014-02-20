@@ -30,11 +30,11 @@ void RenderContext::loadDefaults()
 	LastBoundTexture = 0;
 }
 
-void RenderContext::setColor(const ColorRGB& color, float alpha)
+void RenderContext::setColor(const Color& color, float alpha)
 {
 	mSetColor = color;
 	mSetAlpha = alpha;
-	glColor4f(color.Red, color.Green, color.Blue, alpha);
+	glColor4f(color[0], color[1], color[2], alpha);
 }
 
 void RenderContext::setBlendingMode(RenderContext::BlendingMode mode)

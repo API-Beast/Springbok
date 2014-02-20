@@ -43,12 +43,12 @@ public:
 	template<typename T>
 	Rect<T> getTransformedRect(Vec2<T> pos, Vec2<T> size) const;
 	void setOffsetRelativeToViewport(Vec2I pos);
-	void setColor(const ColorRGB& color, float alpha=1.f);
+	void setColor(const Color& color, float alpha=1.f);
 	void setBlendingMode(BlendingMode mode);
 	void loadDefaults();
 private:
 	const RenderContext* mParent = nullptr;
-	ColorRGB mSetColor = Colors::White;
+	Color mSetColor = Colors::White;
 	float mSetAlpha = 1.f;
 	BlendingMode mSetBlendingMode = Default;
 };

@@ -46,7 +46,7 @@ public:
 	constexpr Vec2<T> operator-() const; //!< Returns the opposite of this vector. Equals Vec2(-X, -Y).
 	
 	constexpr float  getLength() const;  //!< Returns the \c length of this vector. This is the distance to Vec2(0, 0).
-	Vec2<T> normalized() const;          //!< Returns the normalized version of \c this. A normalized vector (also called unit vector) has a length of 1 or 0.
+	constexpr Vec2 normalized() const;          //!< Returns the normalized version of \c this. A normalized vector (also called unit vector) has a length of 1 or 0.
 
 	constexpr float dot(Vec2<T> other) const; //!< Returns the dot product between \c this and \c other.
 	

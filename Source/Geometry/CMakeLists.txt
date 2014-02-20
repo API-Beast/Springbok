@@ -1,4 +1,4 @@
-set(H_FILES Angle.h Angle_constexpr.h Line2.h Rect.h Vec2.h  Line2_Templates.hpp Rect_Templates.hpp Vec2_Templates.hpp BoundingShapes.h)
+set(H_FILES Angle.h Angle_constexpr.h Rect.h Vec3.h Vec3_Templates.hpp Vec2.h Vec2_Templates.hpp Line2.h Line2_Templates.hpp Rect_Templates.hpp BoundingShapes.h)
 set(CPP_FILES Angle.cpp BoundingShapes.cpp)
 add_library(sbGeometry OBJECT ${H_FILES} ${CPP_FILES})
 

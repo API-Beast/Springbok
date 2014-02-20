@@ -51,13 +51,9 @@ Vec2<T> Vec2<T>::upperBound(Vec2<T> other) const
 }
 
 template<typename T>
-Vec2<T> Vec2<T>::normalized() const
+constexpr Vec2<T> Vec2<T>::normalized() const
 {
-	float length = getLength();
-	if(length != 0)
-		return (*this) / length;
-	else
-		return *this;
+	return (*this) / (getLength() || 1);
 }
 
 template<typename T>
