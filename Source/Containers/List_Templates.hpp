@@ -79,6 +79,7 @@ List<T>::List(const std::initializer_list<T>& list)
 {
 	Memory = new T[list.size()];
 	memMove(Memory, list.begin(), list.size());
+	MemoryLength = list.size();
 	UsedLength = list.size();
 	OwnsMemory = true;
 	AllowReallocation = true;
