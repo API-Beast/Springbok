@@ -29,7 +29,7 @@ namespace
 													 new Obj{BoundingRect( 600, 32), 0},
 													 new Obj{BoundingRect( 800, 32), 0}
 												};
-		GeometryView<Obj*, BoundingRect, &Obj::Bounds> view(objects);
+		GeometryView<Obj*, BoundingRect, Obj, &Obj::Bounds> view(objects);
 		auto foundObjs = view.getObjectsInRect(-200, 100);
 		
 		for(auto* x : foundObjs)

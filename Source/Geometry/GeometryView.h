@@ -9,7 +9,7 @@
 #include <Springbok/Containers/View.h>
 #include "BoundingShapes.h"
 
-template<typename T, typename C, C WithoutPtr<T>::Type::*Member>
+template<typename T, typename C, typename Base, C Base::*Member>
 class NaiveGeometryView : public ViewBase<T, float>
 {
 public:
@@ -37,18 +37,32 @@ public:
 	int Axis;
 };
 
-template<typename T, typename C, C WithoutPtr<T>::Type::*Member>
+template<typename T, typename C, typename Base, C Base::*Member>
 class GeometryView
 {
+public:
+	NaiveGeometryView<T, C, Base, Member> XAxisView;
+	NaiveGeometryView<T, C, Base, Member> YAxisView;
 public:
 	typedef typename WithoutPtr<T>::Type PureT;
 	template<typename... X>
 	GeometryView(X&... args) : XAxisView(0, args...), YAxisView(1, args...) {};
-	List<PureT*> getObjectsInRect(Vec2F start, Vec2F end);
-public:
-	NaiveGeometryView<T, C, Member> XAxisView;
-	NaiveGeometryView<T, C, Member> YAxisView;
+	
+	List<PureT*> getObjectsInRect(Vec2F start, Vec2F end)
+	{
+		auto xrange = XAxisView.getRange(start.X, end.X);
+		auto yrange = YAxisView.getRange(start.Y, end.Y);
+		List<typename WithoutPtr<T>::Type*> result; 
+		
+		for(auto& objA : xrange)
+			for(auto& objB : yrange)
+				if((&objA) == (&objB))
+				{
+					result.pushBack(&makeRef(objA));
+					break;
+				}
+				
+		return result;
+	};
 };
-
-#include "GeometryView_Templates.hpp"
 

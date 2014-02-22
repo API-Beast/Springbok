@@ -100,7 +100,12 @@ int ViewBase<T, C>::findIndex(const C& searchFor)
 template<typename T, typename C>
 ContainerSubrange<ViewBase<T, C>, T> ViewBase<T, C>::getRange(const C& start, const C& end)
 {
+	if(mViewOf->UsedLength == 0)
+		return ContainerSubrange<ViewBase<T, C>, T>(*this, 0, 0);
+	
 	int startIndex = findIndex(start);
 	int endIndex = findIndex(end, startIndex, mData.UsedLength - 1, startIndex);
+	if(startIndex > endIndex)
+		return ContainerSubrange<ViewBase<T, C>, T>(*this, startIndex, startIndex);
 	return ContainerSubrange<ViewBase<T, C>, T>(*this, startIndex, endIndex);
 };
