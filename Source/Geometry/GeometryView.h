@@ -9,7 +9,7 @@
 #include <Springbok/Containers/View.h>
 #include "BoundingShapes.h"
 
-template<typename T, typename C, C T::*Member>
+template<typename T, typename C, C WithoutPtr<T>::Type::*Member>
 class NaiveGeometryView : public ViewBase<T, float>
 {
 public:
@@ -20,15 +20,16 @@ public:
 		ViewBase<T, float>::update();
 		return (*ViewBase<T, float>::mViewOf)[ViewBase<T, float>::mData[index]];
 	};
-	virtual bool compare(const T& a, const T& b) const
+	typedef typename WithoutPtr<T>::Type const& TRef;
+	virtual bool compare(TRef a, TRef b) const
 	{
 		return (a.*Member).getAxis(Axis).Start > (b.*Member).getAxis(Axis).Start;
 	};
-	virtual bool compareVal(const T& a, const float& b) const
+	virtual bool compareVal(TRef a, const float& b) const
 	{
 		return (a.*Member).getAxis(Axis).Start > b;
 	};
-	virtual bool compareValEq(const T& a, const float& b) const
+	virtual bool compareValEq(TRef a, const float& b) const
 	{
 		return (a.*Member).getAxis(Axis).Start == b;
 	};
@@ -36,13 +37,14 @@ public:
 	int Axis;
 };
 
-template<typename T, typename C, C T::*Member>
+template<typename T, typename C, C WithoutPtr<T>::Type::*Member>
 class GeometryView
 {
 public:
+	typedef typename WithoutPtr<T>::Type PureT;
 	template<typename... X>
 	GeometryView(X&... args) : XAxisView(0, args...), YAxisView(1, args...) {};
-	List<T*> getObjectsInRect(Vec2F start, Vec2F end);
+	List<PureT*> getObjectsInRect(Vec2F start, Vec2F end);
 public:
 	NaiveGeometryView<T, C, Member> XAxisView;
 	NaiveGeometryView<T, C, Member> YAxisView;

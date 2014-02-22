@@ -35,6 +35,21 @@ namespace
 		SST_M_ASSERT_END;
 	}
 	
+	void ptr()
+	{
+		int x[] = {6, 2, 4};
+		List<int*> data = {x, x+1, x+2};
+		SortedView<int*> view(data);
+		SST_M_ASSERT_START;
+		SST_M_ASSERT_EQ(*view[0], 2);
+		SST_M_ASSERT_EQ(*view[1], 4);
+		SST_M_ASSERT_EQ(*view[2], 6);
+		SST_M_ASSERT_END;
+	}
+	
+	SST::SimpleTest _View_ptr("View::ptr", &ptr, SST::Required);
+	
+	
 	SST::SimpleTest __View("View", &_View, SST::Required);
 	
 }

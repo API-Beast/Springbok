@@ -21,19 +21,22 @@ namespace
 	{
 		SST_M_ASSERT_START;
 		
-		List<Obj> objects = { {BoundingRect(   0, 32), 1},
-													{BoundingRect(  80, 32), 1},
-													{BoundingRect(-400, 32), 0},
-													{BoundingRect(-200, 32), 1},
-													{BoundingRect(-216, 32), 1},
-													{BoundingRect( 600, 32), 0},
-													{BoundingRect( 800, 32), 0}
+		List<Obj*> objects = { new Obj{BoundingRect(   0, 32), 1},
+													 new Obj{BoundingRect(  80, 32), 1},
+													 new Obj{BoundingRect(-400, 32), 0},
+													 new Obj{BoundingRect(-200, 32), 1},
+													 new Obj{BoundingRect(-216, 32), 1},
+													 new Obj{BoundingRect( 600, 32), 0},
+													 new Obj{BoundingRect( 800, 32), 0}
 												};
-		GeometryView<Obj, BoundingRect, &Obj::Bounds> view(objects);
+		GeometryView<Obj*, BoundingRect, &Obj::Bounds> view(objects);
 		auto foundObjs = view.getObjectsInRect(-200, 100);
 		
-		for(auto x : foundObjs)
+		for(auto* x : foundObjs)
 			SST_M_ASSERT_EQ(x->Check, true);
+		
+		for(auto* obj : objects)
+			delete obj;
 		
 		SST_M_ASSERT_END;
 	}

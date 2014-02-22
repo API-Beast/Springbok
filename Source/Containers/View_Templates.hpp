@@ -12,6 +12,9 @@
 // TODO
 // All duplicate code from Map class with really minor differences... can we reuse something?
 
+template<typename T> T& makeRef(T& x){ return  x; };
+template<typename T> T& makeRef(T* x){ return *x; };
+
 template<typename T, typename C>
 void ViewBase<T, C>::update()
 {
@@ -37,7 +40,7 @@ void ViewBase<T, C>::update()
 			int temp = mData[i];
 			int j = i -1;
 			
-			while((j >= 0) && (compare(mViewOf->front(mData[j]), mViewOf->front(temp))))
+			while((j >= 0) && (compare(makeRef(mViewOf->front(mData[j])), makeRef(mViewOf->front(temp)))))
 			{
 				mData[j + 1] = mData[j];
 				j--;
@@ -64,8 +67,8 @@ int ViewBase<T, C>::findIndex(const C& searchFor, int minmin, int maxmax, int pr
 		int i = min;
 		while(i < max)
 		{
-			auto& value  = (*mViewOf)[mData[i]];
-			auto& valueB = (*mViewOf)[mData[i+1]];
+			auto& value  = makeRef((*mViewOf)[mData[i]]);
+			auto& valueB = makeRef((*mViewOf)[mData[i+1]]);
 			if(compareValEq(value, searchFor))
 				return i;
 			if(!compareVal(value, searchFor))
@@ -76,7 +79,7 @@ int ViewBase<T, C>::findIndex(const C& searchFor, int minmin, int maxmax, int pr
 		return max;
 	}
 	
-	auto& value = (*mViewOf)[mData[mid]];
+	auto& value = makeRef((*mViewOf)[mData[mid]]);
 	if(compareVal(value, searchFor))
 		return findIndex(searchFor, min, mid-1, mid);
 	if(!compareVal(value, searchFor))

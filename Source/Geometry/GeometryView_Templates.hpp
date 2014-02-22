@@ -6,18 +6,18 @@
 
 #pragma once
 
-template<typename T, typename C, C T::*Member>
-List<T*> GeometryView<T, C, Member>::getObjectsInRect(Vec2F start, Vec2F end)
+template<typename T, typename C, C WithoutPtr<T>::Type::*Member>
+List<typename WithoutPtr<T>::Type*> GeometryView<T, C, Member>::getObjectsInRect(Vec2F start, Vec2F end)
 {
 	auto xrange = XAxisView.getRange(start.X, end.X);
 	auto yrange = YAxisView.getRange(start.Y, end.Y);
-	List<T*> result; 
+	List<typename WithoutPtr<T>::Type*> result; 
 	
 	for(auto& objA : xrange)
 		for(auto& objB : yrange)
 			if((&objA) == (&objB))
 			{
-				result.pushBack(&objA);
+				result.pushBack(&makeRef(objA));
 				break;
 			}
 			

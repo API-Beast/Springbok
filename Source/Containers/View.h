@@ -27,6 +27,10 @@ protected:
 	int mIndex;
 };
 
+template<typename T> struct WithoutPtr    { typedef T Type; };
+template<typename T> struct WithoutPtr<T*>{ typedef T Type;};
+template<typename T> struct WithoutPtr<T&>{ typedef T Type; };
+
 template<typename T, typename C>
 struct ViewBase
 {
@@ -40,9 +44,10 @@ public:
 	ViewIterator<T> end(){ return ViewIterator<T>(&mData, mViewOf, mData.UsedLength); };
 	ContainerSubrange<ViewBase<T, C>, T> getRange(const C& start, const C& end);
 protected:
-	virtual bool compare(const T& a, const T& b) const = 0;
-	virtual bool compareVal(const T& a, const C& b) const = 0;
-	virtual bool compareValEq(const T& a, const C& b) const = 0;
+	typedef typename WithoutPtr<T>::Type const& TRef;
+	virtual bool compare(TRef a, TRef b) const = 0;
+	virtual bool compareVal(TRef a, const C& b) const = 0;
+	virtual bool compareValEq(TRef a, const C& b) const = 0;
 protected:
 	List<T>* mViewOf;
 	List<int> mData;
@@ -50,25 +55,26 @@ protected:
 };
 
 template<typename T>
-struct SortedView : public ViewBase<T, T>
+struct SortedView : public ViewBase<T, typename WithoutPtr<T>::Type>
 {
 public:
 	template<typename... X>
-	SortedView(X&... list) : ViewBase<T, T>(list...){};
+	SortedView(X&... list) : ViewBase<T, typename WithoutPtr<T>::Type>(list...){};
 	T& operator[](int index)
 	{
-		ViewBase<T, T>::update();
-		return (*ViewBase<T, T>::mViewOf)[ViewBase<T, T>::mData[index]];
+		ViewBase<T, typename WithoutPtr<T>::Type>::update();
+		return (*ViewBase<T, typename WithoutPtr<T>::Type>::mViewOf)[ViewBase<T, typename WithoutPtr<T>::Type>::mData[index]];
 	};
-	virtual bool compare(const T& a, const T& b) const
+	typedef typename WithoutPtr<T>::Type const& TRef;
+	virtual bool compare(TRef a, TRef b) const
 	{
 		return a > b;
 	};
-	virtual bool compareVal(const T& a, const T& b) const
+	virtual bool compareVal(TRef a, TRef b) const
 	{
 		return a > b;
 	};
-	virtual bool compareValEq(const T& a, const T& b) const
+	virtual bool compareValEq(TRef a, TRef b) const
 	{
 		return a == b;
 	};
