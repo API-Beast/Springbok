@@ -20,6 +20,7 @@ struct BoundingRect : public AbstractBoundingShape
 {
 	virtual RangeF getAxis(int index) const { return RangeF(Position[index], Position[index]+Size[index]); };
 	BoundingRect(Vec2F pos, Vec2F size){ Position = pos; Size = size; };
+	BoundingRect() = default;
 	
 	Vec2F Position;
 	Vec2F Size;

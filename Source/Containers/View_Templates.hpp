@@ -9,8 +9,11 @@
 #include "View.h"
 #include "List.h"
 
-template<typename T>
-void ViewBase<T>::update()
+// TODO
+// All duplicate code from Map class with really minor differences... can we reuse something?
+
+template<typename T, typename C>
+void ViewBase<T, C>::update()
 {
 	if(needsUpdate())
 	{
@@ -44,3 +47,57 @@ void ViewBase<T>::update()
 		}
 	}
 }
+
+template <typename T, typename C>
+int ViewBase<T, C>::findIndex(const C& searchFor, int minmin, int maxmax, int prevMid)
+{
+	update();
+	
+	int min = minmin;
+	int max = maxmax;
+	int mid = (min + ((max-min) / 2));
+
+	if(min >= max)
+	{
+		min = Max(mid - 1, 0);
+		max = Min(mid + 1, mData.UsedLength-1);
+		int i = min;
+		while(i < max)
+		{
+			auto& value  = (*mViewOf)[mData[i]];
+			auto& valueB = (*mViewOf)[mData[i+1]];
+			if(compareValEq(value, searchFor))
+				return i;
+			if(!compareVal(value, searchFor))
+				if(compareVal(valueB, searchFor))
+					return i;
+			i++;
+		}
+		return max;
+	}
+	
+	auto& value = (*mViewOf)[mData[mid]];
+	if(compareVal(value, searchFor))
+		return findIndex(searchFor, min, mid-1, mid);
+	if(!compareVal(value, searchFor))
+		return findIndex(searchFor, mid+1, max, mid);
+	return mid;
+}
+
+template<typename T, typename C>
+int ViewBase<T, C>::findIndex(const C& searchFor)
+{
+	update();
+	
+	if(mData.Memory == nullptr)
+		return 0;
+	return findIndex(searchFor, 0, mData.UsedLength - 1, 0);
+};
+
+template<typename T, typename C>
+ContainerSubrange<ViewBase<T, C>, T> ViewBase<T, C>::getRange(const C& start, const C& end)
+{
+	int startIndex = findIndex(start);
+	int endIndex = findIndex(end, startIndex, mData.UsedLength - 1, startIndex);
+	return ContainerSubrange<ViewBase<T, C>, T>(*this, startIndex, endIndex);
+};

@@ -28,6 +28,10 @@ namespace
 		SST_M_ASSERT_EQ(view[11], 11);
 		SST_M_ASSERT_EQ(view[12], 12);
 		
+		SST_M_ASSERT_EQ(view.findIndex(4), 4);
+		SST_M_ASSERT_EQ(view.findIndex(7), 7);
+		SST_M_ASSERT_EQ(view.findIndex(22), 12);
+		
 		SST_M_ASSERT_END;
 	}
 	
