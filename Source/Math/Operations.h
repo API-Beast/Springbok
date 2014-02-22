@@ -210,4 +210,52 @@ constexpr T MinAbs(T a, T b, Args... c)
 	return MinAbs(MaxAbs(a, b), c...);
 };
 
+template<typename T>
+T NextBiggerValue(T val)
+{
+	return val + 1;
+};
+
+template<>
+inline float NextBiggerValue(float val)
+{
+	return std::nextafterf(val, INFINITY);
+};
+
+template<>
+inline double NextBiggerValue(double val)
+{
+	return std::nextafter(val, INFINITY);
+};
+
+template<>
+inline long double NextBiggerValue(long double val)
+{
+	return std::nextafterl(val, INFINITY);
+};
+
+template<typename T>
+T NextSmallerValue(T val)
+{
+	return val - 1;
+};
+
+template<>
+inline float NextSmallerValue(float val)
+{
+	return std::nextafterf(val, -INFINITY);
+};
+
+template<>
+inline double NextSmallerValue(double val)
+{
+	return std::nextafter(val, -INFINITY);
+};
+
+template<>
+inline long double NextSmallerValue(long double val)
+{
+	return std::nextafterl(val, -INFINITY);
+};
+
 //@}

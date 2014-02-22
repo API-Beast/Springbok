@@ -22,12 +22,24 @@ namespace
 }
 
 // Based on http://www.redditmirror.cc/cache/websites/mjolnirstudios.com_7yjlc/mjolnirstudios.com/IanBullard/files/79ffbca75a75720f066d491e9ea935a0-10.html
-RandomNumberGenerator::RandomNumberGenerator(int seed)
+RandomNumberGenerator::RandomNumberGenerator(unsigned int seed)
 {
 	// The Problem with this RNG is that very similar seeds result in very similar results, making it not suitable for passing arbitary information as seed, we try to fix this by applying a hash functino to the seed.
 	uint32_t h = hash(seed);
 	LowSeed = h ^ 0x520AF59;
 	HighSeed = h ^ 0x49616E42;
+}
+
+RandomNumberGenerator::RandomNumberGenerator(unsigned int lowSeed, unsigned int highSeed)
+{
+	LowSeed = hash(lowSeed);
+	HighSeed = hash(highSeed);
+}
+
+RandomNumberGenerator::RandomNumberGenerator(long long unsigned int fullSeed)
+{
+	LowSeed = (unsigned int)fullSeed;
+	HighSeed = (unsigned int)(fullSeed << (sizeof(unsigned int)*8));
 }
 
 unsigned int RandomNumberGenerator::generateBitfield()
