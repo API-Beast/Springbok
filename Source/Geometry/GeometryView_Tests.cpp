@@ -30,7 +30,7 @@ namespace
 													 new Obj{BoundingRect( 800, 32), 0}
 												};
 		GeometryView<Obj*, BoundingRect, Obj, &Obj::Bounds> view(objects);
-		auto foundObjs = view.getObjectsInRect(-200, 100);
+		auto foundObjs = view.XAxisView.getRange(-200, 200);
 		
 		for(auto* x : foundObjs)
 			SST_M_ASSERT_EQ(x->Check, true);
