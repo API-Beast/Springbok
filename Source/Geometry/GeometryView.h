@@ -47,22 +47,5 @@ public:
 	typedef typename WithoutPtr<T>::Type PureT;
 	template<typename... X>
 	GeometryView(X&... args) : XAxisView(0, args...), YAxisView(1, args...) {};
-	
-	List<PureT*> getObjectsInRect(Vec2F start, Vec2F end)
-	{
-		auto xrange = XAxisView.getRange(start.X, end.X);
-		auto yrange = YAxisView.getRange(start.Y, end.Y);
-		List<typename WithoutPtr<T>::Type*> result; 
-		
-		for(auto& objA : xrange)
-			for(auto& objB : yrange)
-				if((&objA) == (&objB))
-				{
-					result.pushBack(&makeRef(objA));
-					break;
-				}
-				
-		return result;
-	};
 };
 
