@@ -99,6 +99,6 @@ ContainerSubrange<ViewBase<T, C>, T> ViewBase<T, C>::getRange(const C& start, co
 	int startIndex = findIndex(start);
 	int endIndex = findIndex(end, startIndex, mData.UsedLength - 1, startIndex);
 	if(startIndex > endIndex)
-		return ContainerSubrange<ViewBase<T, C>, T>(*this, startIndex, startIndex);
-	return ContainerSubrange<ViewBase<T, C>, T>(*this, startIndex, endIndex);
+		return ContainerSubrange<ViewBase<T, C>, T>(*this, startIndex, startIndex+1);
+	return ContainerSubrange<ViewBase<T, C>, T>(*this, startIndex, endIndex+1);
 };
