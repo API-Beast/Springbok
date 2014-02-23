@@ -22,8 +22,8 @@ namespace
 		SST_M_ASSERT_START;
 		SST_M_ASSERT_EQ(parser["--fullscreen"].IsSet, true);
 		SST_M_ASSERT_EQ(parser["--size"].IsSet, true);
-		SST_M_ASSERT_EQ(parser["--size"].Parameters[0], "128");
-		SST_M_ASSERT_EQ(parser["--size"].Parameters[1], "128");
+		SST_M_ASSERT_EQ(parser["--size"][0], "128");
+		SST_M_ASSERT_EQ(parser["--size"][1], "128");
 		SST_M_ASSERT_EQ(parser["--debug"].IsSet, false);
 		SST_M_ASSERT_END;
 	}

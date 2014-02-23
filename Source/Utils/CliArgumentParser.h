@@ -20,6 +20,10 @@ public:
 		
 		bool IsSet = false;
 		List<std::string> Parameters;
+		
+		explicit operator bool(){ return IsSet; };
+		std::string operator[](int index) const{ return Parameters[index]; };
+		int length() const { return Parameters.UsedLength; };
 	};
 	using string = const std::string&;
 public:
