@@ -205,6 +205,11 @@ void List<T>::moveMemoryTo(T* memory, int length)
 	
 	Memory = memory;
 	MemoryLength = length;
+	
+	if(MemoryLength > 32000)
+	{
+		MemoryLength = length-1;
+	}
 }
 
 template<typename T>
