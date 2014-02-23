@@ -31,6 +31,8 @@ public:
 	T& operator[](int index){ return *(Memory+index); };
 	T operator[](int index) const{ if((Memory+index) < end()) return *(Memory+index); return T(); };
 	
+	explicit operator bool() const { return UsedLength > 0; };
+	
 	T& pushBack(const T& value);
 	T   popBack();
 	

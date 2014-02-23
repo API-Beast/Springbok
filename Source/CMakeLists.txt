@@ -33,8 +33,9 @@ add_subdirectory(Parsing)
 add_subdirectory(Containers)
 add_subdirectory(Procedural)
 add_subdirectory(Dependencies)
+add_subdirectory(Utils)
 
-set(SUBTARGETS sbAnimation sbAudio sbDependencies sbGeneric sbGeometry sbGraphics sbMath sbPlatform sbResources sbParsing sbContainers sbProcedural)
+set(SUBTARGETS sbAnimation sbAudio sbContainers sbDependencies sbGeneric sbGeometry sbGraphics sbMath sbParsing sbPlatform sbProcedural sbResources sbUtils)
 
 GET_SUBTARGET_OBJECTS(SUBTARGETS_EXPANDED ${SUBTARGETS})
 
