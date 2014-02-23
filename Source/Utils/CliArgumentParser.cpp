@@ -86,18 +86,22 @@ std::string CliArgumentParser::getSyntax()
 	return retVal;
 }
 
-// TODO
-// Not finished, won't make warnings for wrong data
 void CliArgumentParser::parse(int argc, char** argv)
 {
-	std::string curArgument;
+	List<std::string> converted;
+	for(int i = 0; i < argc; ++i)
+		converted.pushBack(argv[i]);
+	parse(converted);
+}
+
+void CliArgumentParser::parse(List< std::string > arguments)
+{
 	std::string curKey;
 	SwitchDefinition* curSwitch = nullptr;
 	int i = 0;
 	bool endParsing = false;
-	do
+	for(std::string curArgument : arguments)
 	{
-		curArgument = argv[i];
 		if(curArgument == "--")
 		{
 			endParsing = true;
@@ -138,5 +142,4 @@ void CliArgumentParser::parse(int argc, char** argv)
 		else
 			LooseArguments.pushBack(curArgument);
 	}
-	while(++i < argc);
 }

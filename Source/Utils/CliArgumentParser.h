@@ -31,6 +31,7 @@ public:
 	std::string getSyntax();
 	
 	void parse(int argc, char** argv);
+	void parse(List<std::string> arguments);
 	SwitchDefinition& operator[](string name);
 public:	
 	List<SwitchDefinition> Switches;
