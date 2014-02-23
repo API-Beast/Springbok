@@ -94,7 +94,7 @@ void CliArgumentParser::parse(int argc, char** argv)
 	parse(converted);
 }
 
-void CliArgumentParser::parse(List< std::string > arguments)
+void CliArgumentParser::parse(const List< std::string >& arguments)
 {
 	std::string curKey;
 	SwitchDefinition* curSwitch = nullptr;
