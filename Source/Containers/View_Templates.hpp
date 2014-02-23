@@ -93,9 +93,6 @@ int ViewBase<T, C>::findIndex(const C& searchFor)
 template<typename T, typename C>
 ContainerSubrange<ViewBase<T, C>, T> ViewBase<T, C>::getRange(const C& start, const C& end)
 {
-	if(needsUpdate())
-		update();
-	
 	if(mViewOf->UsedLength == 0)
 		return ContainerSubrange<ViewBase<T, C>, T>(*this, 0, 0);
 	
