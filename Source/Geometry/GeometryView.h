@@ -14,10 +14,9 @@ class NaiveGeometryView : public ViewBase<T, float>
 {
 public:
 	template<typename... X>
-	NaiveGeometryView(int axis, X&... args) : Axis(axis), ViewBase<T, float>(args...){};
+	NaiveGeometryView(int axis, X&... args) : Axis(axis), ViewBase<T, float>(args...){ ViewBase<T, float>::update(); };
 	T& operator[](int index)
 	{
-		ViewBase<T, float>::update();
 		return (*ViewBase<T, float>::mViewOf)[ViewBase<T, float>::mData[index]];
 	};
 	typedef typename WithoutPtr<T>::Type const& TRef;
