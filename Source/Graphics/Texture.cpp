@@ -41,7 +41,7 @@ Texture::Texture(const std::string& filename)
 	
 	if(error != GL_NO_ERROR || Index == 0xFFFE)
 	{
-		Debug::Write("Couldn't generate texture! OpenGL error: $",gluErrorString(glGetError()));
+		Debug::Write("Couldn't generate texture! Index: $; OpenGL error: $",Index,gluErrorString(error));
 		Valid = false;
 		Index = 0;
 		return ;

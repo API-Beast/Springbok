@@ -32,10 +32,12 @@ ObjectPointer< T > ResourceManager::getResource(const std::string& path, bool re
 	}
 	else
 	{
-		Debug::Write("Loading resource $...",path);
+		std::string fullPath = getPath(path);
+		Debug::Write("Loading resource $...",fullPath);
+		
 		auto& resource = Resources[path];
 		resource.RequestedPath = path;
-		resource.ResolvedPath  = getPath(path);
+		resource.ResolvedPath  = fullPath;
 		resource.Pointer  = new T(resource.ResolvedPath);
 		resource.DataType = typeid(T).hash_code();
 		return reinterpret_pointer_cast<T*>(resource.Pointer);

@@ -1,5 +1,6 @@
 #include <GLFW/glfw3.h>
 #include "../GameSurface.h"
+#include <Springbok/Utils/Debug.h>
 
 struct GameSurfaceData
 {
@@ -9,8 +10,13 @@ struct GameSurfaceData
 GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
 {
 	d = new GameSurfaceData;
-	
+
 	glfwInit();
+	
+	// We should request a 2.1 context. Otherwise AMD would be pretty confused.
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	
 	if(flags & Windowed)
 	{
 		glfwWindowHint(GLFW_RESIZABLE, false);
