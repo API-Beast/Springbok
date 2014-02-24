@@ -5,7 +5,6 @@
 
 #pragma once
 #include <list>
-#include "../Containers/SkipList.h"
 
 //! @cond
 struct DestructorBase
@@ -36,7 +35,7 @@ public:
 	~ObjectData();
 	bool operator<(const ObjectData& other) const { return MemoryLocation < other.MemoryLocation; };
 	bool operator==(const ObjectData& other) const {  return MemoryLocation && (MemoryLocation == other.MemoryLocation); };
-	static SkipList<ObjectData> gObjects;
+	static std::list<ObjectData> gObjects;
 };
 
 //! @endcond

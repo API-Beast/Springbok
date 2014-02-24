@@ -24,16 +24,21 @@ template<typename T>
 template<typename U>
 ObjectPointer<T>::ObjectPointer(U* ptr)
 {
-	auto nodePath = ObjectData::gObjects.findNode(ptr);
-	if(nodePath.hasFoundValue() == false)
+	// Object already registered
+	for(ObjectData& data : ObjectData::gObjects)
 	{
-		nodePath.insert();
-		mPointer = &(nodePath.BaseNode->Data);
-		mPointer->Destructor = new Destructor<U>;
-		mPointer->MemoryLocation = ptr;
+		if(data.MemoryLocation == ptr)
+		{
+			mPointer = &data;
+			return;
+		}
 	}
-	else
-		mPointer = &(nodePath.BaseNode->Data);
+	
+	// Object not registered yet
+	ObjectData::gObjects.emplace_back();
+	mPointer = &(ObjectData::gObjects.back());
+	mPointer->Destructor = new Destructor<U>;
+	mPointer->MemoryLocation = ptr;
 }
 
 template<typename T>

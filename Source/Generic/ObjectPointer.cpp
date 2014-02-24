@@ -7,7 +7,7 @@
 
 #include <cassert>
 
-SkipList<ObjectData> ObjectData::gObjects;
+std::list<ObjectData> ObjectData::gObjects;
 
 void DestructorBase::destroy(void* pointer)
 {
