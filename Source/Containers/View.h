@@ -59,10 +59,9 @@ struct SortedView : public ViewBase<T, typename WithoutPtr<T>::Type>
 {
 public:
 	template<typename... X>
-	SortedView(X&... list) : ViewBase<T, typename WithoutPtr<T>::Type>(list...){};
+	SortedView(X&... list) : ViewBase<T, typename WithoutPtr<T>::Type>(list...){ ViewBase<T, typename WithoutPtr<T>::Type>::update(); };
 	T& operator[](int index)
 	{
-		ViewBase<T, typename WithoutPtr<T>::Type>::update();
 		return (*ViewBase<T, typename WithoutPtr<T>::Type>::mViewOf)[ViewBase<T, typename WithoutPtr<T>::Type>::mData[index]];
 	};
 	typedef typename WithoutPtr<T>::Type const& TRef;

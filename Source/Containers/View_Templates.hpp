@@ -18,44 +18,39 @@ template<typename T> T& makeRef(T* x){ return *x; };
 template<typename T, typename C>
 void ViewBase<T, C>::update()
 {
-	if(needsUpdate())
+	// Resize the array to fit the actual data
+	if(mData.UsedLength > mViewOf->UsedLength)
 	{
-		// Resize the array to fit the actual data
-		if(mData.UsedLength > mViewOf->UsedLength)
-		{
-			for(int i = 0; i < mViewOf->UsedLength; ++i)
-				if(mData[i] >= mViewOf->UsedLength)
-				{
-					mData.quickRemove(i);
-					i--;
-				}
-		}
-		else if(mData.UsedLength < mViewOf->UsedLength)
-			for(int i = mData.UsedLength; i < mViewOf->UsedLength; ++i)
-				mData.pushBack(i);
-		
-		// Sort
-		for(int i = 1; i < mData.UsedLength; ++i)
-		{
-			int temp = mData[i];
-			int j = i -1;
-			
-			while((j >= 0) && (compare(makeRef(mViewOf->front(mData[j])), makeRef(mViewOf->front(temp)))))
+		for(int i = 0; i < mViewOf->UsedLength; ++i)
+			if(mData[i] >= mViewOf->UsedLength)
 			{
-				mData[j + 1] = mData[j];
-				j--;
+				mData.quickRemove(i);
+				i--;
 			}
-			
-			mData[j+1] = temp;
+	}
+	else if(mData.UsedLength < mViewOf->UsedLength)
+		for(int i = mData.UsedLength; i < mViewOf->UsedLength; ++i)
+			mData.pushBack(i);
+	
+	// Sort
+	for(int i = 1; i < mData.UsedLength; ++i)
+	{
+		int temp = mData[i];
+		int j = i -1;
+		
+		while((j >= 0) && (compare(makeRef(mViewOf->front(mData[j])), makeRef(mViewOf->front(temp)))))
+		{
+			mData[j + 1] = mData[j];
+			j--;
 		}
+		
+		mData[j+1] = temp;
 	}
 }
 
 template <typename T, typename C>
 int ViewBase<T, C>::findIndex(const C& searchFor, int minmin, int maxmax, int prevMid)
 {
-	update();
-	
 	int min = minmin;
 	int max = maxmax;
 	int mid = (min + ((max-min) / 2));
@@ -90,8 +85,6 @@ int ViewBase<T, C>::findIndex(const C& searchFor, int minmin, int maxmax, int pr
 template<typename T, typename C>
 int ViewBase<T, C>::findIndex(const C& searchFor)
 {
-	update();
-	
 	if(mData.Memory == nullptr)
 		return 0;
 	return findIndex(searchFor, 0, mData.UsedLength - 1, 0);
@@ -106,6 +99,6 @@ ContainerSubrange<ViewBase<T, C>, T> ViewBase<T, C>::getRange(const C& start, co
 	int startIndex = findIndex(start);
 	int endIndex = findIndex(end, startIndex, mData.UsedLength - 1, startIndex);
 	if(startIndex > endIndex)
-		return ContainerSubrange<ViewBase<T, C>, T>(*this, startIndex, startIndex);
-	return ContainerSubrange<ViewBase<T, C>, T>(*this, startIndex, endIndex);
+		return ContainerSubrange<ViewBase<T, C>, T>(*this, startIndex, startIndex+1);
+	return ContainerSubrange<ViewBase<T, C>, T>(*this, startIndex, endIndex+1);
 };

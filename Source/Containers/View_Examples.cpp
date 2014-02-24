@@ -24,6 +24,7 @@ namespace
 		
 		data.pushBack(12);
 		data.pushBack(11);
+		view.update();
 		
 		SST_M_ASSERT_EQ(view[11], 11);
 		SST_M_ASSERT_EQ(view[12], 12);

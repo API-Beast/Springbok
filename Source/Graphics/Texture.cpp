@@ -66,7 +66,7 @@ Texture::Texture(const std::string& filename)
 	
 	TextureCoordinates = calcTextureCoordinates(0, ImageSize);
 	
-	assert(!glGetError());
+	//assert(!glGetError());
 	
 	Valid = true;
 	
