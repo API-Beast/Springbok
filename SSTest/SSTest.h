@@ -20,6 +20,7 @@
 #include <locale>
 #include <iomanip>
 #include <limits>
+#include <Source/Parsing/ConfigFile.h>
 
 namespace SST
 {
@@ -91,7 +92,13 @@ template <typename T>
 inline void decorateVal(std::ostream& str, T val)
 {
 	str.precision(std::numeric_limits<float>::digits10+2);
-	str << std::fixed << val;
+	
+	//std::string herpusderpus = herpus;
+
+#pragma message("FIX ME! error: invalid operands to binary expression ('std::ostream' (aka 'basic_ostream<char>') and 'ConfigFile::PossibleArray')")
+	//error: invalid operands to binary expression ('std::ostream' (aka 'basic_ostream<char>') and 'ConfigFile::PossibleArray')
+
+	str << std::fixed;
 }
 
 template <>
@@ -136,7 +143,7 @@ void decorateVal(std::ostream& str, const std::vector<T>& val)
 template <typename T>
 typename std::enable_if<std::is_convertible<T, std::string>::value, std::string>::type ToString(T value)
 {
-	return std::string("\"")+std::string(value)+"\"";
+	return  "\"" + std::string(value) +  "\""; 
 };
 
 template <typename T>
