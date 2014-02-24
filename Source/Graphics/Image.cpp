@@ -6,6 +6,7 @@
 #include "Image.h"
 #include "Texture.h"
 #include <Springbok/Resources/ResourceManager.h>
+#include <Springbok/Utils/Debug.h>
 #include "RenderContext.h"
 #include <GL/gl.h>
 #include <iostream>
@@ -125,8 +126,10 @@ void Image::lazyLoad()
 			return ;
 		
 	mTexture = ResourceManager::GetInstance()->getResource<Texture>(mPath);
-	if(mTexture->Valid == false)
+	if(mTexture->Valid == false) {
+		Debug::Write("WARNING: Texture is not valid!");
 		return;
+	}
 	
 	mTexCoords = mTexture->TextureCoordinates;
 	mSize = mTexture->ImageSize;
