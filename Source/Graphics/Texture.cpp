@@ -5,8 +5,10 @@
 
 #include "Texture.h"
 #include "../Dependencies/lodepng.h"
+#include <Springbok/Utils/Debug.h>
 #include <GL/gl.h>
 #include <GL/glext.h>
+#include <GL/glu.h>
 #include <vector>
 #include <cassert>
 #include <iostream>
@@ -34,10 +36,12 @@ Texture::Texture(const std::string& filename)
 	
 	Index = 0xFFFE;
 	glGenTextures(1, &Index);
-  glBindTexture(GL_TEXTURE_2D, Index);
+	glBindTexture(GL_TEXTURE_2D, Index);
+	GLenum error = glGetError();
 	
-	if(glGetError() || Index == 0xFFFE)
+	if(error != GL_NO_ERROR || Index == 0xFFFE)
 	{
+		Debug::Write("Couldn't generate texture! OpenGL error: $",gluErrorString(glGetError()));
 		Valid = false;
 		Index = 0;
 		return ;
