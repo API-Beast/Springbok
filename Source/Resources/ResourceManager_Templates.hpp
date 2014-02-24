@@ -6,6 +6,7 @@
 #pragma once
 
 #include "ResourceManager.h"
+#include <Springbok/Utils/Debug.h>
 
 #include <typeinfo>
 
@@ -31,6 +32,7 @@ ObjectPointer< T > ResourceManager::getResource(const std::string& path, bool re
 	}
 	else
 	{
+		Debug::Write("Loading resource $...",path);
 		auto& resource = Resources[path];
 		resource.RequestedPath = path;
 		resource.ResolvedPath  = getPath(path);
