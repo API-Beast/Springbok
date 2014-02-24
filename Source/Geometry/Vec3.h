@@ -31,10 +31,10 @@ public:
 	
 	T& operator[](int x);
 	const T& operator[](int x) const;
-	template<typename P> constexpr bool operator==(const Vec3<P>& other){ return X == other.X && Y == other.Y && Z == other.Z;};
-	template<typename P> constexpr bool operator!=(const Vec3<P>& other){ return X != other.X || Y != other.Y || Z != other.Z;};
-	template<typename P> constexpr bool operator >(const Vec3<P>& other) { return X > other.X || Y > other.Y || Z > other.Z;  };
-	template<typename P> constexpr bool operator <(const Vec3<P>& other) { return X < other.X && Y < other.Y && Z < other.Z;  };
+	template<typename P> constexpr bool const operator==(const Vec3<P>& other) const { return X == other.X && Y == other.Y && Z == other.Z;};
+	template<typename P> constexpr bool const operator!=(const Vec3<P>& other) const { return X != other.X || Y != other.Y || Z != other.Z;};
+	template<typename P> constexpr bool const operator >(const Vec3<P>& other) const { return X > other.X || Y > other.Y || Z > other.Z;  };
+	template<typename P> constexpr bool const operator <(const Vec3<P>& other) const { return X < other.X && Y < other.Y && Z < other.Z;  };
 	constexpr Vec3<T> operator-() const; //!< Returns the opposite of this vector. Equals Vec2(-X, -Y).
 	
 	constexpr float  getLength() const;  //!< Returns the \c length of this vector. This is the distance to Vec3(0, 0, 0).

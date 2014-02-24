@@ -39,10 +39,10 @@ public:
 	
 	T& operator[](int x);
 	const T& operator[](int x) const;
-	template<typename P> constexpr bool operator==(const Vec2<P>& other){ return X == other.X && Y == other.Y;  };
+	template<typename P> constexpr bool const operator==(const Vec2<P>& other) const { return X == other.X && Y == other.Y;  };
 	//template<typename P> constexpr bool operator!=(const Vec2<P>& other){ return X != other.X || Y != other.Y;  };
-	template<typename P> constexpr bool operator>(const Vec2<P>& other){ return X > other.X || Y > other.Y;  };
-	template<typename P> constexpr bool operator<(const Vec2<P>& other){ return X < other.X && Y < other.Y;  };
+	template<typename P> constexpr bool const operator>(const Vec2<P>& other) const { return X > other.X || Y > other.Y;  };
+	template<typename P> constexpr bool const operator<(const Vec2<P>& other) const { return X < other.X && Y < other.Y;  };
 	constexpr Vec2<T> operator-() const; //!< Returns the opposite of this vector. Equals Vec2(-X, -Y).
 	
 	constexpr float  getLength() const;  //!< Returns the \c length of this vector. This is the distance to Vec2(0, 0).

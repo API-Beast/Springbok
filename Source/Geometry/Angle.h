@@ -47,8 +47,8 @@ struct Angle
 	Vec2F rotateVec(Vec2F vec) const;
 	void sanitize();
 	
-	constexpr double sin();
-	constexpr double cos();
+	constexpr double const sin() const;
+	constexpr double const cos() const;
 	static constexpr Angle Atan2(double a, double b);
 	static constexpr Angle Acos(double A);
 	static constexpr Angle Asin(double A);
