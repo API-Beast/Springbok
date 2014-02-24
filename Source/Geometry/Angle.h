@@ -49,9 +49,9 @@ struct Angle
 	
 	constexpr double const sin() const;
 	constexpr double const cos() const;
-	static constexpr Angle Atan2(double a, double b);
-	static constexpr Angle Acos(double A);
-	static constexpr Angle Asin(double A);
+	static Angle Atan2(double a, double b);
+	static Angle Acos(double A);
+	static Angle Asin(double A);
 	
 public:
 	static Angle FromBooleanDirectionMatrix(bool up, bool right, bool down, bool left);
