@@ -13,7 +13,6 @@ void RenderContext::Setup2DEnvironment()
 {
 	glEnable(GL_BLEND);
 	glEnable(GL_TEXTURE_2D);
-	glDisable(GL_DEPTH);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glAlphaFunc(GL_ALWAYS, 0);
 	glEnableClientState(GL_VERTEX_ARRAY);
