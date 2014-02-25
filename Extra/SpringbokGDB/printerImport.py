@@ -143,7 +143,7 @@ class Printer_Gen(object):
 		return None
 
 
-printer_gen = Printer_Gen('boost')
+printer_gen = Printer_Gen('Springbok')
 
 # This function registers the top-level Printer generator with gdb.
 # This should be called from .gdbinit.

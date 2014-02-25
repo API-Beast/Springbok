@@ -22,7 +22,7 @@ else:
 @_register_printer
 class SpringbokList:
 	"Pretty Printer for Springbok Lists"
-	printer_name = 'Springbok/Containers/List'
+	printer_name = 'Springbok.Containers.List'
 	version = '1.00'
 	type_name_re = '^List<(.*)>$'
 
@@ -47,7 +47,7 @@ class SpringbokList:
 		self.value = value
 
 	def to_string(self):
-		return '%s(%d, %d)' % (self.typename, self.value['UsedLength'], self.value['MemoryLength'])
+		return 'List(%d/%d)' % (self.value['UsedLength'], self.value['MemoryLength'])
 	
 	def children(self):
 			return self._iterator(self.value)
@@ -58,7 +58,7 @@ class SpringbokList:
 @_register_printer
 class SpringbokMemorySubrange:
 	"Pretty Printer for MemorySubrange"
-	printer_name = 'Springbok/Containers/MemorySubrange'
+	printer_name = 'Springbok.Containers.MemorySubrange'
 	version = '1.00'
 	type_name_re = '^MemorySubrange<(.*)>$'
 
@@ -94,7 +94,7 @@ class SpringbokMemorySubrange:
 @_register_printer
 class SpringbokContainerSubrange:
 	"Pretty Printer for ContainerSubrange"
-	printer_name = 'Springbok/Containers/ContainerSubrange'
+	printer_name = 'Springbok.Containers.ContainerSubrange'
 	version = '1.00'
 	type_name_re = '^ContainerSubrange<(.*)>$'
 
@@ -108,7 +108,7 @@ class SpringbokContainerSubrange:
 @_register_printer
 class SpringbokVec2:
 	"Pretty Printer for Springbok 2D Vectors"
-	printer_name = 'Springbok/Geometry/Vec2'
+	printer_name = 'Springbok.Geometry.Vec2'
 	version = '1.00'
 	type_name_re = '^Vec2<(.*)>$'
 
@@ -117,13 +117,13 @@ class SpringbokVec2:
 		self.value = value
 
 	def to_string(self):
-		return 'Vec2(%s, %s)' % (self.value['X'], self.value['Y'])
+		return 'Vec2(%s:%s)' % (self.value['X'], self.value['Y'])
 	
 	
 @_register_printer
 class SpringbokVec3:
 	"Pretty Printer for Springbok 3D Vectors"
-	printer_name = 'Springbok/Geometry/Vec3'
+	printer_name = 'Springbok.Geometry.Vec3'
 	version = '1.00'
 	type_name_re = '^Vec3<(.*)>$'
 
@@ -132,12 +132,12 @@ class SpringbokVec3:
 		self.value = value
 
 	def to_string(self):
-		return 'Vec3(%s, %s, %s)' % (self.value['X'], self.value['Y'], self.value['Z'])
+		return 'Vec3(%s:%s:%s)' % (self.value['X'], self.value['Y'], self.value['Z'])
 	
 @_register_printer
 class SpringbokRange:
 	"Pretty Printer for Springbok 1D Ranges"
-	printer_name = 'Springbok/Math/Range'
+	printer_name = 'Springbok.Math.Range'
 	version = '1.00'
 	type_name_re = '^Range<(.*)>$'
 
@@ -151,7 +151,7 @@ class SpringbokRange:
 @_register_printer
 class SpringbokAngle:
 	"Pretty Printer for Springbok Angles"
-	printer_name = 'Springbok/Geometry/Angle'
+	printer_name = 'Springbok.Geometry.Angle'
 	version = '1.00'
 	type_name_re = '^Angle$'
 
@@ -160,12 +160,12 @@ class SpringbokAngle:
 		self.value = value
 
 	def to_string(self):
-		return '%d°' % (self.value['Data']/6.2831853*360)
+		return '%d°' % (float(self.value['Data']) / 6.2831853 * 360)
 	
 @_register_printer
 class SpringbokBoundingRect:
 	"Pretty Printer for Springbok Angles"
-	printer_name = 'Springbok/Geometry/BoundingRect'
+	printer_name = 'Springbok.Geometry.BoundingRect'
 	version = '1.00'
 	type_name_re = '^BoundingRect$'
 
@@ -174,12 +174,12 @@ class SpringbokBoundingRect:
 		self.value = value
 
 	def to_string(self):
-		return 'BoundingRect(%dx%d@%d,%d)' % (self.value['Size']['X'], self.value['Size']['Y'], self.value['Position']['X'], self.value['Position']['Y'])
+		return 'BoundingRect<%d*%d@%d:%d>' % (self.value['Size']['X'], self.value['Size']['Y'], self.value['Position']['X'], self.value['Position']['Y'])
 	
 @_register_printer
 class SpringbokImage:
 	"Pretty Printer for Springbok Images"
-	printer_name = 'Springbok/Graphics/Image'
+	printer_name = 'Springbok.Graphics.Image'
 	version = '1.00'
 	type_name_re = '^Image$'
 
@@ -191,4 +191,4 @@ class SpringbokImage:
 		# wth, why isn't this working
 		#if self.value['mTexture'] == 0x0:
 		#	return 'Image(unloaded %s)' % (self.value['mPath'])
-		return 'Image(%dx%d@%d,%d in %s)' % (self.value['mSize']['X'], self.value['mSize']['Y'], self.value['mOffset']['X'], self.value['mOffset']['Y'], self.value['mPath'])
+		return 'Image<%d*%d@%d:%d in %s>' % (self.value['mSize']['X'], self.value['mSize']['Y'], self.value['mOffset']['X'], self.value['mOffset']['Y'], self.value['mPath'])
