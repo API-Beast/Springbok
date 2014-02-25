@@ -240,6 +240,10 @@ int Map<T,C,Member>::findIndex(const C& searchFor, int minmin, int maxmax, int p
 	{
 		min = Max(mid - 1, 0);
 		max = Min(mid + 1, Data.UsedLength-1);
+		
+		if(searchFor < Data[min].*Member)
+			return min-1;
+		
 		int i = min;
 		while(i < max)
 		{
@@ -252,6 +256,7 @@ int Map<T,C,Member>::findIndex(const C& searchFor, int minmin, int maxmax, int p
 					return i;
 			i++;
 		}
+		
 		return max;
 	}
 	
@@ -275,7 +280,7 @@ template <typename T, typename C, C T::*Member>
 T& Map<T,C,Member>::operator[](const C& index)
 {
 	int i = findIndex(index);
-	if(i < Data.UsedLength)
+	if(i < Data.UsedLength && i >= 0)
 		if(Data[i].*Member == index)
 			return Data[i];
 	
@@ -288,7 +293,7 @@ template <typename T, typename C, C T::*Member>
 T Map<T,C,Member>::operator[](const C& index) const
 {
 	int i = findIndex(index);
-	if(i < Data.UsedLength)
+	if(i < Data.UsedLength && i >= 0)
 		if(Data[i].*Member == index)
 			return Data[i];
 	return T();
@@ -300,10 +305,7 @@ T& Map<T,C,Member>::insert(const T& t)
 	if(!Data.Memory)
 		return Data.insert(0, t);
 	int i = findIndex(t.*Member);
-	if(Data.UsedLength <= i || Data[i].*Member > t.*Member)
-		return Data.insert(i, t);
-	else
-		return Data.insert(i+1, t);
+	return Data.insert(i+1, t);
 }
 
 template <typename T, typename C, C T::*Member>

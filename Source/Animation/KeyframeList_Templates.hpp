@@ -13,6 +13,12 @@ T KeyframeList<T>::operator[](float position) const
 {
 	int index = Keyframes.findIndex(position);
 	
+	if(index == -1)
+		index = 0;
+	
+	if(Keyframes.empty())
+		return T();
+	
 	// For linear interpolation
 	Keyframe start = Keyframes.Data[index];
 	Keyframe end = start;

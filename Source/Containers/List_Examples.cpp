@@ -1,4 +1,5 @@
 #include "List.h"
+#include "../Geometry/Vec2.h"
 #include "SSTest.h"
 
 namespace
@@ -173,5 +174,92 @@ SST::SimpleTest GSLil("Generic/List::initializer", &initializer,  SST::Required)
 SST::SimpleTest GSMpod("Generic/Map::plainOldData", &podMap,  SST::Required);
 SST::SimpleTest GSMc("Generic/Map::complex", &map,  SST::Required);
 SST::SimpleTest GSMil("Generic/Map::maxInitializer", &mapInitializer,  SST::Required);
+
+struct Sector
+{
+	int Position;
+	bool Initialized = false;
+};
+
+void _indexInsert()
+{	
+	Map<Sector, int, &Sector::Position> map;
+	
+	auto check = [&](int index)
+	{
+		auto& entry = map[index];
+		bool wasInitialized = entry.Initialized;
+		entry.Initialized = true;
+		return wasInitialized;
+	};
+	
+	SST_M_ASSERT_START;
+	
+	SST_M_ASSERT_EQ(check(2), false);
+	SST_M_ASSERT_EQ(check(2), true);
+	SST_M_ASSERT_EQ(check(1), false);
+	SST_M_ASSERT_EQ(check(0), false);
+	SST_M_ASSERT_EQ(check(1), true);
+	SST_M_ASSERT_EQ(check(1), true);
+	SST_M_ASSERT_EQ(check(2), true);
+	SST_M_ASSERT_EQ(check(1), true);
+	SST_M_ASSERT_EQ(check(0), true);
+	SST_M_ASSERT_EQ(check(0), true);
+	SST_M_ASSERT_EQ(check(0), true);
+	SST_M_ASSERT_EQ(check(1), true);
+	SST_M_ASSERT_EQ(check(2), true);
+	SST_M_ASSERT_EQ(check(2), true);
+	SST_M_ASSERT_EQ(check(0), true);
+	SST_M_ASSERT_EQ(check(1), true);
+	SST_M_ASSERT_EQ(check(0), true);
+	SST_M_ASSERT_EQ(check(2), true);
+	SST_M_ASSERT_EQ(check(2), true);
+	SST_M_ASSERT_EQ(check(1), true);
+	SST_M_ASSERT_EQ(check(2), true);
+	SST_M_ASSERT_EQ(check(1), true);
+	
+	SST_M_ASSERT_END;
+}
+
+SST::SimpleTest _Map_indexInsert("Containers/Map::indexInsert", &_indexInsert, SST::Required);
+
+#include <cstdlib>
+#include <climits>
+
+typedef Vec2I ToTest;
+
+struct SingleVal
+{
+	ToTest Val;
+	operator ToTest()
+	{
+		return Val;
+	};
+};
+
+void _insertReliability()
+{	
+	SST_M_ASSERT_START;
+	Map<SingleVal, ToTest, &SingleVal::Val> map;
+	srand(549834035);
+	for(int i = 0; i < 1600; ++i)
+	{
+		map.insert({{rand()%16, rand()%16}});
+		bool isSorted = true;
+		ToTest lastItem=map.Data[0];
+		for(ToTest item : map.Data)
+		{
+			if(item >= lastItem)
+				continue;
+			isSorted = false;
+			break;
+		}
+		SST_M_ASSERT(isSorted);
+	}
+	SST_M_ASSERT_END;
+}
+
+SST::SimpleTest _List_insertReliability("Containers/List::insertReliability", &_insertReliability, SST::Required);
+
 
 }
