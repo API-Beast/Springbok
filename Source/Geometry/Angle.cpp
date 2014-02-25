@@ -180,3 +180,13 @@ Angle Angle::Asin(double A)
 {
 	return Angle::FromRadians(std::asin(A));
 };
+
+double const Angle::cos() const
+{
+	return std::cos(Data);
+}
+
+double const Angle::sin() const
+{
+	return std::sin(Data);
+}

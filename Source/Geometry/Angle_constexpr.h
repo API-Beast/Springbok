@@ -23,13 +23,4 @@ constexpr Angle Angle::FromTurn(float turns)
 	return Angle(turns * Tau);
 }
 
-constexpr double const Angle::cos() const
-{
-	return std::cos(Data);
-}
-
-constexpr double const Angle::sin() const
-{
-	return std::sin(Data);
-}
 
