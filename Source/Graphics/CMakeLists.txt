@@ -1,4 +1,6 @@
-find_package(OpenGL REQUIRED)
+if(NOT SPRINGBOK_HTML5)
+  find_package(OpenGL REQUIRED)
+endif()
 
 set(H_FILES BitmapFont.h Color.h Image.h RenderContext.h Texture.h)
 set(CPP_FILES BitmapFont.cpp Color.cpp Image.cpp RenderContext.cpp Texture.cpp)
