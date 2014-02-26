@@ -15,6 +15,12 @@ GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
 	d = new GameSurfaceData;
 
 	Debug::Write("Init SDL...");
+	
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION,2);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION,1);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+	
 	int result = SDL_Init(SDL_INIT_VIDEO);
 	if(result != 0)
 		Debug::Write("Couldn't init SDL: $",SDL_GetError());
@@ -24,6 +30,8 @@ GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
 		Debug::Write("Couldn't open window!");
 	
 	d->size = sizeHint;
+	
+	SDL_GL_SetSwapInterval(1);
 
 	glLoadIdentity();
 	glOrtho(0, sizeHint.X, sizeHint.Y, 0, 2.0, -2.0);
