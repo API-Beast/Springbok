@@ -8,7 +8,7 @@ namespace Debug
 
 	template<typename T, typename... Args> void Write(const char* message, T value, Args... args)
 	{	
-		if (message == "" || message[0] == '\0')
+		if (message[0] == '\0')
 			return;
 		while (*message) 
 		{

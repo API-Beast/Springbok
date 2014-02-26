@@ -3,7 +3,7 @@
 
 void Debug::Write(const char* message)
 {
-	if (message == "" || message[0] == '\0')
+	if (message[0] == '\0')
 		return;
 	while (*message) 
 	{
