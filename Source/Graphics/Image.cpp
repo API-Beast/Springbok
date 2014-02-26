@@ -8,13 +8,14 @@
 #include <Springbok/Resources/ResourceManager.h>
 #include <Springbok/Utils/Debug.h>
 #include "RenderContext.h"
-#include <GL/gl.h>
+#include "Camera.h"
+#include <GL/glew.h>
 #include <iostream>
 
 Image::Image(const std::string& filename)
 {
 	mPath = filename;
-	lazyLoad();
+	//lazyLoad();
 }
 
 Image::Image(const Image& other, Vec2I position, Vec2I size)
@@ -27,10 +28,11 @@ Image::Image(const Image& other, Vec2I position, Vec2I size)
 	mTexCoords = mTexture->calcTextureCoordinates(mOffset, mSize);
 }
 
-void Image::draw(const RenderContext& r)
+void Image::draw(RenderContext& r)
 {
-	lazyLoad();
-	
+	lazyLoad(r);
+	r.draw(vertexBuffer);
+	/*
 	RectF vertices = r.getTransformedRect<float>(Vec2F(0, 0), mSize);
 	
 	if(r.LastBoundTexture != mTexture->Index)
@@ -42,12 +44,12 @@ void Image::draw(const RenderContext& r)
 	static const GLubyte indices[4] = {0, 1, 2, 3};
 	glVertexPointer(2, GL_FLOAT, 0, vertices.Points);
 	glTexCoordPointer(2, GL_FLOAT, 0, this->mTexCoords.Points);
-	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, indices);
+	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, indices);*/
 }
 
 void Image::drawStretched(Vec2< int > size, const RenderContext& r)
 {
-	lazyLoad();
+	lazyLoad(r);
 	
 	RectF vertices = r.getTransformedRect<float>(Vec2F(0, 0), size);
 	
@@ -105,7 +107,8 @@ Image Image::cut(Vec2I position, Vec2I size)
 
 Vec2< int > Image::getSize()
 {	
-	lazyLoad();
+	//FIXME: I hope I will have a better solution until this code get into production
+	//lazyLoad();
 	return mSize;
 }
 
@@ -119,7 +122,7 @@ bool Image::valid() const
 	return mTexture && mTexture->Valid;
 }
 
-void Image::lazyLoad()
+void Image::lazyLoad(const RenderContext& r)
 {
 	if(mTexture != nullptr)
 		if(mTexture->Valid)
@@ -131,6 +134,18 @@ void Image::lazyLoad()
 		return;
 	}
 	
-	mTexCoords = mTexture->TextureCoordinates;
 	mSize = mTexture->ImageSize;
+	
+	std::array<Vec2F,4> vertices = r.getDefaultCamera()->transformRect(RectF(0,0,mSize.X,mSize.Y));
+	
+	for(int i = 0; i < 4; i++)
+	{
+		Debug::Write("$ $",vertices[i].X, vertices[i].Y);
+	}
+	glGenBuffers(1, &vertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), vertices.data(), GL_STATIC_DRAW);
+	
+	mTexCoords = mTexture->TextureCoordinates;
+	
 }

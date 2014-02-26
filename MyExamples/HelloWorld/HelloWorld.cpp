@@ -13,6 +13,7 @@ HelloWorld::HelloWorld()
 	Clock   = new PreciseClock();
 	
 	RenderContext::Setup2DEnvironment();
+	r.initShader();
 	r.CameraPos = -Surface->getSize()/2;
 }
 

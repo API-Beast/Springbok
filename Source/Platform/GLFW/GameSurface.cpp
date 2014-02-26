@@ -1,3 +1,4 @@
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "../GameSurface.h"
 #include <Springbok/Utils/Debug.h>
@@ -35,6 +36,11 @@ GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
 	
 	if(flags & NoVSync);
 	else glfwSwapInterval(1);
+	
+	Debug::Write("Load OpenGL extensions...");
+	int result = glewInit();
+	if (result != 0)
+		Debug::Write("OpenGL extension loading failed!");
 	
 	int x, y;
 	glfwGetWindowSize(d->Window, &x, &y);

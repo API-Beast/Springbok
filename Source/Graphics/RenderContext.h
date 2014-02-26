@@ -11,6 +11,9 @@
 
 #include "Color.h"
 
+class Camera;
+class Shader;
+
 //! @addtogroup Graphics
 struct RenderContext
 {
@@ -46,7 +49,12 @@ public:
 	void setColor(const Color& color, float alpha=1.f);
 	void setBlendingMode(BlendingMode mode);
 	void loadDefaults();
+	const void draw(unsigned int buffer);
+	void initShader();
+	Camera* getDefaultCamera() const { return defaultCamera; }
 private:
+	Camera* defaultCamera;
+	Shader* shader;
 	const RenderContext* mParent = nullptr;
 	Color mSetColor = Colors::White;
 	float mSetAlpha = 1.f;

@@ -4,8 +4,25 @@
 // 0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "RenderContext.h"
-#include <GL/gl.h>
+#include <GL/glew.h>
 #include <Springbok/Generic/PointerGuard.h>
+#include "Shader.h"
+#include "Camera.h"
+
+const char* vertexShader = 
+"attribute vec2 VertexPosition;"
+""
+"void main() {"
+"gl_Position.xyz = vec3(VertexPosition.x,VertexPosition.y,0);"
+"gl_Position.w = 1.0;"
+"}";
+
+const char* fragmentShader =
+"void main(){"
+"gl_FragColor = vec4(1,0,0,1);"
+"}";
+
+glHandle vertexArrayHandle;
 
 unsigned RenderContext::LastBoundTexture = 0;
 
@@ -17,6 +34,13 @@ void RenderContext::Setup2DEnvironment()
 	glAlphaFunc(GL_ALWAYS, 0);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glGenVertexArrays(1, &vertexArrayHandle);
+	glBindVertexArray(vertexArrayHandle);
+}
+
+void RenderContext::initShader()
+{
+	shader = new Shader(vertexShader,fragmentShader);
 }
 
 void RenderContext::loadDefaults()
@@ -34,7 +58,7 @@ void RenderContext::setColor(const Color& color, float alpha)
 	mSetColor = color;
 	mSetAlpha = alpha;
 	Color clipped = color.lowerBound(0.f).upperBound(1.f);
-	glColor4f(color[0], color[1], color[2], alpha);
+	//glColor4f(color[0], color[1], color[2], alpha);
 }
 
 void RenderContext::setBlendingMode(RenderContext::BlendingMode mode)
@@ -48,10 +72,23 @@ void RenderContext::setBlendingMode(RenderContext::BlendingMode mode)
 		glBlendFunc(GL_DST_COLOR, GL_ZERO);
 }
 
+const void RenderContext::draw(unsigned int buffer)
+{
+	shader->bind();
+	int vertexAttributeLocation = shader->getAttributeLocation("VertexPosition");
+	glEnableVertexAttribArray(vertexAttributeLocation);
+	glBindBuffer(GL_ARRAY_BUFFER, buffer);
+	glVertexAttribPointer(vertexAttributeLocation, 2, GL_FLOAT, false, 0, 0);
+	static const GLubyte indices[4] = {0, 1, 2, 3};
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDisableVertexAttribArray(vertexAttributeLocation);
+}
+
 RenderContext::RenderContext()
 {
 	setColor(Colors::White);
 	setBlendingMode(Default);
+	defaultCamera = new Camera(800,600);
 }
 
 RenderContext::RenderContext(const RenderContext& parent)
@@ -83,5 +120,5 @@ RenderContext::~RenderContext()
 
 void RenderContext::setOffsetRelativeToViewport(Vec2< int > pos)
 {
-  Offset = CameraPos + pos;
+	Offset = CameraPos + pos;
 };
