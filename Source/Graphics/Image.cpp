@@ -31,7 +31,7 @@ void Image::draw(const RenderContext& r)
 {
 	lazyLoad();
 	
-  RectF vertices = r.getTransformedRect<float>(Vec2F(0, 0), mSize);
+	RectF vertices = r.getTransformedRect<float>(Vec2F(0, 0), mSize);
 	
 	if(r.LastBoundTexture != mTexture->Index)
 	{
@@ -39,17 +39,17 @@ void Image::draw(const RenderContext& r)
 		r.LastBoundTexture = mTexture->Index;
 	}
 	
-  static const GLubyte indices[4] = {0, 1, 2, 3};
-  glVertexPointer(2, GL_FLOAT, 0, vertices.Points);
-  glTexCoordPointer(2, GL_FLOAT, 0, this->mTexCoords.Points);
-  glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, indices);
+	static const GLubyte indices[4] = {0, 1, 2, 3};
+	glVertexPointer(2, GL_FLOAT, 0, vertices.Points);
+	glTexCoordPointer(2, GL_FLOAT, 0, this->mTexCoords.Points);
+	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, indices);
 }
 
 void Image::drawStretched(Vec2< int > size, const RenderContext& r)
 {
 	lazyLoad();
 	
-  RectF vertices = r.getTransformedRect<float>(Vec2F(0, 0), size);
+	RectF vertices = r.getTransformedRect<float>(Vec2F(0, 0), size);
 	
 	if(r.LastBoundTexture != mTexture->Index)
 	{
@@ -57,10 +57,10 @@ void Image::drawStretched(Vec2< int > size, const RenderContext& r)
 		r.LastBoundTexture = mTexture->Index;
 	}
 	
-  static const GLubyte indices[4] = {0, 1, 2, 3};
-  glVertexPointer(2, GL_FLOAT, 0, vertices.Points);
-  glTexCoordPointer(2, GL_FLOAT, 0, this->mTexCoords.Points);
-  glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, indices);
+	static const GLubyte indices[4] = {0, 1, 2, 3};
+	glVertexPointer(2, GL_FLOAT, 0, vertices.Points);
+	glTexCoordPointer(2, GL_FLOAT, 0, this->mTexCoords.Points);
+	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, indices);
 }
 
 void Image::drawRepeated(const RenderContext& r)
