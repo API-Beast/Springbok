@@ -31,7 +31,8 @@ GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
 	
 	d->size = sizeHint;
 	
-	SDL_GL_SetSwapInterval(1);
+	if(flags & NoVSync);
+	else SDL_GL_SetSwapInterval(1);
 
 	glLoadIdentity();
 	glOrtho(0, sizeHint.X, sizeHint.Y, 0, 2.0, -2.0);
