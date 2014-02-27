@@ -33,9 +33,15 @@ constexpr Vec2<T> Vec2<T>::operator-() const
 }
 
 template<typename T>
-constexpr float Vec2<T>::getLength() const
+constexpr float Vec2<T>::length() const
 {
 	return SquareRoot((X * X) + (Y * Y));
+}
+
+template<typename T>
+constexpr float Vec2<T>::sqLength() const
+{
+	return (X * X) + (Y * Y);
 }
 
 template<typename T>
@@ -53,7 +59,7 @@ Vec2<T> Vec2<T>::upperBound(Vec2<T> other) const
 template<typename T>
 constexpr Vec2<T> Vec2<T>::normalized() const
 {
-	return getLength() > 0 ? ((*this) / getLength()) : Vec2<T>(0);
+	return length() > 0 ? ((*this) / length()) : Vec2<T>(0);
 }
 
 template<typename T>

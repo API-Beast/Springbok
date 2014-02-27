@@ -13,7 +13,7 @@ Vec2F Angle::toDirection() const
 
 Vec2F Angle::rotateVec(Vec2F vec) const
 {
-	float length = vec.getLength();
+	float length = vec.length();
 	Angle angle = Angle(vec) + *this;
 	return Vec2F(length * angle.sin(), length * -angle.cos());
 }

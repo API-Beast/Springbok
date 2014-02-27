@@ -42,7 +42,7 @@ RandomNumberGenerator::RandomNumberGenerator(long long unsigned int fullSeed)
 	HighSeed = (unsigned int)(fullSeed << (sizeof(unsigned int)*8));
 }
 
-unsigned int RandomNumberGenerator::generateBitfield()
+unsigned int RandomNumberGenerator::generate()
 {
 	static const int shift = sizeof(int) / 2;
 	HighSeed = (HighSeed >> shift) + (HighSeed << shift);

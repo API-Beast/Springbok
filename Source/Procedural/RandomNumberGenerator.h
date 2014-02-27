@@ -19,28 +19,29 @@ public:
 	RandomNumberGenerator(unsigned int seed = static_cast<unsigned int>(time(0)));
 	RandomNumberGenerator(unsigned int lowSeed, unsigned int highSeed);
 	RandomNumberGenerator(unsigned long long int fullSeed);
-	float generate();
-	template<typename T=float> T generate(T min, T max);
-	template<typename T=float> Vec2<T> generateVec2(Vec2<T> min, Vec2<T> max);
-	unsigned int generateBitfield();
+	float getFloat();
+	template<typename T=float> T getNumber(T max){ return getNumber<T>(T(), max); };
+	template<typename T=float> T getNumber(T min, T max);
+	template<typename T=float> Vec2<T> getVec2(Vec2<T> min, Vec2<T> max);
+	unsigned int generate();
 public:
 	unsigned int HighSeed;
 	unsigned int LowSeed;
 };
 
-inline float RandomNumberGenerator::generate()
+inline float RandomNumberGenerator::getFloat()
 {
-	return generateBitfield() / double(UINT_MAX);
+	return generate() / double(UINT_MAX);
 };
 
 template<typename T>
-T RandomNumberGenerator::generate(T min, T max)
+T RandomNumberGenerator::getNumber(T min, T max)
 {
-	return min + generate()*(NextBiggerValue(max) - min);
+	return min + getFloat()*(NextBiggerValue(max) - min);
 }
 
 template<typename T>
-Vec2<T> RandomNumberGenerator::generateVec2(Vec2<T> min, Vec2<T> max)
+Vec2<T> RandomNumberGenerator::getVec2(Vec2<T> min, Vec2<T> max)
 {
-	return Vec2<T>(min.X + generate()*(NextBiggerValue(max.X)-min.X), min.Y + generate()*(NextBiggerValue(max.Y)-min.Y));
+	return Vec2<T>(min.X + getFloat()*(NextBiggerValue(max.X)-min.X), min.Y + getFloat()*(NextBiggerValue(max.Y)-min.Y));
 };

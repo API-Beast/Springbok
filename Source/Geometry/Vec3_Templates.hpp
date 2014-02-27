@@ -34,9 +34,15 @@ constexpr Vec3<T> Vec3<T>::operator-() const
 }
 
 template<typename T>
-constexpr float Vec3<T>::getLength() const
+constexpr float Vec3<T>::length() const
 {
 	return SquareRoot((X * X) + (Y * Y) + (Z * Z));
+}
+
+template<typename T>
+constexpr float Vec3<T>::sqLength() const
+{
+	return (X * X) + (Y * Y) + (Z * Z);
 }
 
 template<typename T>
@@ -54,5 +60,5 @@ Vec3<T> Vec3<T>::upperBound(Vec3<T> other) const
 template<typename T>
 constexpr Vec3<T> Vec3<T>::normalized() const
 {
-	return getLength() > 0 ? ((*this) / getLength()) : Vec3<T>(0);
+	return length() > 0 ? ((*this) / length()) : Vec3<T>(0);
 }

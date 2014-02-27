@@ -105,7 +105,7 @@ namespace Palette = Colors::Oxygen;
 
 constexpr Color Desaturate(const Color& clr, float factor)
 {
-	return (clr * (1-factor)) + (Color(clr.getLength()) * factor);
+	return (clr * (1-factor)) + (Color(clr.length()) * factor);
 };
 
 constexpr Color Saturate(const Color& clr, float factor)

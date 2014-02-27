@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include "Vec2.h"
+
 template<typename T>
 struct Vec3
 {
@@ -37,13 +39,49 @@ public:
 	template<typename P> constexpr bool operator <(const Vec3<P>& other) { return X < other.X && Y < other.Y && Z < other.Z;  };
 	constexpr Vec3<T> operator-() const; //!< Returns the opposite of this vector. Equals Vec2(-X, -Y).
 	
-	constexpr float  getLength() const;  //!< Returns the \c length of this vector. This is the distance to Vec3(0, 0, 0).
+	constexpr float sqLength() const;
+	constexpr float   length() const;  //!< Returns the \c length of this vector. This is the distance to Vec3(0, 0, 0).
 	constexpr Vec3<T> normalized() const;          //!< Returns the normalized version of \c this. A normalized vector (also called unit vector) has a length of 1 or 0.
 	
 	Vec3<T> lowerBound(Vec3<T> other) const;
 	Vec3<T> upperBound(Vec3<T> other) const;
 	
 	constexpr bool isNull() const;
+	
+	constexpr Vec2<T> XY() const{ return {X, Y}; };
+	constexpr Vec2<T> YX() const{ return {Y, X}; };
+	constexpr Vec2<T> XX() const{ return {X, X}; };
+	constexpr Vec2<T> YY() const{ return {Y, Y}; };
+	
+	constexpr Vec2<T> ZY() const{ return {Z, Y}; };
+	constexpr Vec2<T> ZX() const{ return {Z, X}; };
+	constexpr Vec2<T> ZZ() const{ return {Z, Z}; };
+	
+	constexpr Vec3<T> XXX() const{ return {X, X, X}; };
+	constexpr Vec3<T> YYY() const{ return {Y, Y, Y}; };
+	
+	constexpr Vec3<T> YXX() const{ return {Y, X, X}; };
+	constexpr Vec3<T> XYX() const{ return {X, Y, X}; };
+	constexpr Vec3<T> XXY() const{ return {X, X, Y}; };
+	
+	constexpr Vec3<T> XYZ() const{ return {X, Y, Z}; };
+	constexpr Vec3<T> ZYX() const{ return {Z, Y, X}; };
+	constexpr Vec3<T> XZY() const{ return {X, Z, Y}; };
+	constexpr Vec3<T> YZX() const{ return {Y, Z, X}; };
+	constexpr Vec3<T> YXZ() const{ return {Y, X, Z}; };
+	constexpr Vec3<T> ZXY() const{ return {Z, X, Y}; };
+};
+
+template<typename T>
+float Distance(Vec3<T> a, Vec3<T> b)
+{
+	return (a - b).getLength();
+};
+
+template<typename T>
+bool InRange(Vec3<T> a, Vec3<T> b, float range)
+{
+	return (a - b).sqLength() < (range * range);
 };
 
 #define def_operator(OPER)\
