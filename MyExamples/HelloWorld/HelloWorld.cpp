@@ -6,6 +6,7 @@
 #include "HelloWorld.h"
 #include <GL/gl.h>
 #include "Springbok/Graphics/Camera.h"
+#include <Source/Utils/Debug.h>
 
 HelloWorld::HelloWorld()
 {
@@ -16,7 +17,8 @@ HelloWorld::HelloWorld()
 	
 	RenderContext::Setup2DEnvironment();
 	r.initShader();
-	r.CameraPos = Surface->getSize()/2;
+	//r.CameraPos = Surface->getSize()/2;
+	//r.CameraPos.X = Surface->getSize().X;
 }
 
 HelloWorld::~HelloWorld()
@@ -31,6 +33,7 @@ int HelloWorld::execute()
 	Image TestSprite = Image("Enemy.png");
 	Clock->start();
 	double lastTime=0.0f, thisTime=0.0f;
+	int globalPos = -1000;
 	while(!Surface->closeRequested())
 	{
 		lastTime = thisTime;
@@ -47,10 +50,13 @@ int HelloWorld::execute()
 	
 		batch.Start();
 
-		batch.Draw(r.transformRect(TestSprite.getVertices(),0,0));
-		batch.Draw(r.transformRect(TestSprite.getVertices(),100,0));
-		batch.Draw(r.transformRect(TestSprite.getVertices(),-100,0));
-
+		for(int i = 0; i < 256; i++)
+		{
+			batch.Draw(r.transformRect(TestSprite.getVertices(),i * 100 + globalPos,0));
+		}
+		
+		globalPos+= 1;
+		
 		batch.End();
 
 		Surface->switchBuffers();

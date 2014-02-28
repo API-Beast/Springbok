@@ -31,6 +31,6 @@ private:
 	
 	//
 	RenderContext r;
-	GraphicsBatch batch = GraphicsBatch(5);
+	GraphicsBatch batch = GraphicsBatch(256);
 
 };

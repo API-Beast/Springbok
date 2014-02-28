@@ -2,7 +2,7 @@
 
 #include "Springbok/Containers/VertexArray.h"
 #include "GLTypes.h"
-#include <stack>
+#include <vector>
 
 class Shader;
 
@@ -19,8 +19,9 @@ private:
 private:
 	Shader* shader;
 	glHandle vertexBuffer, textureBuffer;
-	std::stack<VertexArray<4>> frameData;
+	std::vector<VertexArray<4>> frameData;
 	int bufferOffset = 0;
+	int currentElement = 0;
 	bool isInit = false;
 	int size;
 };

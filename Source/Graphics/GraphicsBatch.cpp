@@ -16,9 +16,9 @@ const char* fragmentShader =
 "gl_FragColor = vec4(1,0,0,1);" 
 "}";
 
-
 GraphicsBatch::GraphicsBatch(int size)
 {
+	this->frameData.reserve(size);
 	this->size = size;
 }
 
@@ -26,26 +26,27 @@ void GraphicsBatch::Start()
 {
 	this->lazyInit();
 	bufferOffset = 0;
+	currentElement = 0;
 }
 
 void GraphicsBatch::Draw(VertexArray<4> data)
 {
-	if(frameData.size() >= this->size) {
+	if(currentElement >= this->size) {
 		Debug::Write("WARNING: Draw command discarded because your batch is too small! You wanted to draw more than $ images in one batch!",this->size);
 		return;
 	}
-	frameData.push(data);
+	frameData[currentElement] = data;
+	currentElement++;
 }
 
 void GraphicsBatch::End()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	while(frameData.size() > 0)
+	for(int i = 0; i < this->size; i++)
 	{
-		VertexArray<4>& vertices = frameData.top();
+		VertexArray<4>& vertices = frameData[i]; 
 		glBufferSubData(GL_ARRAY_BUFFER,this->bufferOffset,4*2*sizeof(float),vertices.data());	
 		this->bufferOffset += 4*2*sizeof(float); 
-		frameData.pop();
 	}
 
 	shader->bind();
