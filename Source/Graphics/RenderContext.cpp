@@ -11,15 +11,22 @@
 
 const char* vertexShader = 
 "attribute vec2 VertexPosition;"
+"attribute vec2 TextureCoordinate;"
+"varying vec2 texCoord;"
 ""
 "void main() {"
+"texCoord = TextureCoordinate;"
 "gl_Position.xyz = vec3(VertexPosition.x,VertexPosition.y,0);"
 "gl_Position.w = 1.0;"
 "}";
 
 const char* fragmentShader =
+"precision mediump float;"
+"varying vec2 texCoord;"
+"uniform sampler2D TextureSampler;"
+""
 "void main(){"
-"gl_FragColor = vec4(1,0,0,1);"
+"gl_FragColor = texture2D(TextureSampler, vec2(texCoord.s, texCoord.t));" 
 "}";
 
 glHandle vertexArrayHandle;
@@ -72,15 +79,27 @@ void RenderContext::setBlendingMode(RenderContext::BlendingMode mode)
 		glBlendFunc(GL_DST_COLOR, GL_ZERO);
 }
 
-const void RenderContext::draw(unsigned int buffer)
+const void RenderContext::draw(glHandle vertexBuffer, glHandle textureBuffer)
 {
 	shader->bind();
+	shader->setUniform("TextureSampler",0);
+
 	int vertexAttributeLocation = shader->getAttributeLocation("VertexPosition");
+	int textureAttributeLocation = shader->getAttributeLocation("TextureCoordinate");
+
 	glEnableVertexAttribArray(vertexAttributeLocation);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
+	glEnableVertexAttribArray(textureAttributeLocation);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	glVertexAttribPointer(vertexAttributeLocation, 2, GL_FLOAT, false, 0, 0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer); 
+	glVertexAttribPointer(textureAttributeLocation, 2, GL_FLOAT, false, 0, 0);
+
 	static const GLubyte indices[4] = {0, 1, 2, 3};
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+	glDisableVertexAttribArray(textureAttributeLocation);
 	glDisableVertexAttribArray(vertexAttributeLocation);
 }
 

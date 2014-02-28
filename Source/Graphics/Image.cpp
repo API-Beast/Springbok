@@ -31,7 +31,14 @@ Image::Image(const Image& other, Vec2I position, Vec2I size)
 void Image::draw(RenderContext& r)
 {
 	lazyLoad(r);
-	r.draw(vertexBuffer);
+
+	if(r.LastBoundTexture != mTexture->Index)
+	{
+		glBindTexture(GL_TEXTURE_2D, mTexture->Index);
+		r.LastBoundTexture = mTexture->Index;
+	}
+
+	r.draw(vertexBuffer,textureBuffer);
 	/*
 	RectF vertices = r.getTransformedRect<float>(Vec2F(0, 0), mSize);
 	
@@ -122,6 +129,26 @@ bool Image::valid() const
 	return mTexture && mTexture->Valid;
 }
 
+void Image::generateVertices(const RenderContext& r)
+{
+	std::array<Vec2F,4> vertices = r.getDefaultCamera()->transformRect(RectF(0,0,mSize.X,mSize.Y));
+	
+	for(int i = 0; i < 4; i++)
+	{
+		Debug::Write("Vertex $ $",vertices[i].X, vertices[i].Y);
+		Debug::Write("Fragment $ $",mTexCoords.Points[i].X, mTexCoords.Points[i].Y);
+	}
+
+	glGenBuffers(1, &vertexBuffer);
+	glGenBuffers(1, &textureBuffer);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), vertices.data(), GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
+	glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), mTexCoords.Points, GL_STATIC_DRAW);
+}
+
 void Image::lazyLoad(const RenderContext& r)
 {
 	if(mTexture != nullptr)
@@ -133,19 +160,9 @@ void Image::lazyLoad(const RenderContext& r)
 		Debug::Write("WARNING: Texture is not valid!");
 		return;
 	}
-	
+
 	mSize = mTexture->ImageSize;
-	
-	std::array<Vec2F,4> vertices = r.getDefaultCamera()->transformRect(RectF(0,0,mSize.X,mSize.Y));
-	
-	for(int i = 0; i < 4; i++)
-	{
-		Debug::Write("$ $",vertices[i].X, vertices[i].Y);
-	}
-	glGenBuffers(1, &vertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), vertices.data(), GL_STATIC_DRAW);
-	
 	mTexCoords = mTexture->TextureCoordinates;
-	
+
+	this->generateVertices(r);
 }

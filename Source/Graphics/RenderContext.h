@@ -8,6 +8,7 @@
 #include <Springbok/Geometry/Angle.h>
 #include <Springbok/Geometry/Vec2.h>
 #include <Springbok/Geometry/Rect.h>
+#include <Springbok/Graphics/GLTypes.h>
 
 #include "Color.h"
 
@@ -49,7 +50,7 @@ public:
 	void setColor(const Color& color, float alpha=1.f);
 	void setBlendingMode(BlendingMode mode);
 	void loadDefaults();
-	const void draw(unsigned int buffer);
+	const void draw(glHandle vertexBuffer, glHandle textureBuffer);
 	void initShader();
 	Camera* getDefaultCamera() const { return defaultCamera; }
 private:

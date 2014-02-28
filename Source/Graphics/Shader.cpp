@@ -135,11 +135,8 @@ void Shader::buildAttributeList()
 
 }
 
-//TODO: Add Uniform methods!
-/*
-void Shader::SetUniform(std::string name, glm::mat4 value)
+void Shader::setUniform(std::string name, int value)
 {
-	int location = this->GetUniformLocation(name);
-	glUniformMatrix4fv(location, 1, false, &value[0][0]);
+	int location = this->getUniformLocation(name);
+	glUniform1i(location, value);
 }
-*/

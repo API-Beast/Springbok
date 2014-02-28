@@ -25,7 +25,8 @@ namespace
 
 RectF Texture::calcTextureCoordinates(Vec2I pos, Vec2I size)
 {
-	return RectF(pos / Vec2F(TextureSize), (size) / Vec2F(TextureSize));
+	RectF out = RectF(pos / Vec2F(TextureSize), (size) / Vec2F(TextureSize));
+	return out.mirroredVertical();	
 }
 
 Texture::Texture(const std::string& filename)

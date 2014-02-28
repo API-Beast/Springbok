@@ -10,6 +10,7 @@
 #include <Springbok/Geometry/Rect.h>
 #include <Springbok/Generic/ObjectPointer.h>
 #include <Springbok/Geometry/Vec3.h>
+#include <Springbok/Graphics/GLTypes.h>
 
 class RenderContext;
 
@@ -33,6 +34,7 @@ public:
 	bool valid() const;
 	Image cut(Vec2I position, Vec2I size);
 private:
+	void generateVertices(const RenderContext& r);
 	void lazyLoad(const RenderContext& r);
 	ObjectPointer<Texture> mTexture = nullptr;
 	std::string mPath;
@@ -40,7 +42,7 @@ private:
 	Vec2<int> mOffset = Vec2<int>(0, 0);
 	Vec2<int> mSize = Vec2<int>(0, 0);
 	
-	unsigned int vertexBuffer;
+	glHandle vertexBuffer, textureBuffer;
 };
 
 //! @}

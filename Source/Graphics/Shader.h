@@ -15,6 +15,7 @@ public:
 	int getUniformLocation(std::string name);
 	int getAttributeLocation(std::string name);
 public:
+	void setUniform(std::string name, int value);
 	//void SetUniform(std::string name, glm::mat4 value);
 private:
 	glHandle compileVertexShader(const char* vertexShader);
