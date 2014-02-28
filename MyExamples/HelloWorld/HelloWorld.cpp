@@ -5,12 +5,14 @@
 
 #include "HelloWorld.h"
 #include <GL/gl.h>
+#include "Springbok/Graphics/Camera.h"
 
 HelloWorld::HelloWorld()
 {
 	Surface = new GameSurface("Hello Springbok Example", GameSurface::Windowed);
 	Input   = new InputMonitor(Surface);
 	Clock   = new PreciseClock();
+
 	
 	RenderContext::Setup2DEnvironment();
 	r.initShader();
@@ -42,9 +44,15 @@ int HelloWorld::execute()
 		
 		glClearColor(0.7f, 0.4f, 0.6f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		
-		TestSprite.draw(r);
-		
+	
+		batch.Start();
+
+		batch.Draw(r.getDefaultCamera()->transformRect(TestSprite.getVertices()));
+		batch.Draw(r.getDefaultCamera()->transformRect(TestSprite.getVertices()));
+		batch.Draw(r.getDefaultCamera()->transformRect(TestSprite.getVertices()));
+
+		batch.End();
+
 		Surface->switchBuffers();
 	}
 	return 0;

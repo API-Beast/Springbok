@@ -7,9 +7,9 @@ Camera::Camera(int width, int height)
 	this->height = height;
 }
 
-std::array<Vec2F,4> Camera::transformRect(RectF rect)
+VertexArray<4> Camera::transformRect(RectF rect)
 {
-	std::array<Vec2F,4> output;
+	VertexArray<4> output;
 	
 	int halfWidth = width / 2;
 	int halfHeight = height / 2;

@@ -11,6 +11,7 @@
 #include <Springbok/Generic/ObjectPointer.h>
 #include <Springbok/Geometry/Vec3.h>
 #include <Springbok/Graphics/GLTypes.h>
+#include <Springbok/Containers/VertexArray.h>
 
 class RenderContext;
 
@@ -25,6 +26,7 @@ public:
 	Image(const std::string& filename);
 	Image(const Image& other, Vec2I position, Vec2I size);
 	Image(){};
+	RectF getVertices();
 	void draw(RenderContext& r);
 	void drawStretched(Vec2I size, const RenderContext& r);
 	void drawRepeated(const RenderContext& r);

@@ -1,13 +1,14 @@
 #pragma once
-#include <Source/Geometry/Rect.h>
-#include <array>
+
+#include <Springbok/Geometry/Rect.h>
+#include <Springbok/Containers/VertexArray.h>
 
 class Camera
 {
 public:
 	Camera(int width, int height);
 public:
-	std::array<Vec2F,4> transformRect(RectF rect);
+	VertexArray<4> transformRect(RectF rect);
 private:
 	int width, height;
 };

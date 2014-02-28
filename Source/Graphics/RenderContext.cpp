@@ -8,7 +8,7 @@
 #include <Springbok/Generic/PointerGuard.h>
 #include "Shader.h"
 #include "Camera.h"
-
+/*
 const char* vertexShader = 
 "attribute vec2 VertexPosition;"
 "attribute vec2 TextureCoordinate;"
@@ -28,7 +28,7 @@ const char* fragmentShader =
 "void main(){"
 "gl_FragColor = texture2D(TextureSampler, vec2(texCoord.s, texCoord.t));" 
 "}";
-
+*/
 glHandle vertexArrayHandle;
 
 unsigned RenderContext::LastBoundTexture = 0;
@@ -47,7 +47,7 @@ void RenderContext::Setup2DEnvironment()
 
 void RenderContext::initShader()
 {
-	shader = new Shader(vertexShader,fragmentShader);
+	//shader = new Shader(vertexShader,fragmentShader);
 }
 
 void RenderContext::loadDefaults()
@@ -81,6 +81,7 @@ void RenderContext::setBlendingMode(RenderContext::BlendingMode mode)
 
 const void RenderContext::draw(glHandle vertexBuffer, glHandle textureBuffer)
 {
+		/*
 	shader->bind();
 	shader->setUniform("TextureSampler",0);
 
@@ -101,6 +102,7 @@ const void RenderContext::draw(glHandle vertexBuffer, glHandle textureBuffer)
 
 	glDisableVertexAttribArray(textureAttributeLocation);
 	glDisableVertexAttribArray(vertexAttributeLocation);
+	*/
 }
 
 RenderContext::RenderContext()

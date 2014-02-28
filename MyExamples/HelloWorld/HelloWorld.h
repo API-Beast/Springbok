@@ -31,5 +31,6 @@ private:
 	
 	//
 	RenderContext r;
+	GraphicsBatch batch;
 
 };

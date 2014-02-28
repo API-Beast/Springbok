@@ -28,6 +28,11 @@ Image::Image(const Image& other, Vec2I position, Vec2I size)
 	mTexCoords = mTexture->calcTextureCoordinates(mOffset, mSize);
 }
 
+RectF Image::getVertices()
+{
+	return RectF(0,0,mSize.X,mSize.Y);
+}
+
 void Image::draw(RenderContext& r)
 {
 	lazyLoad(r);
