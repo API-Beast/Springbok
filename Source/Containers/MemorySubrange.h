@@ -30,6 +30,7 @@ protected:
 	Container* mContainer;
 public:
 	ContainerSubrange(Container& container, int start, int end) : mContainer(&container), mBegin(start), mEnd(end){};
+	ContainerSubrange() : mBegin(0), mEnd(0), mContainer(nullptr){};
 	const T& operator[](int index) const{ return (*mContainer)[mBegin + index]; };
 	T& operator[](int index){ return (*mContainer)[mBegin + index]; };
 	auto begin() -> decltype(mContainer->begin()+mBegin) { return mContainer->begin()+mBegin; };
