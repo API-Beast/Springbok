@@ -79,7 +79,7 @@ void RenderContext::setBlendingMode(RenderContext::BlendingMode mode)
 		glBlendFunc(GL_DST_COLOR, GL_ZERO);
 }
 
-VertexArray<4> RenderContext::transformRect(RectF rect, int x, int y)
+VertexArray<4> RenderContext::transformRect(RectF rect, RenderParameters params)
 {
 	VertexArray<4> output;
 	
@@ -91,10 +91,10 @@ VertexArray<4> RenderContext::transformRect(RectF rect, int x, int y)
 	Vec2F origin = rect.getOrigin();
 	Vec2F size = rect.getSize();
 	
-	float left 		= (xPixelFactor * (x + this->CameraPos.X + origin.X)) + this->CoordinateOrigin.X;
-	float right 	= (xPixelFactor * (x + this->CameraPos.X + origin.X + size.X)) + this->CoordinateOrigin.X;
-	float down 		= (yPixelFactor * (y + this->CameraPos.Y + origin.Y)) + this->CoordinateOrigin.Y;
-	float up 		= (yPixelFactor * (y + this->CameraPos.Y + origin.Y + size.Y)) + this->CoordinateOrigin.Y;
+	float left 		= (xPixelFactor * (params.Offset.X + this->CameraPos.X + origin.X)) + this->CoordinateOrigin.X;
+	float right 	= (xPixelFactor * (params.Offset.X + this->CameraPos.X + origin.X + size.X)) + this->CoordinateOrigin.X;
+	float down 		= (yPixelFactor * (params.Offset.Y + this->CameraPos.Y + origin.Y)) + this->CoordinateOrigin.Y;
+	float up 		= (yPixelFactor * (params.Offset.Y + this->CameraPos.Y + origin.Y + size.Y)) + this->CoordinateOrigin.Y;
 	
 	output[0] = Vec2F(left, down);
 	output[1] = Vec2F(left, up);

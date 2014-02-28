@@ -12,6 +12,7 @@
 #include <Springbok/Containers/VertexArray.h>
 
 #include "Color.h"
+#include "RenderParameters.h"
 
 class Shader;
 
@@ -49,7 +50,7 @@ public:
 	~RenderContext();
 	template<typename T>
 	Rect<T> getTransformedRect(Vec2<T> pos, Vec2<T> size) const;
-	VertexArray<4> transformRect(RectF rect, int x, int y);
+	VertexArray<4> transformRect(RectF rect, RenderParameters params);
 	void setOffsetRelativeToViewport(Vec2I pos);
 	void setColor(const Color& color, float alpha=1.f);
 	void setBlendingMode(BlendingMode mode);
