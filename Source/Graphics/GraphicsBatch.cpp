@@ -54,8 +54,6 @@ void GraphicsBatch::End()
 	int vertexAttributeLocation = shader->getAttributeLocation("VertexPosition");
 
 	glEnableVertexAttribArray(vertexAttributeLocation);
-
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	glVertexAttribPointer(vertexAttributeLocation, 2, GL_FLOAT, false, 0, 0);
 
 	static const GLubyte indices[4] = {0, 1, 2, 3};
