@@ -1,6 +1,7 @@
 #include "GraphicsBatch.h"
 #include <GL/glew.h>
 #include <Springbok/Graphics/Shader.h>
+#include <Source/Utils/Debug.h>
 
 const char* vertexShader = 
 "attribute vec2 VertexPosition;"
@@ -16,9 +17,9 @@ const char* fragmentShader =
 "}";
 
 
-GraphicsBatch::GraphicsBatch()
+GraphicsBatch::GraphicsBatch(int size)
 {
-
+	this->size = size;
 }
 
 void GraphicsBatch::Start()
@@ -29,6 +30,10 @@ void GraphicsBatch::Start()
 
 void GraphicsBatch::Draw(VertexArray<4> data)
 {
+	if(frameData.size() >= this->size) {
+		Debug::Write("WARNING: Draw command discarded because your batch is too small! You wanted to draw more than $ images in one batch!",this->size);
+		return;
+	}
 	frameData.push(data);
 }
 
@@ -66,7 +71,7 @@ void GraphicsBatch::lazyInit()
 	this->isInit = true;
 	glGenBuffers(1,&this->vertexBuffer);	
 	glBindBuffer(GL_ARRAY_BUFFER, this->vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, (4*2*sizeof(float))*3, NULL, GL_DYNAMIC_DRAW);   
+	glBufferData(GL_ARRAY_BUFFER, (4*2*sizeof(float))*this->size, NULL, GL_DYNAMIC_DRAW);   
 	shader = new Shader(vertexShader,fragmentShader);
 }
 
