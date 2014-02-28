@@ -20,9 +20,9 @@ VertexArray<4> Camera::transformRect(RectF rect)
 	Vec2F size = rect.getSize();
 	
 	output[0] = Vec2F((xPixelFactor * (origin.X)) - 1.0f, (yPixelFactor * (origin.Y)) - 1.0f);
-	output[1] = Vec2F((xPixelFactor * (origin.X + size.X)) - 1.0f, (yPixelFactor * (origin.Y)) - 1.0f);
-	output[2] = Vec2F((xPixelFactor * (origin.X)) - 1.0f, (yPixelFactor * (origin.Y + size.Y)) - 1.0f);
-	output[3] = Vec2F((xPixelFactor * (origin.X + size.X)) - 1.0f, (yPixelFactor * (origin.Y + size.Y)) - 1.0f);
+	output[1] = Vec2F((xPixelFactor * (origin.X)) - 1.0f, (yPixelFactor * (origin.Y + size.Y)) - 1.0f);
+	output[2] = Vec2F((xPixelFactor * (origin.X + size.X)) - 1.0f, (yPixelFactor * (origin.Y + size.Y)) - 1.0f);
+	output[3] = Vec2F((xPixelFactor * (origin.X + size.X)) - 1.0f, (yPixelFactor * (origin.Y)) - 1.0f);
 	
 	/*
 	 * 	output[0] = Vec2F(xPixelFactor * ((origin.X) - 0.5f), yPixelFactor * ((origin.Y) - 0.5f));

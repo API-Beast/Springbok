@@ -30,12 +30,13 @@ Image::Image(const Image& other, Vec2I position, Vec2I size)
 
 RectF Image::getVertices()
 {
+	lazyLoad();
 	return RectF(0,0,mSize.X,mSize.Y);
 }
 
 void Image::draw(RenderContext& r)
 {
-	lazyLoad(r);
+	lazyLoad();
 
 	if(r.LastBoundTexture != mTexture->Index)
 	{
@@ -61,7 +62,7 @@ void Image::draw(RenderContext& r)
 
 void Image::drawStretched(Vec2< int > size, const RenderContext& r)
 {
-	lazyLoad(r);
+	lazyLoad();
 	
 	RectF vertices = r.getTransformedRect<float>(Vec2F(0, 0), size);
 	
@@ -119,8 +120,7 @@ Image Image::cut(Vec2I position, Vec2I size)
 
 Vec2< int > Image::getSize()
 {	
-	//FIXME: I hope I will have a better solution until this code get into production
-	//lazyLoad();
+	lazyLoad();
 	return mSize;
 }
 
@@ -136,25 +136,9 @@ bool Image::valid() const
 
 void Image::generateVertices(const RenderContext& r)
 {
-	std::array<Vec2F,4> vertices = r.getDefaultCamera()->transformRect(RectF(0,0,mSize.X,mSize.Y));
-	
-	for(int i = 0; i < 4; i++)
-	{
-		Debug::Write("Vertex $ $",vertices[i].X, vertices[i].Y);
-		Debug::Write("Fragment $ $",mTexCoords.Points[i].X, mTexCoords.Points[i].Y);
-	}
-
-	glGenBuffers(1, &vertexBuffer);
-	glGenBuffers(1, &textureBuffer);
-
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), vertices.data(), GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
-	glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), mTexCoords.Points, GL_STATIC_DRAW);
 }
 
-void Image::lazyLoad(const RenderContext& r)
+void Image::lazyLoad()
 {
 	if(mTexture != nullptr)
 		if(mTexture->Valid)
@@ -168,6 +152,4 @@ void Image::lazyLoad(const RenderContext& r)
 
 	mSize = mTexture->ImageSize;
 	mTexCoords = mTexture->TextureCoordinates;
-
-	this->generateVertices(r);
 }

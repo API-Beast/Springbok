@@ -16,7 +16,7 @@ HelloWorld::HelloWorld()
 	
 	RenderContext::Setup2DEnvironment();
 	r.initShader();
-	r.CameraPos = -Surface->getSize()/2;
+	r.CameraPos = Surface->getSize()/2;
 }
 
 HelloWorld::~HelloWorld()
@@ -47,9 +47,9 @@ int HelloWorld::execute()
 	
 		batch.Start();
 
-		batch.Draw(r.getDefaultCamera()->transformRect(TestSprite.getVertices()));
-		batch.Draw(r.getDefaultCamera()->transformRect(TestSprite.getVertices()));
-		batch.Draw(r.getDefaultCamera()->transformRect(TestSprite.getVertices()));
+		batch.Draw(r.transformRect(TestSprite.getVertices(),0,0));
+		batch.Draw(r.transformRect(TestSprite.getVertices(),100,0));
+		batch.Draw(r.transformRect(TestSprite.getVertices(),-100,0));
 
 		batch.End();
 

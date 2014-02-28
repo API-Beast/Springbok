@@ -37,7 +37,7 @@ public:
 	Image cut(Vec2I position, Vec2I size);
 private:
 	void generateVertices(const RenderContext& r);
-	void lazyLoad(const RenderContext& r);
+	void lazyLoad();
 	ObjectPointer<Texture> mTexture = nullptr;
 	std::string mPath;
 	RectF mTexCoords = RectF(0.0, 0.0, 1.f, 1.f);

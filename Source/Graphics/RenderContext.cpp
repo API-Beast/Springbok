@@ -79,6 +79,32 @@ void RenderContext::setBlendingMode(RenderContext::BlendingMode mode)
 		glBlendFunc(GL_DST_COLOR, GL_ZERO);
 }
 
+VertexArray<4> RenderContext::transformRect(RectF rect, int x, int y)
+{
+	VertexArray<4> output;
+	
+	int halfWidth = this->Size.X / 2;
+	int halfHeight = this->Size.Y / 2;
+	float xPixelFactor = 1.0f / halfWidth;
+	float yPixelFactor = 1.0f / halfHeight;
+	
+	Vec2F origin = rect.getOrigin();
+	Vec2F size = rect.getSize();
+	
+	float left 		= (xPixelFactor * (x + this->CameraPos.X + origin.X)) + this->CoordinateOrigin.X;
+	float right 	= (xPixelFactor * (x + this->CameraPos.X + origin.X + size.X)) + this->CoordinateOrigin.X;
+	float down 		= (yPixelFactor * (y + this->CameraPos.Y + origin.Y)) + this->CoordinateOrigin.Y;
+	float up 		= (yPixelFactor * (y + this->CameraPos.Y + origin.Y + size.Y)) + this->CoordinateOrigin.Y;
+	
+	output[0] = Vec2F(left, down);
+	output[1] = Vec2F(left, up);
+	output[2] = Vec2F(right, up);
+	output[3] = Vec2F(right, down);
+	
+	return output;
+}
+
+
 const void RenderContext::draw(glHandle vertexBuffer, glHandle textureBuffer)
 {
 		/*
@@ -109,7 +135,6 @@ RenderContext::RenderContext()
 {
 	setColor(Colors::White);
 	setBlendingMode(Default);
-	defaultCamera = new Camera(800,600);
 }
 
 RenderContext::RenderContext(const RenderContext& parent)

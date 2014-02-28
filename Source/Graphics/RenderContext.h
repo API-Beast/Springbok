@@ -9,10 +9,10 @@
 #include <Springbok/Geometry/Vec2.h>
 #include <Springbok/Geometry/Rect.h>
 #include <Springbok/Graphics/GLTypes.h>
+#include <Springbok/Containers/VertexArray.h>
 
 #include "Color.h"
 
-class Camera;
 class Shader;
 
 //! @addtogroup Graphics
@@ -26,6 +26,8 @@ public:
 		Multiplicative
 	};
 public:
+	Vec2F CoordinateOrigin = Vec2F(-1,-1); // In screen space
+	Vec2I Size      = Vec2I(800,600);
 	Vec2I Offset    = Vec2I(0, 0);
 	Vec2F Scale     = Vec2F(+1.0f, +1.0f);
 	Vec2F Alignment = Vec2F(+0.5f, +0.5f);
@@ -42,19 +44,19 @@ public:
 ///@}
 public:
 	RenderContext();
+	RenderContext(int width, int height);
 	RenderContext(const RenderContext& parent);
 	~RenderContext();
 	template<typename T>
 	Rect<T> getTransformedRect(Vec2<T> pos, Vec2<T> size) const;
+	VertexArray<4> transformRect(RectF rect, int x, int y);
 	void setOffsetRelativeToViewport(Vec2I pos);
 	void setColor(const Color& color, float alpha=1.f);
 	void setBlendingMode(BlendingMode mode);
 	void loadDefaults();
 	const void draw(glHandle vertexBuffer, glHandle textureBuffer);
 	void initShader();
-	Camera* getDefaultCamera() const { return defaultCamera; }
 private:
-	Camera* defaultCamera;
 	Shader* shader;
 	const RenderContext* mParent = nullptr;
 	Color mSetColor = Colors::White;
