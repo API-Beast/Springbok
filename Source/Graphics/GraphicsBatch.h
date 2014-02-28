@@ -11,9 +11,9 @@ class GraphicsBatch
 public:
 	GraphicsBatch(int size = 256);
 public:
-	void Start();
-	void Draw(VertexArray<4> data);
-	void End();
+	void start();
+	void draw(VertexArray<4> data);
+	void end();
 private:
 	void lazyInit();
 private:

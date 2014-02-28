@@ -48,16 +48,16 @@ int HelloWorld::execute()
 		glClearColor(0.7f, 0.4f, 0.6f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 	
-		batch.Start();
+		batch.start();
 
 		for(int i = 0; i < 256; i++)
 		{
-			batch.Draw(r.transformRect(TestSprite.getVertices(),i * 100 + globalPos,0));
+			batch.draw(r.transformRect(TestSprite.getVertices(),i * 100 + globalPos,0));
 		}
 		
 		globalPos+= 1;
 		
-		batch.End();
+		batch.end();
 
 		Surface->switchBuffers();
 	}

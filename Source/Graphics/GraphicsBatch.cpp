@@ -22,14 +22,14 @@ GraphicsBatch::GraphicsBatch(int size)
 	this->size = size;
 }
 
-void GraphicsBatch::Start()
+void GraphicsBatch::start()
 {
 	this->lazyInit();
 	bufferOffset = 0;
 	currentElement = 0;
 }
 
-void GraphicsBatch::Draw(VertexArray<4> data)
+void GraphicsBatch::draw(VertexArray<4> data)
 {
 	if(currentElement >= this->size) {
 		Debug::Write("WARNING: Draw command discarded because your batch is too small! You wanted to draw more than $ images in one batch!",this->size);
@@ -39,7 +39,7 @@ void GraphicsBatch::Draw(VertexArray<4> data)
 	currentElement++;
 }
 
-void GraphicsBatch::End()
+void GraphicsBatch::end()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	for(int i = 0; i < this->size; i++)
