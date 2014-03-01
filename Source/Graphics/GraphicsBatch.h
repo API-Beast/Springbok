@@ -5,6 +5,7 @@
 #include "GLTypes.h"
 #include "Texture.h"
 #include <vector>
+#include <map>
 
 class Shader;
 
@@ -23,6 +24,12 @@ struct FrameData
 	glHandle texture;
 };
 
+struct DrawCommand
+{
+	glHandle texture;
+	int count;
+};
+
 class GraphicsBatch
 {
 public:
@@ -32,11 +39,13 @@ public:
 	void draw(ObjectPointer<Texture> texture, VertexArray<4> data);
 	void end();
 private:
+	void generateDrawCommands();
 	void lazyInit();
 private:
 	Shader* shader;
 	glHandle vertexBuffer, textureBuffer;
 	std::vector<FrameData> frameData;
+	std::vector<DrawCommand> drawCommands;
 	int vertexBufferOffset = 0;
 	int textureBufferOffset = 0;
 	int currentElement = 0;

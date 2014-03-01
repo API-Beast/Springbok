@@ -2,6 +2,7 @@
 #include <GL/glew.h>
 #include <Springbok/Graphics/Shader.h>
 #include <Source/Utils/Debug.h>
+#include <cstdlib>
 
 const char* vertexShader = 
 "attribute vec2 VertexPosition;"
@@ -49,6 +50,8 @@ void GraphicsBatch::start()
 	vertexBufferOffset = 0;
 	textureBufferOffset = 0;
 	currentElement = 0;
+
+	drawCommands.clear();
 }
 
 void GraphicsBatch::draw(ObjectPointer<Texture> texture, VertexArray<4> data)
@@ -61,10 +64,48 @@ void GraphicsBatch::draw(ObjectPointer<Texture> texture, VertexArray<4> data)
 	currentElement++;
 }
 
+int FrameComparer (const void* p1, const void* p2)
+{
+	FrameData* data1 = (FrameData*)p1;
+	FrameData* data2 = (FrameData*)p2;	
+
+	if(data1->texture < data2->texture) return -1;
+	if(data1->texture == data2->texture) return 0;
+	if(data1->texture > data2->texture) return 1;
+
+	return 0;
+}
+
+void GraphicsBatch::generateDrawCommands()
+{
+	DrawCommand current;
+	current.texture = this->frameData[0].texture;
+	current.count = 0;
+
+	for(int i = 0; i < this->currentElement; i++)
+	{
+		if(current.texture != frameData[i].texture)
+		{
+			drawCommands.push_back(current);
+			current = DrawCommand();
+			current.texture = frameData[i].texture;
+		}
+		current.count++;	
+	}
+	drawCommands.push_back(current);
+}
+
 void GraphicsBatch::end()
 {
+	qsort(&frameData[0],this->currentElement,sizeof(FrameData),FrameComparer);
+
+	for(int i = 0; i < this->currentElement; i++)
+	{
+		Debug::Write("$",this->frameData[i].texture);
+	}
+	
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	for(int i = 0; i < this->size; i++)
+	for(int i = 0; i < this->currentElement; i++)
 	{
 		VertexArray<4>& vertices = frameData[i].vertices; 
 		glBufferSubData(GL_ARRAY_BUFFER,this->vertexBufferOffset,4*2*sizeof(float),vertices.data());	
@@ -72,14 +113,15 @@ void GraphicsBatch::end()
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
-	for(int i = 0; i < this->size; i++)
+	for(int i = 0; i < this->currentElement; i++)
 	{
 		TexRectF& texCoords = frameData[i].textureCoordinates; 
 		glBufferSubData(GL_ARRAY_BUFFER,this->textureBufferOffset,4*2*sizeof(float),texCoords.Points);	
 		this->textureBufferOffset += 4*2*sizeof(float); 
 	}
 
-	glBindTexture(GL_TEXTURE_2D, frameData[0].texture);
+	this->generateDrawCommands();
+
 	shader->bind();
 	shader->setUniform("TextureSampler",0);
 
@@ -95,7 +137,14 @@ void GraphicsBatch::end()
 	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
 	glVertexAttribPointer(textureAttributeLocation, 2, GL_FLOAT, false, 0, 0);
 
-	glDrawArrays(GL_QUADS, 0, 4*(this->vertexBufferOffset / (4*2*sizeof(float))));
+	int drawOffset = 0;
+
+	for(unsigned int i = 0; i < this->drawCommands.size(); i++)
+	{
+		glBindTexture(GL_TEXTURE_2D,this->drawCommands[i].texture);
+		glDrawArrays(GL_QUADS, drawOffset, 4* this->drawCommands[i].count);
+		drawOffset += 4* this->drawCommands[i].count;
+	}
 
 	glDisableVertexAttribArray(vertexAttributeLocation);
 }

@@ -31,9 +31,14 @@ HelloWorld::~HelloWorld()
 int HelloWorld::execute()
 {
 	Image TestSprite = Image("Enemy.png");
+	Image TestSprite2 = Image("Enemy2.png");
+	Image TestSprite3 = Image("Test.png");
+	Image TestSprite4 = Image("Test2.png");
+
+	bool imgSwitch = false;
 	Clock->start();
 	double lastTime=0.0f, thisTime=0.0f;
-	int globalPos = -25600;
+	int globalPos = 0;
 	while(!Surface->closeRequested())
 	{
 		lastTime = thisTime;
@@ -50,9 +55,18 @@ int HelloWorld::execute()
 	
 		batch.start();
 
-		for(int i = 0; i < 256; i++)
+		for(int i = 0; i < 4; i++)
 		{
-			batch.draw(TestSprite.getTexture(), r.transformRect(TestSprite.getVertices(),{i * 100 + globalPos,0}));
+			if(!imgSwitch) {
+				batch.draw(TestSprite.getTexture(), r.transformRect(TestSprite.getVertices(),{i * 100 + globalPos,0}));
+			}
+			else
+			{
+				batch.draw(TestSprite2.getTexture(), r.transformRect(TestSprite2.getVertices(),{i * 100 + globalPos,0}));
+			}
+			batch.draw(TestSprite3.getTexture(), r.transformRect(TestSprite3.getVertices(), {0,500})); 
+			batch.draw(TestSprite4.getTexture(), r.transformRect(TestSprite4.getVertices(), {300,300})); 
+			imgSwitch = !imgSwitch;
 		}
 		
 		globalPos+= 1;
