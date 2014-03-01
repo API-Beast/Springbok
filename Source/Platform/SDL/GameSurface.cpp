@@ -35,7 +35,6 @@ GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
 	else SDL_GL_SetSwapInterval(1);
 
 	glLoadIdentity();
-	glOrtho(0, sizeHint.X, sizeHint.Y, 0, 2.0, -2.0);
 }
 
 GameSurface::~GameSurface()

@@ -42,7 +42,9 @@ Texture::Texture(const std::string& filename)
 	
 	if(error != GL_NO_ERROR || Index == 0xFFFE)
 	{
+#ifndef EMSCRIPTEN
 		Debug::Write("Couldn't generate texture! Index: $; OpenGL error: $",Index,gluErrorString(error));
+#endif
 		Valid = false;
 		Index = 0;
 		return ;

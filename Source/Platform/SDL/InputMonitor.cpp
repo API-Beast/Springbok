@@ -39,13 +39,13 @@ struct SDLKeyboard : public InputDevice
 	virtual bool getButtonState(int index) const 
 	{
 		const Uint8 *state = SDL_GetKeyboardState(NULL);
-		return state[SDL_GetScancodeFromKey(index)];
+		return state[index];
 	};
 	virtual bool anyButtonPressed() const
 	{
 		const Uint8 *state = SDL_GetKeyboardState(NULL);
 		for (int i = 1; i < 100; ++i)
-			if(state[SDL_GetScancodeFromKey(i)])
+			if(state[i])
 				return true;
 		return false;
 	};

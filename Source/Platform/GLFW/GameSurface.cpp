@@ -6,6 +6,7 @@
 struct GameSurfaceData
 {
 	GLFWwindow* Window;
+	glHandle vertexArrayHandle;
 };
 
 GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
@@ -46,6 +47,8 @@ GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
 	glfwGetWindowSize(d->Window, &x, &y);
 	glLoadIdentity();
 	glOrtho(0, x, y, 0, 2.0, -2.0);
+	glGenVertexArrays(1, &d->vertexArrayHandle);
+	glBindVertexArray(d->vertexArrayHandle);
 }
 
 GameSurface::~GameSurface()

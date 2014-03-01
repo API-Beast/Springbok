@@ -38,11 +38,6 @@ void RenderContext::Setup2DEnvironment()
 	glEnable(GL_BLEND);
 	glEnable(GL_TEXTURE_2D);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glAlphaFunc(GL_ALWAYS, 0);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glGenVertexArrays(1, &vertexArrayHandle);
-	glBindVertexArray(vertexArrayHandle);
 }
 
 void RenderContext::initShader()
