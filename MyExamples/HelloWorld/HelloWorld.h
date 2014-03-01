@@ -24,6 +24,7 @@ public:
 	void updateViewport();
 	void update(float deltaTime);
 	void render();
+	bool isRunning() const { return Surface->closeRequested(); }
 private:
 	GameSurface*  Surface;
 	InputMonitor* Input;
@@ -32,5 +33,5 @@ private:
 	//
 	RenderContext r;
 	GraphicsBatch batch = GraphicsBatch(256);
-
+	Image TestSprite,TestSprite2,TestSprite3,TestSprite4;
 };

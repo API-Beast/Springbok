@@ -28,19 +28,12 @@ HelloWorld::~HelloWorld()
 	delete Clock;
 }
 
-int HelloWorld::execute()
-{
-	Image TestSprite = Image("Enemy.png");
-	Image TestSprite2 = Image("Enemy2.png");
-	Image TestSprite3 = Image("Test.png");
-	Image TestSprite4 = Image("Test2.png");
+bool imgSwitch = false;
+double lastTime=0.0f, thisTime=0.0f;
+int globalPos = 0;
 
-	bool imgSwitch = false;
-	Clock->start();
-	double lastTime=0.0f, thisTime=0.0f;
-	int globalPos = 0;
-	while(!Surface->closeRequested())
-	{
+void HelloWorld::render()
+{
 		lastTime = thisTime;
 		thisTime = Clock->elapsed();
 		double dTime = thisTime - lastTime;
@@ -74,6 +67,16 @@ int HelloWorld::execute()
 		batch.end();
 
 		Surface->switchBuffers();
-	}
+
+}
+
+int HelloWorld::execute()
+{
+	TestSprite = Image("Enemy.png");
+	TestSprite2 = Image("Enemy2.png");
+	TestSprite3 = Image("Test.png");
+	TestSprite4 = Image("Test2.png");
+
+	Clock->start();
 	return 0;
 }
