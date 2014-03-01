@@ -10,7 +10,7 @@ class Shader;
 
 struct FrameData
 {
-	FrameData(VertexArray<4> vertices, RectF textureCoordinates, glHandle texture)
+	FrameData(VertexArray<4> vertices, TexRectF textureCoordinates, glHandle texture)
 	{
 		this->vertices = vertices;
 	 	this->textureCoordinates = textureCoordinates;
@@ -18,7 +18,7 @@ struct FrameData
 	}
 
 	VertexArray<4> vertices;
-	RectF textureCoordinates;
+	TexRectF textureCoordinates;
 
 	glHandle texture;
 };

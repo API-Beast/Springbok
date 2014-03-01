@@ -33,7 +33,7 @@ int HelloWorld::execute()
 	Image TestSprite = Image("Enemy.png");
 	Clock->start();
 	double lastTime=0.0f, thisTime=0.0f;
-	int globalPos = -1000;
+	int globalPos = -25600;
 	while(!Surface->closeRequested())
 	{
 		lastTime = thisTime;

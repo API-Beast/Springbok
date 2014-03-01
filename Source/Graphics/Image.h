@@ -7,6 +7,7 @@
 
 #include <string>
 
+#include <Springbok/Geometry/TexRect.h>
 #include <Springbok/Geometry/Rect.h>
 #include <Springbok/Generic/ObjectPointer.h>
 #include <Springbok/Geometry/Vec3.h>
@@ -41,7 +42,7 @@ private:
 	void lazyLoad();
 	ObjectPointer<Texture> mTexture = nullptr;
 	std::string mPath;
-	RectF mTexCoords = RectF(0.0, 0.0, 1.f, 1.f);
+	TexRectF mTexCoords = TexRectF(0.0, 0.0, 1.f, 1.f);
 	Vec2<int> mOffset = Vec2<int>(0, 0);
 	Vec2<int> mSize = Vec2<int>(0, 0);
 	

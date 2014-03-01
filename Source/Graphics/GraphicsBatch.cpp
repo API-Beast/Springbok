@@ -74,7 +74,7 @@ void GraphicsBatch::end()
 	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
 	for(int i = 0; i < this->size; i++)
 	{
-		RectF& texCoords = frameData[i].textureCoordinates; 
+		TexRectF& texCoords = frameData[i].textureCoordinates; 
 		glBufferSubData(GL_ARRAY_BUFFER,this->textureBufferOffset,4*2*sizeof(float),texCoords.Points);	
 		this->textureBufferOffset += 4*2*sizeof(float); 
 	}
@@ -95,7 +95,6 @@ void GraphicsBatch::end()
 	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
 	glVertexAttribPointer(textureAttributeLocation, 2, GL_FLOAT, false, 0, 0);
 
-	static const GLubyte indices[4] = {0, 1, 2, 3};
 	glDrawArrays(GL_QUADS, 0, 4*(this->vertexBufferOffset / (4*2*sizeof(float))));
 
 	glDisableVertexAttribArray(vertexAttributeLocation);

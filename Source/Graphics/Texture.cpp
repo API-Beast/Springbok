@@ -23,9 +23,9 @@ namespace
   };
 }
 
-RectF Texture::calcTextureCoordinates(Vec2I pos, Vec2I size)
+TexRectF Texture::calcTextureCoordinates(Vec2I pos, Vec2I size)
 {
-	RectF out = RectF(pos / Vec2F(TextureSize), (size) / Vec2F(TextureSize));
+	TexRectF out = TexRectF(pos / Vec2F(TextureSize), (size) / Vec2F(TextureSize));
 	return out.mirroredVertical();	
 }
 
