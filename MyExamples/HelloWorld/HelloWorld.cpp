@@ -52,7 +52,7 @@ int HelloWorld::execute()
 
 		for(int i = 0; i < 256; i++)
 		{
-			batch.draw(r.transformRect(TestSprite.getVertices(),{i * 100 + globalPos,0}));
+			batch.draw(TestSprite.getTexture(), r.transformRect(TestSprite.getVertices(),{i * 100 + globalPos,0}));
 		}
 		
 		globalPos+= 1;

@@ -138,6 +138,12 @@ void Image::generateVertices(const RenderContext& r)
 {
 }
 
+ObjectPointer<Texture> Image::getTexture()
+{
+	lazyLoad();
+	return mTexture;
+}
+
 void Image::lazyLoad()
 {
 	if(mTexture != nullptr)
