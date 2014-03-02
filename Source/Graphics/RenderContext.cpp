@@ -36,7 +36,6 @@ unsigned RenderContext::LastBoundTexture = 0;
 void RenderContext::Setup2DEnvironment()
 {
 	glEnable(GL_BLEND);
-	glEnable(GL_TEXTURE_2D);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
@@ -90,11 +89,14 @@ VertexArray<4> RenderContext::transformRect(RectF rect, RenderParameters params)
 	float right 	= (xPixelFactor * (params.Offset.X + this->CameraPos.X + origin.X + size.X)) + this->CoordinateOrigin.X;
 	float down 		= (yPixelFactor * (params.Offset.Y + this->CameraPos.Y + origin.Y)) + this->CoordinateOrigin.Y;
 	float up 		= (yPixelFactor * (params.Offset.Y + this->CameraPos.Y + origin.Y + size.Y)) + this->CoordinateOrigin.Y;
+
+	/*
+	 * */
 	
 	output[0] = Vec2F(left, down);
-	output[1] = Vec2F(left, up);
-	output[2] = Vec2F(right, up);
-	output[3] = Vec2F(right, down);
+	output[1] = Vec2F(right, down);
+	output[2] = Vec2F(left, up);
+	output[3] = Vec2F(right, up);
 	
 	return output;
 }
@@ -129,7 +131,6 @@ const void RenderContext::draw(glHandle vertexBuffer, glHandle textureBuffer)
 RenderContext::RenderContext()
 {
 	setColor(Colors::White);
-	setBlendingMode(Default);
 }
 
 RenderContext::RenderContext(const RenderContext& parent)

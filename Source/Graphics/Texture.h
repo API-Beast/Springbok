@@ -6,7 +6,7 @@
 #pragma once
 
 #include <string>
-#include <Springbok/Geometry/TexRect.h>
+#include <Springbok/Geometry/Rect.h>
 
 //! @addtogroup Graphics
 //! @{
@@ -19,13 +19,13 @@ struct Texture
 	Texture(const Texture&) = delete;
 	virtual ~Texture();
 	
-	TexRectF calcTextureCoordinates(Vec2I pos, Vec2I size);
+	RectF calcTextureCoordinates(Vec2I pos, Vec2I size);
 	
 	bool Valid = false;
 	unsigned int Index = 0;
 	Vec2I ImageSize;
 	Vec2I TextureSize;
- 	TexRectF TextureCoordinates;
+ 	RectF TextureCoordinates;
 };
 
 //! @}

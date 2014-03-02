@@ -24,7 +24,7 @@ public:
 	void updateViewport();
 	void update(float deltaTime);
 	void render();
-	bool isRunning() const { return Surface->closeRequested(); }
+	bool isRunning() const { return !Surface->closeRequested(); }
 private:
 	GameSurface*  Surface;
 	InputMonitor* Input;

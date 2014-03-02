@@ -48,6 +48,8 @@ void HelloWorld::render()
 	
 		batch.start();
 
+		imgSwitch = false;
+
 		for(int i = 0; i < 4; i++)
 		{
 			if(!imgSwitch) {
@@ -57,10 +59,12 @@ void HelloWorld::render()
 			{
 				batch.draw(TestSprite2.getTexture(), r.transformRect(TestSprite2.getVertices(),{i * 100 + globalPos,0}));
 			}
-			batch.draw(TestSprite3.getTexture(), r.transformRect(TestSprite3.getVertices(), {0,500})); 
-			batch.draw(TestSprite4.getTexture(), r.transformRect(TestSprite4.getVertices(), {300,300})); 
+			
 			imgSwitch = !imgSwitch;
 		}
+
+		batch.draw(TestSprite3.getTexture(), r.transformRect(TestSprite3.getVertices(), {0,500})); 
+		batch.draw(TestSprite4.getTexture(), r.transformRect(TestSprite4.getVertices(), {300,300}));
 		
 		globalPos+= 1;
 		

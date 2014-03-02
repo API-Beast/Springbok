@@ -11,7 +11,7 @@ class Shader;
 
 struct FrameData
 {
-	FrameData(VertexArray<4> vertices, TexRectF textureCoordinates, glHandle texture)
+	FrameData(VertexArray<4> vertices, RectF textureCoordinates, glHandle texture)
 	{
 		this->vertices = vertices;
 	 	this->textureCoordinates = textureCoordinates;
@@ -19,7 +19,7 @@ struct FrameData
 	}
 
 	VertexArray<4> vertices;
-	TexRectF textureCoordinates;
+	RectF textureCoordinates;
 
 	glHandle texture;
 };
@@ -40,10 +40,11 @@ public:
 	void end();
 private:
 	void generateDrawCommands();
+	std::vector<unsigned short> generateIndiciesList(int quadCount);
 	void lazyInit();
 private:
 	Shader* shader;
-	glHandle vertexBuffer, textureBuffer;
+	glHandle vertexBuffer, textureBuffer, elementBuffer;
 	std::vector<FrameData> frameData;
 	std::vector<DrawCommand> drawCommands;
 	int vertexBufferOffset = 0;

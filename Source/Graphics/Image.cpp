@@ -152,7 +152,10 @@ void Image::lazyLoad()
 		
 	mTexture = ResourceManager::GetInstance()->getResource<Texture>(mPath);
 	if(mTexture->Valid == false) {
-		Debug::Write("WARNING: Texture is not valid!");
+		if(!errorReported) {
+			Debug::Write("WARNING: Texture is not valid!");
+			errorReported = true;
+		}
 		return;
 	}
 

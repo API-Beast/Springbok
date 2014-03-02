@@ -33,8 +33,6 @@ GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
 	
 	if(flags & NoVSync);
 	else SDL_GL_SetSwapInterval(1);
-
-	glLoadIdentity();
 }
 
 GameSurface::~GameSurface()

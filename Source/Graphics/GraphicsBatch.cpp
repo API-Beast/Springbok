@@ -95,15 +95,31 @@ void GraphicsBatch::generateDrawCommands()
 	drawCommands.push_back(current);
 }
 
+std::vector<unsigned short> GraphicsBatch::generateIndiciesList(int quadCount)
+{
+	std::vector<unsigned short> output;
+
+	int index = 0;
+	for(int i = 0; i < quadCount; i++)
+	{
+		output.push_back(index);
+		index++;
+		output.push_back(index);
+		index++;
+		output.push_back(index);
+		index++;
+		output.push_back(index);
+		output.push_back(index);
+		index++;	
+		output.push_back(index);
+	}	
+	return output;
+}
+
 void GraphicsBatch::end()
 {
 	qsort(&frameData[0],this->currentElement,sizeof(FrameData),FrameComparer);
 
-	for(int i = 0; i < this->currentElement; i++)
-	{
-		Debug::Write("$",this->frameData[i].texture);
-	}
-	
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	for(int i = 0; i < this->currentElement; i++)
 	{
@@ -115,10 +131,14 @@ void GraphicsBatch::end()
 	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
 	for(int i = 0; i < this->currentElement; i++)
 	{
-		TexRectF& texCoords = frameData[i].textureCoordinates; 
+		RectF& texCoords = frameData[i].textureCoordinates; 
 		glBufferSubData(GL_ARRAY_BUFFER,this->textureBufferOffset,4*2*sizeof(float),texCoords.Points);	
 		this->textureBufferOffset += 4*2*sizeof(float); 
 	}
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
+	std::vector<unsigned short> indices = this->generateIndiciesList(this->currentElement);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned short),&indices[0], GL_DYNAMIC_DRAW);
 
 	this->generateDrawCommands();
 
@@ -142,8 +162,8 @@ void GraphicsBatch::end()
 	for(unsigned int i = 0; i < this->drawCommands.size(); i++)
 	{
 		glBindTexture(GL_TEXTURE_2D,this->drawCommands[i].texture);
-		glDrawArrays(GL_QUADS, drawOffset, 4* this->drawCommands[i].count);
-		drawOffset += 4* this->drawCommands[i].count;
+		glDrawElements(GL_TRIANGLE_STRIP, this->drawCommands[i].count * 6, GL_UNSIGNED_SHORT, (void*)(drawOffset * sizeof(unsigned short)));
+		drawOffset += 6* this->drawCommands[i].count;
 	}
 
 	glDisableVertexAttribArray(vertexAttributeLocation);
@@ -157,12 +177,15 @@ void GraphicsBatch::lazyInit()
 	this->isInit = true;
 	glGenBuffers(1,&this->vertexBuffer);	
 	glGenBuffers(1,&this->textureBuffer);
+	glGenBuffers(1,&this->elementBuffer);
 
 	glBindBuffer(GL_ARRAY_BUFFER, this->vertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, (4*2*sizeof(float))*this->size, NULL, GL_DYNAMIC_DRAW);   
 
 	glBindBuffer(GL_ARRAY_BUFFER, this->textureBuffer);
 	glBufferData(GL_ARRAY_BUFFER, (4*2*sizeof(float))*this->size, NULL, GL_DYNAMIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->elementBuffer);
 
 	shader = new Shader(vertexShader,fragmentShader);
 }

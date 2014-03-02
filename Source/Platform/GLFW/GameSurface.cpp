@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include "../GameSurface.h"
 #include <Springbok/Utils/Debug.h>
+#include <Springbok/Graphics/GLTypes.h>
 
 struct GameSurfaceData
 {

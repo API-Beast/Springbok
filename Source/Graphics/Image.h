@@ -42,9 +42,10 @@ private:
 	void lazyLoad();
 	ObjectPointer<Texture> mTexture = nullptr;
 	std::string mPath;
-	TexRectF mTexCoords = TexRectF(0.0, 0.0, 1.f, 1.f);
+	RectF mTexCoords = RectF(0.0, 0.0, 1.f, 1.f);
 	Vec2<int> mOffset = Vec2<int>(0, 0);
 	Vec2<int> mSize = Vec2<int>(0, 0);
+	bool errorReported = false;
 	
 	glHandle vertexBuffer, textureBuffer;
 };
