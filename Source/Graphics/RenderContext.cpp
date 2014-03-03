@@ -8,27 +8,7 @@
 #include <Springbok/Generic/PointerGuard.h>
 #include "Shader.h"
 #include "Camera.h"
-/*
-const char* vertexShader = 
-"attribute vec2 VertexPosition;"
-"attribute vec2 TextureCoordinate;"
-"varying vec2 texCoord;"
-""
-"void main() {"
-"texCoord = TextureCoordinate;"
-"gl_Position.xyz = vec3(VertexPosition.x,VertexPosition.y,0);"
-"gl_Position.w = 1.0;"
-"}";
 
-const char* fragmentShader =
-"precision mediump float;"
-"varying vec2 texCoord;"
-"uniform sampler2D TextureSampler;"
-""
-"void main(){"
-"gl_FragColor = texture2D(TextureSampler, vec2(texCoord.s, texCoord.t));" 
-"}";
-*/
 glHandle vertexArrayHandle;
 
 unsigned RenderContext::LastBoundTexture = 0;
@@ -39,18 +19,9 @@ void RenderContext::Setup2DEnvironment()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void RenderContext::initShader()
-{
-	//shader = new Shader(vertexShader,fragmentShader);
-}
-
 void RenderContext::loadDefaults()
 {
-	Offset    = Vec2<int>(0, 0);
-	Scale     = Vec2F(+1.0f, +1.0f);
-	Alignment = Vec2F(+0.5f, +0.5f);
 	CameraPos = Vec2F(0, 0);
-	Rotation  = 0_turn;
 	LastBoundTexture = 0;
 }
 
@@ -59,7 +30,6 @@ void RenderContext::setColor(const Color& color, float alpha)
 	mSetColor = color;
 	mSetAlpha = alpha;
 	Color clipped = color.lowerBound(0.f).upperBound(1.f);
-	//glColor4f(color[0], color[1], color[2], alpha);
 }
 
 void RenderContext::setBlendingMode(RenderContext::BlendingMode mode)
@@ -90,42 +60,12 @@ VertexArray<4> RenderContext::transformRect(RectF rect, RenderParameters params)
 	float down 		= (yPixelFactor * (params.Offset.Y + this->CameraPos.Y + origin.Y)) + this->CoordinateOrigin.Y;
 	float up 		= (yPixelFactor * (params.Offset.Y + this->CameraPos.Y + origin.Y + size.Y)) + this->CoordinateOrigin.Y;
 
-	/*
-	 * */
-	
 	output[0] = Vec2F(left, down);
 	output[1] = Vec2F(right, down);
 	output[2] = Vec2F(left, up);
 	output[3] = Vec2F(right, up);
 	
 	return output;
-}
-
-
-const void RenderContext::draw(glHandle vertexBuffer, glHandle textureBuffer)
-{
-		/*
-	shader->bind();
-	shader->setUniform("TextureSampler",0);
-
-	int vertexAttributeLocation = shader->getAttributeLocation("VertexPosition");
-	int textureAttributeLocation = shader->getAttributeLocation("TextureCoordinate");
-
-	glEnableVertexAttribArray(vertexAttributeLocation);
-	glEnableVertexAttribArray(textureAttributeLocation);
-
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glVertexAttribPointer(vertexAttributeLocation, 2, GL_FLOAT, false, 0, 0);
-
-	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer); 
-	glVertexAttribPointer(textureAttributeLocation, 2, GL_FLOAT, false, 0, 0);
-
-	static const GLubyte indices[4] = {0, 1, 2, 3};
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-	glDisableVertexAttribArray(textureAttributeLocation);
-	glDisableVertexAttribArray(vertexAttributeLocation);
-	*/
 }
 
 RenderContext::RenderContext()
@@ -136,12 +76,7 @@ RenderContext::RenderContext()
 RenderContext::RenderContext(const RenderContext& parent)
 {
 	mParent = &parent;
-	Offset    = mParent->Offset;
-	Scale     = mParent->Scale;
-	Alignment = mParent->Alignment;
 	CameraPos = mParent->CameraPos;
-	Rotation  = mParent->Rotation;
-	Parallaxity = mParent->Parallaxity;
 	RenderTargetOrigin = mParent->RenderTargetOrigin;
 	RenderTargetSize = mParent->RenderTargetSize;
 	mSetColor = mParent->mSetColor;
@@ -162,5 +97,4 @@ RenderContext::~RenderContext()
 
 void RenderContext::setOffsetRelativeToViewport(Vec2< int > pos)
 {
-	Offset = CameraPos + pos;
 };

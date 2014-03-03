@@ -29,7 +29,6 @@ public:
 	Image(){};
 	RectF getVertices();
 	ObjectPointer<Texture> getTexture();
-	void draw(RenderContext& r);
 	void drawStretched(Vec2I size, const RenderContext& r);
 	void drawRepeated(const RenderContext& r);
 	void drawRepeated(const RenderContext& context, Vec2F clippingPos, Vec2F clippingSize);

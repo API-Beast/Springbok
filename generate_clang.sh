@@ -10,4 +10,4 @@ fi
 mkdir build
 
 cd build
-cmake -DCMAKE_CROSSCOMPILING=TRUE -DCMAKE_BUILD_TYPE=Debug ../
+cmake -DCMAKE_BUILD_TYPE=Debug -G Ninja ../
