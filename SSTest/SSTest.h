@@ -93,10 +93,7 @@ inline void decorateVal(std::ostream& str, T val)
 {
 	str.precision(std::numeric_limits<float>::digits10+2);
 	
-	//std::string herpusderpus = herpus;
-
-#pragma message("FIX ME! error: invalid operands to binary expression ('std::ostream' (aka 'basic_ostream<char>') and 'ConfigFile::PossibleArray')")
-	//error: invalid operands to binary expression ('std::ostream' (aka 'basic_ostream<char>') and 'ConfigFile::PossibleArray')
+	//FIXME: error: invalid operands to binary expression ('std::ostream' (aka 'basic_ostream<char>') and 'ConfigFile::PossibleArray')
 
 	str << std::fixed;
 }
