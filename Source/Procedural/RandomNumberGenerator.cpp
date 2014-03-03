@@ -6,6 +6,7 @@
 
 #include "RandomNumberGenerator.h"
 
+RandomNumberGenerator gRNG;
 
 namespace
 {

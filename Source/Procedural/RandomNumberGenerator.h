@@ -29,6 +29,8 @@ public:
 	unsigned int LowSeed;
 };
 
+extern RandomNumberGenerator gRNG;
+
 inline float RandomNumberGenerator::getFloat()
 {
 	return generate() / double(UINT_MAX);
