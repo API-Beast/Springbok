@@ -57,6 +57,8 @@ public:
 	T& makeSpace(int position, int elements=1);
 	
 	void clear();
+	
+	bool empty() const{ return UsedLength == 0; };
 protected:
 	void memMove(T* dst, const T* src, int length);
 public:
@@ -88,6 +90,7 @@ public:
 	int findIndex(const C& item) const;
 	
 	void clear(){ Data.clear(); };
+	bool empty() const{ return Data.empty(); };
 public:
 	List<T> Data;
 };

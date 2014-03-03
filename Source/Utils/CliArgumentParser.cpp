@@ -36,7 +36,7 @@ void CliArgumentParser::addSwitch(CliArgumentParser::string name, int parameter,
 {
 	SwitchDefinition definition;
 	definition.Names.pushBack(name);
-	definition.Parameters = parameter;
+	definition.AcceptedParameters = parameter;
 	definition.ParametersOptional = optionalParameters;
 	
 	Switches.pushBack(definition);

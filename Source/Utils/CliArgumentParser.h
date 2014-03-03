@@ -15,7 +15,7 @@ public:
 	struct SwitchDefinition
 	{
 		List<std::string> Names;
-		int AcceptedParameters;
+		int AcceptedParameters = 0;
 		bool ParametersOptional = true;
 		
 		bool IsSet = false;

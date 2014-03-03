@@ -39,13 +39,18 @@ public:
 	
 	T& operator[](int x);
 	const T& operator[](int x) const;
-	template<typename P> constexpr bool const operator==(const Vec2<P>& other) const { return X == other.X && Y == other.Y;  };
-	//template<typename P> constexpr bool operator!=(const Vec2<P>& other){ return X != other.X || Y != other.Y;  };
-	template<typename P> constexpr bool const operator>(const Vec2<P>& other) const { return X > other.X || Y > other.Y;  };
-	template<typename P> constexpr bool const operator<(const Vec2<P>& other) const { return X < other.X && Y < other.Y;  };
+	template<typename P> constexpr bool operator==(const Vec2<P>& other){ return X == other.X && Y == other.Y;  };
+	template<typename P> constexpr bool operator>(const Vec2<P>& other){ return (X + Y * 1000) > (other.X + other.Y * 1000);  };
+	template<typename P> constexpr bool operator<(const Vec2<P>& other){ return (X + Y * 1000) < (other.X + other.Y * 1000);  };
+	
+	template<typename P> constexpr bool operator!=(const Vec2<P>& other){ return !operator==(other);  };
+	template<typename P> constexpr bool operator>=(const Vec2<P>& other){ return operator>(other) || operator==(other);  };
+	template<typename P> constexpr bool operator<=(const Vec2<P>& other){ return operator<(other) || operator==(other);  };
+	
 	constexpr Vec2<T> operator-() const; //!< Returns the opposite of this vector. Equals Vec2(-X, -Y).
 	
-	constexpr float  getLength() const;  //!< Returns the \c length of this vector. This is the distance to Vec2(0, 0).
+	constexpr float   length() const;  //!< Returns the \c length of this vector. This is the distance to Vec2(0, 0).
+	constexpr float sqLength() const;
 	constexpr Vec2 normalized() const;   //!< Returns the normalized version of \c this. A normalized vector (also called unit vector) has a length of 1 or 0.
 
 	constexpr float dot(Vec2<T> other) const; //!< Returns the dot product between \c this and \c other.
@@ -56,7 +61,25 @@ public:
 	/*Vec2<T> projected(Vec2<T> line) const; //!< Project this two dimensional vector onto \a axis. @return The projected vector in the 2D space. */// <- Superflucious?
 	float projectAxis(Vec2<T> axis) const; //!< Project this two dimensional vector onto \a axis. @return The position of the vector on \a axis.
 	
+	explicit operator bool(){ return !isNull(); };
 	constexpr bool isNull() const;
+	
+	constexpr Vec2<T> XY() const{ return {X, Y}; };
+	constexpr Vec2<T> YX() const{ return {Y, X}; };
+	constexpr Vec2<T> XX() const{ return {X, X}; };
+	constexpr Vec2<T> YY() const{ return {Y, Y}; };
+};
+
+template<typename T>
+float Distance(Vec2<T> a, Vec2<T> b)
+{
+	return (a - b).length();
+};
+
+template<typename T>
+bool InRange(Vec2<T> a, Vec2<T> b, float range)
+{
+	return (a - b).sqLength() < (range * range);
 };
 
 #define def_operator(OPER)\
