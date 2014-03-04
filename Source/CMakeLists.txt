@@ -12,6 +12,11 @@ else()
   set(SPRINGBOK_UNKNOWN 1)
 endif()
 
+if(EMSCRIPTEN) # We set here SPRINGBOK_HTML5 extra because EMSCRIPTEN is a subsystem of UNIX and we want to keep to use the Linux Headers
+  message("-- Using emscripten...")
+  set(SPRINGBOK_HTML5 1)
+endif()
+
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 configure_file(Config.h.in ${CMAKE_CURRENT_BINARY_DIR}/Springbok/Config.h)
 

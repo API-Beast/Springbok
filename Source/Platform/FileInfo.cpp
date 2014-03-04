@@ -2,6 +2,7 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/types.h>
+#include <ctime>
 
 FileInfo::FileInfo(const std::string& path)
 {

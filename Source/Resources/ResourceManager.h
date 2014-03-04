@@ -20,7 +20,6 @@ public:
 	{
 		std::string ResolvedPath;
 		std::string RequestedPath;
-		int DataType;
 		ObjectPointer<void> Pointer = nullptr;
 	};
 //!@name Static

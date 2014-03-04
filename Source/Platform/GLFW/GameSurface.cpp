@@ -1,16 +1,25 @@
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "../GameSurface.h"
+#include <Springbok/Utils/Debug.h>
+#include <Springbok/Graphics/GLTypes.h>
 
 struct GameSurfaceData
 {
 	GLFWwindow* Window;
+	glHandle vertexArrayHandle;
 };
 
 GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
 {
 	d = new GameSurfaceData;
-	
+
 	glfwInit();
+	
+	// We should request a 2.1 context. Otherwise AMD would be pretty confused.
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	
 	if(flags & Windowed)
 	{
 		glfwWindowHint(GLFW_RESIZABLE, false);
@@ -30,10 +39,17 @@ GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
 	if(flags & NoVSync);
 	else glfwSwapInterval(1);
 	
+	Debug::Write("Load OpenGL extensions...");
+	int result = glewInit();
+	if (result != 0)
+		Debug::Write("OpenGL extension loading failed!");
+	
 	int x, y;
 	glfwGetWindowSize(d->Window, &x, &y);
 	glLoadIdentity();
 	glOrtho(0, x, y, 0, 2.0, -2.0);
+	glGenVertexArrays(1, &d->vertexArrayHandle);
+	glBindVertexArray(d->vertexArrayHandle);
 }
 
 GameSurface::~GameSurface()

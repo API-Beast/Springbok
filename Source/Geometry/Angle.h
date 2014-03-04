@@ -47,11 +47,11 @@ struct Angle
 	Vec2F rotateVec(Vec2F vec) const;
 	void sanitize();
 	
-	constexpr double sin();
-	constexpr double cos();
-	static constexpr Angle Atan2(double a, double b);
-	static constexpr Angle Acos(double A);
-	static constexpr Angle Asin(double A);
+	double const sin() const;
+	double const cos() const;
+	static Angle Atan2(double a, double b);
+	static Angle Acos(double A);
+	static Angle Asin(double A);
 	
 public:
 	static Angle FromBooleanDirectionMatrix(bool up, bool right, bool down, bool left);

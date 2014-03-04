@@ -165,3 +165,28 @@ Angle operator/(float value, Angle angle)
 {
 	return angle / value;
 }
+
+Angle Angle::Atan2(double a, double b)
+{
+	return Angle::FromRadians(std::atan2(a, b));
+};
+
+Angle Angle::Acos(double A)
+{
+	return Angle::FromRadians(std::acos(A));
+};
+
+Angle Angle::Asin(double A)
+{
+	return Angle::FromRadians(std::asin(A));
+};
+
+double const Angle::cos() const
+{
+	return std::cos(Data);
+}
+
+double const Angle::sin() const
+{
+	return std::sin(Data);
+}

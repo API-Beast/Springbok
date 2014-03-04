@@ -1,5 +1,5 @@
-set(H_FILES CliArgumentParser.h)
-set(CPP_FILES CliArgumentParser.cpp)
+set(H_FILES CliArgumentParser.h Debug.h)
+set(CPP_FILES CliArgumentParser.cpp Debug.cpp)
 add_library(sbUtils OBJECT ${H_FILES} ${CPP_FILES})
 
 set_property(TARGET sbUtils PROPERTY OBJ_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})

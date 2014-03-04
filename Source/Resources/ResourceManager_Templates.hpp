@@ -6,6 +6,7 @@
 #pragma once
 
 #include "ResourceManager.h"
+#include <Springbok/Utils/Debug.h>
 
 #include <typeinfo>
 
@@ -22,7 +23,6 @@ ObjectPointer< T > ResourceManager::getResource(const std::string& path, bool re
 		{
 			resource.Pointer.destroy();
 			resource.Pointer.replaceWith(reinterpret_cast<void*>(new T(resource.ResolvedPath)));;
-			resource.DataType = typeid(T).hash_code();
 		}
 		else;
 			//assert(typeid(T).hash_code() == resource.DataType);
@@ -31,11 +31,13 @@ ObjectPointer< T > ResourceManager::getResource(const std::string& path, bool re
 	}
 	else
 	{
+		std::string fullPath = getPath(path);
+		Debug::Write("Loading resource $...",fullPath);
+		
 		auto& resource = Resources[path];
 		resource.RequestedPath = path;
-		resource.ResolvedPath  = getPath(path);
+		resource.ResolvedPath  = fullPath;
 		resource.Pointer  = new T(resource.ResolvedPath);
-		resource.DataType = typeid(T).hash_code();
 		return reinterpret_pointer_cast<T*>(resource.Pointer);
 	}
 };

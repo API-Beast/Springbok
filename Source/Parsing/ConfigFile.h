@@ -13,7 +13,7 @@ public:
 	{
 		operator std::string&(){ if(Data.empty()) Data.push_back(""); return Data.back(); };
 		operator std::vector<std::string>&(){ return Data; };
-		operator std::string() const { if(Data.empty()) return ""; else return Data.back(); };
+		operator std::string() { if(Data.empty()) return ""; else return Data.back(); };
 		operator const std::vector<std::string>&() const{ return Data; };
 		//std::string& operator[](int i){ return Data[i]; };
 		PossibleArray& operator=(const std::vector<std::string>& other);

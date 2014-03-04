@@ -4,29 +4,24 @@
 // 0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "RenderContext.h"
-#include <GL/gl.h>
+#include <GL/glew.h>
 #include <Springbok/Generic/PointerGuard.h>
+#include "Shader.h"
+#include "Camera.h"
+
+glHandle vertexArrayHandle;
 
 unsigned RenderContext::LastBoundTexture = 0;
 
 void RenderContext::Setup2DEnvironment()
 {
 	glEnable(GL_BLEND);
-	glEnable(GL_TEXTURE_2D);
-	glDisable(GL_DEPTH);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glAlphaFunc(GL_ALWAYS, 0);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 void RenderContext::loadDefaults()
 {
-	Offset    = Vec2<int>(0, 0);
-	Scale     = Vec2F(+1.0f, +1.0f);
-	Alignment = Vec2F(+0.5f, +0.5f);
 	CameraPos = Vec2F(0, 0);
-	Rotation  = 0_turn;
 	LastBoundTexture = 0;
 }
 
@@ -35,7 +30,6 @@ void RenderContext::setColor(const Color& color, float alpha)
 	mSetColor = color;
 	mSetAlpha = alpha;
 	Color clipped = color.lowerBound(0.f).upperBound(1.f);
-	glColor4f(color[0], color[1], color[2], alpha);
 }
 
 void RenderContext::setBlendingMode(RenderContext::BlendingMode mode)
@@ -49,21 +43,40 @@ void RenderContext::setBlendingMode(RenderContext::BlendingMode mode)
 		glBlendFunc(GL_DST_COLOR, GL_ZERO);
 }
 
+VertexArray<4> RenderContext::transformRect(RectF rect, RenderParameters params)
+{
+	VertexArray<4> output;
+	
+	int halfWidth = this->Size.X / 2;
+	int halfHeight = this->Size.Y / 2;
+	float xPixelFactor = 1.0f / halfWidth;
+	float yPixelFactor = 1.0f / halfHeight;
+	
+	Vec2F origin = rect.getOrigin();
+	Vec2F size = rect.getSize();
+	
+	float left 		= (xPixelFactor * (params.Offset.X + this->CameraPos.X + origin.X)) + this->CoordinateOrigin.X;
+	float right 	= (xPixelFactor * (params.Offset.X + this->CameraPos.X + origin.X + size.X)) + this->CoordinateOrigin.X;
+	float down 		= (yPixelFactor * (params.Offset.Y + this->CameraPos.Y + origin.Y)) + this->CoordinateOrigin.Y;
+	float up 		= (yPixelFactor * (params.Offset.Y + this->CameraPos.Y + origin.Y + size.Y)) + this->CoordinateOrigin.Y;
+
+	output[0] = Vec2F(left, down);
+	output[1] = Vec2F(right, down);
+	output[2] = Vec2F(left, up);
+	output[3] = Vec2F(right, up);
+	
+	return output;
+}
+
 RenderContext::RenderContext()
 {
 	setColor(Colors::White);
-	setBlendingMode(Default);
 }
 
 RenderContext::RenderContext(const RenderContext& parent)
 {
 	mParent = &parent;
-	Offset    = mParent->Offset;
-	Scale     = mParent->Scale;
-	Alignment = mParent->Alignment;
 	CameraPos = mParent->CameraPos;
-	Rotation  = mParent->Rotation;
-	Parallaxity = mParent->Parallaxity;
 	RenderTargetOrigin = mParent->RenderTargetOrigin;
 	RenderTargetSize = mParent->RenderTargetSize;
 	mSetColor = mParent->mSetColor;
@@ -84,5 +97,4 @@ RenderContext::~RenderContext()
 
 void RenderContext::setOffsetRelativeToViewport(Vec2< int > pos)
 {
-  Offset = CameraPos + pos;
 };
