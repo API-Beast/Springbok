@@ -7,7 +7,6 @@
 
 #include <string>
 
-#include <Springbok/Geometry/TexRect.h>
 #include <Springbok/Geometry/Rect.h>
 #include <Springbok/Generic/ObjectPointer.h>
 #include <Springbok/Geometry/Vec3.h>

@@ -1,6 +1,6 @@
 #pragma once
-#include <Source/Geometry/Vec2.h>
-#include <Source/Geometry/Angle.h>
+#include <Springbok/Geometry/Vec2.h>
+#include <Springbok/Geometry/Angle.h>
 
 struct RenderParameters
 {
