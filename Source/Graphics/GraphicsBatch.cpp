@@ -5,24 +5,29 @@
 #include <cstdlib>
 
 const char* vertexShader = 
-"attribute vec2 VertexPosition;"
-"attribute vec2 TextureCoordinate;"
-"varying vec2 texCoord;"
-""
-"void main() {"
-"texCoord = TextureCoordinate;"
-"gl_Position.xyz = vec3(VertexPosition.x,VertexPosition.y,0);"
-"gl_Position.w = 1.0;"
-"}";
+R"(
+	attribute vec2 VertexPosition;
+	attribute vec2 TextureCoordinate;
+	varying vec2 texCoord;
+
+	void main()
+	{
+		texCoord = TextureCoordinate;
+		gl_Position.xyz = vec3(VertexPosition.x,VertexPosition.y,0);
+		gl_Position.w = 1.0;
+	}
+)";
 
 const char* fragmentShader =
-"precision mediump float;"
-"varying vec2 texCoord;"
-"uniform sampler2D TextureSampler;"
-""
-"void main(){"
-"gl_FragColor = texture2D(TextureSampler, vec2(texCoord.s, texCoord.t));" 
-"}";
+R"(
+	varying vec2 texCoord;
+	uniform sampler2D TextureSampler;
+
+	void main()
+	{
+		gl_FragColor = texture2D(TextureSampler, vec2(texCoord.s, texCoord.t));
+	}
+)";
 
 GraphicsBatch::GraphicsBatch(int size)
 {

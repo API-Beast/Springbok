@@ -21,18 +21,6 @@ int main()
 	game = new HelloWorld();
 	game->execute();
 	
-	std::string line;
-	std::ifstream myfile ("Assets/example.txt");
-	if (myfile.is_open())
-	{
-		while ( getline (myfile,line) )
-		{
-			std::cout << line << '\n';
-		}
-		myfile.close();
-	}
-	else std::cout << "Unable to open file"; 
-	
 #ifdef EMSCRIPTEN
 	emscripten_set_main_loop(one_iter, 0, 1);
 #else

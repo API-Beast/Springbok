@@ -19,7 +19,7 @@ glHandle Shader::compileVertexShader(const char* vertexShader)
 	glShaderSource(vertexHandle, 1, &vertexShader, NULL);	
 	glCompileShader(vertexHandle);
 	glGetShaderiv(vertexHandle, GL_COMPILE_STATUS, &result);
-	//Debug::Write(getShaderLog(vertexHandle).c_str());
+	Debug::Write(getShaderLog(vertexHandle).c_str());
 
 	if(!result)
 		Debug::Write("Compile failed!");
@@ -36,7 +36,7 @@ glHandle Shader::compileFragmentShader(const char* fragmentShader)
 	glShaderSource(fragmentHandle, 1, &fragmentShader, NULL);	
 	glCompileShader(fragmentHandle);
 	glGetShaderiv(fragmentHandle, GL_COMPILE_STATUS, &result);
-	//Debug::Write(getShaderLog(fragmentHandle).c_str());
+	Debug::Write(getShaderLog(fragmentHandle).c_str());
 
 	if(!result)
 		Debug::Write("Compile failed!");
