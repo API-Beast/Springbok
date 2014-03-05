@@ -1,4 +1,1 @@
-*.kdev4
-build/*
-*~
 *.pyc

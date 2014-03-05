@@ -25,7 +25,7 @@ struct Texture
 	unsigned int Index = 0;
 	Vec2I ImageSize;
 	Vec2I TextureSize;
- 	RectF TextureCoordinates;
+  RectF TextureCoordinates;
 };
 
 //! @}

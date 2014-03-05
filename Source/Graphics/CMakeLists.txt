@@ -1,9 +1,7 @@
-if(NOT SPRINGBOK_HTML5)
-  find_package(OpenGL REQUIRED)
-endif()
+find_package(OpenGL REQUIRED)
 
-set(H_FILES BitmapFont.h Color.h Image.h RenderContext.h Texture.h GLTypes.h Shader.h Camera.h GraphicsBatch.h RenderParameters.h)
-set(CPP_FILES BitmapFont.cpp Color.cpp Image.cpp RenderContext.cpp Texture.cpp Shader.cpp Camera.cpp GraphicsBatch.cpp RenderParameters.cpp)
+set(H_FILES BitmapFont.h Color.h Image.h RenderContext.h Texture.h)
+set(CPP_FILES BitmapFont.cpp Color.cpp Image.cpp RenderContext.cpp Texture.cpp)
 
 include_directories(${OPENGL_INCLUDE_DIR})
 add_library(sbGraphics OBJECT ${H_FILES} ${CPP_FILES})

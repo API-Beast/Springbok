@@ -5,10 +5,8 @@
 
 #include "Texture.h"
 #include "../Dependencies/lodepng.h"
-#include <Springbok/Utils/Debug.h>
 #include <GL/gl.h>
 #include <GL/glext.h>
-#include <GL/glu.h>
 #include <vector>
 #include <cassert>
 #include <iostream>
@@ -25,8 +23,7 @@ namespace
 
 RectF Texture::calcTextureCoordinates(Vec2I pos, Vec2I size)
 {
-	RectF out = RectF(pos / Vec2F(TextureSize), (size) / Vec2F(TextureSize));
-	return out.mirroredVertical();	
+	return RectF(pos / Vec2F(TextureSize), (size) / Vec2F(TextureSize));
 }
 
 Texture::Texture(const std::string& filename)
@@ -37,31 +34,23 @@ Texture::Texture(const std::string& filename)
 	
 	Index = 0xFFFE;
 	glGenTextures(1, &Index);
-	glBindTexture(GL_TEXTURE_2D, Index);
-	GLenum error = glGetError();
+  glBindTexture(GL_TEXTURE_2D, Index);
 	
-	if(error != GL_NO_ERROR || Index == 0xFFFE)
+	if(glGetError() || Index == 0xFFFE)
 	{
-#ifndef EMSCRIPTEN
-		Debug::Write("Couldn't generate texture! Index: $; OpenGL error: $",Index,gluErrorString(error));
-#endif
 		Valid = false;
 		Index = 0;
 		return ;
 	}
 	
-	int result = lodepng::decode(bitmap, width, height, filename);
-	if(result != 0)
-		Debug::Write("Decoding of $ failed!",filename);
+	lodepng::decode(bitmap, width, height, filename);
   
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	/*
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	*/
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
 	
 	ImageSize = Vec2I{width, height};
 	TextureSize = Vec2I{makePowerOfTwo(width), makePowerOfTwo(height)};
@@ -69,11 +58,11 @@ Texture::Texture(const std::string& filename)
 	if(!(TextureSize == ImageSize))
 	{
 		std::vector<uint32_t> empty(TextureSize.X * TextureSize.Y, 0);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureSize.X, TextureSize.Y, 0, GL_RGBA, GL_UNSIGNED_BYTE, empty.data());
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, TextureSize.X, TextureSize.Y, 0, GL_RGBA, GL_UNSIGNED_BYTE, empty.data());
 		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, ImageSize.X, ImageSize.Y, GL_RGBA, GL_UNSIGNED_BYTE, bitmap.data());
 	}
 	else
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureSize.X, TextureSize.Y, 0, GL_RGBA, GL_UNSIGNED_BYTE, bitmap.data());
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, TextureSize.X, TextureSize.Y, 0, GL_RGBA, GL_UNSIGNED_BYTE, bitmap.data());
 	
 	TextureCoordinates = calcTextureCoordinates(0, ImageSize);
 	
