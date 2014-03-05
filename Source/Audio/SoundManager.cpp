@@ -6,13 +6,14 @@
 #include "SoundManager.h"
 #include <cassert>
 #include <Springbok/Generic/PointerGuard.h>
+#include <AL/al.h>
 
 SoundManager* SoundManager::gInstance = nullptr;
 
 // Make sure that gInstance gets deleted when the application gets closed
 namespace
 {
-	PointerGuard<SoundManager> guard(&SoundManager::gInstance);
+PointerGuard<SoundManager> guard(&SoundManager::gInstance);
 }
 
 
@@ -28,27 +29,28 @@ SoundManager::SoundManager()
 	mDeviceIndex = alcOpenDevice(NULL);
 	if(mDeviceIndex != NULL)
 	{
-	  mContextIndex = alcCreateContext(mDeviceIndex, NULL);
-	  if(mContextIndex != NULL)
-	    alcMakeContextCurrent(mContextIndex);
+		mContextIndex = alcCreateContext(mDeviceIndex, NULL);
+		if(mContextIndex != NULL)
+			alcMakeContextCurrent(mContextIndex);
+		alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
 	}
 	assert(!alcGetError(mDeviceIndex));
 }
 
 SoundManager::~SoundManager()
 {
-  if(mContextIndex!=NULL)
-  {
-    alcMakeContextCurrent(NULL);
-    alcDestroyContext(mContextIndex);
-  }
-  if(mDeviceIndex!=NULL)
-    alcCloseDevice(mDeviceIndex);
+	if(mContextIndex != NULL)
+	{
+		alcMakeContextCurrent(NULL);
+		alcDestroyContext(mContextIndex);
+	}
+	if(mDeviceIndex != NULL)
+		alcCloseDevice(mDeviceIndex);
 }
 
 void SoundManager::makeCurrent()
 {
-  alcMakeContextCurrent(mContextIndex);
+	alcMakeContextCurrent(mContextIndex);
 }
 
 void SoundManager::manageSoundInstance(SoundInstance* instance)
@@ -74,4 +76,8 @@ void SoundManager::cleanUp()
 	}
 }
 
+void SoundManager::setListenerPosition(Vec2F pos)
+{
+	alListener3f(AL_POSITION, pos[0], pos[1], 300.f);
+}
 

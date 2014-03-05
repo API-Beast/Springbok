@@ -21,14 +21,15 @@ public:
 	static SoundManager* GetInstance();
 ///@}
 public:
-  SoundManager();
-  ~SoundManager();
-  void makeCurrent();
+	SoundManager();
+	~SoundManager();
+	void makeCurrent();
 	void manageSoundInstance(SoundInstance* instance);
 	bool canManageMoreSoundInstances();
 	void cleanUp();
+	void setListenerPosition(Vec2F pos);
 private:
-  ALCdevice* mDeviceIndex;
-  ALCcontext* mContextIndex;
+	ALCdevice* mDeviceIndex;
+	ALCcontext* mContextIndex;
 	std::vector<SoundInstance*> mSoundInstances;
 };

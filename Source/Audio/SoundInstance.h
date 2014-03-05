@@ -11,15 +11,15 @@
 class SoundInstance
 {
 public:
-	SoundInstance(const SoundSource& source, float x, float y, float z=0.0f);
+	SoundInstance(const SoundSource& source, float x, float y, float z = 0.0f);
 	~SoundInstance();
-	
+
 	void pause();
 	void resume();
-	
+
 	int getOffset();
 	void setOffset(int offset);
-	
+
 	bool isFinished();
 private:
 	unsigned int mSourceIndex;

@@ -12,12 +12,14 @@
 
 SoundInstance::SoundInstance(const SoundSource& source, float x, float y, float z)
 {
-  alGenSources(1, &mSourceIndex);
-  alSourcei(mSourceIndex,  AL_BUFFER,   source.Sample->BufferIndex);
-  alSourcef(mSourceIndex,  AL_PITCH,    source.Pitch);
-  alSourcef(mSourceIndex,  AL_GAIN,     source.Volume);
-  alSource3f(mSourceIndex, AL_POSITION, x, y, z);
-  alSourcePlay(mSourceIndex);
+	alGenSources(1, &mSourceIndex);
+	alSourcei(mSourceIndex,  AL_BUFFER,   source.Sample->BufferIndex);
+	alSourcef(mSourceIndex,  AL_PITCH,    source.Pitch);
+	alSourcef(mSourceIndex,  AL_GAIN,     source.Volume);
+	alSourcef(mSourceIndex,  AL_REFERENCE_DISTANCE, source.MinRange);
+	alSourcef(mSourceIndex,  AL_MAX_DISTANCE, source.MaxRange);
+	alSource3f(mSourceIndex, AL_POSITION, x, y, z);
+	alSourcePlay(mSourceIndex);
 	assert(!alGetError());
 }
 
