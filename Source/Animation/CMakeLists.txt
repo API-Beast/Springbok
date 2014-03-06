@@ -6,4 +6,4 @@ set_property(TARGET sbAnimation PROPERTY OBJ_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_D
 set_property(TARGET sbAnimation PROPERTY OBJ_INSTALL_HEADERS ${H_FILES})
 set_property(TARGET sbAnimation PROPERTY OBJ_INSTALL_LOCATION Animation)
 
-ADD_SSTEST_FILE(SpringbokTest KeyframeList_Examples.cpp)
+ADD_SSTEST_FILE(SpringbokTest KeyframeList_Tests.cpp)
