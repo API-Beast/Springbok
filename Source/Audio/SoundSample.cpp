@@ -6,6 +6,7 @@
 #include "SoundSample.h"
 #include "../Dependencies/stb_vorbis.c"
 #include "SoundManager.h"
+#include <Source/Utils/Debug.h>
 #include <AL/al.h>
 
 SoundSample::SoundSample(const std::string& filename)
@@ -16,18 +17,25 @@ SoundSample::SoundSample(const std::string& filename)
 
 	int error;
 	stb_vorbis* file = stb_vorbis_open_filename(const_cast<char*>(filename.c_str()), &error, NULL);
-	assert(!error);
-	stb_vorbis_info info = stb_vorbis_get_info(file);
-	int length = stb_vorbis_stream_length_in_samples(file) * info.channels;
-	short* buffer = new short[length];
-	stb_vorbis_get_samples_short_interleaved(file, info.channels, buffer, length);
-	assert(info.channels > 0 && info.channels < 3);
-	if(info.channels == 1)
-		alBufferData(BufferIndex, AL_FORMAT_MONO16  , buffer, length * sizeof(short), 44100);
-	else if(info.channels == 2)
-		alBufferData(BufferIndex, AL_FORMAT_STEREO16, buffer, length * sizeof(short), 44100);
-	delete[] buffer;
-	assert(!alGetError());
+	if(error)
+		Debug::Write("stb_vorbis error while loading $: $", filename, error);
+	else
+	{
+		stb_vorbis_info info = stb_vorbis_get_info(file);
+		int length = stb_vorbis_stream_length_in_samples(file) * info.channels;
+		short* buffer = new short[length];
+		stb_vorbis_get_samples_short_interleaved(file, info.channels, buffer, length);
+		assert(info.channels > 0 && info.channels < 3);
+		if(info.channels == 1)
+			alBufferData(BufferIndex, AL_FORMAT_MONO16  , buffer, length * sizeof(short), 44100);
+		else if(info.channels == 2)
+			alBufferData(BufferIndex, AL_FORMAT_STEREO16, buffer, length * sizeof(short), 44100);
+		delete[] buffer;
+		
+		int alError = alGetError();
+		if(alError)
+			Debug::Write("OpenAL error after loading $: $", filename, alError);
+	}
 	//free(buffer);
 }
 
