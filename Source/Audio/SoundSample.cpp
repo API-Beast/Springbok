@@ -15,7 +15,7 @@ SoundSample::SoundSample(const std::string& filename)
 	SoundManager::GetInstance();
 	alGenBuffers(1, &BufferIndex);
 
-	int error;
+	int error = 0;
 	stb_vorbis* file = stb_vorbis_open_filename(const_cast<char*>(filename.c_str()), &error, NULL);
 	if(error)
 		Debug::Write("stb_vorbis error while loading $: $", filename, error);
