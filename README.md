@@ -1,4 +1,4 @@
-![#Springbok](logo.png)
+## Springbok
 
 Springbok is a C++ library for developing full featured 2D games in a limited timeframe. It provides many helpful classes, such as a KeyframeMap for animation, a Image class for managed texture loading and Vec2 and Angle classes to be used in your calculations. Springbok is not a engine, and gives you complete freedom in how you design your games code.
 
