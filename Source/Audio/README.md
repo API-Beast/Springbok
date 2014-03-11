@@ -79,3 +79,16 @@ else
 }
 ```
 
+## Global volume control
+You can discern between different types of Audio by giving the AudioSources different channels. Then you can set the volume for each channel seperated.
+
+```cpp
+explosionSfx.Channel = 0;
+MainTheme.Channel = 1;
+[... load Config ...]
+SoundManager* manager = SoundManager::GetInstance();
+manager->setChannelVolume(0, Config.MusicVolume * Config.GlobalVolume);
+manager->setChannelVolume(1, Config.MusicVolume * Config.GlobalVolume);
+```
+
+Note that the number of Channels is hard-coded to 16.

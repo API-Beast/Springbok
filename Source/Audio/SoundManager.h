@@ -28,8 +28,11 @@ public:
 	bool canManageMoreSoundInstances();
 	void cleanUp();
 	void setListenerPosition(Vec2F pos);
+	void setChannelVolume(int channel, float volume);
 private:
 	ALCdevice* mDeviceIndex;
 	ALCcontext* mContextIndex;
 	std::vector<SoundInstance*> mSoundInstances;
+	float mChannelVolume[16] = {1.f, 1.f, 1.f, 1.f, 1.f, 1.f, 1.f, 1.f,
+	                            1.f, 1.f, 1.f, 1.f, 1.f, 1.f, 1.f, 1.f};
 };

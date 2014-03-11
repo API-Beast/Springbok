@@ -54,9 +54,17 @@ void SoundManager::makeCurrent()
 	alcMakeContextCurrent(mContextIndex);
 }
 
+void SoundManager::setChannelVolume(int channel, float volume)
+{
+	mChannelVolume[channel] = volume;
+	for(SoundInstance* instance : mSoundInstances)
+		instance->setChannelVolume(volume);
+}
+
 void SoundManager::manageSoundInstance(SoundInstance* instance)
 {
 	mSoundInstances.push_back(instance);
+	instance->setChannelVolume(mChannelVolume[instance->Channel]);
 }
 
 bool SoundManager::canManageMoreSoundInstances()
