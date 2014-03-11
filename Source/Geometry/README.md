@@ -1,9 +1,9 @@
-## Geometry module
+# Geometry module
 
 - Custom arithmetics for [Vectors](#vectors)
 - Custom arithmetics for [Angles](#angles)
 
-### Vectors
+## Vectors
 
 2D Vectors are simple containers that contain exactly two values of a single type: X and Y.
 ```cpp
@@ -12,7 +12,7 @@ vec.Y;  // Get the Y value from vec
 vec[0]; // Alternatively you can also get the values by Index, X is 0 and Y is 1 
 ```
 
-#### Initializing Vectors
+### Initializing Vectors
 ```cpp
 Vec2F a = Vec2F(0.4f, 0.6f);
 Vec2F b = Vec2F(3.3f);  // Equal to Vec2F(3.3f, 3.3f);
@@ -22,7 +22,7 @@ Vec2I e = {-6, 8}; // Note the type, I = Int, F = Float, U = Unsigned Int
 Vec2<double> f = {4.4, 7.8}; // Or you can use the template parameter
 ```
 
-#### Vector math
+### Vector math
 All C++ supplied mathematical operators are overloaded in order to simplify many assignments.
 ```cpp
 vecA + vecB; // Adds the X value of vecB to the X value of vecA, the same with the Y value.
@@ -39,7 +39,7 @@ Vec2F(5.372f, 0.0f).normalized(); // == {1.0f, 0.0f}; Normalized version of the 
 vecA.dot(vecB); // dot product between VecA and VecB, also knohwn as scalar product.
 ```
 
-#### 3D and 4D Vectors
+### 3D and 4D Vectors
 3D and 4D vectors behave mostly the same as 2D vectors, just that they have more elements.
 
 ```cpp
@@ -67,9 +67,9 @@ vec4.XYZ.dot(); // Calculate the dot while ignoring the alpha coordinate.h
 
 Note that unlike GLSL you can only access consectuitive elements like this, `.ZYX` for example is not valid, nor is `.XXY` and the like.
 
-### Angles
+## Angles
 
-#### Angle Literals and Constructors
+### Angle Literals and Constructors
 ```cpp
 Angle a = 0.5_turn;  // A half turn.
 Angle b = 180_deg;   // Equals 180°
@@ -85,7 +85,7 @@ Note that Angles are internally stored as a value wrapped to -PI to +PI.
 -0.2_turn == 0.8_turn; // true
 ```
 
-#### Angle Arithmetics
+### Angle Arithmetics
 All angle operators are overloaded. Note that most Angle operators only work with other Angles (exceptions are only the * and / operators) and all conversions are explicit, this it to avoid unwanted bugs.
 
 ```cpp
