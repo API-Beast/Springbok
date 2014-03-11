@@ -65,14 +65,14 @@ vec3.XY = 0;    // Set the X and Y coordinates while leaving the Z coordinate un
 vec4.XYZ.dot(); // Calculate the dot while ignoring the alpha coordinate.h
 ```
 
-Note that unlike GLSL you can only access consectuitive elements like this, ÅL.ZYXÅL for example is not valid, nor is ÅL.XXYÅL and the like.
+Note that unlike GLSL you can only access consectuitive elements like this, `.ZYX` for example is not valid, nor is `.XXY` and the like.
 
 ### Angles
 
 #### Angle Literals and Constructors
 ```cpp
 Angle a = 0.5_turn;  // A half turn.
-Angle b = 180_deg;   // Equals 180Åã
+Angle b = 180_deg;   // Equals 180¬∞
 Angle c = 3.142_rad; // Is almost 3.142 in Radian. (You probably don't want to declare variables like this)
 Angle d = Angle(PI); // The float constructor is explicit and will take Radians as unit.
 Angle e = Angle::FromTurn(0.5f); // If you need to pass float variables in other formats.
