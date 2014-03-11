@@ -20,7 +20,7 @@ class SoundSource
 public:
 	float Volume = 1.f;
 	float Pitch  = 1.f;
-	float MinRange = 1500.f;
+	float MinRange =  800.f;
 	float MaxRange = 2500.f;
 	int   Channel = 0;
 	ObjectPointer<SoundSample> Sample = nullptr;

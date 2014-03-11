@@ -9,10 +9,11 @@ Loads the file "explosion.ogg" via the [ResourceManager](../Resources/README.md)
 
 The memory is managed by the ResourceManager, not by the SoundSource.
 
-At the moment *.ogg* is the only supported audio format.
+**Note:** Only Mono and Stereo *.ogg* files using the vorbis codec can be played currently. Also positioning sound sources only works with Mono audio samples, since it makes no sense to give a stereo sound a position.
 
 ```cpp
 explosionSfx.play(position); // Position is a Vec2
+musicTrakc.playGlobal();     // For stereo tracks use playGlobal().
 ```
 
 Now you can play the sound file at any point as many times as you want.

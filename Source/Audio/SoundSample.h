@@ -13,4 +13,7 @@ struct SoundSample
 	SoundSample(const std::string& filename);
 	~SoundSample();
 	unsigned int BufferIndex;
+	int Channels = 1;
+	std::string Location;
+	bool WarnedAboutStereoPosition = false;
 };

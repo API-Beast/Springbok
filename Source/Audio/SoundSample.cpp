@@ -14,6 +14,7 @@ SoundSample::SoundSample(const std::string& filename)
 	// Initialize OpenAL if not done already.
 	SoundManager::GetInstance();
 	alGenBuffers(1, &BufferIndex);
+	Location = filename;
 
 	int error = 0;
 	stb_vorbis* file = stb_vorbis_open_filename(const_cast<char*>(filename.c_str()), &error, NULL);
@@ -32,6 +33,7 @@ SoundSample::SoundSample(const std::string& filename)
 			alBufferData(BufferIndex, AL_FORMAT_STEREO16, buffer, length * sizeof(short), 44100);
 		delete[] buffer;
 		
+		Channels = info.channels;
 		int alError = alGetError();
 		if(alError)
 			Debug::Write("OpenAL error after loading $: $", filename, alError);
