@@ -6,8 +6,8 @@
 #pragma once
 
 #include <vector>
-#include "SoundInstance.h"
 #include <AL/alc.h>
+#include <Springbok/Geometry/Vec2.h>
 
 class SoundInstance;
 

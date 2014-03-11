@@ -4,6 +4,7 @@
 // 0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "SoundManager.h"
+#include "SoundInstance.h"
 #include <cassert>
 #include <Springbok/Generic/PointerGuard.h>
 #include <AL/al.h>
@@ -69,8 +70,11 @@ void SoundManager::cleanUp()
 	for(auto it = mSoundInstances.begin(); it != mSoundInstances.end();)
 	{
 		SoundInstance* value = *it;
-		if(value->isFinished())
+		if(value->isFinished() && (!value->Permanent))
+		{
 			it = mSoundInstances.erase(it);
+			delete value;
+		}
 		else
 			++it;
 	}

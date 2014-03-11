@@ -20,13 +20,32 @@ SoundInstance::SoundInstance(const SoundSource& source, float x, float y, float 
 	alSourcef(mSourceIndex,  AL_MAX_DISTANCE, source.MaxRange);
 	alSource3f(mSourceIndex, AL_POSITION, x, y, z);
 	alSourcePlay(mSourceIndex);
-	assert(!alGetError());
+}
+
+SoundInstance::SoundInstance(const SoundSource& source)
+{
+	alGenSources(1, &mSourceIndex);
+	alSourcei(mSourceIndex,  AL_BUFFER,   source.Sample->BufferIndex);
+	alSourcef(mSourceIndex,  AL_PITCH,    source.Pitch);
+	alSourcef(mSourceIndex,  AL_GAIN,     source.Volume);
+	alSourcei(mSourceIndex,  AL_SOURCE_RELATIVE,  true);
+	alSourcePlay(mSourceIndex);
 }
 
 SoundInstance::~SoundInstance()
 {
 	alSourceStop(mSourceIndex);
 	alDeleteSources(1, &mSourceIndex);
+}
+
+void SoundInstance::setPitch(float pitch)
+{
+	alSourcef(mSourceIndex,  AL_PITCH, pitch);
+}
+
+void SoundInstance::setVolume(float volume)
+{
+	alSourcef(mSourceIndex,  AL_GAIN, volume);
 }
 
 int SoundInstance::getOffset()

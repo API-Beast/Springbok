@@ -9,6 +9,7 @@
 
 #include <Springbok/Geometry/Vec2.h>
 #include <Springbok/Generic/ObjectPointer.h>
+#include "SoundManager.h"
 
 class SoundInstance;
 class SoundSample;
@@ -21,9 +22,11 @@ public:
 	float Pitch  = 1.f;
 	float MinRange = 1500.f;
 	float MaxRange = 2500.f;
+	int   Channel = 0;
 	ObjectPointer<SoundSample> Sample = nullptr;
 public:
 	SoundSource() = default;
 	SoundSource(const std::string& filename);
-	SoundInstance* play(Vec2F position);
+	SoundInstance* play(Vec2F position, SoundManager* s = SoundManager::GetInstance());
+	SoundInstance* playGlobal(SoundManager* s = SoundManager::GetInstance());
 };

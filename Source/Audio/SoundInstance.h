@@ -11,7 +11,11 @@
 class SoundInstance
 {
 public:
+	bool Permanent = false; // If true, then the SoundManager will never delete this one.
+	int  Channel;
+public:
 	SoundInstance(const SoundSource& source, float x, float y, float z = 0.0f);
+	SoundInstance(const SoundSource& source);
 	~SoundInstance();
 
 	void pause();
@@ -19,6 +23,9 @@ public:
 
 	int getOffset();
 	void setOffset(int offset);
+	
+	void setVolume(float volume);
+	void setPitch(float pitch);
 
 	bool isFinished();
 private:

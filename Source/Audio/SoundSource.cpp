@@ -15,11 +15,18 @@ SoundSource::SoundSource(const std::string& filename)
 	Sample = ResourceManager::GetInstance()->getResource<SoundSample>(filename);
 }
 
-SoundInstance* SoundSource::play(Vec2F position)
+SoundInstance* SoundSource::play(Vec2F position, SoundManager* s)
 {
-	SoundManager* s = SoundManager::GetInstance();
 	if(!s->canManageMoreSoundInstances()) s->cleanUp();
 	SoundInstance* instance = new SoundInstance(*this, position.X, position.Y);
+	s->manageSoundInstance(instance);
+	return instance;
+}
+
+SoundInstance* SoundSource::playGlobal(SoundManager* s)
+{
+	if(!s->canManageMoreSoundInstances()) s->cleanUp();
+	SoundInstance* instance = new SoundInstance(*this);
 	s->manageSoundInstance(instance);
 	return instance;
 }
