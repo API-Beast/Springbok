@@ -87,7 +87,7 @@ explosionSfx.Channel = 0;
 MainTheme.Channel = 1;
 [... load Config ...]
 SoundManager* manager = SoundManager::GetInstance();
-manager->setChannelVolume(0, Config.MusicVolume * Config.GlobalVolume);
+manager->setChannelVolume(0, Config.SoundVolume * Config.GlobalVolume);
 manager->setChannelVolume(1, Config.MusicVolume * Config.GlobalVolume);
 ```
 
