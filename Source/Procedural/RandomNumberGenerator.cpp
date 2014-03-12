@@ -45,9 +45,9 @@ RandomNumberGenerator::RandomNumberGenerator(long long unsigned int fullSeed)
 
 unsigned int RandomNumberGenerator::generate()
 {
-	static const int shift = sizeof(int) / 2;
-	HighSeed = (HighSeed >> shift) + (HighSeed << shift);
+	static const int shift = sizeof(int)/2 * 8;
+	HighSeed =  (HighSeed >> shift) + (HighSeed << shift);
 	HighSeed += LowSeed;
-	LowSeed += HighSeed;
+	LowSeed  += HighSeed;
 	return HighSeed;
 }
