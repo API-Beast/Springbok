@@ -5,39 +5,38 @@
 
 #pragma once
 
-/** A range is a one dimensional line. */
+//~ struct Range
+//~ A range is a one dimensional line.
 template<typename T>
 struct Range
 {
+	//~ Constructors
 	constexpr Range(){};
+	constexpr Range(T val) : Start(val), End(val){};
 	constexpr Range(T start, T end);
 	template<typename P>
 	constexpr Range(const Range<P>& other);
 	
-	/** Returns \c true if Start is not equal to End. */
-	constexpr operator bool() const;
+	//~ Operators
+	constexpr explicit operator bool() const; // Returns `true` if Start is not equal to End.
 	
-	/** Gets the intersection between \c this and \a other.
-	 * Example:
-	 * ~~~
-	 * RangeF a(-0.4f, 0.7f);
-	 * RangeF result = a.intersect(0.0f, 1.0f);
-	 * // Result == (0.0f, 0.7f)
-	 * ~~~
-	 */
+	//~ Methods
 	constexpr Range<T> intersect(const Range<T>& other) const;
 	constexpr Range<T> intersect(const T& a, const T& b) const;
 	constexpr Range<T> unite(const Range<T>& other) const;
 	constexpr Range<T> unite(const T& a, const T& b) const;
 	
-	/** Returns \a value bound by \c this. */
 	constexpr T bound(const T& value);
 	
-	float Start = 0.f; /**< The smaller of the two points. */
-	float End   = 0.f; /**< The bigger of the two points. */ 
+	//~ Member variables
+	T Start = T(); // The smaller of the two points.
+	T End   = T(); // The bigger of the two points.
 };
+
+//~ Typedefs
 using RangeF = Range<float>;
 using RangeI = Range<int>;
 using RangeU = Range<unsigned>;
+//~!
 
 #include "Range_Templates.hpp"
