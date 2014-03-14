@@ -117,7 +117,7 @@ class SpringbokVec2:
 		self.value = value
 
 	def to_string(self):
-		return 'Vec2(%s:%s)' % (self.value['X'], self.value['Y'])
+		return 'Vec2(%s : %s)' % (self.value['X'], self.value['Y'])
 	
 	
 @_register_printer
@@ -125,14 +125,14 @@ class SpringbokVec3:
 	"Pretty Printer for Springbok 3D Vectors"
 	printer_name = 'Springbok.Geometry.Vec3'
 	version = '1.00'
-	type_name_re = '^Vec3<(.*)>$'
+	type_name_re = '^(Vec3<(.*)>)|(Color)$'
 
 	def __init__(self, value):
 		self.typename = value.type_name
 		self.value = value
 
 	def to_string(self):
-		return 'Vec3(%s:%s:%s)' % (self.value['X'], self.value['Y'], self.value['Z'])
+		return 'Vec3(%s : %s : %s)' % (self.value['X'], self.value['Y'], self.value['Z'])
 	
 @_register_printer
 class SpringbokRange:
@@ -146,7 +146,7 @@ class SpringbokRange:
 		self.value = value
 
 	def to_string(self):
-		return 'Range(%s -> %s)' % (self.value['Start'], self.value['End'])
+		return 'Range(%s -> %s)' % (self.value['MinVal'], self.value['MaxVal'])
 	
 @_register_printer
 class SpringbokAngle:
@@ -174,7 +174,7 @@ class SpringbokBoundingRect:
 		self.value = value
 
 	def to_string(self):
-		return 'BoundingRect<%d*%d@%d:%d>' % (self.value['Size']['X'], self.value['Size']['Y'], self.value['Position']['X'], self.value['Position']['Y'])
+		return 'BoundingRect<%d * %d @ %d : %d>' % (self.value['Size']['X'], self.value['Size']['Y'], self.value['Position']['X'], self.value['Position']['Y'])
 	
 @_register_printer
 class SpringbokImage:
@@ -191,4 +191,4 @@ class SpringbokImage:
 		# wth, why isn't this working
 		#if self.value['mTexture'] == 0x0:
 		#	return 'Image(unloaded %s)' % (self.value['mPath'])
-		return 'Image<%d*%d@%d:%d in %s>' % (self.value['mSize']['X'], self.value['mSize']['Y'], self.value['mOffset']['X'], self.value['mOffset']['Y'], self.value['mPath'])
+		return 'Image<%d * %d @ %d : %d in %s>' % (self.value['mSize']['X'], self.value['mSize']['Y'], self.value['mOffset']['X'], self.value['mOffset']['Y'], self.value['mPath'])
