@@ -9,27 +9,45 @@
 #include <cstdint>
 #include <climits>
 
-#include <time.h>
-#include <Springbok/Geometry/Vec2.h>
+#include <ctime>
+#include <Springbok/Geometry/Vec3.h>
 #include <Springbok/Math/Operations.h>
 
+//~ ## class RandomNumberGenerator
+//~ A minimal & cheap generator for pseudo-random numbers.
 class RandomNumberGenerator
 {
 public:
-	RandomNumberGenerator(unsigned int seed = static_cast<unsigned int>(time(0)));
+	//~ ### Constructors
+	//~ These all set the seed to the specified parameters.
+	RandomNumberGenerator(unsigned int seed = unsigned(std::time(0)));  // Derive the 64-Bit seed from a 32-Bit seed. If no seed is given use the system time as seed.
 	RandomNumberGenerator(unsigned int lowSeed, unsigned int highSeed);
 	RandomNumberGenerator(unsigned long long int fullSeed);
-	float getFloat();
-	template<typename T=float> T getNumber(T max){ return getNumber<T>(T(), max); };
-	template<typename T=float> T getNumber(T min, T max);
-	template<typename T=float> Vec2<T> getVec2(Vec2<T> min, Vec2<T> max);
+	//~ ### Generator Functions
+
+	//~ Generate random numbers inside a specific range, this Range is always inclusive. (E.g. it is always possible that it returns the max value itself.)
+	float getFloat();          // float in [0.0, 1.0]
+	template<class T = float>
+	T getNumber(T min, T max); // Number of type T in [min, max].
+	template<class T = float>
+	T getNumber(T max);        // [0, max].
+
+	//~ These functions generate a random number for every component of the vector and return them, again in a vector.
+	template<typename T = float> Vec2<T> getVec2(Vec2<T> min, Vec2<T> max);
+	template<typename T = float> Vec3<T> getVec3(Vec3<T> min, Vec3<T> max);
+
+	//~ Generates 32 random bits, all other generator functions are based on this one.
 	unsigned int generate();
 public:
-	unsigned int HighSeed;
-	unsigned int LowSeed;
+	//~ ### Member Variables
+	unsigned int HighSeed; // First 32 Bits of the Seed.
+	unsigned int LowSeed;  // Last  32 Bits of the Seed.
 };
 
-extern RandomNumberGenerator gRNG;
+//~ ### Global Variables
+//~ Outside of class scope
+extern RandomNumberGenerator gRNG; // A global, default-initialized instance of the RandomNumberGenerator for convinience.
+//~!
 
 inline float RandomNumberGenerator::getFloat()
 {
@@ -37,13 +55,23 @@ inline float RandomNumberGenerator::getFloat()
 };
 
 template<typename T>
+T RandomNumberGenerator::getNumber(T max)
+{
+	return getNumber<T>(T(), max);
+};
+
+template<typename T>
 T RandomNumberGenerator::getNumber(T min, T max)
 {
-	return min + getFloat()*(NextBiggerValue(max) - min);
+	return min + getFloat() * (NextBiggerValue(max) - min);
 }
 
 template<typename T>
 Vec2<T> RandomNumberGenerator::getVec2(Vec2<T> min, Vec2<T> max)
 {
-	return Vec2<T>(min.X + getFloat()*(NextBiggerValue(max.X)-min.X), min.Y + getFloat()*(NextBiggerValue(max.Y)-min.Y));
+	return Vec2<T>(min.X + getFloat() * (NextBiggerValue(max.X) - min.X), min.Y + getFloat() * (NextBiggerValue(max.Y) - min.Y));
 };
+
+
+
+
