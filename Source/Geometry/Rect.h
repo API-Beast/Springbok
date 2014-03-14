@@ -53,8 +53,8 @@ public:
 	Rect<T> grown(Vec2<T> growth) const;
 	Rect<T> mirroredHorizontal() const;
 	Rect<T> mirroredVertical() const;
-	Rect<T> getIntersection(Rect<T> other) const;
-	Rect<T> getUnion(Rect<T> other) const;
+	Rect<T> intersect(Rect<T> other) const;
+	Rect<T> unite(Rect<T> other) const;
 	Vec2<T> getSize()   const;
 	Vec2<T> getOrigin() const;
 	Vec2<T> getCenter() const;

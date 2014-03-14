@@ -25,27 +25,27 @@ constexpr Range<T>::operator bool()
 }
 
 template<typename T>
-constexpr Range<T> Range<T>::getIntersection(const Range<T>& other)
+constexpr Range<T> Range<T>::intersect(const Range<T>& other)
 {
 	return (Max(other.Start, Start) > Min(other.End, End)) ? Range<T>() : Range<T>(Max(other.Start, Start), Min(other.End, End));
 }
 
 template<typename T>
-constexpr Range<T> Range<T>::getUnion(const Range<T>& other)
+constexpr Range<T> Range<T>::unite(const Range<T>& other)
 {
 	return Range<T>(Min(other.Start, Start), Max(other.End, End));
 }
 
 template<typename T>
-constexpr Range<T> Range<T>::getIntersection(const T& a, const T& b)
+constexpr Range<T> Range<T>::intersect(const T& a, const T& b)
 {
-	return getIntersection(Range<T>(a, b));
+	return intersect(Range<T>(a, b));
 }
 
 template<typename T>
-constexpr Range<T> Range<T>::getUnion(const T& a, const T& b)
+constexpr Range<T> Range<T>::unite(const T& a, const T& b)
 {
-	return getUnion(Range<T>(a, b));
+	return unite(Range<T>(a, b));
 }
 
 template<typename T>

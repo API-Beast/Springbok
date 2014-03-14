@@ -21,14 +21,14 @@ struct Range
 	 * Example:
 	 * ~~~
 	 * RangeF a(-0.4f, 0.7f);
-	 * RangeF result = a.getIntersection(0.0f, 1.0f);
+	 * RangeF result = a.intersect(0.0f, 1.0f);
 	 * // Result == (0.0f, 0.7f)
 	 * ~~~
 	 */
-	constexpr Range<T> getIntersection(const Range<T>& other) const;
-	constexpr Range<T> getIntersection(const T& a, const T& b) const;
-	constexpr Range<T> getUnion(const Range<T>& other) const;
-	constexpr Range<T> getUnion(const T& a, const T& b) const;
+	constexpr Range<T> intersect(const Range<T>& other) const;
+	constexpr Range<T> intersect(const T& a, const T& b) const;
+	constexpr Range<T> unite(const Range<T>& other) const;
+	constexpr Range<T> unite(const T& a, const T& b) const;
 	
 	/** Returns \a value bound by \c this. */
 	constexpr T bound(const T& value);

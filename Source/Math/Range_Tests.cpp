@@ -6,11 +6,11 @@ namespace
 	
 void basicUsage()
 {
-	//! [getIntersection]
+	//! [intersect]
 	RangeF a(-0.4f, 0.7f);
-	RangeF result = a.getIntersection(0.0f, 1.0f);
+	RangeF result = a.intersect(0.0f, 1.0f);
 	// Result == (0.0f, 0.7f)
-	//! [getIntersection]
+	//! [intersect]
 	SST_M_ASSERT_START;
 	SST_M_ASSERT(result.Start == 0.0f);
 	SST_M_ASSERT(result.End   == 0.7f);

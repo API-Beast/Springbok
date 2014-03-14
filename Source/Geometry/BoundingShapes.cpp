@@ -14,7 +14,7 @@ RangeF AbstractBoundingShape::getAxis(int index) const
 bool IsIntersecting(const AbstractBoundingShape& a, const AbstractBoundingShape& b)
 {
 	for(int i = 0; i < 2; ++i)
-		if(!a.getAxis(i).getIntersection(b.getAxis(i)))
+		if(!a.getAxis(i).intersect(b.getAxis(i)))
 			return false;
 	return true;
 }
