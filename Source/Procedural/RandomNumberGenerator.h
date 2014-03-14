@@ -12,6 +12,7 @@
 #include <ctime>
 #include <Springbok/Geometry/Vec3.h>
 #include <Springbok/Math/Operations.h>
+#include <Springbok/Math/Range.h>
 
 //~ ## class RandomNumberGenerator
 //~ A minimal & cheap generator for pseudo-random numbers.
@@ -26,11 +27,10 @@ public:
 	//~ ### Generator Functions
 
 	//~ Generate random numbers inside a specific range, this Range is always inclusive. (E.g. it is always possible that it returns the max value itself.)
-	float getFloat();          // float in [0.0, 1.0]
-	template<class T = float>
-	T getNumber(T min, T max); // Number of type T in [min, max].
-	template<class T = float>
-	T getNumber(T max);        // [0, max].
+	float getFloat(); // float in [0.0, 1.0]
+	template<class T> T getNumber(T min, T max);   // [min, max]
+	template<class T> T getNumber(T max);          // [0, max]
+	template<class T> T getNumber(Range<T> range); // [range.Start, range.End]
 
 	//~ These functions generate a random number for every component of the vector and return them, again in a vector.
 	template<typename T = float> Vec2<T> getVec2(Vec2<T> min, Vec2<T> max);
@@ -64,6 +64,12 @@ template<typename T>
 T RandomNumberGenerator::getNumber(T min, T max)
 {
 	return min + getFloat() * (NextBiggerValue(max) - min);
+}
+
+template<typename T>
+T RandomNumberGenerator::getNumber(Range<T> range)
+{
+	return range.MinVal + getFloat() * (NextBiggerValue(range.MaxVal) - range.MinVal);
 }
 
 template<typename T>
