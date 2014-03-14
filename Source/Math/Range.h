@@ -12,7 +12,7 @@ struct Range
 {
 	//~ Constructors
 	constexpr Range(){};
-	constexpr Range(T val) : Start(val), End(val){};
+	constexpr Range(T val) : MinVal(val), MaxVal(val){};
 	constexpr Range(T start, T end);
 	template<typename P>
 	constexpr Range(const Range<P>& other);
@@ -29,8 +29,8 @@ struct Range
 	constexpr T bound(const T& value);
 	
 	//~ Member variables
-	T Start = T(); // The smaller of the two points.
-	T End   = T(); // The bigger of the two points.
+	T MinVal = T(); // The smaller of the two points.
+	T MaxVal = T(); // The bigger of the two points.
 };
 
 //~ Typedefs

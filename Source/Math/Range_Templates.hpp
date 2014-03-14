@@ -9,31 +9,31 @@
 #include <Springbok/Math/Operations.h>
 
 template<typename T>
-constexpr Range<T>::Range(T start, T end) : Start(Min(start, end)), End(Max(start, end))
+constexpr Range<T>::Range(T start, T end) : MinVal(Min(start, end)), MaxVal(Max(start, end))
 {
 }
 
 template<typename T>
 template<typename P>
 constexpr Range<T>::Range(const Range<P>& other)
- : Start(other.Start), End(other.End) {}
+ : MinVal(other.MinVal), MaxVal(other.MaxVal) {}
 
 template<typename T>
 constexpr Range<T>::operator bool()
 {
-	return Start != End;
+	return MinVal < MaxVal;
 }
 
 template<typename T>
 constexpr Range<T> Range<T>::intersect(const Range<T>& other)
 {
-	return (Max(other.Start, Start) > Min(other.End, End)) ? Range<T>() : Range<T>(Max(other.Start, Start), Min(other.End, End));
+	return (Max(other.MinVal, MinVal) > Min(other.MaxVal, MaxVal)) ? Range<T>() : Range<T>(Max(other.MinVal, MinVal), Min(other.MaxVal, MaxVal));
 }
 
 template<typename T>
 constexpr Range<T> Range<T>::unite(const Range<T>& other)
 {
-	return Range<T>(Min(other.Start, Start), Max(other.End, End));
+	return Range<T>(Min(other.MinVal, MinVal), Max(other.MaxVal, MaxVal));
 }
 
 template<typename T>
@@ -51,11 +51,11 @@ constexpr Range<T> Range<T>::unite(const T& a, const T& b)
 template<typename T>
 constexpr T Range<T>::bound(const T& val)
 {
-	return BoundBy(val, this->Start, this->End);
+	return BoundBy(val, this->MinVal, this->MaxVal);
 }
 
 template<typename T>
 constexpr T BoundBy(T value, Range<T> range)
 {
-	return (value < range.Start) ? range.Start : ((range.End < value) ? range.End : value);
+	return (value < range.MinVal) ? range.MinVal : ((range.MaxVal < value) ? range.MaxVal : value);
 };
