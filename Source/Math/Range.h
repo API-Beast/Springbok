@@ -10,6 +10,10 @@
 template<typename T>
 struct Range
 {
+	//~ Member variables
+	T MinVal = T(); // The smaller of the two points.
+	T MaxVal = T(); // The bigger of the two points.
+	
 	//~ Constructors
 	constexpr Range(){};
 	constexpr Range(T val) : MinVal(val), MaxVal(val){};
@@ -19,6 +23,8 @@ struct Range
 	
 	//~ Operators
 	constexpr explicit operator bool() const; // Returns `true` if Start is not equal to End.
+	constexpr Range<T> operator+(const T offset); // Shift both values by offset
+	constexpr Range<T> operator-(const T offset);
 	
 	//~ Methods
 	constexpr Range<T> intersect(const Range<T>& other) const;
@@ -27,10 +33,6 @@ struct Range
 	constexpr Range<T> unite(const T& a, const T& b) const;
 	
 	constexpr T bound(const T& value);
-	
-	//~ Member variables
-	T MinVal = T(); // The smaller of the two points.
-	T MaxVal = T(); // The bigger of the two points.
 };
 
 //~ Typedefs
@@ -38,5 +40,13 @@ using RangeF = Range<float>;
 using RangeI = Range<int>;
 using RangeU = Range<unsigned>;
 //~!
+
+#include <ostream>
+
+template<typename T>
+std::ostream& operator<< (std::ostream& stream, const Range<T>& obj)
+{
+	return stream << "[" << obj.MinVal << "," << obj.MaxVal << "]";
+}
 
 #include "Range_Templates.hpp"

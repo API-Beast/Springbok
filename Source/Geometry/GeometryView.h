@@ -22,15 +22,15 @@ public:
 	typedef typename WithoutPtr<T>::Type const& TRef;
 	virtual bool compare(TRef a, TRef b) const
 	{
-		return (a.*Member).getAxis(Axis).Start > (b.*Member).getAxis(Axis).Start;
+		return (a.*Member).getAxis(Axis).MinVal > (b.*Member).getAxis(Axis).MinVal;
 	};
 	virtual bool compareVal(TRef a, const float& b) const
 	{
-		return (a.*Member).getAxis(Axis).Start > b;
+		return (a.*Member).getAxis(Axis).MinVal > b;
 	};
 	virtual bool compareValEq(TRef a, const float& b) const
 	{
-		return (a.*Member).getAxis(Axis).Start == b;
+		return (a.*Member).getAxis(Axis).MinVal == b;
 	};
 public:
 	int Axis;

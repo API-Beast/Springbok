@@ -43,6 +43,11 @@ RandomNumberGenerator::RandomNumberGenerator(long long unsigned int fullSeed)
 	HighSeed = (unsigned int)(fullSeed << (sizeof(unsigned int)*8));
 }
 
+Angle RandomNumberGenerator::getNumber(Angle min, Angle max)
+{
+	return min + getFloat() * (max - min);
+}
+
 unsigned int RandomNumberGenerator::generate()
 {
 	static const int shift = sizeof(int)/2 * 8;

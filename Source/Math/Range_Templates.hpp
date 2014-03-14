@@ -25,6 +25,18 @@ constexpr Range<T>::operator bool()
 }
 
 template<typename T>
+constexpr Range<T> Range<T>::operator+(const T val)
+{
+	return Range<T>(MinVal + val, MaxVal + val);
+}
+
+template<typename T>
+constexpr Range<T> Range<T>::operator-(const T val)
+{
+	return Range<T>(MinVal - val, MaxVal - val);
+}
+
+template<typename T>
 constexpr Range<T> Range<T>::intersect(const Range<T>& other)
 {
 	return (Max(other.MinVal, MinVal) > Min(other.MaxVal, MaxVal)) ? Range<T>() : Range<T>(Max(other.MinVal, MinVal), Min(other.MaxVal, MaxVal));

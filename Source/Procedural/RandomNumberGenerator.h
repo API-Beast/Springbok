@@ -13,6 +13,7 @@
 #include <Springbok/Geometry/Vec3.h>
 #include <Springbok/Math/Operations.h>
 #include <Springbok/Math/Range.h>
+#include <Springbok/Geometry/Angle.h>
 
 //~ ## class RandomNumberGenerator
 //~ A minimal & cheap generator for pseudo-random numbers.
@@ -31,6 +32,8 @@ public:
 	template<class T> T getNumber(T min, T max);   // [min, max]
 	template<class T> T getNumber(T max);          // [0, max]
 	template<class T> T getNumber(Range<T> range); // [range.Start, range.End]
+	//~!
+	Angle getNumber(Angle min, Angle max);
 
 	//~ These functions generate a random number for every component of the vector and return them, again in a vector.
 	template<typename T = float> Vec2<T> getVec2(Vec2<T> min, Vec2<T> max);
@@ -69,7 +72,7 @@ T RandomNumberGenerator::getNumber(T min, T max)
 template<typename T>
 T RandomNumberGenerator::getNumber(Range<T> range)
 {
-	return range.MinVal + getFloat() * (NextBiggerValue(range.MaxVal) - range.MinVal);
+	return getNumber(range.MinVal, range.MaxVal);
 }
 
 template<typename T>
