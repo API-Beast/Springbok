@@ -18,6 +18,8 @@ SoundSource::SoundSource(const std::string& filename)
 
 SoundInstance* SoundSource::play(Vec2F position, SoundManager* s)
 {
+	if(!Sample) return nullptr;
+	
 	if(Sample->Channels > 1 && !Sample->WarnedAboutStereoPosition)
 	{
 		Sample->WarnedAboutStereoPosition = true;
@@ -32,6 +34,8 @@ SoundInstance* SoundSource::play(Vec2F position, SoundManager* s)
 
 SoundInstance* SoundSource::playGlobal(SoundManager* s)
 {
+	if(!Sample) return nullptr;
+	
 	if(!s->canManageMoreSoundInstances()) s->cleanUp();
 	SoundInstance* instance = new SoundInstance(*this);
 	s->manageSoundInstance(instance);
