@@ -1,7 +1,7 @@
 #pragma once
 
 #include "UTF8.h"
-#include <Source/Generic/LogicChain.h>
+#include <Springbok/Generic/LogicChain.h>
 
 template<typename Condition>
 std::string UTF8::Strip(const std::string& str, const Condition& c)

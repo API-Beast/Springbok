@@ -4,7 +4,7 @@
 #pragma once
 
 #include "StringParser.h"
-#include <Source/Resources/ResourceManager.h>
+#include <Springbok/Resources/ResourceManager.h>
 #include <vector>
 
 class ConfigFile

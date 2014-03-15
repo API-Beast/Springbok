@@ -147,7 +147,8 @@ ConfigFile::ConfigFile(){}
 
 void ConfigFile::loadFromFile(const string& path, ResourceManager* manager)
 {
-	ifstream file(manager->getPath(path), ios::binary);
+	std::string pathx = manager->getPath(path);
+	ifstream file(pathx, ios::binary);
 	streambuf* fileBuffer = file.rdbuf();
 	string fileContent;
 	auto size = fileBuffer->pubseekoff(0, ios_base::end);
