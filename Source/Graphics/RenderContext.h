@@ -28,6 +28,7 @@ public:
 	Vec2F RenderTargetOrigin = Vec2F(0, 0);
 	Vec2F RenderTargetSize = Vec2F(0, 0);
 	Vec2F CameraPos = Vec2F(0, 0);
+	Vec2F Zoom      = Vec2F(1, 1);
 	Vec2F Parallaxity = Vec2F(1, 1);
 	Angle Rotation  = 0.0_turn;
 	static unsigned LastBoundTexture;
@@ -57,8 +58,8 @@ template<typename T>
 Rect<T> RenderContext::getTransformedRect(Vec2<T> pos, Vec2<T> size) const
 {
 	Vec2<T> alignment = size*Scale*Alignment;
-	Rect<T> result = Rect<T>(-alignment, size*Scale);
+	Rect<T> result = Rect<T>(-alignment*Zoom, size*Zoom*Scale);
 	result = result.rotated(Rotation);
-	result = result.moved(Offset+pos-(CameraPos*Parallaxity));
+	result = result.moved((Offset+pos-(CameraPos*Parallaxity))*Zoom);
 	return result;
 }

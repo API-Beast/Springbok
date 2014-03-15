@@ -63,6 +63,7 @@ RenderContext::RenderContext(const RenderContext& parent)
 	Alignment = mParent->Alignment;
 	CameraPos = mParent->CameraPos;
 	Rotation  = mParent->Rotation;
+	Zoom      = mParent->Zoom;
 	Parallaxity = mParent->Parallaxity;
 	RenderTargetOrigin = mParent->RenderTargetOrigin;
 	RenderTargetSize = mParent->RenderTargetSize;
