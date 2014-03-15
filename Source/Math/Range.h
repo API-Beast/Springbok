@@ -33,6 +33,9 @@ struct Range
 	constexpr Range<T> unite(const T& a, const T& b) const;
 	
 	constexpr T bound(const T& value);
+	constexpr T interpolate(float factor);
+	
+	static Range<T> FromInterval(const T& value, const T& interval);
 };
 
 //~ Typedefs

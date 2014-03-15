@@ -67,6 +67,21 @@ constexpr T Range<T>::bound(const T& val)
 }
 
 template<typename T>
+constexpr T Range<T>::interpolate(float factor)
+{
+	return MinVal + (MaxVal - MinVal) * factor;
+}
+
+template<typename T>
+Range<T> Range<T>::FromInterval(const T& value, const T& interval)
+{
+	Range<T> retVal;
+	retVal.MinVal = interval * int(value/interval);
+	retVal.MaxVal = retVal.MinVal + interval;
+	return retVal;
+}
+
+template<typename T>
 constexpr T BoundBy(T value, Range<T> range)
 {
 	return (value < range.MinVal) ? range.MinVal : ((range.MaxVal < value) ? range.MaxVal : value);
