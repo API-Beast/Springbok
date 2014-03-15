@@ -138,16 +138,16 @@ ConfigFile::PossibleArray& ConfigFile::Object::operator[](const string& key)
 	}
 }
 
-ConfigFile::ConfigFile(const string& path)
+ConfigFile::ConfigFile(const string& path, ResourceManager* manager)
 {
-	loadFromFile(path);
+	loadFromFile(path, manager);
 }
 
 ConfigFile::ConfigFile(){}
 
-void ConfigFile::loadFromFile(const string& path)
+void ConfigFile::loadFromFile(const string& path, ResourceManager* manager)
 {
-	ifstream file(path, ios::binary);
+	ifstream file(manager->getPath(path), ios::binary);
 	streambuf* fileBuffer = file.rdbuf();
 	string fileContent;
 	auto size = fileBuffer->pubseekoff(0, ios_base::end);

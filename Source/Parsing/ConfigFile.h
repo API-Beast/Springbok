@@ -4,6 +4,7 @@
 #pragma once
 
 #include "StringParser.h"
+#include <Source/Resources/ResourceManager.h>
 #include <vector>
 
 class ConfigFile
@@ -11,10 +12,13 @@ class ConfigFile
 public:
 	struct PossibleArray
 	{
-		operator std::string&(){ if(Data.empty()) Data.push_back(""); return Data.back(); };
-		operator std::vector<std::string>&(){ return Data; };
-		operator std::string() const { if(Data.empty()) return ""; else return Data.back(); };
-		operator const std::vector<std::string>&() const{ return Data; };
+		operator std::string&(){ if(Data.empty()) Data.push_back(""); return Data.front(); };
+		operator std::string() const { if(Data.empty()) return ""; else return Data.front(); };
+		
+		std::vector<std::string> toList(){ return Data; };
+		float toFloat(){ return std::stof(Data.front()); };
+		int   toInt  (){ return std::stoi(Data.front()); };
+		
 		//std::string& operator[](int i){ return Data[i]; };
 		PossibleArray& operator=(const std::vector<std::string>& other);
 		PossibleArray& operator=(const std::string& other);
@@ -50,9 +54,9 @@ public:
 	};
 public:
 	ConfigFile();
-	ConfigFile(const std::string& path);
+	ConfigFile(const std::string& path, ResourceManager* manager = ResourceManager::GetInstance());
 	void loadFromBuffer(const std::string& content);
-	void loadFromFile(const std::string& path);
+	void loadFromFile(const std::string& path, ResourceManager* manager = ResourceManager::GetInstance());
 	operator ConfigFile::Object&(){ return Root; };
 	PossibleArray& operator[](const std::string& key){ return Root[key]; };
 	Object& getObject(const std::string& key){ return Root.getObject(key); };
