@@ -193,6 +193,15 @@ void List<T>::clear()
 }
 
 template<typename T>
+int List<T>::findIndex(const T& value) const
+{
+	for(int i = 0; i < UsedLength; ++i)
+		if(this->operator[](i) == value)
+			return i;
+	return -1;
+}
+
+template<typename T>
 void List<T>::moveMemoryTo(T* memory, int length)
 {
 	if(UsedLength < length)

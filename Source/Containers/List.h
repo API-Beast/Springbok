@@ -56,6 +56,8 @@ public:
 	T& insert(int position, const T& value);
 	T& makeSpace(int position, int elements=1);
 	
+	int findIndex(const T& value) const;
+	
 	void clear();
 	
 	bool empty() const{ return UsedLength == 0; };
