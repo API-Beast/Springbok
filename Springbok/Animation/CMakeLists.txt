@@ -1,5 +1,5 @@
 set(H_FILES Easing.h Interpolation.h KeyframeList.h KeyframeList_Templates.hpp)
-set(CPP_FILES dummy.cpp)
+set(CPP_FILES)
 add_library(sbAnimation OBJECT ${H_FILES} ${CPP_FILES})
 
 set_property(TARGET sbAnimation PROPERTY OBJ_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
