@@ -17,7 +17,7 @@ include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/SSTest/)
 
 add_subdirectory(SSTest)
-add_subdirectory(Source)
+add_subdirectory(Springbok)
 if(BUILD_PLATFORM)
 	add_subdirectory(Examples)
 endif()

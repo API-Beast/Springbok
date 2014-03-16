@@ -6,7 +6,7 @@
 #include "SoundSample.h"
 #include "../Dependencies/stb_vorbis.c"
 #include "SoundManager.h"
-#include <Source/Utils/Debug.h>
+#include <Springbok/Utils/Debug.h>
 #include <AL/al.h>
 
 SoundSample::SoundSample(const std::string& filename)
