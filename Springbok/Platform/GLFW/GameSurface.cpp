@@ -1,3 +1,5 @@
+#include <Springbok/Graphics/GLES2.h>
+#include <Springbok/Utils/Debug.h>
 #include <GLFW/glfw3.h>
 #include "../GameSurface.h"
 
@@ -11,6 +13,10 @@ GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
 	d = new GameSurfaceData;
 	
 	glfwInit();
+
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	
 	if(flags & Windowed)
 	{
 		glfwWindowHint(GLFW_RESIZABLE, false);
@@ -30,10 +36,9 @@ GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
 	if(flags & NoVSync);
 	else glfwSwapInterval(1);
 	
-	int x, y;
-	glfwGetWindowSize(d->Window, &x, &y);
-	glLoadIdentity();
-	glOrtho(0, x, y, 0, 2.0, -2.0);
+	Debug::Write("Load OpenGL extensions...");
+	if(!LoadOpenGLFunctions(this))
+		Debug::Write("Loading OpenGL functions failed.");
 }
 
 GameSurface::~GameSurface()
@@ -68,5 +73,15 @@ Vec2I GameSurface::getSize() const
 void* GameSurface::getWindowHandle() const
 {
 	return d->Window;
+}
+
+GameSurface::GLFunctionPointer GameSurface::getGLFunction(const char* name)
+{
+	return glfwGetProcAddress(name);
+}
+
+bool GameSurface::isGLExtSupported(const char* name)
+{
+	return glfwExtensionSupported(name);
 }
  

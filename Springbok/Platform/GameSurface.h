@@ -26,6 +26,16 @@ public:
 	void switchBuffers();
 	bool closeRequested() const;
 	void requestClose();
+	
+	using GLFunctionPointer = void(*)(void);
+
+	template<typename T>
+	T getGLFunction(const char* name)
+	{
+		return reinterpret_cast<T>(getGLFunction(name));
+	};
+	GLFunctionPointer getGLFunction(const char* name);
+	bool isGLExtSupported(const char* name);
 protected:
 	void* getWindowHandle() const;
 	friend class InputMonitor;
