@@ -65,7 +65,7 @@ public:
 	template<typename P> constexpr bool operator>=(const Vec4<P>& other){ return operator>(other) || operator==(other);  };
 	template<typename P> constexpr bool operator<=(const Vec4<P>& other){ return operator<(other) || operator==(other);  };
 	
-	constexpr Vec3<T> operator-() const; //!< Returns the opposite of this vector. Equals Vec2(-X, -Y).
+	constexpr Vec4<T> operator-() const; //!< Returns the opposite of this vector. Equals Vec2(-X, -Y).
 	
 	constexpr float sqLength() const;
 	constexpr float   length() const;  //!< Returns the \c length of this vector. This is the distance to Vec4(0, 0, 0).
@@ -90,9 +90,9 @@ bool InRange(Vec4<T> a, Vec4<T> b, float range)
 };
 
 #define def_operator(OPER)\
-template<typename T, typename P> constexpr auto operator OPER(const Vec3<T>& vec, const Vec3<P>& val) -> Vec3<decltype(vec.X OPER val.X)> { return {vec.X OPER val.X, vec.Y OPER val.Y, vec.Z OPER val.Z}; }\
-template<typename T, typename P> constexpr auto operator OPER(const Vec3<T>& vec, const P& val) -> Vec3<decltype(vec.X OPER val)> { return {vec.X OPER val, vec.Y OPER val, vec.Y OPER val}; }\
-template<typename T, typename P> constexpr auto operator OPER(const P& val, const Vec3<T>& vec) -> Vec3<decltype(vec.X OPER val)> { return {vec.X OPER val, vec.Y OPER val, vec.Y OPER val}; }
+template<typename T, typename P> constexpr auto operator OPER(const Vec4<T>& vec, const Vec4<P>& val) -> Vec4<decltype(vec.X OPER val.X)> { return {vec.X OPER val.X, vec.Y OPER val.Y, vec.Z OPER val.Z, val.W OPER val.W}; }\
+template<typename T, typename P> constexpr auto operator OPER(const Vec4<T>& vec, const P& val) -> Vec4<decltype(vec.X OPER val)> { return {vec.X OPER val, vec.Y OPER val, vec.Y OPER val, val.W OPER val.W}; }\
+template<typename T, typename P> constexpr auto operator OPER(const P& val, const Vec4<T>& vec) -> Vec4<decltype(vec.X OPER val)> { return {vec.X OPER val, vec.Y OPER val, vec.Y OPER val, val.W OPER val.W}; }
 def_operator(+);
 def_operator(-);
 def_operator(/);
@@ -101,8 +101,8 @@ def_operator(%);
 #undef def_operator
 
 #define def_assign_operator(OPER)\
-template<typename T, typename P> Vec3<T>& operator OPER(Vec3<T>& vec, const Vec3<P>& val) { vec.X OPER val.X; vec.Y OPER val.Y; vec.Z OPER val.Z; return vec; };\
-template<typename T, typename P> Vec3<T>& operator OPER(Vec3<T>& vec, const P& val) { vec.X OPER val; vec.Y OPER val; vec.Z OPER val; return vec; };
+template<typename T, typename P> Vec4<T>& operator OPER(Vec4<T>& vec, const Vec4<P>& val) { vec.X OPER val.X; vec.Y OPER val.Y; vec.Z OPER val.Z; vec.W OPER val.W; return vec; };\
+template<typename T, typename P> Vec4<T>& operator OPER(Vec4<T>& vec, const P& val) { vec.X OPER val; vec.Y OPER val; vec.Z OPER val; vec.W OPER val.W; return vec; };
 def_assign_operator(+=);
 def_assign_operator(-=);
 def_assign_operator(*=);
@@ -116,4 +116,4 @@ using Vec4I = Vec4<int>;
 using Vec4U = Vec4<unsigned>;
 //~!
 
-#include "Vec3_Templates.hpp"
+#include "Vec4_Templates.hpp"

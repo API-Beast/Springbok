@@ -9,6 +9,7 @@
 
 #include <Springbok/Geometry/Rect.h>
 #include <Springbok/Generic/ObjectPointer.h>
+#include "VertexArray.h"
 
 class RenderContext;
 
@@ -23,15 +24,13 @@ public:
 	Image(const std::string& filename);
 	Image(const Image& other, Vec2I position, Vec2I size);
 	Image(){};
-	/*void draw(const RenderContext& r);
-	void drawStretched(Vec2I size, const RenderContext& r);
-	void drawRepeated(const RenderContext& r);
-	void drawRepeated(const RenderContext& context, Vec2F clippingPos, Vec2F clippingSize);*/
-	// TODO: Draw Functions
 	Vec2<int> getSize();
 	Vec2<int> getSize() const;
 	bool valid() const;
 	Image cut(Vec2I position, Vec2I size);
+	
+	template<class V = BasicVertex, class U = BasicUniforms>
+	VertexArray<V, U> prepareVertices() const;
 private:
 	void lazyLoad();
 	ObjectPointer<Texture> mTexture = nullptr;

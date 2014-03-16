@@ -22,44 +22,18 @@ public:
 		Multiplicative
 	};
 public:
-	Vec2I Offset    = Vec2I(0, 0);
-	Vec2F Scale     = Vec2F(+1.0f, +1.0f);
-	Vec2F Alignment = Vec2F(+0.5f, +0.5f);
-	Vec2F RenderTargetOrigin = Vec2F(0, 0);
-	Vec2F RenderTargetSize = Vec2F(0, 0);
-	Vec2F CameraPos = Vec2F(0, 0);
-	Vec2F Zoom      = Vec2F(1, 1);
-	Vec2F Parallaxity = Vec2F(1, 1);
-	Angle Rotation  = 0.0_turn;
-	static unsigned LastBoundTexture;
+	Vec2F CameraPos   = 0;
+	Vec2F Zoom        = 1;
+	Vec2F Parallaxity = 1;
+	
+	Vec2F RenderTargetOrigin = 0;
+	Vec2F RenderTargetSize   = 0;
 public:
-//!@name Static
-///@{
-	static void Setup2DEnvironment();
-///@}
-public:
-	RenderContext();
-	RenderContext(const RenderContext& parent);
-	~RenderContext();
-	template<typename T>
-	Rect<T> getTransformedRect(Vec2<T> pos, Vec2<T> size) const;
-	void setOffsetRelativeToViewport(Vec2I pos);
-	void setColor(const Color& color, float alpha=1.f);
+	BlendingMode getBlendingMode();
 	void setBlendingMode(BlendingMode mode);
-	void loadDefaults();
 private:
 	const RenderContext* mParent = nullptr;
 	Color mSetColor = Colors::White;
 	float mSetAlpha = 1.f;
 	BlendingMode mSetBlendingMode = Default;
 };
-
-template<typename T>
-Rect<T> RenderContext::getTransformedRect(Vec2<T> pos, Vec2<T> size) const
-{
-	Vec2<T> alignment = size*Scale*Alignment;
-	Rect<T> result = Rect<T>(-alignment*Zoom, size*Zoom*Scale);
-	result = result.rotated(Rotation);
-	result = result.moved((Offset+pos-(CameraPos*Parallaxity))*Zoom);
-	return result;
-}

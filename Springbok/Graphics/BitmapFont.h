@@ -23,9 +23,9 @@ public:
 	void loadCharacter(char32_t which, Image sprite);
 	void loadRange(Image spriteSheet, char32_t start, char32_t end);
 	void loadGrid(Image spriteSheet, char32_t start, Vec2I charSize);
-	template<typename T>
-	/*void draw(const std::basic_string< T >& str, const RenderContext& context) const;*/
-	// TODO: Drawing functions
+	
+	template<class V = BasicVertex, class U = BasicUniforms>
+	VertexArray<V, U> prepareVertices() const;
 public:
 	Map<Char, char32_t, &Char::Codepoint> LoadedCharacters;
 };
