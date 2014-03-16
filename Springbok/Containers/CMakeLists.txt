@@ -1,4 +1,4 @@
-set(H_FILES Associative.h List.h List_Templates.hpp View.h View_Templates.hpp MemorySubrange.h VertexArray.h)
+set(H_FILES Associative.h List.h List_Templates.hpp View.h View_Templates.hpp MemorySubrange.h)
 set(CPP_FILES dummy.cpp)
 add_library(sbContainers OBJECT ${H_FILES} ${CPP_FILES})
 
