@@ -49,6 +49,6 @@ endif()
 LINK_SUBTARGET_DEPENDENCIES(Springbok ${SUBTARGETS})
 
 install(TARGETS Springbok LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
-install(FILES Animation.h Audio.h ${CMAKE_CURRENT_BINARY_DIR}/Springbok/Config.h Graphics.h Math.h Platform.h Resources.h
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Springbok/Config.h
 				DESTINATION include/Springbok)
 INSTALL_SUBTARGET_HEADERS(include/Springbok ${SUBTARGETS})
