@@ -40,8 +40,8 @@ public:
 	T& operator[](int x);
 	const T& operator[](int x) const;
 	template<typename P> constexpr bool operator==(const Vec2<P>& other){ return X == other.X && Y == other.Y;  };
-	template<typename P> constexpr bool operator>(const Vec2<P>& other){ return (X + Y * 1000) > (other.X + other.Y * 1000);  };
-	template<typename P> constexpr bool operator<(const Vec2<P>& other){ return (X + Y * 1000) < (other.X + other.Y * 1000);  };
+	template<typename P> constexpr bool operator>(const Vec2<P>& other){ return (X + Y * 8) > (other.X + other.Y * 8);  };
+	template<typename P> constexpr bool operator<(const Vec2<P>& other){ return (X + Y * 8) < (other.X + other.Y * 8);  };
 	
 	template<typename P> constexpr bool operator!=(const Vec2<P>& other){ return !operator==(other);  };
 	template<typename P> constexpr bool operator>=(const Vec2<P>& other){ return operator>(other) || operator==(other);  };

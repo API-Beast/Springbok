@@ -44,7 +44,7 @@ vecA.dot(vecB); // dot product between VecA and VecB, also knohwn as scalar prod
 
 ```cpp
 vec3.Z;  // Get the third value from vec3
-vec4.A;  // Get the fourth value from vec4
+vec4.W;  // Get the fourth value from vec4
 vec4[3]; // Of course index operator also works for higher dimensions.
 ```
 

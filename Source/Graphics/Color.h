@@ -115,12 +115,12 @@ constexpr Color Saturate(const Color& clr, float factor)
 
 constexpr Color ShiftHueLeft(const Color& clr, float factor)
 {
-	return (clr * (1-factor)) + (Reorder(clr, BRG)) * factor;
+	return clr;
 };
 
 constexpr Color ShiftHueRight(const Color& clr, float factor)
 {
-	return (clr * (1-factor)) + (Reorder(clr, GBR)) * factor;
+	return clr;
 };
 
 constexpr Color Dark(const Color& clr, float factor=0.4f)

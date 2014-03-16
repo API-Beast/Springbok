@@ -21,6 +21,12 @@ public:
 			T Y;
 			T Z;
 		};
+		Vec2<T> XY;
+		struct
+		{
+			T __padding_x__;
+			Vec2<T> YZ;
+		};
 	};
 	
 	constexpr Vec3() : X(), Y(), Z() {};
@@ -33,10 +39,17 @@ public:
 	
 	T& operator[](int x);
 	const T& operator[](int x) const;
-	template<typename P> constexpr bool operator==(const Vec3<P>& other){ return X == other.X && Y == other.Y && Z == other.Z;};
-	template<typename P> constexpr bool operator!=(const Vec3<P>& other){ return X != other.X || Y != other.Y || Z != other.Z;};
-	template<typename P> constexpr bool operator >(const Vec3<P>& other) { return X > other.X || Y > other.Y || Z > other.Z;  };
-	template<typename P> constexpr bool operator <(const Vec3<P>& other) { return X < other.X && Y < other.Y && Z < other.Z;  };
+	
+	constexpr T sortingValue(){ return (X + Y * 4 + Z * 16); };
+	
+	template<typename P> constexpr bool operator==(const Vec3<P>& other){ return X == other.X && Y == other.Y && Z == other.Z;  };
+	template<typename P> constexpr bool operator>(const Vec3<P>& other){ return sortingValue() > other.sortingValue();  };
+	template<typename P> constexpr bool operator<(const Vec3<P>& other){ return sortingValue() < other.sortingValue();  };
+	
+	template<typename P> constexpr bool operator!=(const Vec3<P>& other){ return !operator==(other);  };
+	template<typename P> constexpr bool operator>=(const Vec3<P>& other){ return operator>(other) || operator==(other);  };
+	template<typename P> constexpr bool operator<=(const Vec3<P>& other){ return operator<(other) || operator==(other);  };
+	
 	constexpr Vec3<T> operator-() const; //!< Returns the opposite of this vector. Equals Vec2(-X, -Y).
 	
 	constexpr float sqLength() const;
@@ -47,29 +60,6 @@ public:
 	Vec3<T> upperBound(Vec3<T> other) const;
 	
 	constexpr bool isNull() const;
-	
-	constexpr Vec2<T> XY() const{ return {X, Y}; };
-	constexpr Vec2<T> YX() const{ return {Y, X}; };
-	constexpr Vec2<T> XX() const{ return {X, X}; };
-	constexpr Vec2<T> YY() const{ return {Y, Y}; };
-	
-	constexpr Vec2<T> ZY() const{ return {Z, Y}; };
-	constexpr Vec2<T> ZX() const{ return {Z, X}; };
-	constexpr Vec2<T> ZZ() const{ return {Z, Z}; };
-	
-	constexpr Vec3<T> XXX() const{ return {X, X, X}; };
-	constexpr Vec3<T> YYY() const{ return {Y, Y, Y}; };
-	
-	constexpr Vec3<T> YXX() const{ return {Y, X, X}; };
-	constexpr Vec3<T> XYX() const{ return {X, Y, X}; };
-	constexpr Vec3<T> XXY() const{ return {X, X, Y}; };
-	
-	constexpr Vec3<T> XYZ() const{ return {X, Y, Z}; };
-	constexpr Vec3<T> ZYX() const{ return {Z, Y, X}; };
-	constexpr Vec3<T> XZY() const{ return {X, Z, Y}; };
-	constexpr Vec3<T> YZX() const{ return {Y, Z, X}; };
-	constexpr Vec3<T> YXZ() const{ return {Y, X, Z}; };
-	constexpr Vec3<T> ZXY() const{ return {Z, X, Y}; };
 };
 
 template<typename T>
@@ -111,18 +101,5 @@ using Vec3F = Vec3<float>;
 using Vec3I = Vec3<int>;
 using Vec3U = Vec3<unsigned>;
 //! @}
-
-template<typename T> constexpr
-Vec3<T> Reorder(const Vec3<T>& vec, const Vec3I& elementOrder)
-{
-	return { vec[elementOrder[0]], vec[elementOrder[1]], vec[elementOrder[2]] };
-};
-
-static constexpr Vec3I XYZ = Vec3I(0, 1, 2);
-static constexpr Vec3I ZXY = Vec3I(2, 0, 1);
-static constexpr Vec3I YZX = Vec3I(1, 2, 0);
-static constexpr Vec3I ZYX = Vec3I(2, 1, 0);
-static constexpr Vec3I XZY = Vec3I(0, 2, 1);
-static constexpr Vec3I YXZ = Vec3I(1, 0, 2);
 
 #include "Vec3_Templates.hpp"
