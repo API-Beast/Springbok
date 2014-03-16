@@ -4,21 +4,9 @@
 // 0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "RenderContext.h"
-#include <GL/gl.h>
 #include <Springbok/Generic/PointerGuard.h>
 
 unsigned RenderContext::LastBoundTexture = 0;
-
-void RenderContext::Setup2DEnvironment()
-{
-	glEnable(GL_BLEND);
-	glEnable(GL_TEXTURE_2D);
-	glDisable(GL_DEPTH);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glAlphaFunc(GL_ALWAYS, 0);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-}
 
 void RenderContext::loadDefaults()
 {
