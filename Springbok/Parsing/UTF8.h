@@ -25,9 +25,13 @@ namespace UTF8
 	void SkipForward (const std::string& str, int* position, int characters);
 	void SkipBackward(const std::string& str, int* position, int characters);
 	
-	template<typename Condition> std::string Strip     (const std::string& str, const Condition& c);
-	template<typename Condition> std::string StripLeft (const std::string& str, const Condition& c);
-	template<typename Condition> std::string StripRight(const std::string& str, const Condition& c);
+	std::string Strip     (const std::string& str, Codepoint c);
+	std::string StripLeft (const std::string& str, Codepoint c);
+	std::string StripRight(const std::string& str, Codepoint c);
+	
+	template<typename C> std::string Strip     (const std::string& str, const C& c);
+	template<typename C> std::string StripLeft (const std::string& str, const C& c);
+	template<typename C> std::string StripRight(const std::string& str, const C& c);
 	
 	std::string Chop(const std::string& str, int fromStart, int fromEnd);
 }

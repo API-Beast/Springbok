@@ -1,4 +1,4 @@
-set(H_FILES ObjectPointer.h ObjectPointer_Templates.hpp LogicChain.h LogicChain_Templates.hpp PointerGuard.h)
+set(H_FILES Logic.h Logic_Implementation.hpp ObjectPointer.h ObjectPointer_Templates.hpp PointerGuard.h)
 set(CPP_FILES ObjectPointer.cpp)
 add_library(sbGeneric OBJECT ${H_FILES} ${CPP_FILES})
 

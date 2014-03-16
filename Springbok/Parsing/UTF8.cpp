@@ -130,6 +130,38 @@ void UTF8::SkipBackward(const std::string& str, int* position, int characters)
 	}
 }
 
+std::string UTF8::Strip(const std::string& str, Codepoint c)
+{
+	std::string temp = UTF8::StripLeft(str, c);
+	return UTF8::StripRight(temp, c);
+}
+
+std::string UTF8::StripLeft(const std::string& str, Codepoint c)
+{
+	int i = 0;
+	Codepoint cur = UTF8::DecodeAt(str, i);
+	while(c == cur)
+	{
+		if(i >= str.size())
+			break;
+		cur = UTF8::DecodeNext(str, &i);
+	}
+	return str.substr(i, std::string::npos);
+}
+
+std::string UTF8::StripRight(const std::string& str, Codepoint c)
+{
+	int i = str.size()-1;
+	Codepoint cur = UTF8::DecodeAt(str, i);
+	while(c == cur)
+	{
+		if(i <= 0)
+			break;
+		cur = UTF8::DecodeReverse(str, &i);
+	}
+	return str.substr(0, i+1);
+}
+
 std::string UTF8::Chop(const std::string& str, int fromStart, int fromEnd)
 {
 	int start = 0;

@@ -5,7 +5,7 @@
 #include <fstream>
 #include <stack>
 #include <algorithm>
-#include <Springbok/Generic/LogicChain.h>
+#include <Springbok/Generic/Logic.h>
 
 using namespace std;
 
@@ -21,7 +21,7 @@ namespace
 		p.SkipWhitespace  = true;
 		while(!p.atEnd())
 		{
-			std::string key = p.advanceTo(X().inSet({'=', '{', '[', ';', ':'}));
+			std::string key = p.advanceTo(InSet({'=', '{', '[', ';', ':'}));
 			Codepoint oper = p.last();
 			// Assignment
 			if(oper == '=')
@@ -32,7 +32,7 @@ namespace
 					vector<string> result;
 					while(!p.atEnd())
 					{
-						auto curItem = p.advanceTo(',');
+						auto curItem = p.advanceTo(EqualTo(','));
 						if(p.atEnd())
 							if(curItem.back() == ']')
 								curItem = UTF8::Chop(curItem, 0, 1);
@@ -45,7 +45,7 @@ namespace
 					return result;
 				};
 				p.skipAhead();
-				std::string value = p.advanceTo('\n');
+				std::string value = p.advanceTo(EqualTo('\n'));
 				// Arrays
 				if(value[0] == '[' && value.back() == ']')
 					(*curLineContext)[key] = parseArray(value);
@@ -58,7 +58,7 @@ namespace
 			// Shallow Child Object
 			else if(oper == '[')
 			{
-				context->Children.emplace_back(p.advanceTo(']'), context);
+				context->Children.emplace_back(p.advanceTo(EqualTo(']')), context);
 				shallowContext = &(context->Children.back());
 				curLineContext = shallowContext;
 			}
@@ -76,7 +76,7 @@ namespace
 			}
 			// Comment
 			else if(oper == ';')
-				p.advanceTo('\n');
+				p.advanceTo(EqualTo('\n'));
 		}
 	}
 }
@@ -87,7 +87,7 @@ ConfigFile::Object& ConfigFile::Object::getObject(const string& key)
 	ConfigFile::Object* context = this;
 	while(!p.atEnd())
 	{
-		std::string value = p.advanceTo('.');
+		std::string value = p.advanceTo(EqualTo('.'));
 		auto hintEqualTo = [&value](ConfigFile::Object& obj){ return obj.TypeHint == value; };
 		ConfigFile::Object* oldContext = context;
 		auto it = std::find_if(context->Children.begin(), context->Children.end(), hintEqualTo);
@@ -109,7 +109,7 @@ ConfigFile::PossibleArray& ConfigFile::Object::operator[](const string& key)
 	ConfigFile::Object* context = this;
 	while(true)
 	{
-		std::string value = p.advanceTo('.');
+		std::string value = p.advanceTo(EqualTo('.'));
 		if(p.last() != '.')
 		{
 			auto keyEqualTo = [&value](ConfigFile::KeyValue& obj){ return obj.Key == value; };

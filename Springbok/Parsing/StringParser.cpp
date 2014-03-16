@@ -3,6 +3,7 @@
 
 #include "StringParser.h"
 #include "Unicode.h"
+#include <Springbok/Generic/Logic.h>
 
 bool StringParser::atEnd()
 {
@@ -66,6 +67,26 @@ void StringParser::reset(int to)
 	mCurPosition = to;
 }
 
+std::string StringParser::advanceTo(Codepoint point)
+{
+	int start = mCurPosition;
+	Codepoint cur;
+	cur = UTF8::DecodeAt(mStringToParse, start);
+	int stop = start;
+	while(stop < mStringToParse.size())
+	{
+		if(cur == point)
+		{
+			mCurPosition = stop;
+			UTF8::SkipForward(mStringToParse, &mCurPosition, 1);
+			return postProcess(mStringToParse.substr(start, stop-start));
+		}
+		cur = UTF8::DecodeNext(mStringToParse, &stop);
+	}
+	mCurPosition = stop;
+	return postProcess(mStringToParse.substr(start, stop-start));
+}
+
 Codepoint StringParser::next()
 {
 	Codepoint cur = UTF8::DecodeAt(mStringToParse, mCurPosition);
@@ -88,5 +109,5 @@ StringParser::StringParser(const std::string& toParse, int start) : mStringToPar
 std::string StringParser::postProcess(const std::string& s)
 {
 	if(StripWhitespace)
-		return UTF8::Strip(s,_or(&UCS::IsWhitespace, &UCS::IsInvisible));
+		return UTF8::Strip(s, Or(&UCS::IsWhitespace, &UCS::IsInvisible));
 }

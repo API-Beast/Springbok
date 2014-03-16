@@ -4,10 +4,9 @@
 #pragma once
 
 #include "StringParser.h"
-#include <Springbok/Generic/LogicChain.h>
 
-template<typename Condition>
-std::string StringParser::advanceTo(const Condition& cond)
+template<typename C>
+std::string StringParser::advanceTo(const C& cond)
 {
 	int start = mCurPosition;
 	Codepoint cur;
@@ -15,7 +14,7 @@ std::string StringParser::advanceTo(const Condition& cond)
 	int stop = start;
 	while(stop < mStringToParse.size())
 	{
-		if(LogicCompare(cond, cur))
+		if(cond(cur))
 		{
 			mCurPosition = stop;
 			UTF8::SkipForward(mStringToParse, &mCurPosition, 1);

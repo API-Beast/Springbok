@@ -14,7 +14,7 @@ void test()
 	SST_M_ASSERT_EQ(p.next(), 's');
 	SST_M_ASSERT_EQ(p.peek(), 's');
 	p.reset();
-	SST_M_ASSERT_EQ(p.advanceTo('.'), "Test");
+	SST_M_ASSERT_EQ(p.advanceTo(U'.'), "Test");
 	SST_M_ASSERT_EQ(p.advanceTo(U'€'), "ABC");
 	SST_M_ASSERT_END;
 }

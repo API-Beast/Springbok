@@ -30,13 +30,13 @@ const T& Vec3<T>::operator[](int i) const
 template<typename T>
 constexpr Vec3<T> Vec3<T>::operator-() const
 {
-	return Vec3<T>(-X, -Y);
+	return Vec3<T>(-X, -Y, -Z);
 }
 
 template<typename T>
 constexpr float Vec3<T>::length() const
 {
-	return SquareRoot((X * X) + (Y * Y) + (Z * Z));
+	return SquareRoot(sqLength());
 }
 
 template<typename T>
