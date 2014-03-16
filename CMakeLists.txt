@@ -13,14 +13,10 @@ ENABLE_CPP11()
 include(SSTest)
 
 include_directories(${CMAKE_SOURCE_DIR})
-#include_directories(${CMAKE_SOURCE_DIR}/Framework/)
 include_directories(${CMAKE_SOURCE_DIR}/SSTest/)
 
 add_subdirectory(SSTest)
 add_subdirectory(Springbok)
-if(BUILD_PLATFORM)
-	add_subdirectory(Examples)
-endif()
 
 enable_testing()
 add_sstest_executable(SpringbokTest) 
