@@ -8,9 +8,6 @@
 #include <string>
 #include <Springbok/Geometry/Rect.h>
 
-//! @addtogroup Graphics
-//! @{
-
 struct Texture
 {
 	Texture() = delete;
@@ -27,5 +24,3 @@ struct Texture
 	Vec2I TextureSize;
   RectF TextureCoordinates;
 };
-
-//! @}

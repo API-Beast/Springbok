@@ -32,8 +32,8 @@ public:
 public:
 	ResourceManager();
 	~ResourceManager();
-	template<typename T>
-	ObjectPointer<T> getResource(const std::string& path, bool reload=false);
+	template<typename T, class... Args>
+	ObjectPointer<T> getResource(const std::string& path, Args... args);
 	std::string getPath(const std::string& path);
 	std::string findPrimaryResourcePath(const std::vector<std::string>& paths);
 	void addModPath(const std::string& path);

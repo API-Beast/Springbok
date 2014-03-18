@@ -21,17 +21,10 @@ struct Shader
 	ShaderType Type;
 	std::string Path;
 	
-	Shader(std::string path, ShaderType type);
-};
-
-struct ShaderProgram
-{
-	Shader VertexShader;
-	Shader FragmentShader;
+	Shader(Shader::ShaderType type);
+	Shader(const std::string& path, ShaderType type);
+	~Shader();
 	
-	ShaderProgram(const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
+	void loadSourceFromBuffer(const std::string& buffer);
+	bool compile();
 };
-
-extern Shader gDefaultVertexShader;
-extern Shader gDefaultFragmentShader;
-extern ShaderProgram gDefaultShader;

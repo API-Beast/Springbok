@@ -8,6 +8,7 @@
 #include <Springbok/Containers/List.h>
 #include "Image.h"
 #include "RenderContext.h"
+#include "Transform2D.h"
 
 class RenderContext;
 
@@ -24,8 +25,21 @@ public:
 	void loadRange(Image spriteSheet, char32_t start, char32_t end);
 	void loadGrid(Image spriteSheet, char32_t start, Vec2I charSize);
 	
-	template<class V = BasicVertex, class U = BasicUniforms>
-	VertexArray<V, U> prepareVertices() const;
+	template<class V = BasicVertex, class U = BasicElement>
+	void prepareVertices(const std::u32string& str,V*& vertices, U*& elements) const;
 public:
 	Map<Char, char32_t, &Char::Codepoint> LoadedCharacters;
 };
+
+template<class V, class U>
+void BitmapFont::prepareVertices(const std::u32string& str, V*& vertices, U*& elements) const
+{
+	Vec2F offset = 0;
+	for(const auto& c : str)
+	{
+		Image& sprite = LoadedCharacters[c].Sprite;
+		int preparedElements = sprite.prepareVertices(vertices, elements);
+		Transform2D(offset).transform(vertices, elements, preparedElements);
+		offset[0] += sprite.getSize()[0];
+	}	
+}

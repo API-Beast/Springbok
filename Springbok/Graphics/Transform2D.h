@@ -17,8 +17,8 @@ struct Transform2D
 	
 	Transform2D(const Transform2D& parent);
 	
-	template<typename V, typename U>
-	void transform(VertexArray<V, U>* array);
+	template<class V = BasicVertex, class U = BasicElement>
+	void transform(V*& vertices, U*& elements, int numElements) const;
 	
 	Transform2D operator+(const Transform2D& other) const;
 	Transform2D operator-(const Transform2D& other) const;

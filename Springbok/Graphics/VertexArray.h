@@ -11,9 +11,9 @@
 #include "Color.h"
 
 struct BasicVertex;
-struct BasicUniforms;
+struct BasicElement;
 
-template<class Vertex = BasicVertex, class PropertySet = BasicUniforms>
+template<class Vertex = BasicVertex, class PropertySet = BasicElement>
 struct VertexArray
 {
 	std::vector<Vertex> Vertices;
@@ -27,7 +27,8 @@ struct BasicVertex
 	Vec4F Color     = Colors::White;
 };
 
-struct BasicUniforms
+struct BasicElement
 {
 	int Texture = 0;
+	int Vertices = -1;
 };
