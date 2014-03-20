@@ -11,12 +11,13 @@ struct ShaderProgram
 {
 	ObjectPointer<Shader> VertexShader;
 	ObjectPointer<Shader> FragmentShader;
-	GLuint Handle;
+	GLuint Handle = 0;
 	
-	ShaderProgram();
+	ShaderProgram() = default;
 	ShaderProgram(const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
-	~ShaderProgram();
+	
+	void deleteShader();
 	bool link();
 	
-	static ShaderProgram GetDefaultShader();
+	static ShaderProgram& GetDefaultShader();
 };

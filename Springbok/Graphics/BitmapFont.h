@@ -7,10 +7,10 @@
 #pragma once
 #include <Springbok/Containers/List.h>
 #include "Image.h"
-#include "RenderContext.h"
+#include "RenderContext2D.h"
 #include "Transform2D.h"
 
-class RenderContext;
+class RenderContext2D;
 
 class BitmapFont
 {
@@ -26,13 +26,13 @@ public:
 	void loadGrid(Image spriteSheet, char32_t start, Vec2I charSize);
 	
 	template<class V = BasicVertex, class U = BasicElement>
-	void prepareVertices(const std::u32string& str,V*& vertices, U*& elements) const;
+	void prepareVertices(V*& vertices, U*& elements, const std::u32string& str) const;
 public:
 	Map<Char, char32_t, &Char::Codepoint> LoadedCharacters;
 };
 
 template<class V, class U>
-void BitmapFont::prepareVertices(const std::u32string& str, V*& vertices, U*& elements) const
+void BitmapFont::prepareVertices(V*& vertices, U*& elements, const std::u32string& str) const
 {
 	Vec2F offset = 0;
 	for(const auto& c : str)

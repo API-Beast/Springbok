@@ -9,10 +9,10 @@
 
 #include <Springbok/Geometry/Rect.h>
 #include <Springbok/Generic/ObjectPointer.h>
-#include "VertexArray.h"
+#include "VertexStruct.h"
 #include "Texture.h"
 
-class RenderContext;
+class RenderContext2D;
 
 class Texture;
 
@@ -29,7 +29,7 @@ public:
 	Image cut(Vec2I position, Vec2I size);
 	
 	template<class V = BasicVertex, class U = BasicElement>
-	int prepareVertices(V*& vertices, U*& properties) const;
+	int prepareVertices(V*& vertices, U*& properties, GLushort*& indieces, const V& vinit, const U& uinit, GLushort baseIndex) const;
 private:
 	void lazyLoad();
 	ObjectPointer<Texture> mTexture = nullptr;
@@ -40,15 +40,21 @@ private:
 };
 
 template<class V, class U>
-int Image::prepareVertices(V*& vertices, U*& properties) const
+int Image::prepareVertices(V*& vertices, U*& properties, GLushort*& indieces, const V& vinit, const U& uinit, GLushort baseIndex) const
 {
 	RectF vertexCoords(0, mSize);
 	for(int i = 0; i < 4; ++i)
 	{
+		(*vertices) = vinit;
 		vertices->Position  = vertexCoords.Points[i];
 		vertices->TexCoords = mTexCoords.Points[i];
 		vertices++;
+		
+		(*indieces) = baseIndex + i;
+		indieces++;
 	}
+	
+	(*properties) = uinit;
 	properties->Texture = mTexture->Index;
 	properties->Vertices = 4;
 	properties++;

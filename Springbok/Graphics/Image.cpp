@@ -6,7 +6,7 @@
 #include "Image.h"
 #include "Texture.h"
 #include <Springbok/Resources/ResourceManager.h>
-#include "RenderContext.h"
+#include "RenderContext2D.h"
 #include <iostream>
 
 Image::Image(const std::string& filename)

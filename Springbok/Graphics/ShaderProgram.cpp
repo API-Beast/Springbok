@@ -12,22 +12,22 @@ ShaderProgram::ShaderProgram(const std::string& vertexShaderPath, const std::str
 {
 	VertexShader   = ResourceManager::GetInstance()->getResource<Shader>(vertexShaderPath, Shader::Vertex);
 	FragmentShader = ResourceManager::GetInstance()->getResource<Shader>(vertexShaderPath, Shader::Fragment);
-	
-	Handle = glCreateProgram();
 }
 
-ShaderProgram::ShaderProgram()
+void ShaderProgram::deleteShader()
 {
-	Handle = glCreateProgram();
+	if(glIsProgram(Handle))
+	{
+		glDeleteProgram(Handle);
+		Handle = 0;
+	}
 }
 
-ShaderProgram::~ShaderProgram()
-{
-	glDeleteProgram(Handle);
-}
 
 bool ShaderProgram::link()
 {
+	if(!Handle)
+		Handle = glCreateProgram();
 	glAttachShader(Handle, VertexShader   -> Handle);
 	glAttachShader(Handle, FragmentShader -> Handle);
 	glLinkProgram(Handle);
@@ -62,7 +62,7 @@ namespace
 }
 
 
-ShaderProgram ShaderProgram::GetDefaultShader()
+ShaderProgram& ShaderProgram::GetDefaultShader()
 {
 	static ShaderProgram* retVal = nullptr;
 	static Shader* fragment = nullptr;
