@@ -4,10 +4,11 @@
 // 0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "SoundSample.h"
-#include "../Dependencies/stb_vorbis.c"
+#include "../Dependencies/stb_vorbis.h"
 #include "SoundManager.h"
 #include <Springbok/Utils/Debug.h>
 #include <AL/al.h>
+#include <cassert>
 
 SoundSample::SoundSample(const std::string& filename)
 {
