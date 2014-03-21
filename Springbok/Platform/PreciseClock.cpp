@@ -76,6 +76,7 @@ PreciseClock::PreciseClock()
 		gPrecision = res.tv_sec + res.tv_nsec * 0.000001;
 	}
 #endif
+	start();
 }
 
 PreciseClock::~PreciseClock()

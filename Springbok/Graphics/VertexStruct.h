@@ -49,6 +49,17 @@ struct RenderDataPointer
 	
 	bool NewElement = false;
 	
+	RenderDataPointer(V* vertices, E* elements, GLushort* indices)
+	{
+		Vertices = vertices;
+		Elements = elements;
+		Indices  = indices;
+		
+		(*Vertices) = DefaultVertex;
+		(*Elements) = DefaultElement;
+		Elements->IndexStart = Indices;
+	};
+	
 	void appendVertex()
 	{
 		Vertices++;
@@ -69,7 +80,7 @@ struct RenderDataPointer
 		}
 		Indices++;
 		AddedIndices++;
-		Indices = index;
+		Indices[0] = index;
 	};
 	void appendElement()
 	{

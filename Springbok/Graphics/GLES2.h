@@ -486,3 +486,5 @@ using namespace FunctionPointers;
 
 class GameSurface;
 bool LoadOpenGLFunctions(GameSurface* surface);
+void _PrintGLError(const char* file, int line);
+#define PrintGLError( ) _PrintGLError(__FILE__, __LINE__)

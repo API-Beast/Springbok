@@ -291,3 +291,22 @@ bool LoadOpenGLFunctions(GameSurface* surface)
 #undef oglLoadFunc
 	return !failure;
 };
+
+void _PrintGLError(const char* file, int line)
+{
+	GLenum error = glGetError();
+	if(error != GL_NO_ERROR)
+	{
+		std::string errorStr;
+	
+		switch(error)
+		{
+						case GL_INVALID_OPERATION:      				errorStr="INVALID_OPERATION";      break;
+						case GL_INVALID_ENUM:           				errorStr="INVALID_ENUM";           break;
+						case GL_INVALID_VALUE:          				errorStr="INVALID_VALUE";          break;
+						case GL_OUT_OF_MEMORY:          				errorStr="OUT_OF_MEMORY";          break;
+						case GL_INVALID_FRAMEBUFFER_OPERATION:  errorStr="INVALID_FRAMEBUFFER_OPERATION";  break;
+		}
+		Debug::Write("$ at line $\n OpenGL Error: $ -> $", file, line, error, errorStr);
+	}
+};

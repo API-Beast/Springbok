@@ -5,11 +5,11 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #pragma once
-#include "../Geometry/Vec2.h"
 
-class RenderTarget
-{
-public:
-	virtual Vec2F size() const = 0;
-	virtual void  bind() = 0;
-};
+#include <Springbok/Animation/KeyframeList.h>
+#include <Springbok/Geometry/Vec2.h>
+
+extern KeyframeList<float> BallHeight;
+extern KeyframeList<Vec2F> BallScale;
+
+extern void InitData();

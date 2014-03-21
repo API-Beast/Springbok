@@ -1,3 +1,9 @@
+//  Copyright (C) 2014 Manuel Riecke <spell1337@gmail.com>
+//  Licensed under the terms of the WTFPL.
+//
+//  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+//  0. You just DO WHAT THE FUCK YOU WANT TO.
+
 #include <Springbok/Graphics/GLES2.h>
 #include <Springbok/Utils/Debug.h>
 #include <GLFW/glfw3.h>
@@ -63,13 +69,6 @@ void GameSurface::requestClose()
 	return glfwSetWindowShouldClose(d->Window, true);
 }
 
-Vec2I GameSurface::getSize() const
-{
-	int x, y;
-	glfwGetWindowSize(d->Window, &x, &y);
-	return Vec2I(x, y);
-}
-
 void* GameSurface::getWindowHandle() const
 {
 	return d->Window;
@@ -84,4 +83,15 @@ bool GameSurface::isGLExtSupported(const char* name)
 {
 	return glfwExtensionSupported(name);
 }
+
+Vec2F GameSurface::size() const
+{
+	int x, y;
+	glfwGetWindowSize(d->Window, &x, &y);
+	return Vec2F(x, y);
+}
  
+void GameSurface::bind()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}

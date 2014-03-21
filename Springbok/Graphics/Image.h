@@ -29,7 +29,7 @@ public:
 	Image cut(Vec2I position, Vec2I size);
 	
 	template<class V = BasicVertex, class U = BasicElement>
-	int prepareVertices(V*& vertices, U*& properties, GLushort*& indieces, const V& vinit, const U& uinit, GLushort baseIndex) const;
+	void prepareVertices(RenderDataPointer< V, U >& data) const;
 private:
 	void lazyLoad();
 	ObjectPointer<Texture> mTexture = nullptr;
@@ -40,23 +40,16 @@ private:
 };
 
 template<class V, class U>
-int Image::prepareVertices(V*& vertices, U*& properties, GLushort*& indieces, const V& vinit, const U& uinit, GLushort baseIndex) const
+void Image::prepareVertices(RenderDataPointer<V, U>& data) const
 {
 	RectF vertexCoords(0, mSize);
 	for(int i = 0; i < 4; ++i)
 	{
-		(*vertices) = vinit;
-		vertices->Position  = vertexCoords.Points[i];
-		vertices->TexCoords = mTexCoords.Points[i];
-		vertices++;
-		
-		(*indieces) = baseIndex + i;
-		indieces++;
+		data.Vertices->Position  = vertexCoords.Points[i];
+		data.Vertices->TexCoords = mTexCoords.Points[i];
+		data.appendVertex();
+		data.appendIndex(i);
 	}
-	
-	(*properties) = uinit;
-	properties->Texture = mTexture->Index;
-	properties->Vertices = 4;
-	properties++;
-	return 1;
+	data.Elements->Texture = mTexture->Index;
+	data.appendElement();
 }

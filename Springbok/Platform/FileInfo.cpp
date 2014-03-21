@@ -5,6 +5,8 @@
 
 FileInfo::FileInfo(const std::string& path)
 {
+	Path = path;
+	
 	struct stat fileInfo;
 	int failed = stat(path.c_str(), &fileInfo);
 	Exists = !failed;
@@ -30,4 +32,9 @@ FileInfo::FileInfo(const std::string& path)
 FileInfo::operator bool()
 {
 	return Exists;
+}
+
+std::string FileInfo::up()
+{
+	return Path.substr(0, Path.find_last_of('/'));
 }

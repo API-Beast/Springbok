@@ -4,7 +4,7 @@
 struct FileInfo
 {
 	FileInfo(const std::string& path);
-	operator bool();
+	explicit operator bool();
 	enum EType
 	{
 		Unknown,
@@ -18,4 +18,7 @@ struct FileInfo
 	EType Type;               /**< The type of the file. */
 	int LastModification = 0; /**< Seconds since last modifiation. */
 	int Size = 0;             /**< Size of the file in Bytes. 0 for Directories. */
+	std::string Path;
+	
+	std::string up();
 };

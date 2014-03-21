@@ -5,11 +5,13 @@
 
 #pragma once
 #include <string>
+
 #include <Springbok/Geometry/Vec2.h>
+#include <Springbok/Graphics/RenderTarget.h>
 
 class GameSurfaceData;
 
-class GameSurface
+class GameSurface : public RenderTarget
 {
 public:
 	enum WindowFlags
@@ -22,7 +24,6 @@ public:
 	GameSurface(const std::string& title, int flags = None, Vec2U sizeHint = Vec2U(800, 600));
 	~GameSurface();
 	
-	Vec2I getSize() const;
 	void switchBuffers();
 	bool closeRequested() const;
 	void requestClose();
@@ -36,6 +37,9 @@ public:
 	};
 	GLFunctionPointer getGLFunction(const char* name);
 	bool isGLExtSupported(const char* name);
+	
+	virtual Vec2F size() const;
+	virtual void bind();
 protected:
 	void* getWindowHandle() const;
 	friend class InputMonitor;

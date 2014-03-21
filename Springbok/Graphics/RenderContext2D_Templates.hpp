@@ -9,32 +9,32 @@
 #include "RenderContext2D.h"
 #include "GLES2.h"
 
-template<typename T, typename... Args, class U = BasicElement, class V = BasicVertex>
+template<typename T, typename... Args, class U, class V>
 void RenderContext2D::draw(const T& object, Transform2D transformation, Args... args, const V& vinit, const U& uinit)
 {
 	static V       vertexData[1024];
 	static U      elementData[ 256];
 	static GLushort indexData[2048];
 	
-	RenderDataPointer param;
+	RenderDataPointer<V, U> param(vertexData, elementData, indexData);
 	param.DefaultElement = uinit;
 	param.DefaultVertex  = vinit;
 	
-	param.Vertices = vertexData;
-	param.Elements = elementData;
-	param.Indices  = indexData;
-	
-	object->prepareVertices(param, args...);
+	object.prepareVertices(param, args...);
 	
 	Vec2F actualCameraPos = CameraPos - CameraAlignment * mRenderTarget->size();
 	for(int i = 0; i < param.AddedElements; ++i)
 	{
-		transformation.transform(vertexData, elementData[i].IndexStart, elementData[i].IndexEnd, actualCameraPos);
+		transformation.transform(vertexData, elementData[i].IndexStart, elementData[i].IndexEnd, actualCameraPos, Vec2F(1) / mRenderTarget->size());
 		
-		elementData[i]->bindUniforms();
+		elementData[i].bindUniforms();
+		PrintGLError();
 		
 		GLushort numIndices = elementData[i].IndexEnd - elementData[i].IndexStart;
 		vertexData->bindOffsets();
+		PrintGLError();
+		
 		glDrawElements(GL_TRIANGLE_STRIP, numIndices, GL_UNSIGNED_SHORT, elementData[i].IndexStart);
+		PrintGLError();
 	};
 };

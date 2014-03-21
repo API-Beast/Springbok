@@ -16,7 +16,7 @@ struct Transform2D
 	Transform2D(Vec2I pos, Angle rotation = 0.0_turn, Vec2F scale = 1, Vec2F alignment = 0.5f, Vec2F parallaxity = 1.f);
 	
 	template<class V = BasicVertex>
-	void transform(V* vertices, GLushort* indexBegin, GLushort* indexEnd, Vec2F cameraPos = 0.0f) const;
+	void transform(V* vertices, GLushort* indexBegin, GLushort* indexEnd, Vec2F cameraPos = 0, Vec2F coordinateMult = 1) const;
 	
 	Transform2D operator+(const Transform2D& other) const;
 	Transform2D operator-(const Transform2D& other) const;
@@ -30,7 +30,7 @@ struct Transform2D
 
 
 template<class V>
-void Transform2D::transform(V* vertices, GLushort* indexBegin, GLushort* indexEnd, Vec2F cameraPos) const
+void Transform2D::transform(V* vertices, GLushort* indexBegin, GLushort* indexEnd, Vec2F cameraPos, Vec2F coordinateMult) const
 {
 	Vec2F minPos(INFINITY);
 	Vec2F maxPos;
@@ -56,6 +56,6 @@ void Transform2D::transform(V* vertices, GLushort* indexBegin, GLushort* indexEn
 	for(int i = 0; i < (biggestIndex - smallestIndex); ++i)
 	{
 		auto pos = vertices[smallestIndex+i].Position;
-		vertices[smallestIndex+i].Position = Rotation.rotateVec(pos - size*Alignment)*Scale + Offset - cameraPos * Parallaxity;
+		vertices[smallestIndex+i].Position = (Rotation.rotateVec(pos - size*Alignment)*Scale + Offset - cameraPos * Parallaxity)*coordinateMult;
 	}
 }

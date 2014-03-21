@@ -7,6 +7,24 @@
 #include "ShaderProgram.h"
 #include <Springbok/Resources/ResourceManager.h>
 #include <Springbok/Generic/PointerGuard.h>
+#include <Springbok/Utils/Debug.h>
+
+namespace
+{
+	std::string GetShaderProgramLog(GLuint id)
+	{
+		int infoLogLength;
+		glGetProgramiv(id, GL_INFO_LOG_LENGTH, &infoLogLength);
+		std::string output(infoLogLength, ' ');
+		glGetProgramInfoLog(id, infoLogLength, NULL, &output[0]);
+		if(!output.empty())
+		{
+			if(output.back() == '\n') // Brrr I hate that last new line
+				output.substr(0, output.size() - 1);
+		}
+		return output;
+	}
+};
 
 ShaderProgram::ShaderProgram(const std::string& vertexShaderPath, const std::string& fragmentShaderPath)
 {
@@ -31,6 +49,12 @@ bool ShaderProgram::link()
 	glAttachShader(Handle, VertexShader   -> Handle);
 	glAttachShader(Handle, FragmentShader -> Handle);
 	glLinkProgram(Handle);
+	int success;
+	glGetProgramiv(Handle, GL_COMPILE_STATUS, &success);
+	if(!success)
+	{
+		Debug::Write("$", GetShaderProgramLog(Handle));
+	}
 }
 
 namespace

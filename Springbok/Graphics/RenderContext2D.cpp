@@ -6,26 +6,30 @@
 #include "RenderContext2D.h"
 #include <Springbok/Generic/PointerGuard.h>
 #include "GLES2.h"
+#include <Springbok/Utils/Debug.h>
+
+#include <iostream>
 
 RenderContext2D::RenderContext2D(RenderTarget* target)
 {
-	
-	
 	setRenderTarget(target);
 	setBlendingMode(Blending::Default);
 	setShader      (mShader);
+	PrintGLError();
 }
 
 void RenderContext2D::setShader(ShaderProgram shader)
 {
 	mShader = shader;
 	glUseProgram(mShader.Handle);
+	PrintGLError();
 }
 
 void RenderContext2D::setRenderTarget(RenderTarget* target)
 {
 	mRenderTarget = target;
 	mRenderTarget->bind();
+	PrintGLError();
 }
 
 void RenderContext2D::setBlendingMode(Blending mode)
@@ -43,4 +47,13 @@ void RenderContext2D::setBlendingMode(Blending mode)
 		glBlendFunc(GL_DST_COLOR, GL_ZERO);
 		break;
 	}
+	PrintGLError();
 };
+
+void RenderContext2D::clear(Color clr)
+{
+	glClearColor(clr.X, clr.Y, clr.Z, 1.f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	PrintGLError();
+}
+

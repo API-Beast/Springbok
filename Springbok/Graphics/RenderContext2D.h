@@ -34,6 +34,7 @@ public:
 	      Blending       blendingMode(){ return mBlendingMode; };
 	      RenderTarget*  renderTarget(){ return mRenderTarget; };
 				
+	void clear(Color clr = Colors::Black);
 	template<typename T, typename... Args, class U = BasicElement, class V = BasicVertex>
 	void draw(const T& object, Transform2D transformation, Args... args, const V& binit = V(), const U& uinit = U());
 public:
@@ -45,3 +46,5 @@ private:
 	ShaderProgram  mShader       = ShaderProgram::GetDefaultShader();
 	RenderTarget*  mRenderTarget = nullptr;
 };
+
+#include "RenderContext2D_Templates.hpp"
