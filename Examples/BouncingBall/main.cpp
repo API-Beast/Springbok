@@ -32,6 +32,7 @@ int main()
 	
 	Image ball("Ball.png");
 	Image bg("BG.png");
+	Image shadow("Shadow.png");
 	
 	while(!surface.closeRequested())
 	{
@@ -45,9 +46,11 @@ int main()
 		renderer.draw(bg, {0});
 		
 		Transform2D transformation;
-		transformation.Offset = Vec2F(currentTime * 150, BallHeight[currentTime]);
+		transformation.Offset = Vec2F(-400 + currentTime * 350, +200);
 		transformation.Scale = BallScale[currentTime];
-		
+
+		renderer.draw(shadow, transformation);
+		transformation.Offset.Y = 180 - BallHeight[currentTime];
 		renderer.draw(ball, transformation);
 	}
 };

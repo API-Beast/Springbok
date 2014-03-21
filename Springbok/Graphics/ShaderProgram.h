@@ -16,6 +16,7 @@ struct ShaderProgram
 	ShaderProgram() = default;
 	ShaderProgram(const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
 	
+	void bindVertexAttribute(int index, const char* attrib);
 	void deleteShader();
 	bool link();
 	

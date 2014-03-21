@@ -22,15 +22,15 @@ void RenderContext2D::draw(const T& object, Transform2D transformation, Args... 
 	
 	object.prepareVertices(param, args...);
 	
-	Vec2F actualCameraPos = CameraPos - CameraAlignment * mRenderTarget->size();
+	Vec2F actualCameraPos = CameraPos;
 	for(int i = 0; i < param.AddedElements; ++i)
 	{
-		transformation.transform(vertexData, elementData[i].IndexStart, elementData[i].IndexEnd, actualCameraPos, Vec2F(1) / mRenderTarget->size());
+		transformation.transform(vertexData, elementData[i].IndexStart, elementData[i].IndexEnd, actualCameraPos, Vec2F(1, -1) / (mRenderTarget->size()/2));
 		
 		elementData[i].bindUniforms();
 		PrintGLError();
 		
-		GLushort numIndices = elementData[i].IndexEnd - elementData[i].IndexStart;
+		GLushort numIndices = (elementData[i].IndexEnd - elementData[i].IndexStart) - 1;
 		vertexData->bindOffsets();
 		PrintGLError();
 		

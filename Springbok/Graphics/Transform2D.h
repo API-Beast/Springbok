@@ -9,6 +9,7 @@
 #include <Springbok/Geometry/Vec2.h>
 #include <Springbok/Geometry/Angle.h>
 #include "VertexStruct.h"
+#include <Springbok/Utils/Debug.h>
 
 struct Transform2D
 {
@@ -32,7 +33,7 @@ struct Transform2D
 template<class V>
 void Transform2D::transform(V* vertices, GLushort* indexBegin, GLushort* indexEnd, Vec2F cameraPos, Vec2F coordinateMult) const
 {
-	Vec2F minPos(INFINITY);
+	Vec2F minPos(9999999, 9999999);
 	Vec2F maxPos;
 	Vec2F size;
 	GLushort smallestIndex = 64000;
@@ -42,20 +43,24 @@ void Transform2D::transform(V* vertices, GLushort* indexBegin, GLushort* indexEn
 	// Preprocessing
 	for(GLushort* it = indexBegin; it < indexEnd; ++it)
 	{
-		auto pos = vertices[*it].Position;
+		int i = *it;
+		auto pos = vertices[i].Position;
 		// Find out what indices are used.
-		smallestIndex = Min(smallestIndex, *it);
-		biggestIndex = Max(biggestIndex, *it);
+		smallestIndex = Min<GLushort>(smallestIndex, i);
+		biggestIndex = Max<GLushort>(biggestIndex, i);
 		// Calculate Size for alignment.
-		minPos.lowerBound(pos);
-		maxPos.upperBound(pos);
+		minPos = minPos.upperBound(pos);
+		maxPos = maxPos.lowerBound(pos);
 	}
 	size = maxPos - minPos;
 	
+	auto calcNewPos = [&](Vec2F position){ return (Rotation.rotateVec(position - size*Alignment)*Scale + Offset - cameraPos * Parallaxity)*coordinateMult; };
+	
 	// And finally transform
-	for(int i = 0; i < (biggestIndex - smallestIndex); ++i)
+	for(int i = 0; i <= (biggestIndex - smallestIndex); ++i)
 	{
-		auto pos = vertices[smallestIndex+i].Position;
-		vertices[smallestIndex+i].Position = (Rotation.rotateVec(pos - size*Alignment)*Scale + Offset - cameraPos * Parallaxity)*coordinateMult;
+		auto& pos = vertices[smallestIndex+i].Position;
+		pos = calcNewPos(pos);
 	}
+	Debug::Write("Smallest position: $ Biggest position: $", calcNewPos(minPos)/coordinateMult, calcNewPos(maxPos)/coordinateMult);
 }

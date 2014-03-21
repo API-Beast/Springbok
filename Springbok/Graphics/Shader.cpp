@@ -20,7 +20,7 @@ namespace
 		if(!output.empty())
 		{
 			if(output.back() == '\n') // Brrr I hate that last new line
-				output.substr(0, output.size() - 1);
+				output = output.substr(0, output.size() - 1);
 		}
 		return output;
 	}
@@ -63,7 +63,10 @@ bool Shader::compile()
 	glGetShaderiv(Handle, GL_COMPILE_STATUS, &success);
 	if(!success)
 	{
-		Debug::Write("$", GetShaderLog(Handle));
+		if(Type == Vertex)
+			Debug::Write("Vertex shader compilation failed:\n $", GetShaderLog(Handle));
+		if(Type == Fragment)
+			Debug::Write("Fragment shader compilation failed:\n $", GetShaderLog(Handle));
 	}
 	return success;
 }

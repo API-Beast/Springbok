@@ -48,8 +48,12 @@ void Image::prepareVertices(RenderDataPointer<V, U>& data) const
 		data.Vertices->Position  = vertexCoords.Points[i];
 		data.Vertices->TexCoords = mTexCoords.Points[i];
 		data.appendVertex();
-		data.appendIndex(i);
 	}
+	data.appendIndex(0);
+	data.appendIndex(1);
+	data.appendIndex(2);
+	data.appendIndex(3);
+	
 	data.Elements->Texture = mTexture->Index;
 	data.appendElement();
 }

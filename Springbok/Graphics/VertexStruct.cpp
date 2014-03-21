@@ -17,9 +17,9 @@ void BasicVertex::bindOffsets() const
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
 	
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(BasicVertex), &(Position[0]));
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(BasicVertex), &(TexCoords[0]));
-	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(BasicVertex), &(Color[0]));
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 32, &(Position));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 32, &(TexCoords));
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 32, &(Color));
 }
 
 void BasicElement::bindUniforms(const BasicElement& previous) const

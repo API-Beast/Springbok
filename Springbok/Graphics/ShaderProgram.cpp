@@ -20,7 +20,7 @@ namespace
 		if(!output.empty())
 		{
 			if(output.back() == '\n') // Brrr I hate that last new line
-				output.substr(0, output.size() - 1);
+				output = output.substr(0, output.size() - 1);
 		}
 		return output;
 	}
@@ -50,37 +50,43 @@ bool ShaderProgram::link()
 	glAttachShader(Handle, FragmentShader -> Handle);
 	glLinkProgram(Handle);
 	int success;
-	glGetProgramiv(Handle, GL_COMPILE_STATUS, &success);
+	glGetProgramiv(Handle, GL_LINK_STATUS, &success);
 	if(!success)
 	{
-		Debug::Write("$", GetShaderProgramLog(Handle));
+		Debug::Write("Shader linking failed:\n $", GetShaderProgramLog(Handle));
 	}
+	PrintGLError();
 }
 
 namespace
 {
 	const char* vertexShaderSource = 
 	R"(
-		attribute vec2 VertexPosition;
+		attribute vec2 Position;
 		attribute vec2 TextureCoordinate;
+		attribute vec4 Color;
+		
 		varying vec2 texCoord;
+		varying vec4 fragColor;
 
 		void main()
 		{
 			texCoord = TextureCoordinate;
-			gl_Position.xyz = vec3(VertexPosition.x,VertexPosition.y,0);
-			gl_Position.w = 1.0;
+			gl_Position = vec4(Position, 0.0, 1.0);
+			fragColor = Color;
 		}
 	)";
 
 	const char* fragmentShaderSource =
 	R"(
 		varying vec2 texCoord;
+		varying vec4 fragColor;
 		uniform sampler2D TextureSampler;
 
 		void main()
 		{
-			gl_FragColor = texture2D(TextureSampler, vec2(texCoord.s, texCoord.t));
+			vec4 color = texture2D(TextureSampler, texCoord) * fragColor;
+			gl_FragColor = color;
 		}
 	)";
 }
@@ -102,7 +108,19 @@ ShaderProgram& ShaderProgram::GetDefaultShader()
 		retVal->VertexShader   = vertex   = new Shader(Shader::Vertex);
 		retVal->FragmentShader->loadSourceFromBuffer(fragmentShaderSource);
 		retVal->VertexShader  ->loadSourceFromBuffer(vertexShaderSource);
+		retVal->FragmentShader->compile();
+		retVal->VertexShader->compile();
+		retVal->link();
+		retVal->bindVertexAttribute(0, "Position");
+		retVal->bindVertexAttribute(1, "TextureCoordinate");
+		retVal->bindVertexAttribute(2, "Color");
 	}
 	
 	return *retVal;
+}
+
+void ShaderProgram::bindVertexAttribute(int index, const char* attrib)
+{
+	glBindAttribLocation(Handle, index, attrib);
+	PrintGLError();
 }

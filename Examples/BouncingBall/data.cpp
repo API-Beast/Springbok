@@ -12,12 +12,16 @@ KeyframeList<Vec2F> BallScale;
 void InitData()
 {
 	BallHeight.insert(0.0f, 0.f);
+	BallHeight.insert(0.1f, 50.f);
 	BallHeight.insert(0.5f, 150.f);
+	BallHeight.insert(0.9f, 50.f);
 	BallHeight.insert(1.0f, 0.f);
+	BallHeight.enableRepeat();
 	
-	BallScale.insert(0.0f, Vec2F(1.f, 0.5f));
-	BallScale.insert(0.3f, Vec2F(1.f, 1.5f));
-	BallScale.insert(0.5f, Vec2F(1.f, 1.0f));
-	BallScale.insert(0.9f, Vec2F(1.f, 1.5f));
-	BallScale.insert(1.0f, Vec2F(1.f, 0.5f));
+	BallScale.insert(0.0f, Vec2F(1.0f, 0.9f));
+	BallScale.insert(0.3f, Vec2F(0.9f, 1.1f));
+	BallScale.insert(0.5f, Vec2F(1.0f, 1.0f));
+	BallScale.insert(0.9f, Vec2F(0.9f, 1.1f));
+	BallScale.insert(1.0f, Vec2F(1.0f, 0.9f));
+	BallScale.enableRepeat();
 }

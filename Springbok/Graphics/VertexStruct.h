@@ -78,13 +78,13 @@ struct RenderDataPointer
 			AddedIndices += 2;
 			Elements->IndexStart += 2;
 		}
+		Indices[0] = index;
 		Indices++;
 		AddedIndices++;
-		Indices[0] = index;
 	};
 	void appendElement()
 	{
-		Elements->IndexEnd = Indices;
+		Elements->IndexEnd = Indices + 1;
 		Elements++;
 		AddedElements++;
 		(*Elements) = DefaultElement;

@@ -12,6 +12,7 @@
 
 RenderContext2D::RenderContext2D(RenderTarget* target)
 {
+	glEnable(GL_BLEND);
 	setRenderTarget(target);
 	setBlendingMode(Blending::Default);
 	setShader      (mShader);
