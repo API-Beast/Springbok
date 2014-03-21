@@ -62,5 +62,4 @@ void Transform2D::transform(V* vertices, GLushort* indexBegin, GLushort* indexEn
 		auto& pos = vertices[smallestIndex+i].Position;
 		pos = calcNewPos(pos);
 	}
-	Debug::Write("Smallest position: $ Biggest position: $", calcNewPos(minPos)/coordinateMult, calcNewPos(maxPos)/coordinateMult);
 }
