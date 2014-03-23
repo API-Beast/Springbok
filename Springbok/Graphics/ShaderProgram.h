@@ -6,6 +6,7 @@
 
 #include "Shader.h"
 #include <Springbok/Generic/ObjectPointer.h>
+#include <Springbok/Geometry/Vec4.h>
 
 struct ShaderProgram
 {
@@ -16,7 +17,22 @@ struct ShaderProgram
 	ShaderProgram() = default;
 	ShaderProgram(const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
 	
-	void bindVertexAttribute(int index, const char* attrib);
+	void bindVertexAttribute(int index, const char* attrib) const;
+	int getUniformIndex(const char* attrib) const;
+	
+	void setUniform(int attrib, float val) const;
+	void setUniform(int attrib, Vec2F val) const;
+	void setUniform(int attrib, Vec3F val) const;
+	void setUniform(int attrib, Vec4F val) const;
+	
+	void setUniform(int attrib, int val)   const;
+	void setUniform(int attrib, Vec2I val) const;
+	void setUniform(int attrib, Vec3I val) const;
+	void setUniform(int attrib, Vec4I val) const;
+	
+	template<typename T>
+	void setUniform(const char* attrib, T val) const{ return setUniform(getUniformIndex(attrib), val); };
+	
 	void deleteShader();
 	bool link();
 	

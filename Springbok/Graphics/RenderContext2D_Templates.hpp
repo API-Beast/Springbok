@@ -8,33 +8,15 @@
 
 #include "RenderContext2D.h"
 #include "GLES2.h"
+#include "BatchRenderer.h"
 
 template<typename T, typename... Args, class U, class V>
 void RenderContext2D::draw(const T& object, Transform2D transformation, Args... args, const V& vinit, const U& uinit)
 {
-	static V       vertexData[1024];
-	static U      elementData[ 256];
-	static GLushort indexData[2048];
-	
-	RenderDataPointer<V, U> param(vertexData, elementData, indexData);
-	param.DefaultElement = uinit;
-	param.DefaultVertex  = vinit;
-	
-	object.prepareVertices(param, args...);
-	
-	Vec2F actualCameraPos = CameraPos;
-	for(int i = 0; i < param.AddedElements; ++i)
-	{
-		transformation.transform(vertexData, elementData[i].IndexStart, elementData[i].IndexEnd, actualCameraPos, Vec2F(1, -1) / (mRenderTarget->size()/2));
-		
-		elementData[i].bindUniforms();
-		PrintGLError();
-		
-		GLushort numIndices = (elementData[i].IndexEnd - elementData[i].IndexStart) - 1;
-		vertexData->bindOffsets();
-		PrintGLError();
-		
-		glDrawElements(GL_TRIANGLE_STRIP, numIndices, GL_UNSIGNED_SHORT, elementData[i].IndexStart);
-		PrintGLError();
-	};
+	static BatchRenderer<U, V> b(32768); // 32kB
+	b.DefaultVertex  = vinit;
+	b.DefaultElement = uinit;
+	b.startBatching(*this);
+	b.addToBatch(object, transformation, args...);
+	b.flushBatches();
 };

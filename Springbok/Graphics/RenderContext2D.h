@@ -30,9 +30,9 @@ public:
 	void setBlendingMode(Blending mode);
 	void setRenderTarget(RenderTarget* target);
 	
-	const ShaderProgram& shader()      { return mShader;       };
-	      Blending       blendingMode(){ return mBlendingMode; };
-	      RenderTarget*  renderTarget(){ return mRenderTarget; };
+	const ShaderProgram& shader()       const { return mShader;       };
+	      Blending       blendingMode() const { return mBlendingMode; };
+	      RenderTarget*  renderTarget() const { return mRenderTarget; };
 				
 	void clear(Color clr = Colors::Black);
 	template<typename T, typename... Args, class U = BasicElement, class V = BasicVertex>

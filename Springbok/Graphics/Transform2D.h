@@ -17,7 +17,7 @@ struct Transform2D
 	Transform2D(Vec2I pos, Angle rotation = 0.0_turn, Vec2F scale = 1, Vec2F alignment = 0.5f, Vec2F parallaxity = 1.f);
 	
 	template<class V = BasicVertex>
-	void transform(V* vertices, GLushort* indexBegin, GLushort* indexEnd, Vec2F cameraPos = 0, Vec2F coordinateMult = 1) const;
+ 	void transform(V* startVertex, V* endVertex, Vec2F cameraPos = 0, Vec2F coordinateMult = 1) const;
 	
 	Transform2D operator+(const Transform2D& other) const;
 	Transform2D operator-(const Transform2D& other) const;
@@ -31,23 +31,16 @@ struct Transform2D
 
 
 template<class V>
-void Transform2D::transform(V* vertices, GLushort* indexBegin, GLushort* indexEnd, Vec2F cameraPos, Vec2F coordinateMult) const
+void Transform2D::transform(V* startVertex, V* endVertex, Vec2F cameraPos, Vec2F coordinateMult) const
 {
 	Vec2F minPos(9999999, 9999999);
 	Vec2F maxPos;
 	Vec2F size;
-	GLushort smallestIndex = 64000;
-	GLushort biggestIndex  = 0;
-	static bool isTransformed[256];
 	
 	// Preprocessing
-	for(GLushort* it = indexBegin; it < indexEnd; ++it)
+	for(V* it = startVertex; it < endVertex; ++it)
 	{
-		int i = *it;
-		auto pos = vertices[i].Position;
-		// Find out what indices are used.
-		smallestIndex = Min<GLushort>(smallestIndex, i);
-		biggestIndex = Max<GLushort>(biggestIndex, i);
+		auto pos = it->Position;
 		// Calculate Size for alignment.
 		minPos = minPos.upperBound(pos);
 		maxPos = maxPos.lowerBound(pos);
@@ -57,9 +50,6 @@ void Transform2D::transform(V* vertices, GLushort* indexBegin, GLushort* indexEn
 	auto calcNewPos = [&](Vec2F position){ return (Rotation.rotateVec(position - size*Alignment)*Scale + Offset - cameraPos * Parallaxity)*coordinateMult; };
 	
 	// And finally transform
-	for(int i = 0; i <= (biggestIndex - smallestIndex); ++i)
-	{
-		auto& pos = vertices[smallestIndex+i].Position;
-		pos = calcNewPos(pos);
-	}
+	for(V* it = startVertex; it < endVertex; ++it)
+		it->Position = calcNewPos(it->Position);
 }

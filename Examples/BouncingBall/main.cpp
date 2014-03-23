@@ -11,6 +11,7 @@
 
 #include <Springbok/Graphics/RenderContext2D.h>
 #include <Springbok/Graphics/Image.h>
+#include <Springbok/Graphics/BatchRenderer.h>
 
 #include <Springbok/Resources/ResourceManager.h>
 
@@ -33,6 +34,7 @@ int main()
 	Image ball("Ball.png");
 	Image bg("BG.png");
 	Image shadow("Shadow.png");
+	BatchRenderer2D batcher;
 	
 	while(!surface.closeRequested())
 	{
@@ -43,14 +45,18 @@ int main()
 		timer.start();
 		currentTime += deltaTime;
 		
-		renderer.draw(bg, {0});
-		
-		Transform2D transformation;
-		transformation.Offset = Vec2F(-400 + currentTime * 350, +200);
-		transformation.Scale = BallScale[currentTime];
+		batcher.startBatching(renderer);
+		{
+			batcher.addToBatch(bg, {0});
+			
+			Transform2D transformation;
+			transformation.Offset = Vec2F(-400 + currentTime * 350, +200);
+			transformation.Scale = BallScale[currentTime];
 
-		renderer.draw(shadow, transformation);
-		transformation.Offset.Y = 180 - BallHeight[currentTime];
-		renderer.draw(ball, transformation);
+			batcher.addToBatch(shadow, transformation);
+			transformation.Offset.Y = 180 - BallHeight[currentTime];
+			batcher.addToBatch(ball, transformation);
+		}
+		batcher.flushBatches();
 	}
 };

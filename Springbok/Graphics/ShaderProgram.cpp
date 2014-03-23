@@ -62,6 +62,8 @@ namespace
 {
 	const char* vertexShaderSource = 
 	R"(
+		#version 120
+		
 		attribute vec2 Position;
 		attribute vec2 TextureCoordinate;
 		attribute vec4 Color;
@@ -79,6 +81,8 @@ namespace
 
 	const char* fragmentShaderSource =
 	R"(
+		#version 120
+		
 		varying vec2 texCoord;
 		varying vec4 fragColor;
 		uniform sampler2D TextureSampler;
@@ -119,8 +123,53 @@ ShaderProgram& ShaderProgram::GetDefaultShader()
 	return *retVal;
 }
 
-void ShaderProgram::bindVertexAttribute(int index, const char* attrib)
+void ShaderProgram::bindVertexAttribute(int index, const char* attrib) const
 {
 	glBindAttribLocation(Handle, index, attrib);
 	PrintGLError();
+}
+
+int ShaderProgram::getUniformIndex(const char* attrib) const
+{
+	return glGetUniformLocation(Handle, attrib);
+}
+
+void ShaderProgram::setUniform(int attrib, float val) const
+{
+	glUniform1f(attrib, val);
+}
+
+void ShaderProgram::setUniform(int attrib, Vec2F val) const
+{
+	glUniform2fv(attrib, 1, &(val[0]));
+}
+
+void ShaderProgram::setUniform(int attrib, Vec3F val) const
+{
+	glUniform3fv(attrib, 1, &(val[0]));
+}
+
+void ShaderProgram::setUniform(int attrib, Vec4F val) const
+{
+	glUniform4fv(attrib, 1, &(val[0]));
+}
+
+void ShaderProgram::setUniform(int attrib, int val) const
+{
+	glUniform1i(attrib, val);
+}
+
+void ShaderProgram::setUniform(int attrib, Vec2I val) const
+{
+	glUniform2iv(attrib, 1, &(val[0]));
+}
+
+void ShaderProgram::setUniform(int attrib, Vec3I val) const
+{
+	glUniform3iv(attrib, 1, &(val[0]));
+}
+
+void ShaderProgram::setUniform(int attrib, Vec4I val) const
+{
+	glUniform4iv(attrib, 1, &(val[0]));
 }
