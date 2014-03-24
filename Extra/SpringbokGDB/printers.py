@@ -125,7 +125,7 @@ class SpringbokVec3:
 	"Pretty Printer for Springbok 3D Vectors"
 	printer_name = 'Springbok.Geometry.Vec3'
 	version = '1.00'
-	type_name_re = '^(Vec3<(.*)>)|(Color)$'
+	type_name_re = '^(Vec3<(.*)>)$'
 
 	def __init__(self, value):
 		self.typename = value.type_name
@@ -133,6 +133,20 @@ class SpringbokVec3:
 
 	def to_string(self):
 		return 'Vec3(%s : %s : %s)' % (self.value['X'], self.value['Y'], self.value['Z'])
+	
+@_register_printer
+class SpringbokVec4:
+	"Pretty Printer for Springbok 3D Vectors"
+	printer_name = 'Springbok.Geometry.Vec4'
+	version = '1.00'
+	type_name_re = '^(Vec4<(.*)>)$'
+
+	def __init__(self, value):
+		self.typename = value.type_name
+		self.value = value
+
+	def to_string(self):
+		return 'Vec4(%s : %s : %s)' % (self.value['X'], self.value['Y'], self.value['Z'], self.value['W'])
 	
 @_register_printer
 class SpringbokRange:
