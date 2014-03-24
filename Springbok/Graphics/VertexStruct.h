@@ -26,14 +26,13 @@ struct BasicVertex
 struct BasicElement
 {
 	int Texture = 0;
-	GLushort* IndexStart;
-	GLushort* IndexEnd;
+	GLushort* IndexStart = nullptr;
+	GLushort* IndexEnd   = nullptr;
 	
 	static void SetupUniforms(const ShaderProgram* shader);
 	
 	void bindUniforms() const;
-	void bindUniforms(const BasicElement& previous) const;
-	bool operator==(BasicElement& other){ return other.Texture == Texture; };
+	bool canBeBatched(const BasicElement& other){ return other.Texture == Texture; };
 };
 
 template<class V = BasicVertex, class E = BasicElement>
@@ -89,9 +88,22 @@ struct RenderDataPointer
 		Indices++;
 		AddedIndices++;
 	};
-	void appendElement()
+	void appendElement(E element)
 	{
+		element.IndexStart = Elements->IndexStart;
+		(*Elements) = element;
 		Elements->IndexEnd = Indices + 1;
+		if(AddedElements > 0)
+		{
+			// Merge the two elements
+			if(Elements[-1].canBeBatched(element))
+			{
+				Elements[-1].IndexEnd = Elements[0].IndexEnd;
+				Elements--;
+				AddedElements--;
+			}
+		}
+		
 		Elements++;
 		AddedElements++;
 		(*Elements) = DefaultElement;
@@ -99,5 +111,14 @@ struct RenderDataPointer
 		Elements->IndexStart = Indices;
 		CurrentIndex += AddedVerticesToCurElement;
 		AddedVerticesToCurElement = 0;
+	};
+	void updateDefaults()
+	{
+		(*Vertices) = DefaultVertex;
+		auto start = Elements->IndexStart;
+		auto end   = Elements->IndexEnd;
+		(*Elements) = DefaultElement;
+		(*Elements).IndexStart = start;
+		(*Elements).IndexEnd = end;
 	};
 };

@@ -50,12 +50,17 @@ int main()
 			batcher.addToBatch(bg, {0});
 			
 			Transform2D transformation;
-			transformation.Offset = Vec2F(-400 + currentTime * 350, +200);
+			transformation.Offset = Vec2F();
 			transformation.Scale = BallScale[currentTime];
 
-			batcher.addToBatch(shadow, transformation);
-			transformation.Offset.Y = 180 - BallHeight[currentTime];
-			batcher.addToBatch(ball, transformation);
+			batcher.DefaultVertex.Color.W = ShadowAlpha[currentTime];
+			batcher.addToBatch(shadow, Transform2D{Vec2F(-400 + currentTime * 350, +200), ShadowScale[currentTime]});
+			batcher.DefaultVertex.Color.W = ShadowAlpha[currentTime+0.32];
+			batcher.addToBatch(shadow, Transform2D{Vec2F(-520 + currentTime * 350, +200), ShadowScale[currentTime+0.32]});
+			
+			batcher.DefaultVertex.Color.W = 1.f;
+			batcher.addToBatch(ball, Transform2D{Vec2F(-400 + currentTime * 350, +180 - BallHeight[currentTime]), BallScale[currentTime]});
+			batcher.addToBatch(ball, Transform2D{Vec2F(-520 + currentTime * 350, +180 - BallHeight[currentTime+0.32]) , BallScale[currentTime+0.32]});
 		}
 		batcher.flushBatches();
 	}

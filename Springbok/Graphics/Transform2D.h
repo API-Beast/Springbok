@@ -15,6 +15,7 @@ struct Transform2D
 {
 	Transform2D() = default;
 	Transform2D(Vec2I pos, Angle rotation = 0.0_turn, Vec2F scale = 1, Vec2F alignment = 0.5f, Vec2F parallaxity = 1.f);
+	Transform2D(Vec2I pos, Vec2F scale, Vec2F alignment = 0.5f, Vec2F parallaxity = 1.f);
 	
 	template<class V = BasicVertex>
  	void transform(V* startVertex, V* endVertex, Vec2F cameraPos = 0, Vec2F coordinateMult = 1) const;

@@ -28,8 +28,8 @@ public:
 	bool valid() const;
 	Image cut(Vec2I position, Vec2I size);
 	
-	template<class V = BasicVertex, class U = BasicElement>
-	void prepareVertices(RenderDataPointer< V, U >& data) const;
+	template<class V = BasicVertex, class E = BasicElement>
+	void prepareVertices(RenderDataPointer< V, E >& data) const;
 private:
 	void lazyLoad();
 	ObjectPointer<Texture> mTexture = nullptr;
@@ -39,8 +39,8 @@ private:
 	Vec2<int> mSize = Vec2<int>(0, 0);
 };
 
-template<class V, class U>
-void Image::prepareVertices(RenderDataPointer<V, U>& data) const
+template<class V, class E>
+void Image::prepareVertices(RenderDataPointer<V, E>& data) const
 {
 	RectF vertexCoords(0, mSize);
 	for(int i = 0; i < 4; ++i)
@@ -54,6 +54,7 @@ void Image::prepareVertices(RenderDataPointer<V, U>& data) const
 	data.appendIndex(2);
 	data.appendIndex(3);
 	
-	data.Elements->Texture = mTexture->Index;
-	data.appendElement();
+	E element = data.DefaultElement;
+	element.Texture = mTexture->Index;
+	data.appendElement(element);
 }

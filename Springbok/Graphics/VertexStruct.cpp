@@ -28,12 +28,6 @@ void BasicElement::SetupUniforms(const ShaderProgram* shader)
 	shader->setUniform("TextureSampler", 0);
 }
 
-void BasicElement::bindUniforms(const BasicElement& previous) const
-{
-	if(previous.Texture != Texture)
-		glBindTexture(GL_TEXTURE_2D, Texture);
-}
-
 void BasicElement::bindUniforms() const
 {
 	glBindTexture(GL_TEXTURE_2D, Texture);

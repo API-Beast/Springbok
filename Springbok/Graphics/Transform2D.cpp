@@ -15,6 +15,14 @@ Transform2D::Transform2D(Vec2I pos, Angle rotation, Vec2F scale, Vec2F alignment
 	Parallaxity = parallaxity;
 }
 
+Transform2D::Transform2D(Vec2I pos, Vec2F scale, Vec2F alignment, Vec2F parallaxity)
+{
+	Offset = pos;
+	Scale = scale;
+	Alignment = alignment;
+	Parallaxity = parallaxity;
+}
+
 Transform2D Transform2D::operator+(const Transform2D& other) const
 {
 	return Transform2D(this->Offset + other.Offset, this->Rotation + other.Rotation, this->Scale * other.Scale, this->Alignment, this->Parallaxity * other.Parallaxity);

@@ -8,6 +8,8 @@
 
 KeyframeList<float> BallHeight;
 KeyframeList<Vec2F> BallScale;
+KeyframeList<float> ShadowAlpha;
+KeyframeList<Vec2F> ShadowScale;
 
 void InitData()
 {
@@ -19,9 +21,21 @@ void InitData()
 	BallHeight.enableRepeat();
 	
 	BallScale.insert(0.0f, Vec2F(1.0f, 0.9f));
-	BallScale.insert(0.3f, Vec2F(0.9f, 1.1f));
+	BallScale.insert(0.1f, Vec2F(0.9f, 1.1f));
 	BallScale.insert(0.5f, Vec2F(1.0f, 1.0f));
 	BallScale.insert(0.9f, Vec2F(0.9f, 1.1f));
 	BallScale.insert(1.0f, Vec2F(1.0f, 0.9f));
 	BallScale.enableRepeat();
+	
+	ShadowAlpha.insert(0.0f, 1.00f);
+	ShadowAlpha.insert(0.1f, 0.75f);
+	ShadowAlpha.insert(0.5f, 0.10f);
+	ShadowAlpha.insert(0.9f, 0.75f);
+	ShadowAlpha.insert(1.0f, 1.00f);
+	ShadowAlpha.enableRepeat();
+	
+	ShadowScale.insert(0.0f, 1.f);
+	ShadowScale.insert(0.5f, 2.f);
+	ShadowScale.insert(1.0f, 1.f);
+	ShadowScale.enableRepeat();
 }

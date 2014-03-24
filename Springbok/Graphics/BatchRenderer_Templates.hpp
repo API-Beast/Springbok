@@ -30,36 +30,20 @@ BatchRenderer<E,V>::BatchRenderer(int bytes) // Bytes is 2 MB by default
 template<class E, class V>
 template<typename T, typename... Args>
 void BatchRenderer<E,V>::addToBatch(const T& object, Transform2D transformation, Args... args)
-{
-	E* current = mElementData + mParams.AddedElements - 1;
-	V* oldVertices = mVertexData + mParams.AddedVertices;
-	
+{	
 	mParams.DefaultElement = DefaultElement;
 	mParams.DefaultVertex  = DefaultVertex;
+	mParams.updateDefaults();
+	
+	// Get the data before it is changed by prepareVertices.
+	V* oldVertices = mVertexData + mParams.AddedVertices;
 	
 	object.prepareVertices(mParams, args...);
 	
-	// Merge adjacent elements for batching
-	
-	E* oldEnd  = mElementData + mParams.AddedElements;
-	// TODO
-  /*E* newEnd  = current;
-  while(++current != oldEnd)
-	{
-    if((*newEnd == *current))
-		{
-			newEnd++;
-      newEnd->IndexEnd = current->IndexEnd;
-		}
-	}*/
-	E* newEnd = oldEnd;
-		
 	transformation.transform(oldVertices,
 													 mParams.Vertices,
 													 mCurrentContext->CameraPos,
 													 Vec2F(1, -1) / (mCurrentContext->renderTarget()->size()/2));
-	
-	mParams.AddedElements = (newEnd - mElementData);
 };
 
 template<class E, class V>

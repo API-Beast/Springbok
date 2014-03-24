@@ -11,5 +11,7 @@
 
 extern KeyframeList<float> BallHeight;
 extern KeyframeList<Vec2F> BallScale;
+extern KeyframeList<float> ShadowAlpha;
+extern KeyframeList<Vec2F> ShadowScale;
 
 extern void InitData();
