@@ -12,6 +12,7 @@
 struct GameSurfaceData
 {
 	GLFWwindow* Window;
+	Vec2I WindowSize = 0;
 };
 
 GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
@@ -86,9 +87,12 @@ bool GameSurface::isGLExtSupported(const char* name)
 
 Vec2F GameSurface::size() const
 {
-	int x, y;
-	glfwGetWindowSize(d->Window, &x, &y);
-	return Vec2F(x, y);
+	if(d->WindowSize == Vec2I(0))
+	{
+		int x, y;
+		glfwGetWindowSize(d->Window, &(d->WindowSize.X), &(d->WindowSize.Y));
+	}
+	return d->WindowSize;
 }
  
 void GameSurface::bind()

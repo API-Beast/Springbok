@@ -19,11 +19,7 @@ public:
 	V DefaultVertex;
 public:
 	BatchRenderer(int bytes = 2097152);
-	void startBatching(const RenderContext2D& context)
-	{
-		mCurrentContext = &context;
-		mParams = RenderDataPointer<V, E>(mVertexData, mElementData, mIndexData);
-	};
+	void startBatching(const RenderContext2D& context);
 	template<typename T, typename... Args>
 	void addToBatch(const T& object, Transform2D transformation, Args... args);
 	void flushBatches();
@@ -36,6 +32,12 @@ private:
 	
 	GLuint mVertexBuffer = 0;
 	GLuint mIndexBuffer  = 0;
+	
+	int mMaxVertices = 0;
+	int mMaxElements = 0;
+	int mMaxIndices  = 0;
+	
+	int mExtraVertices = 0;
 	
 	RenderDataPointer<V, E> mParams;
 };
