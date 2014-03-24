@@ -22,9 +22,11 @@ void AssetDefinition::initParticles()
 	{
 		auto& d = Spark;
 		d.Sprite = spark;
-		d.Color.insert(0.0f, {1.f, 1.f, 1.f, 1.00f});
-		d.Color.insert(0.5f, {1.f, 1.f, 1.f, 0.50f});
-		d.Color.insert(1.0f, {1.f, 1.f, 1.f, 0.05f});
+		d.LifeTime = 2.0f;
+		d.Color.clear();
+		d.Color.insert(0.0f, {1.f, 1.f, 1.f, 0.40f});
+		d.Color.insert(0.9f, {1.f, 1.f, 1.f, 0.35f});
+		d.Color.insert(1.0f, {1.f, 1.f, 1.f, 0.00f});
 	}
 }
 

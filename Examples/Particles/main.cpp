@@ -20,7 +20,7 @@
 int main()
 {
 	// Initialization
-	GameSurface surface("BouncingBall - Springbok Example", GameSurface::Windowed);
+	GameSurface surface("Particles - Springbok Example", GameSurface::Windowed);
 	InputMonitor       input(&surface);
 	RenderContext2D renderer(&surface);
 	ResourceManager::GetInstance()->findPrimaryResourcePath({FileInfo(__FILE__).up()+"/Assets", "./Assets"});
@@ -41,7 +41,7 @@ int main()
 	while(!surface.closeRequested())
 	{
 		surface.switchBuffers();
-		renderer.clear((Palette::Lilac + Colors::Black) / 2);
+		renderer.clear(Palette::Orange / 2);
 		
 		float dt = timer.elapsed() - gameTime;
 		gameTime = timer.elapsed();
@@ -50,23 +50,29 @@ int main()
 		
 		particles.cleanUp();
 		particleEmitAccum+=dt;
-		while(particleEmitAccum > 0.001f)
+		while(particleEmitAccum > 0.002f)
 		{
 			for(int i = 0; i < 10; ++i)
 			{
 				Particle party;
 				party.Definition = &gAssets.Spark;
-				party.Position   = Vec2F(-surface.size().X/2, gRNG.getNumber(-surface.size().Y/2, +surface.size().Y/2));
-				party.Velocity   = Vec2F(surface.size().X, 0.f);
+				party.Position   = Vec2F(gRNG.getNumber(-surface.size().X/2, +surface.size().X/2), surface.size().Y/2 + 100);
+				party.Velocity   = Vec2F(0.f, -surface.size().Y/2) + gRNG.getVec2(Vec2F(-400), Vec2F(400));
 				party.Position  -= party.Velocity*particleEmitAccum;
+				party.Age -= particleEmitAccum;
+				party.Size = gRNG.getNumber(0.01f, 10.0f);
+				party.Color.X = 0.75f + gRNG.getFloat()/4;
+				party.Color.Z = 0.75f + gRNG.getFloat()/4;
+				party.Color.W = (10.f - party.Size) / 10;
 				particles.addParticle(party);
 			}
-			particleEmitAccum -= 0.001f;
+			particleEmitAccum -= 0.002f;
 		}
 		
 		for(Particle& particle : particles.Particles)
 		{
 			particle.Age += dt;
+			particle.Velocity += particle.Accleration*dt;
 			particle.Position += particle.Velocity*dt;
 		}
 		
@@ -75,8 +81,8 @@ int main()
 		{
 			for(Particle& particle : particles.Particles)
 			{
-				Transform2D transformation = {particle.Position, particle.Definition->Scale[particle.Age]};
-				batcher.DefaultVertex.Color = particle.Definition->Color[particle.Age];
+				Transform2D transformation = {particle.Position, particle.Definition->Scale[particle.Age] * particle.Size};
+				batcher.DefaultVertex.Color = particle.Definition->Color[particle.Age] * particle.Color;
 				batcher.addToBatch(particle.Definition->Sprite, transformation);
 			}
 		}

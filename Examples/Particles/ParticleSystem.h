@@ -25,6 +25,8 @@ struct Particle
 	Vec2F Position = 0;
 	Vec2F Velocity = 0;
 	Vec2F Accleration = 0;
+	float Size = 0;
+	Vec4F Color = Colors::White;
 };
 
 struct ParticleSystem
