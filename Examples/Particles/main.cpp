@@ -8,6 +8,7 @@
 #include <Springbok/Platform/GameSurface.h>
 #include <Springbok/Platform/PreciseClock.h>
 #include <Springbok/Platform/FileInfo.h>
+#include <Springbok/Platform/InputDevice.h>
 
 #include <Springbok/Graphics/RenderContext2D.h>
 #include <Springbok/Graphics/Image.h>
@@ -35,6 +36,7 @@ int main()
 	gAssets.initAll();
 	
 	int maxParticles = 100000;
+	int kParticles = 5;
 	ParticleSystem particles(maxParticles);
 	BatchRenderer2D batcher(maxParticles * 4 * sizeof(BasicVertex));
 	
@@ -42,6 +44,16 @@ int main()
 	{
 		surface.switchBuffers();
 		renderer.clear(Palette::Orange / 2);
+		
+		for(ButtonPressEvent press : input.poll())
+		{
+			if(press.From->getNameOfButton(press.Button) == "F1")
+				kParticles = BoundBy(1, kParticles-1, 100);
+			if(press.From->getNameOfButton(press.Button) == "F2")
+				kParticles = BoundBy(1, kParticles+1, 100);
+			if(press.From->getNameOfButton(press.Button) == "Esc")
+				surface.requestClose();
+		}
 		
 		float dt = timer.elapsed() - gameTime;
 		gameTime = timer.elapsed();
@@ -52,7 +64,7 @@ int main()
 		particleEmitAccum+=dt;
 		while(particleEmitAccum > 0.002f)
 		{
-			for(int i = 0; i < 10; ++i)
+			for(int i = 0; i < kParticles; ++i)
 			{
 				Particle party;
 				party.Definition = &gAssets.Spark;
@@ -79,6 +91,17 @@ int main()
 		renderer.setBlendingMode(Blending::Additive);
 		batcher.startBatching(renderer);
 		{
+			// TODO: Align seems not to work correctly, thus the Position2D(8, 8)
+			Transform2D gui = PositionGUI(surface.topLeft()) + Position2D(8, 8) + Align2D(0.f, 0.f);
+			auto drawText = [&](int row, const std::string& text)
+			{
+				batcher.addToBatch(gAssets.SmallFont, gui+Position2D(0, 16*row), text);
+			};
+			
+			drawText(0, std::to_string(int(dt*1000))+"ms = "+std::to_string(int(1.f/dt))+" FPS");
+			drawText(1, "Particles: "+std::to_string(particles.Particles.UsedLength));
+			drawText(2, "Target count: "+std::to_string(kParticles)+"000 (Change with F1 and F2 Keys.)");
+			
 			for(Particle& particle : particles.Particles)
 			{
 				Transform2D transformation = {particle.Position, particle.Definition->Scale[particle.Age] * particle.Size};
@@ -88,4 +111,5 @@ int main()
 		}
 		batcher.flushBatches();
 	}
+	return 0;
 };

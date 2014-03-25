@@ -25,21 +25,22 @@ public:
 	void loadRange(Image spriteSheet, char32_t start, char32_t end);
 	void loadGrid(Image spriteSheet, char32_t start, Vec2I charSize);
 	
-	template<class V = BasicVertex, class U = BasicElement>
-	void prepareVertices(V*& vertices, U*& elements, const std::u32string& str) const;
+	template<class V = BasicVertex, class E = BasicElement, class C = char>
+	void prepareVertices(RenderDataPointer<V, E>& data, const std::basic_string<C>& str) const;
 public:
 	Map<Char, char32_t, &Char::Codepoint> LoadedCharacters;
 };
 
-template<class V, class U>
-void BitmapFont::prepareVertices(V*& vertices, U*& elements, const std::u32string& str) const
+template<class V, class E, class C>
+void BitmapFont::prepareVertices(RenderDataPointer<V, E>& data, const std::basic_string<C>& str) const
 {
 	Vec2F offset = 0;
 	for(const auto& c : str)
 	{
-		Image& sprite = LoadedCharacters[c].Sprite;
-		int preparedElements = sprite.prepareVertices(vertices, elements);
-		Transform2D(offset).transform(vertices, elements, preparedElements);
+		const Image& sprite = LoadedCharacters[c].Sprite;
+		V* oldVertex = data.Vertices;
+		sprite.prepareVertices(data);
+		Position2D(offset).transform(oldVertex, data.Vertices);
 		offset[0] += sprite.getSize()[0];
 	}	
 }

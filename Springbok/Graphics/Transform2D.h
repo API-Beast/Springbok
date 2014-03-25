@@ -30,27 +30,17 @@ struct Transform2D
 	Vec2F Parallaxity  = 1.f;
 };
 
+inline Transform2D  Position2D(Vec2F pos  ){ return Transform2D(pos);                    };
+inline Transform2D PositionGUI(Vec2F pos  ){ return Transform2D(pos, 1, 0.5f, 0.0f);     }; // Render without Camera influence
+inline Transform2D     Scale2D(Vec2F size ){ return Transform2D(0,   size);              };
+inline Transform2D     Align2D(Vec2F align){ return Transform2D(0,   1, align);          };
+inline Transform2D  Parallax2D(Vec2F paral){ return Transform2D(0,   1, 0.5f, paral);    };
+inline Transform2D    Rotate2D(Angle rot  ){ return Transform2D(0,   rot);               };
 
-template<class V>
-void Transform2D::transform(V* startVertex, V* endVertex, Vec2F cameraPos, Vec2F coordinateMult) const
-{
-	Vec2F minPos(9999999, 9999999);
-	Vec2F maxPos;
-	Vec2F size;
-	
-	// Preprocessing
-	for(V* it = startVertex; it < endVertex; ++it)
-	{
-		auto pos = it->Position;
-		// Calculate Size for alignment.
-		minPos = minPos.upperBound(pos);
-		maxPos = maxPos.lowerBound(pos);
-	}
-	size = maxPos - minPos;
-	
-	auto calcNewPos = [&](Vec2F position){ return (Rotation.rotateVec(position - size*Alignment)*Scale + Offset - cameraPos * Parallaxity)*coordinateMult; };
-	
-	// And finally transform
-	for(V* it = startVertex; it < endVertex; ++it)
-		it->Position = calcNewPos(it->Position);
-}
+inline Transform2D  Position2D(float v0, float v1){ return  Position2D(Vec2F(v0, v1)); };
+inline Transform2D PositionGUI(float v0, float v1){ return PositionGUI(Vec2F(v0, v1)); }; // Render without Camera influence
+inline Transform2D     Scale2D(float v0, float v1){ return     Scale2D(Vec2F(v0, v1)); };
+inline Transform2D     Align2D(float v0, float v1){ return     Align2D(Vec2F(v0, v1)); };
+inline Transform2D  Parallax2D(float v0, float v1){ return  Parallax2D(Vec2F(v0, v1)); };
+
+#include "Transform2D_Templates.hpp"

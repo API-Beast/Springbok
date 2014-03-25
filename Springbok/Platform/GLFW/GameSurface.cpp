@@ -43,7 +43,6 @@ GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
 	if(flags & NoVSync);
 	else glfwSwapInterval(1);
 	
-	Debug::Write("Load OpenGL extensions...");
 	if(!LoadOpenGLFunctions(this))
 		Debug::Write("Loading OpenGL functions failed.");
 }

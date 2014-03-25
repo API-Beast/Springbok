@@ -7,11 +7,16 @@
 #pragma once
 
 #include "ParticleSystem.h"
+#include <Springbok/Graphics/BitmapFont.h>
 
 struct AssetDefinition
 {
-public:
+	// Fonts
+	BitmapFont SmallFont;
+
+	// Particles
 	ParticleDefinition Spark;
+	
 public:
 	void initAll();
 	void initParticles();

@@ -3,6 +3,11 @@
 #include "../InputDevice.h"
 #include <GLFW/glfw3.h>
 
+namespace
+{
+#include "../Common/KeyNames.h"
+};
+
 struct GLFWMouse : public InputDevice
 {
 	GLFWwindow* mWindow;
@@ -52,6 +57,10 @@ struct GLFWKeyboard : public InputDevice
 				return true;
 		return false;
 	};
+	virtual std::string getNameOfButton(int index) const
+	{
+		return KeyCodeToKeyName(index);
+	};
 };
 
 struct InputMonitorData
@@ -67,6 +76,8 @@ namespace
 {
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+	if(action == GLFW_REPEAT || action == GLFW_RELEASE)
+		return;
 	InputMonitorData* d = (InputMonitorData*)glfwGetWindowUserPointer(window);
 	ButtonPressEvent event;
 	event.Type = Keyboard;

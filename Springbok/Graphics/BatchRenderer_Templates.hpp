@@ -23,8 +23,8 @@ BatchRenderer<E,V>::BatchRenderer(int bytes) // Bytes is 2 MB by default
 	mExtraVertices = 128;
 	
 	mVertexData  = new V       [mMaxVertices + mExtraVertices]; // 2MB = 65536 of the default vertices (32 bytes per Vertex)
-	mElementData = new E       [mMaxElements]; 
-	mIndexData   = new GLushort[mMaxIndices]; 
+	mElementData = new E       [mMaxElements + 2]; 
+	mIndexData   = new GLushort[mMaxIndices  + mExtraVertices*2]; 
 	
 	glGenBuffers(1, &mVertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);
@@ -96,5 +96,7 @@ template<class E, class V>
 void BatchRenderer<E,V>::startBatching(const RenderContext2D& context)
 {
 	mCurrentContext = &context;
+	DefaultVertex = V();
+	DefaultElement = E();
 	mParams = RenderDataPointer<V, E>(mVertexData, mElementData, mIndexData);
 };
