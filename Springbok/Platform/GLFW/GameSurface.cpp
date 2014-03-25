@@ -56,6 +56,7 @@ GameSurface::~GameSurface()
 
 void GameSurface::switchBuffers()
 {
+	glfwPollEvents();
 	glfwSwapBuffers(d->Window);
 }
 
