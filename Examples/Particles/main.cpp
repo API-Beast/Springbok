@@ -35,7 +35,7 @@ int main()
 	// Load assets
 	gAssets.initAll();
 	
-	int maxParticles = 100000;
+	int maxParticles = 500000;
 	int kParticles = 5;
 	ParticleSystem particles(maxParticles);
 	BatchRenderer2D batcher(maxParticles * 4 * sizeof(BasicVertex));
@@ -48,9 +48,9 @@ int main()
 		for(ButtonPressEvent press : input.poll())
 		{
 			if(press.From->getNameOfButton(press.Button) == "F1")
-				kParticles = BoundBy(1, kParticles-1, 100);
+				kParticles = BoundBy(1, kParticles-5, 500);
 			if(press.From->getNameOfButton(press.Button) == "F2")
-				kParticles = BoundBy(1, kParticles+1, 100);
+				kParticles = BoundBy(1, kParticles+5, 500);
 			if(press.From->getNameOfButton(press.Button) == "Esc")
 				surface.requestClose();
 		}
