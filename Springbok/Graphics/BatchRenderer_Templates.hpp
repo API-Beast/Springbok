@@ -70,14 +70,18 @@ void BatchRenderer<E,V>::addToBatch(const T& object, Transform2D transformation,
 template<class E, class V>
 void BatchRenderer<E,V>::flushBatches()
 {
-	glBindBuffer(GL_ARRAY_BUFFER,         mVertexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,  mIndexBuffer);
+	if(!mGLStateIsSet)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER,         mVertexBuffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,  mIndexBuffer);
+		
+		V::SetupOffsets();
+		E::SetupUniforms(&mCurrentContext->shader());
+		mGLStateIsSet = true;
+	}
 	
 	glBufferSubData(GL_ARRAY_BUFFER,         0, Min(mParams.AddedVertices, mMaxVertices) * sizeof(V), mVertexData);
 	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, Min(mParams.AddedIndices, mMaxIndices) * sizeof(GLushort), mIndexData);
-	
-	V::SetupOffsets();
-	E::SetupUniforms(&mCurrentContext->shader());
 	
 	PrintGLError();
 	E* last = (mElementData + Min(mParams.AddedElements, mMaxElements));
@@ -100,4 +104,5 @@ void BatchRenderer<E,V>::startBatching(const RenderContext2D& context)
 	DefaultElement = E();
 	mParams = RenderDataPointer<V, E>(mVertexData, mElementData, mIndexData);
 	mParams.updateDefaults();
+	mGLStateIsSet = false;
 };

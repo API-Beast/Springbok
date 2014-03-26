@@ -26,7 +26,7 @@ struct Particle
 	Vec2F Velocity = 0;
 	Vec2F Accleration = 0;
 	Angle Rotation = 0_turn;
-	float Size = 0;
+	Vec2F Size = 0;
 	Vec4F Color = Colors::White;
 };
 

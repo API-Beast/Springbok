@@ -18,7 +18,7 @@ public:
 	E DefaultElement;
 	V DefaultVertex;
 public:
-	BatchRenderer(int bytes = 2097152);
+	BatchRenderer(int bytes = 1048576);
 	void startBatching(const RenderContext2D& context);
 	template<typename T, typename... Args>
 	void addToBatch(const T& object, Transform2D transformation, Args... args);
@@ -38,6 +38,8 @@ private:
 	int mMaxIndices  = 0;
 	
 	int mExtraVertices = 0;
+	
+	bool mGLStateIsSet = false;
 	
 	RenderDataPointer<V, E> mParams;
 };

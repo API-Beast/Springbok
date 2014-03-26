@@ -21,7 +21,7 @@
 int main()
 {
 	// Initialization
-	GameSurface surface("Particles - Springbok Example", GameSurface::Windowed);
+	GameSurface surface("Particles - Springbok Example", GameSurface::Windowed | GameSurface::NoVSync);
 	InputMonitor       input(&surface);
 	RenderContext2D renderer(&surface);
 	ResourceManager::GetInstance()->findPrimaryResourcePath({FileInfo(__FILE__).up()+"/Assets", "./Assets"});
@@ -73,10 +73,13 @@ int main()
 				party.Position  -= party.Velocity*particleEmitAccum;
 				party.Age -= particleEmitAccum;
 				party.Size = gRNG.getNumber(0.01f, 10.0f);
+				party.Size.Y *= gRNG.getNumber(1.f, 3.0f);
 				party.Color.X = 0.75f + gRNG.getFloat()/4;
 				party.Color.Z = 0.75f + gRNG.getFloat()/4;
-				party.Color.W = (10.f - party.Size) / 10;
+				party.Color.W = (10.f - party.Size.X) / 10;
 				party.Rotation = Angle::FromTurn(gRNG.getFloat());
+				if(gRNG.getFloat() < (0.20/kParticles))
+					party.Color.W *= (kParticles/5);
 				particles.addParticle(party);
 			}
 			particleEmitAccum -= 0.002f;
@@ -107,9 +110,9 @@ int main()
 			for(Particle& particle : particles.Particles)
 			{
 				Transform2D transformation =   Position2D(particle.Position)
-				                             +    Scale2D(particle.Definition->Scale[particle.Age] * particle.Size)
-																		 +   Rotate2D(particle.Rotation);
-				batcher.DefaultVertex.Color = particle.Definition->Color[particle.Age] * particle.Color;
+				                             + Scale2D   (particle.Definition->Scale[particle.Age] * particle.Size)
+																		 + Rotate2D  (particle.Rotation);
+				batcher.DefaultVertex.Color = particle.Definition->Color[particle.Age] * particle.Color * Vec4F(1, 1, 1, 0.05f + 1.f / (kParticles / 5));
 				batcher.addToBatch(particle.Definition->Sprite, transformation);
 			}
 		}
