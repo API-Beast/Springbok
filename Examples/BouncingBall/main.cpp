@@ -51,7 +51,7 @@ int main()
 			
 			Transform2D transformation;
 			transformation.Offset = Vec2F();
-			transformation.Scale = BallScale[currentTime];
+			transformation += Scale2D(BallScale[currentTime]);
 
 			batcher.DefaultVertex.Color.W = ShadowAlpha[currentTime];
 			batcher.addToBatch(shadow, Transform2D{Vec2F(-400 + currentTime * 350, +200), ShadowScale[currentTime]});

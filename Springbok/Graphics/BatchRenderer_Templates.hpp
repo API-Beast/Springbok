@@ -14,8 +14,8 @@ template<class E, class V>
 BatchRenderer<E,V>::BatchRenderer(int bytes) // Bytes is 2 MB by default
 {
 	mMaxVertices = bytes / sizeof(V);
-	if(mMaxVertices > 65535) // With short indices we can't have more than 65k Vertices!
-		mMaxVertices = 65535;
+	if(mMaxVertices > 32767) // With short indices we can't have more than 65k Vertices!
+		mMaxVertices = 32767;  // BUG: Some GPU drivers only support 32k vertices appeareantly.
 	
 	mMaxElements = mMaxVertices / 16; // In the case of 2MB Vertices = Up to 4096 batches,    48 kB
 	mMaxIndices  = mMaxVertices *  2; // In the case of 2MB Vertices = Up to 131072 indices, 256 kB
@@ -52,7 +52,7 @@ void BatchRenderer<E,V>::addToBatch(const T& object, Transform2D transformation,
 	
 	if(mParams.AddedVertices > mMaxVertices)
 	{
-		Debug::Write("BatchRenderer: Wrote more vertices than we could handle. Flushing all batches and restarting.");
+		//Debug::Write("BatchRenderer: Wrote more vertices than we could handle. Flushing all batches and restarting.");
 		// Rewind, flush, and press play again
 		mParams = oldParams;
 		flushBatches();
@@ -99,4 +99,5 @@ void BatchRenderer<E,V>::startBatching(const RenderContext2D& context)
 	DefaultVertex = V();
 	DefaultElement = E();
 	mParams = RenderDataPointer<V, E>(mVertexData, mElementData, mIndexData);
+	mParams.updateDefaults();
 };

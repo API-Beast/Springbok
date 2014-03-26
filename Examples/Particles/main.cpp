@@ -76,6 +76,7 @@ int main()
 				party.Color.X = 0.75f + gRNG.getFloat()/4;
 				party.Color.Z = 0.75f + gRNG.getFloat()/4;
 				party.Color.W = (10.f - party.Size) / 10;
+				party.Rotation = Angle::FromTurn(gRNG.getFloat());
 				particles.addParticle(party);
 			}
 			particleEmitAccum -= 0.002f;
@@ -86,6 +87,7 @@ int main()
 			particle.Age += dt;
 			particle.Velocity += particle.Accleration*dt;
 			particle.Position += particle.Velocity*dt;
+			particle.Rotation += dt * 2.0_turn;
 		}
 		
 		renderer.setBlendingMode(Blending::Additive);
@@ -104,7 +106,9 @@ int main()
 			
 			for(Particle& particle : particles.Particles)
 			{
-				Transform2D transformation = {particle.Position, particle.Definition->Scale[particle.Age] * particle.Size};
+				Transform2D transformation =   Position2D(particle.Position)
+				                             +    Scale2D(particle.Definition->Scale[particle.Age] * particle.Size)
+																		 +   Rotate2D(particle.Rotation);
 				batcher.DefaultVertex.Color = particle.Definition->Color[particle.Age] * particle.Color;
 				batcher.addToBatch(particle.Definition->Sprite, transformation);
 			}

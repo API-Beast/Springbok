@@ -45,6 +45,12 @@ constexpr float Vec2<T>::sqLength() const
 }
 
 template<typename T>
+constexpr T Vec2<T>::sum() const
+{
+	return X + Y;
+}
+
+template<typename T>
 Vec2<T> Vec2<T>::lowerBound(Vec2<T> other) const
 {
 	return Vec2<T>{Max(X, other.X), Max(Y, other.Y)};
@@ -57,7 +63,7 @@ Vec2<T> Vec2<T>::upperBound(Vec2<T> other) const
 }
 
 template<typename T>
-constexpr Vec2<T> Vec2<T>::normalized() const
+constexpr Vec2<float> Vec2<T>::normalized() const
 {
 	return length() > 0 ? ((*this) / length()) : Vec2<T>(0);
 }

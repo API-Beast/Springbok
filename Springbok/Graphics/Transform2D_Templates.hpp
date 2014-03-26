@@ -17,7 +17,7 @@ void Transform2D::transform(V* startVertex, V* endVertex, Vec2F cameraPos, Vec2F
 	}
 	size = maxPos - minPos;
 	
-	auto calcNewPos = [&](Vec2F position){ return (Rotation.rotateVec(position - size*Alignment)*Scale + Offset - cameraPos * Parallaxity)*coordinateMult; };
+	auto calcNewPos = [&](Vec2F position){ return (Matrix.transform(position - size*Alignment) + Offset - cameraPos * Parallaxity) * coordinateMult; };
 	
 	// And finally transform
 	for(V* it = startVertex; it < endVertex; ++it)
