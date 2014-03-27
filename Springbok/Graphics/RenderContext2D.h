@@ -14,24 +14,15 @@
 #include "RenderTarget.h"
 #include "Transform2D.h"
 
-enum class Blending
-{
-	Default,
-	Additive,
-	Multiplicative
-};
-
 class RenderContext2D
 {
 public:
 	RenderContext2D(RenderTarget* target);
 	
 	void setShader      (ShaderProgram shader);
-	void setBlendingMode(Blending mode);
 	void setRenderTarget(RenderTarget* target);
 	
 	const ShaderProgram& shader()       const { return mShader;       };
-	      Blending       blendingMode() const { return mBlendingMode; };
 	      RenderTarget*  renderTarget() const { return mRenderTarget; };
 				
 	void clear(Color clr = Colors::Black);
@@ -42,7 +33,6 @@ public:
 	Vec2F CamaraZoom      = 1.0f;
 	Vec2F CameraAlignment = 0.5f;
 private:
-	Blending       mBlendingMode = Blending::Default;
 	ShaderProgram  mShader       = ShaderProgram::GetDefaultShader();
 	RenderTarget*  mRenderTarget = nullptr;
 };

@@ -26,16 +26,30 @@ struct BasicVertex
 	static void SetupOffsets();
 };
 
+enum class Blending
+{
+	Alpha,
+	Additive,
+	Multiplicative
+};
+
 struct BasicElement
 {
 	int Texture = 0;
+	Blending BlendMode   = Blending::Alpha;
 	GLushort* IndexStart = nullptr;
 	GLushort* IndexEnd   = nullptr;
+	
+	BasicElement() = default;
+	BasicElement(Blending mode){ BlendMode = mode; };
 	
 	static void SetupUniforms(const ShaderProgram* shader);
 	
 	void bindUniforms() const;
-	bool canBeBatched(const BasicElement& other){ return other.Texture == Texture; };
+	bool canBeBatched(const BasicElement& other)
+	{
+		return other.Texture == Texture && other.BlendMode == BlendMode;
+	};
 };
 
 template<class V = BasicVertex, class E = BasicElement>

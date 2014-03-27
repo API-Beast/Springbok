@@ -30,6 +30,7 @@ Transform2D& Transform2D::operator+=(const Transform2D& other)
 	Offset      += other.Offset;
 	Alignment    = 0.5f + (Alignment-0.5f) + (other.Alignment-0.5f);
 	Parallaxity *= other.Parallaxity;
+	Matrix = Matrix.mult(other.Matrix);
 	return *this;
 }
 
@@ -38,5 +39,6 @@ Transform2D& Transform2D::operator-=(const Transform2D& other)
 	Offset      -= other.Offset;
 	Alignment    = 0.5f - (Alignment-0.5f) - (other.Alignment-0.5f);
 	Parallaxity /= other.Parallaxity;
+	Matrix = Matrix.mult(1/other.Matrix);
 	return *this;
 }

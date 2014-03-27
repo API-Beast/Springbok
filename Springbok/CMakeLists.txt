@@ -35,7 +35,7 @@ add_subdirectory(Procedural)
 add_subdirectory(Dependencies)
 add_subdirectory(Utils)
 
-set(SUBTARGETS sbAnimation sbAudio sbContainers sbGeneric sbGeometry sbGraphics sbMath sbParsing sbPlatform sbProcedural sbResources sbUtils)
+set(SUBTARGETS sbAnimation sbAudio sbContainers sbDependencies sbGeneric sbGeometry sbGraphics sbMath sbParsing sbPlatform sbProcedural sbResources sbUtils)
 
 GET_SUBTARGET_OBJECTS(SUBTARGETS_EXPANDED ${SUBTARGETS})
 
@@ -47,7 +47,7 @@ else()
 endif()
 
 LINK_SUBTARGET_DEPENDENCIES(Springbok ${SUBTARGETS})
-target_link_libraries(Springbok sbDependencies)
+target_link_libraries(Springbok)
 
 install(TARGETS Springbok LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Springbok/Config.h

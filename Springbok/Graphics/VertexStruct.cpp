@@ -31,4 +31,16 @@ void BasicElement::SetupUniforms(const ShaderProgram* shader)
 void BasicElement::bindUniforms() const
 {
 	glBindTexture(GL_TEXTURE_2D, Texture);
+	switch(BlendMode)
+	{
+	case Blending::Alpha:
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		break;
+	case Blending::Additive:
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		break;
+	case Blending::Multiplicative:
+		glBlendFunc(GL_DST_COLOR, GL_ZERO);
+		break;
+	}
 }

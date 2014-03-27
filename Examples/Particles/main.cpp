@@ -93,7 +93,6 @@ int main()
 			particle.Rotation += dt * 2.0_turn;
 		}
 		
-		renderer.setBlendingMode(Blending::Additive);
 		batcher.startBatching(renderer);
 		{
 			// TODO: Align seems not to work correctly, thus the Position2D(8, 8)
@@ -113,7 +112,7 @@ int main()
 				                             + Scale2D   (particle.Definition->Scale[particle.Age] * particle.Size)
 																		 + Rotate2D  (particle.Rotation);
 				Vec4F col = particle.Definition->Color[particle.Age] * particle.Color * Vec4F(1, 1, 1, 0.05f + 1.f / (kParticles / 5));
-				batcher.addToBatch(particle.Definition->Sprite, transformation, col);
+				batcher.addToBatch(particle.Definition->Sprite, transformation, col, Blending::Additive);
 			}
 		}
 		batcher.flushBatches();

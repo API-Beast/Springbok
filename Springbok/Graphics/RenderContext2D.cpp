@@ -14,7 +14,6 @@ RenderContext2D::RenderContext2D(RenderTarget* target)
 {
 	glEnable(GL_BLEND);
 	setRenderTarget(target);
-	setBlendingMode(Blending::Default);
 	setShader      (mShader);
 	PrintGLError();
 }
@@ -32,24 +31,6 @@ void RenderContext2D::setRenderTarget(RenderTarget* target)
 	mRenderTarget->bind();
 	PrintGLError();
 }
-
-void RenderContext2D::setBlendingMode(Blending mode)
-{
-	mBlendingMode = mode;
-	switch(mBlendingMode)
-	{
-	case Blending::Default:
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		break;
-	case Blending::Additive:
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-		break;
-	case Blending::Multiplicative:
-		glBlendFunc(GL_DST_COLOR, GL_ZERO);
-		break;
-	}
-	PrintGLError();
-};
 
 void RenderContext2D::clear(Color clr)
 {
