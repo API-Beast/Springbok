@@ -9,12 +9,6 @@
 
 using Color = Vec3F;
 
-static constexpr Vec3I BRG = Vec3I(2, 0, 1);
-static constexpr Vec3I GBR = Vec3I(1, 2, 0);
-static constexpr Vec3I BGR = Vec3I(2, 1, 0);
-static constexpr Vec3I RBG = Vec3I(0, 2, 1);
-static constexpr Vec3I GRB = Vec3I(1, 0, 2);
-
 constexpr Color RGB(float red, float green, float blue)
 {
 	return Color( red  ,

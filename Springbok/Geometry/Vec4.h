@@ -67,9 +67,10 @@ public:
 	
 	constexpr Vec4<T> operator-() const; //!< Returns the opposite of this vector. Equals Vec2(-X, -Y).
 	
-	constexpr float sqLength() const;
-	constexpr float   length() const;  //!< Returns the \c length of this vector. This is the distance to Vec4(0, 0, 0).
-	constexpr Vec4<T> normalized() const;          //!< Returns the normalized version of \c this. A normalized vector (also called unit vector) has a length of 1 or 0.
+	constexpr T                  sum() const; //!< Take the sum of the components, also called manhattan length.
+	constexpr float         sqLength() const;
+	constexpr float           length() const; //!< Returns the \c length of this vector. This is the distance to Vec4(0, 0, 0).
+	constexpr Vec4<float> normalized() const; //!< Returns the normalized version of \c this. A normalized vector (also called unit vector) has a length of 1 or 0.
 	
 	Vec4<T> lowerBound(Vec4<T> other) const;
 	Vec4<T> upperBound(Vec4<T> other) const;

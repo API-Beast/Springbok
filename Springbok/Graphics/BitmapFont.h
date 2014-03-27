@@ -15,7 +15,7 @@ class RenderContext2D;
 class BitmapFont
 {
 public:
-	struct Char
+	struct Glyph
 	{
 		char32_t Codepoint;
 		Image Sprite;
@@ -28,7 +28,7 @@ public:
 	template<class V = BasicVertex, class E = BasicElement, class C = char>
 	void prepareVertices(RenderDataPointer<V, E>& data, const std::basic_string<C>& str) const;
 public:
-	Map<Char, char32_t, &Char::Codepoint> LoadedCharacters;
+	Map<Glyph, char32_t, &Glyph::Codepoint> LoadedCharacters;
 };
 
 template<class V, class E, class C>

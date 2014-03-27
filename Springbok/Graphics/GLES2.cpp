@@ -292,7 +292,7 @@ bool LoadOpenGLFunctions(GameSurface* surface)
 	return !failure;
 };
 
-void _PrintGLError(const char* file, int line)
+bool _PrintGLError(const char* file, int line)
 {
 	GLenum error = glGetError();
 	if(error != GL_NO_ERROR)
@@ -308,5 +308,7 @@ void _PrintGLError(const char* file, int line)
 						case GL_INVALID_FRAMEBUFFER_OPERATION:  errorStr="INVALID_FRAMEBUFFER_OPERATION";  break;
 		}
 		Debug::Write("$ at line $\n OpenGL Error: $ -> $", file, line, error, errorStr);
+		return true;
 	}
+	return false;
 };

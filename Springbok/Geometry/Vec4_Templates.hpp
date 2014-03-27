@@ -58,7 +58,13 @@ Vec4<T> Vec4<T>::upperBound(Vec4<T> other) const
 }
 
 template<typename T>
-constexpr Vec4<T> Vec4<T>::normalized() const
+constexpr Vec4<float> Vec4<T>::normalized() const
 {
 	return length() > 0 ? ((*this) / length()) : Vec4<T>(0);
+}
+
+template<typename T>
+constexpr T Vec4<T>::sum() const
+{
+	return X + Y + Z + W;
 }

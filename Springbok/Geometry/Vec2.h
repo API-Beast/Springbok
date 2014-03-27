@@ -64,11 +64,6 @@ public:
 	
 	explicit operator bool(){ return !isNull(); };
 	constexpr bool isNull() const;
-	
-	constexpr Vec2<T> XY() const{ return {X, Y}; };
-	constexpr Vec2<T> YX() const{ return {Y, X}; };
-	constexpr Vec2<T> XX() const{ return {X, X}; };
-	constexpr Vec2<T> YY() const{ return {Y, Y}; };
 };
 
 template<typename T>

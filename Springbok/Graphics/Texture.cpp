@@ -35,7 +35,7 @@ Texture::Texture(const std::string& filename)
 	glGenTextures(1, &Index);
   glBindTexture(GL_TEXTURE_2D, Index);
 	
-	if(glGetError() || Index == 0xFFFE)
+	if(PrintGLError() || Index == 0xFFFE)
 	{
 		Valid = false;
 		Index = 0;
