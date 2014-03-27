@@ -20,6 +20,9 @@ struct BasicVertex
 	Vec2F TexCoords = 0.f;
 	Vec4F Color     = Colors::White;
 	
+	BasicVertex() = default;
+	BasicVertex(Vec4F clr){ Color = clr; };
+	
 	static void SetupOffsets();
 };
 

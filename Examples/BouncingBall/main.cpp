@@ -47,20 +47,31 @@ int main()
 		
 		batcher.startBatching(renderer);
 		{
-			batcher.addToBatch(bg, {0});
+			batcher.addToBatch(bg);
 			
-			Transform2D transformation;
-			transformation.Offset = Vec2F();
-			transformation += Scale2D(BallScale[currentTime]);
-
-			batcher.DefaultVertex.Color.W = ShadowAlpha[currentTime];
-			batcher.addToBatch(shadow, Transform2D{Vec2F(-400 + currentTime * 350, +200), ShadowScale[currentTime]});
-			batcher.DefaultVertex.Color.W = ShadowAlpha[currentTime+0.32];
-			batcher.addToBatch(shadow, Transform2D{Vec2F(-520 + currentTime * 350, +200), ShadowScale[currentTime+0.32]});
+			// First Shadow
+			Transform2D t = Position2D(-400 + currentTime * 350, +200);
+			t += Scale2D(ShadowScale[currentTime]);
+			Vec4F color = {Colors::White, ShadowAlpha[currentTime]};
+			batcher.addToBatch(shadow, t, color);
 			
-			batcher.DefaultVertex.Color.W = 1.f;
-			batcher.addToBatch(ball, Transform2D{Vec2F(-400 + currentTime * 350, +180 - BallHeight[currentTime]), BallScale[currentTime]});
-			batcher.addToBatch(ball, Transform2D{Vec2F(-520 + currentTime * 350, +180 - BallHeight[currentTime+0.32]) , BallScale[currentTime+0.32]});
+			// Second Shadow
+			t = Position2D(-520 + currentTime * 350, +200);
+			t += Scale2D(ShadowScale[currentTime]);
+			color.W = ShadowAlpha[currentTime+0.32];
+			batcher.addToBatch(shadow, t, color);
+			
+			
+			// First Ball
+			t = Position2D(-400 + currentTime * 350, +180 - BallHeight[currentTime]);
+			t += Scale2D(BallScale[currentTime]);
+			batcher.addToBatch(ball, t);
+			
+			
+			// Second Ball
+			t = Position2D(-520 + currentTime * 350, +180 - BallHeight[currentTime+0.32]);
+			t += Scale2D(BallScale[currentTime+0.32]);
+			batcher.addToBatch(ball, t);
 		}
 		batcher.flushBatches();
 	}

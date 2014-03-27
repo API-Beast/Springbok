@@ -37,18 +37,18 @@ BatchRenderer<E,V>::BatchRenderer(int bytes) // Bytes is 2 MB by default
 
 template<class E, class V>
 template<typename T, typename... Args>
-void BatchRenderer<E,V>::addToBatch(const T& object, Transform2D transformation, Args... args)
+void BatchRenderer<E,V>::addToBatch(const T& object, Transform2D transformation, const V& vertex, const E& element)
 {	
 	RenderDataPointer<V, E> oldParams = mParams;
 	
-	mParams.DefaultElement = DefaultElement;
-	mParams.DefaultVertex  = DefaultVertex;
+	mParams.DefaultElement = element;
+	mParams.DefaultVertex  = vertex;
 	mParams.updateDefaults();
 	
 	// Get the data before it is changed by prepareVertices.
 	V* oldVertices = mVertexData + mParams.AddedVertices;
 	
-	object.prepareVertices(mParams, args...);
+	object.prepareVertices(mParams);
 	
 	if(mParams.AddedVertices > mMaxVertices)
 	{
@@ -56,7 +56,7 @@ void BatchRenderer<E,V>::addToBatch(const T& object, Transform2D transformation,
 		// Rewind, flush, and press play again
 		mParams = oldParams;
 		flushBatches();
-		addToBatch<T, Args...>(object, transformation, args...);
+		addToBatch<T, Args...>(object, transformation);
 	}
 	else
 	{
@@ -100,8 +100,6 @@ template<class E, class V>
 void BatchRenderer<E,V>::startBatching(const RenderContext2D& context)
 {
 	mCurrentContext = &context;
-	DefaultVertex = V();
-	DefaultElement = E();
 	mParams = RenderDataPointer<V, E>(mVertexData, mElementData, mIndexData);
 	mParams.updateDefaults();
 	mGLStateIsSet = false;

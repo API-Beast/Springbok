@@ -44,7 +44,7 @@ public:
 	template<typename P>
 	constexpr Vec4(const P& val) : X(val), Y(val), Z(val), W(val) {};
 	template<typename P>
-	constexpr Vec4(const Vec3<P>& other) : X(other.X), Y(other.Y), Z(other.Z), W(1) {};
+	constexpr Vec4(const Vec3<P>& other, const P& val = 1) : X(other.X), Y(other.Y), Z(other.Z), W(val) {};
 	template<typename P>
 	constexpr Vec4(const Vec4<P>& other) : X(other.X), Y(other.Y), Z(other.Z), W(other.W) {};
 	template<typename P1, typename P2, typename P3>

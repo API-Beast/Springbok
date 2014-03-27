@@ -15,13 +15,11 @@ template<class E = BasicElement, class V = BasicVertex>
 class BatchRenderer
 {
 public:
-	E DefaultElement;
-	V DefaultVertex;
 public:
 	BatchRenderer(int bytes = 1048576);
 	void startBatching(const RenderContext2D& context);
 	template<typename T, typename... Args>
-	void addToBatch(const T& object, Transform2D transformation, Args... args);
+	void addToBatch(const T& object, Transform2D transformation = Transform2D(), const V& vertex = V(), const E& element = E());
 	void flushBatches();
 private:
 	const RenderContext2D* mCurrentContext = nullptr;
