@@ -8,11 +8,23 @@
 #include <Springbok/Utils/Debug.h>
 #include <GLFW/glfw3.h>
 #include "../GameSurface.h"
+#include "WindowUserData.h"
 
 struct GameSurfaceData
 {
 	GLFWwindow* Window;
 	Vec2I WindowSize = 0;
+	WindowUserData* DataPointer;
+};
+
+namespace
+{
+	void windowSizeCallback(GLFWwindow* window, int width, int height)
+	{
+		GameSurfaceData* d = ((WindowUserData*)glfwGetWindowUserPointer(window))->gsd;
+		d->WindowSize = {width, height};
+		glViewport(0, 0, width, height);
+	};
 };
 
 GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
@@ -26,7 +38,7 @@ GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
 	
 	if(flags & Windowed)
 	{
-		glfwWindowHint(GLFW_RESIZABLE, false);
+		glfwWindowHint(GLFW_RESIZABLE, true);
 		glfwWindowHint(GLFW_DECORATED, true);
 		d->Window = glfwCreateWindow(sizeHint.X, sizeHint.Y, title.c_str(), NULL, NULL );
 	}
@@ -40,6 +52,12 @@ GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
 	glfwMakeContextCurrent(d->Window);
 	glfwSetInputMode(d->Window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 	
+	d->DataPointer = new WindowUserData;
+	d->DataPointer->gsd = d;
+	glfwSetWindowUserPointer(d->Window, d->DataPointer);
+	
+	glfwSetWindowSizeCallback(d->Window, &windowSizeCallback);
+	
 	if(flags & NoVSync);
 	else glfwSwapInterval(1);
 	
@@ -51,6 +69,7 @@ GameSurface::~GameSurface()
 {
 	glfwDestroyWindow(d->Window);
 	glfwTerminate();
+	delete d->DataPointer;
 	delete d;
 }
 
@@ -58,6 +77,7 @@ void GameSurface::switchBuffers()
 {
 	glfwPollEvents();
 	glfwSwapBuffers(d->Window);
+	glfwGetWindowSize(d->Window, &(d->WindowSize.X), &(d->WindowSize.Y));
 }
 
 bool GameSurface::closeRequested() const

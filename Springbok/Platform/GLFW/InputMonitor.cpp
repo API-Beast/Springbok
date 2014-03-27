@@ -8,6 +8,8 @@ namespace
 #include "../Common/KeyNames.h"
 };
 
+#include "WindowUserData.h"
+
 struct GLFWMouse : public InputDevice
 {
 	GLFWwindow* mWindow;
@@ -78,7 +80,7 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 {
 	if(action == GLFW_REPEAT || action == GLFW_RELEASE)
 		return;
-	InputMonitorData* d = (InputMonitorData*)glfwGetWindowUserPointer(window);
+	InputMonitorData* d = ((WindowUserData*)glfwGetWindowUserPointer(window))->imd;
 	ButtonPressEvent event;
 	event.Type = Keyboard;
 	event.Button = key;
@@ -89,7 +91,7 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
-	InputMonitorData* d = (InputMonitorData*)glfwGetWindowUserPointer(window);
+	InputMonitorData* d = ((WindowUserData*)glfwGetWindowUserPointer(window))->imd;
 	ButtonPressEvent event;
 	event.Type = Mouse;
 	event.Button = button;
@@ -110,7 +112,8 @@ InputMonitor::InputMonitor(GameSurface* surface)
 	d->MouseDevice.mWindow = window;
 	glfwSetKeyCallback(window, &keyCallback);
 	glfwSetMouseButtonCallback(window, &mouseButtonCallback);
-	glfwSetWindowUserPointer(window, d);
+	WindowUserData* userData = (WindowUserData*)glfwGetWindowUserPointer(window);
+	userData->imd = d;
 };
 
 std::vector< InputDevice* > InputMonitor::getDevices() const
