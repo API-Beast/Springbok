@@ -5,7 +5,7 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "BitmapFont.h"
-#include "RenderContext.h"
+#include "RenderContext2D.h"
 
 void BitmapFont::loadCharacter(char32_t which, Image sprite)
 {

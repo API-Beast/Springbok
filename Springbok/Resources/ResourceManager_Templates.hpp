@@ -11,17 +11,17 @@
 
 #include <cassert>
 
-template<typename T>
-ObjectPointer< T > ResourceManager::getResource(const std::string& path, bool reload)
+template<typename T, class... Args>
+ObjectPointer< T > ResourceManager::getResource(const std::string& path, Args... args)
 {
 	auto resourceIter = Resources.find(path);
 	if(resourceIter != Resources.end())
 	{
 		auto& resource = resourceIter->second;
-		if(reload)
+		if(false) // Should reload?
 		{
 			resource.Pointer.destroy();
-			resource.Pointer.replaceWith(reinterpret_cast<void*>(new T(resource.ResolvedPath)));;
+			resource.Pointer.replaceWith(reinterpret_cast<void*>(new T(resource.ResolvedPath, args...)));;
 			resource.DataType = typeid(T).hash_code();
 		}
 		else;
@@ -34,7 +34,7 @@ ObjectPointer< T > ResourceManager::getResource(const std::string& path, bool re
 		auto& resource = Resources[path];
 		resource.RequestedPath = path;
 		resource.ResolvedPath  = getPath(path);
-		resource.Pointer  = new T(resource.ResolvedPath);
+		resource.Pointer  = new T(resource.ResolvedPath, args...);
 		resource.DataType = typeid(T).hash_code();
 		return reinterpret_pointer_cast<T*>(resource.Pointer);
 	}

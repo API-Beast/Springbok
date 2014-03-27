@@ -5,8 +5,7 @@
 
 #include "Texture.h"
 #include "../Dependencies/lodepng.h"
-#include <GL/gl.h>
-#include <GL/glext.h>
+#include "GLES2.h"
 #include <vector>
 #include <cassert>
 #include <iostream>
@@ -45,12 +44,12 @@ Texture::Texture(const std::string& filename)
 	
 	lodepng::decode(bitmap, width, height, filename);
   
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+	PrintGLError();
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	PrintGLError();
 	
 	ImageSize = Vec2I{width, height};
 	TextureSize = Vec2I{makePowerOfTwo(width), makePowerOfTwo(height)};
@@ -58,11 +57,18 @@ Texture::Texture(const std::string& filename)
 	if(!(TextureSize == ImageSize))
 	{
 		std::vector<uint32_t> empty(TextureSize.X * TextureSize.Y, 0);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, TextureSize.X, TextureSize.Y, 0, GL_RGBA, GL_UNSIGNED_BYTE, empty.data());
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureSize.X, TextureSize.Y, 0, GL_RGBA, GL_UNSIGNED_BYTE, empty.data());
 		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, ImageSize.X, ImageSize.Y, GL_RGBA, GL_UNSIGNED_BYTE, bitmap.data());
+		PrintGLError();
 	}
 	else
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, TextureSize.X, TextureSize.Y, 0, GL_RGBA, GL_UNSIGNED_BYTE, bitmap.data());
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureSize.X, TextureSize.Y, 0, GL_RGBA, GL_UNSIGNED_BYTE, bitmap.data());
+		PrintGLError();
+	}
+	
+	glGenerateMipmap(GL_TEXTURE_2D);
+	PrintGLError();
 	
 	TextureCoordinates = calcTextureCoordinates(0, ImageSize);
 	

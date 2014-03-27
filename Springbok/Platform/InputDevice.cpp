@@ -59,3 +59,8 @@ bool InputDevice::anyButtonPressed() const
 {
 	return false;
 }
+
+std::string InputDevice::getNameOfButton(int index) const
+{
+	return std::string(getIdentifier()) + std::to_string(index);
+}

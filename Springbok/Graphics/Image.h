@@ -9,13 +9,13 @@
 
 #include <Springbok/Geometry/Rect.h>
 #include <Springbok/Generic/ObjectPointer.h>
+#include "VertexStruct.h"
+#include "Texture.h"
 
-class RenderContext;
+class RenderContext2D;
 
 class Texture;
 
-//! @addtogroup Graphics
-//! @{
 
 class Image
 {
@@ -23,14 +23,13 @@ public:
 	Image(const std::string& filename);
 	Image(const Image& other, Vec2I position, Vec2I size);
 	Image(){};
-	void draw(const RenderContext& r);
-	void drawStretched(Vec2I size, const RenderContext& r);
-	void drawRepeated(const RenderContext& r);
-	void drawRepeated(const RenderContext& context, Vec2F clippingPos, Vec2F clippingSize);
 	Vec2<int> getSize();
 	Vec2<int> getSize() const;
 	bool valid() const;
 	Image cut(Vec2I position, Vec2I size);
+	
+	template<class V = BasicVertex, class E = BasicElement>
+	void prepareVertices(RenderDataPointer< V, E >& data) const;
 private:
 	void lazyLoad();
 	ObjectPointer<Texture> mTexture = nullptr;
@@ -40,4 +39,22 @@ private:
 	Vec2<int> mSize = Vec2<int>(0, 0);
 };
 
-//! @}
+template<class V, class E>
+void Image::prepareVertices(RenderDataPointer<V, E>& data) const
+{
+	RectF vertexCoords(0, mSize);
+	for(int i = 0; i < 4; ++i)
+	{
+		data.Vertices->Position  = vertexCoords.Points[i];
+		data.Vertices->TexCoords = mTexCoords.Points[i];
+		data.appendVertex();
+	}
+	data.appendIndex(0);
+	data.appendIndex(1);
+	data.appendIndex(2);
+	data.appendIndex(3);
+	
+	E element = data.DefaultElement;
+	element.Texture = mTexture->Index;
+	data.appendElement(element);
+}

@@ -11,6 +11,12 @@
 template<typename T>
 T KeyframeList<T>::operator[](float position) const
 {
+	if(RepeatAnimation)
+		if(position < FirstKeyFrame || position > LastKeyFrame)
+		{
+			position = FirstKeyFrame + Modulo(position, LastKeyFrame-FirstKeyFrame);
+		}
+	
 	int index = Keyframes.findIndex(position);
 	
 	if(index == -1)
@@ -44,6 +50,10 @@ template<typename T>
 void KeyframeList<T>::insert(float position, const T& value)
 {
 	Keyframes.insert({position, value});
+	if(position < FirstKeyFrame)
+		FirstKeyFrame = position;
+	if(position > LastKeyFrame)
+		LastKeyFrame = position;
 }
 
 template<typename T>

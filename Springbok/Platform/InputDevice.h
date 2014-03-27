@@ -6,6 +6,7 @@
 #pragma once
 
 #include <Springbok/Geometry/Vec2.h>
+#include <string>
 
 class InputDevice
 {
@@ -25,4 +26,6 @@ public:
 	
 	virtual int   numberOfCursors() const;
 	virtual Vec2F getCursorPosition(int index) const;
+	
+	virtual std::string getNameOfButton(int index) const;
 };
