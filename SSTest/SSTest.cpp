@@ -11,7 +11,6 @@
 #include <sstream>
 #include <unistd.h>
 #include <signal.h>
-#include <execinfo.h>
 
 using namespace std;
 
@@ -24,12 +23,6 @@ struct ThrownSignal
 
 void HandleSignal(int signal)
 {
-	void *array[10];
-	size_t size;
-
-	size = backtrace(array, 10);
-	backtrace_symbols_fd(array+2, size-2-5, STDERR_FILENO);
-	
 	if(signal == SIGSEGV)
 		throw ThrownSignal{"Memory Access Violation"};
 	if(signal == SIGFPE)

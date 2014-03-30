@@ -20,7 +20,7 @@
 struct PreciseClockData
 {
 #ifdef SPRINGBOK_WINDOWS
-	__int64 StartTime;
+	LARGE_INTEGER StartTime;
 #endif
 #ifdef SPRINGBOK_MAC
 	uint64_t StartTime;
@@ -52,12 +52,9 @@ PreciseClock::PreciseClock()
 #ifdef SPRINGBOK_WINDOWS
 	if(gHasPerformanceCounter == -1)
 	{
-		__int64 freq;
+		LARGE_INTEGER freq;
 		gHasPerformanceCounter = QueryPerformanceFrequency(&freq);
-		if(gHasPerformanceCounter)
-			gConversion = 1.0 / double(freq);
-		else
-			gConversion = 1000.0;
+		gConversion = 1.0 / double(freq.QuadPart);
 	}
 #endif
 #ifdef SPRINGBOK_MAC
@@ -87,13 +84,10 @@ PreciseClock::~PreciseClock()
 void PreciseClock::start()
 {
 #ifdef SPRINGBOK_WINDOWS
-	if(gHasPerformanceCounter)
-		QueryPerformanceCounter(&mStartTime);
-	else
-		mStartTime = timeGetTime();
+	QueryPerformanceCounter(&(d->StartTime));
 #endif
 #ifdef SPRINGBOK_MAC
-	mStartTime = mach_absolute_time();
+	StartTime = mach_absolute_time();
 #endif
 #ifdef SPRINGBOK_LINUX
 	clock_gettime(CLOCK_MONOTONIC, &(d->StartTime));
@@ -102,21 +96,14 @@ void PreciseClock::start()
 
 double PreciseClock::elapsed()
 {
-#ifdef SPRINGBOK_WINDOWS
-	if(gHasPerformanceCounter)
-	{
-		__int64 curTime;
-		QueryPerformanceCounter(&curTime);
-		return (curTime - mStartTime) * g_Conversion;
-	}
-	else
-	{
-		return (timeGetTime() - mStartTime) * gConversion;
-	}
+#ifdef SPRINGBOK_WINDOWS                      
+	LARGE_INTEGER curTime;
+	QueryPerformanceCounter(&curTime);
+	return (curTime.QuadPart - d->StartTime.QuadPart) * gConversion;
 #endif
 
 #ifdef SPRINGBOK_MAC
-	return (mach_absolute_time() - mStartTime) * gConversion;
+	return (mach_absolute_time() - StartTime) * gConversion;
 #endif
 
 #ifdef SPRINGBOK_LINUX
