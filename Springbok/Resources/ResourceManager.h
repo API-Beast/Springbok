@@ -42,6 +42,7 @@ private:
 	std::string PrimaryResourcePath;
 	std::string UserSettingsPath;
 	std::vector<std::string> ModPaths;
+	bool PrintedResourceSearchPath = false;
 };
 
 #include "ResourceManager_Templates.hpp"

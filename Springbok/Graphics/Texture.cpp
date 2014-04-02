@@ -10,6 +10,8 @@
 #include <cassert>
 #include <iostream>
 
+#include <Springbok/Utils/Debug.h>
+
 namespace
 {
   int makePowerOfTwo(int number)
@@ -30,30 +32,32 @@ Texture::Texture(const std::string& filename)
 	std::vector<unsigned char> bitmap;
 	unsigned int width;
 	unsigned int height;
-	
+
 	Index = 0xFFFE;
 	glGenTextures(1, &Index);
   glBindTexture(GL_TEXTURE_2D, Index);
-	
+
 	if(PrintGLError() || Index == 0xFFFE)
 	{
 		Valid = false;
 		Index = 0;
 		return ;
 	}
-	
-	lodepng::decode(bitmap, width, height, filename);
-  
+
+	unsigned error = lodepng::decode(bitmap, width, height, filename);
+	if(error)
+		Debug::Write("Can't decode $ as PNG: $", filename, lodepng_error_text(error));
+
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	PrintGLError();
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	PrintGLError();
-	
+
 	ImageSize = Vec2I{width, height};
 	TextureSize = Vec2I{makePowerOfTwo(width), makePowerOfTwo(height)};
-	
+
 	if(!(TextureSize == ImageSize))
 	{
 		std::vector<uint32_t> empty(TextureSize.X * TextureSize.Y, 0);
@@ -66,16 +70,12 @@ Texture::Texture(const std::string& filename)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureSize.X, TextureSize.Y, 0, GL_RGBA, GL_UNSIGNED_BYTE, bitmap.data());
 		PrintGLError();
 	}
-	
+
 	glGenerateMipmap(GL_TEXTURE_2D);
 	PrintGLError();
-	
+
 	TextureCoordinates = calcTextureCoordinates(0, ImageSize);
-	
-	//assert(!glGetError());
-	
 	Valid = true;
-	
 	return;
 }
 
@@ -86,7 +86,7 @@ Texture::Texture(Texture&& other)
 	this->Index  = other.Index;
 	this->TextureCoordinates = other.TextureCoordinates;
 	this->TextureSize = other.TextureSize;
-	
+
 	other.Valid  = false;
 }
 
