@@ -6,10 +6,10 @@
 #pragma once
 
 #include "ResourceManager.h"
-
 #include <typeinfo>
-
 #include <cassert>
+#include <Springbok/Utils/Debug.h>
+#include <Springbok/Platform/FileInfo.h>
 
 template<typename T, class... Args>
 ObjectPointer< T > ResourceManager::getResource(const std::string& path, Args... args)
@@ -26,7 +26,7 @@ ObjectPointer< T > ResourceManager::getResource(const std::string& path, Args...
 		}
 		else;
 			//assert(typeid(T).hash_code() == resource.DataType);
-		
+
 		return reinterpret_pointer_cast<T*>(resource.Pointer);
 	}
 	else
@@ -36,6 +36,17 @@ ObjectPointer< T > ResourceManager::getResource(const std::string& path, Args...
 		resource.ResolvedPath  = getPath(path);
 		resource.Pointer  = new T(resource.ResolvedPath, args...);
 		resource.DataType = typeid(T).hash_code();
+		if(FileInfo(resource.ResolvedPath).Type != FileInfo::File)
+		{
+			if(!PrintedResourceSearchPath)
+			{
+				PrintedResourceSearchPath = true;
+				Debug::Write("Searching in primary directory: $", PrimaryResourcePath);
+				for(const std::string& modpath : ModPaths)
+						Debug::Write("  Searching in mod directory: $", modpath);
+			}
+			Debug::Write("Can't find path for $", path);
+		}
 		return reinterpret_pointer_cast<T*>(resource.Pointer);
 	}
 };

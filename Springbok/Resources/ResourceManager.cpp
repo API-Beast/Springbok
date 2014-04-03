@@ -28,6 +28,7 @@ ResourceManager* ResourceManager::GetInstance()
 
 std::string ResourceManager::findPrimaryResourcePath(const vector< string >& paths)
 {
+	PrimaryResourcePath = ".";
 	for(const std::string& path : paths)
 	{
 		if(FileInfo(path).Type == FileInfo::Directory)
@@ -36,17 +37,19 @@ std::string ResourceManager::findPrimaryResourcePath(const vector< string >& pat
 			break;
 		}
 	}
+	PrintedResourceSearchPath = false;
 	return PrimaryResourcePath;
 }
 
 void ResourceManager::addModPath(const string& path)
 {
 	ModPaths.push_back(path);
+	PrintedResourceSearchPath = false;
 }
 
 ResourceManager::ResourceManager()
 {
-	
+
 }
 
 ResourceManager::~ResourceManager()

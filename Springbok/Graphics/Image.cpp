@@ -21,7 +21,7 @@ Image::Image(const Image& other, Vec2I position, Vec2I size)
 	mPath = other.mPath;
 	mOffset = other.mOffset + position;
 	mSize = size.upperBound(other.mSize - position);
-	
+
 	mTexCoords = mTexture->calcTextureCoordinates(mOffset, mSize);
 }
 
@@ -31,13 +31,13 @@ Image Image::cut(Vec2I position, Vec2I size)
 }
 
 Vec2< int > Image::getSize()
-{	
+{
 	lazyLoad();
 	return mSize;
 }
 
 Vec2< int > Image::getSize() const
-{	
+{
 	return mSize;
 }
 
@@ -51,11 +51,11 @@ void Image::lazyLoad()
 	if(mTexture != nullptr)
 		if(mTexture->Valid)
 			return ;
-		
+
 	mTexture = ResourceManager::GetInstance()->getResource<Texture>(mPath);
 	if(mTexture->Valid == false)
 		return;
-	
+
 	mTexCoords = mTexture->TextureCoordinates;
 	mSize = mTexture->ImageSize;
 }
