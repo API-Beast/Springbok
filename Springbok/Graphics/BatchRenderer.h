@@ -19,7 +19,7 @@ public:
 	BatchRenderer(int bytes = 1048576);
 	void startBatching(const RenderContext2D& context);
 	template<typename T, typename... Args>
-	void addToBatch(const T& object, Transform2D transformation = Transform2D(), const V& vertex = V(), const E& element = E());
+	void draw(const T& object, Transform2D transformation = Transform2D(), const V& vertex = V(), const E& element = E());
 	void flushBatches();
 private:
 	const RenderContext2D* mCurrentContext = nullptr;

@@ -99,7 +99,7 @@ int main()
 			Transform2D gui = PositionGUI(surface.topLeft()) + Position2D(8, 8) + Align2D(0.f, 0.f);
 			auto drawText = [&](int row, const std::string& text)
 			{
-				batcher.addToBatch(gAssets.SmallFont.text(text), gui+Position2D(0, 16*row));
+				batcher.draw(gAssets.SmallFont.text(text), gui+Position2D(0, 16*row));
 			};
 			
 			drawText(0, std::to_string(int(dt*1000))+"ms = "+std::to_string(int(1.f/dt))+" FPS");
@@ -112,7 +112,7 @@ int main()
 				                             + Scale2D   (particle.Definition->Scale[particle.Age] * particle.Size)
 																		 + Rotate2D  (particle.Rotation);
 				Vec4F col = particle.Definition->Color[particle.Age] * particle.Color * Vec4F(1, 1, 1, 0.05f + 1.f / (kParticles / 5));
-				batcher.addToBatch(particle.Definition->Sprite, transformation, col, Blending::Additive);
+				batcher.draw(particle.Definition->Sprite, transformation, col, Blending::Additive);
 			}
 		}
 		batcher.flushBatches();

@@ -47,31 +47,31 @@ int main()
 		
 		batcher.startBatching(renderer);
 		{
-			batcher.addToBatch(bg);
+			batcher.draw(bg);
 			
 			// First Shadow
 			Transform2D t = Position2D(-400 + currentTime * 350, +200);
 			t += Scale2D(ShadowScale[currentTime]);
 			Vec4F color = {Colors::White, ShadowAlpha[currentTime]};
-			batcher.addToBatch(shadow, t, color);
+			batcher.draw(shadow, t, color);
 			
 			// Second Shadow
 			t = Position2D(-520 + currentTime * 350, +200);
 			t += Scale2D(ShadowScale[currentTime]);
 			color.W = ShadowAlpha[currentTime+0.32];
-			batcher.addToBatch(shadow, t, color);
+			batcher.draw(shadow, t, color);
 			
 			
 			// First Ball
 			t = Position2D(-400 + currentTime * 350, +180 - BallHeight[currentTime]);
 			t += Scale2D(BallScale[currentTime]);
-			batcher.addToBatch(ball, t);
+			batcher.draw(ball, t);
 			
 			
 			// Second Ball
 			t = Position2D(-520 + currentTime * 350, +180 - BallHeight[currentTime+0.32]);
 			t += Scale2D(BallScale[currentTime+0.32]);
-			batcher.addToBatch(ball, t);
+			batcher.draw(ball, t);
 		}
 		batcher.flushBatches();
 	}
