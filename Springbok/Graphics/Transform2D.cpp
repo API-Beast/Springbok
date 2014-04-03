@@ -42,3 +42,17 @@ Transform2D& Transform2D::operator-=(const Transform2D& other)
 	Matrix = Matrix.mult(1/other.Matrix);
 	return *this;
 }
+
+Transform2D Transform2D::xOnly() const
+{
+	Mat2 mat = Matrix;
+	mat.Rows[1] = Vec2F(0, 1);
+	return Transform2D({this->Offset.X, 0.f}, {this->Alignment.X, 0.5f}, {this->Parallaxity.X, 1.0f}, mat);
+}
+
+Transform2D Transform2D::yOnly() const
+{
+	Mat2 mat = Matrix;
+	mat.Rows[0] = Vec2F(1, 0);
+	return Transform2D({0.f, this->Offset.Y}, {0.5f, this->Alignment.Y}, {1.0f, this->Parallaxity.Y}, mat);
+}

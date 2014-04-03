@@ -31,6 +31,9 @@ struct Transform2D
 	Transform2D& operator*=(const Mat2& matrix){ Matrix = Matrix.mult(matrix);     return *this; };
 	Transform2D& operator/=(const Mat2& matrix){ Matrix = Matrix.mult(1 / matrix); return *this; };
 	
+	Transform2D xOnly() const;
+	Transform2D yOnly() const;
+	
 	Mat2  Matrix         = Mat2(Vec2F(1, 0), Vec2F(0, 1));
 	Vec2I Offset         = 0;
 	Vec2F Alignment      = 0.5f;

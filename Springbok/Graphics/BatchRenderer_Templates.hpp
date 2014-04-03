@@ -36,7 +36,7 @@ BatchRenderer<E,V>::BatchRenderer(int bytes) // Bytes is 2 MB by default
 };
 
 template<class E, class V>
-template<typename T, typename... Args>
+template<typename T>
 void BatchRenderer<E,V>::draw(const T& object, Transform2D transformation, const V& vertex, const E& element)
 {	
 	RenderDataPointer<V, E> oldParams = mParams;
@@ -56,7 +56,7 @@ void BatchRenderer<E,V>::draw(const T& object, Transform2D transformation, const
 		// Rewind, flush, and press play again
 		mParams = oldParams;
 		flushBatches();
-		draw<T, Args...>(object, transformation);
+		draw<T>(object, transformation);
 	}
 	else
 	{
