@@ -10,20 +10,24 @@
 #include "Transform2D.h"
 
 template<class T, class R, class E=BasicElement, class V=BasicVertex>
-void DrawGridPattern(R& renderer, T& obj, Vec2F start, Vec2F size, Transform2D baseTransform = Transform2D(), Transform2D perElementTransform = Transform2D(), const V& vertex = V(), const E& element = E())
+void DrawGridPattern(R& renderer, T& obj, Vec2I size, Transform2D baseTransform = Transform2D(), Transform2D perElementTransform = Transform2D(), const V& vertex = V(), const E& element = E())
 {
-	Vec2F current = start;
-	Vec2F end = start + end;
-	Transform2D currentRowTransform;
-	while(current.Y < end.Y)
+	Vec2I current = 0;
+	Transform2D currentRowTransform = baseTransform;
+	while(current.Y < size.Y)
 	{
 		Transform2D currentCellTransform;
 		currentRowTransform += perElementTransform.yOnly();
 		currentCellTransform = currentRowTransform;
-		while(current.X < end.X)
+		
+		current.Y++;
+		current.X = 0;
+		
+		while(current.X < size.X)
 		{
+			current.X++;
 			currentCellTransform += perElementTransform.xOnly();
-			renderer.draw(obj, baseTransform + perElementTransform);
+			renderer.draw(obj, currentCellTransform, vertex, element);
 		}
 	}
 }
