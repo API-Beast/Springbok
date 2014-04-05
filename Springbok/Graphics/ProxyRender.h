@@ -8,6 +8,7 @@
 
 #include "VertexStruct.h"
 #include "Transform2D.h"
+#include "RenderTarget.h"
 
 template<class T, class R, class E=BasicElement, class V=BasicVertex>
 void DrawGridPattern(R& renderer, T& obj, Vec2I size, Transform2D baseTransform = Transform2D(), Transform2D perElementTransform = Transform2D(), const V& vertex = V(), const E& element = E())
@@ -30,4 +31,21 @@ void DrawGridPattern(R& renderer, T& obj, Vec2I size, Transform2D baseTransform 
 			renderer.draw(obj, currentCellTransform, vertex, element);
 		}
 	}
+}
+
+template<class T, class R, class E=BasicElement, class V=BasicVertex>
+void DrawInfiniteGrid(R& r, T& obj, Vec2F spacing, Vec2F offset, Transform2D transform = Transform2D(), const V& vertex = V(), const E& element = E())
+{
+	RenderTarget* target = r.renderTarget();
+	offset = Modulo(offset, target->size());
+	Vec2I minGrid = start / spacing;
+	Vec2I maxGrid = end   / spacing;
+	Vec2F offset  = Modulo(start, spacing);
+	Vec2I curPos  = minGrid;
+	Debug::Write("Drawing Infinite grid from $ to $ with offset $", minGrid, maxGrid, offset);
+	for(curPos.X = minGrid.X; curPos.X < maxGrid.X; ++curPos.X)
+		for(curPos.Y = minGrid.Y; curPos.Y < maxGrid.Y; ++curPos.Y)
+		{
+			r.draw(obj, transform + Position2D(spacing*curPos + offset), vertex, element);
+		}
 }

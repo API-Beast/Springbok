@@ -21,18 +21,21 @@ struct Transform2D
 	template<class V = BasicVertex>
  	void transform(V* startVertex, V* endVertex, Vec2F cameraPos = 0, Vec2F coordinateMult = 1) const;
 	
-	Transform2D  operator +(const Transform2D& other) const;
-	Transform2D  operator -(const Transform2D& other) const;
+	Vec2F transformVec2(Vec2F v, Vec2F cameraPos = 0, Vec2F size = 0) const;
+	
+	Transform2D  operator+ (const Transform2D& other) const;
+	Transform2D  operator- (const Transform2D& other) const;
 	Transform2D& operator+=(const Transform2D& other);
 	Transform2D& operator-=(const Transform2D& other);
 	
-	Transform2D operator *(const Mat2& matrix) const{ return *this + Matrix; };
-	Transform2D operator /(const Mat2& matrix) const{ return *this - Matrix; };
+	Transform2D  operator* (const Mat2& matrix) const{ return *this + Matrix; };
+	Transform2D  operator/ (const Mat2& matrix) const{ return *this - Matrix; };
 	Transform2D& operator*=(const Mat2& matrix){ Matrix = Matrix.mult(matrix);     return *this; };
 	Transform2D& operator/=(const Mat2& matrix){ Matrix = Matrix.mult(1 / matrix); return *this; };
 	
 	Transform2D xOnly() const;
 	Transform2D yOnly() const;
+	Transform2D inverse() const;
 	
 	Mat2  Matrix         = Mat2(Vec2F(1, 0), Vec2F(0, 1));
 	Vec2I Offset         = 0;

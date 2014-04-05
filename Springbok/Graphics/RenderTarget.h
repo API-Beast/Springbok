@@ -20,6 +20,6 @@ public:
 	
 	Vec2F      topLeft() const { return size() * Vec2F(-0.5f, -0.5f);};
 	Vec2F   bottomLeft() const { return size() * Vec2F(-0.5f, +0.5f);};
-	Vec2F     topRight() const { return size() * Vec2F(-0.5f, -0.5f);};
-	Vec2F  bottomRight() const { return size() * Vec2F(-0.5f, +0.5f);};
+	Vec2F     topRight() const { return size() * Vec2F(+0.5f, -0.5f);};
+	Vec2F  bottomRight() const { return size() * Vec2F(+0.5f, +0.5f);};
 };

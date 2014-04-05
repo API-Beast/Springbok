@@ -8,6 +8,8 @@
 
 #include "VertexStruct.h"
 #include "Transform2D.h"
+#include "RenderTarget.h"
+#include "RenderContext2D.h"
 
 class RenderContext2D;
 
@@ -15,12 +17,12 @@ template<class E = BasicElement, class V = BasicVertex>
 class BatchRenderer
 {
 public:
-public:
 	BatchRenderer(int bytes = 1048576);
 	void startBatching(const RenderContext2D& context);
 	template<typename T>
 	void draw(const T& object, Transform2D transformation = Transform2D(), const V& vertex = V(), const E& element = E());
 	void flushBatches();
+	RenderTarget* renderTarget() const { return mCurrentContext->renderTarget(); };
 private:
 	const RenderContext2D* mCurrentContext = nullptr;
 	

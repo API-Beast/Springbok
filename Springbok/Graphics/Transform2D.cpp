@@ -56,3 +56,13 @@ Transform2D Transform2D::yOnly() const
 	mat.Rows[0] = Vec2F(1, 0);
 	return Transform2D({0.f, this->Offset.Y}, {0.5f, this->Alignment.Y}, {1.0f, this->Parallaxity.Y}, mat);
 }
+
+Transform2D Transform2D::inverse() const
+{
+	return Transform2D() - *this;
+}
+
+Vec2F Transform2D::transformVec2(Vec2F v, Vec2F cameraPos, Vec2F size) const
+{
+	return Matrix.transform(v - size*Alignment) + Offset - cameraPos * Parallaxity;
+}
