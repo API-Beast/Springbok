@@ -10,9 +10,9 @@
 #include <Springbok/Platform/FileInfo.h>
 #include <Springbok/Platform/InputDevice.h>
 
-#include <Springbok/Graphics/RenderContext2D.h>
+#include <Springbok/Graphics/Core/RenderContext2D.h>
+#include <Springbok/Graphics/Core/BatchRenderer.h>
 #include <Springbok/Graphics/Image.h>
-#include <Springbok/Graphics/BatchRenderer.h>
 
 #include <Springbok/Resources/ResourceManager.h>
 #include <Springbok/Procedural/RandomNumberGenerator.h>

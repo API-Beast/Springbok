@@ -6,6 +6,7 @@
 
 #pragma once
 #include <Springbok/Graphics/Image.h>
+#include <Springbok/Graphics/Color.h>
 #include <Springbok/Containers/List.h>
 #include <Springbok/Animation/KeyframeList.h>
 
