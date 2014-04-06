@@ -5,8 +5,8 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "GLES2.h"
-#include "../Platform/GameSurface.h"
-#include "../Utils/Debug.h"
+#include <Springbok/Platform/GameSurface.h>
+#include <Springbok/Utils/Debug.h>
 
 namespace FunctionPointers
 {

@@ -5,7 +5,7 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #pragma once
-#include "../Geometry/Vec2.h"
+#include "../../Geometry/Vec2.h"
 
 class RenderTarget
 {

@@ -8,10 +8,10 @@
 #include <Springbok/Platform/GameSurface.h>
 #include <Springbok/Platform/PreciseClock.h>
 #include <Springbok/Platform/FileInfo.h>
+#include <Springbok/Platform/InputDevice.h>
 
-#include <Springbok/Graphics/RenderContext2D.h>
 #include <Springbok/Graphics/Image.h>
-#include <Springbok/Graphics/BatchRenderer.h>
+#include <Springbok/Graphics/SpriteRenderer.h>
 
 #include <Springbok/Resources/ResourceManager.h>
 
@@ -21,7 +21,7 @@ int main()
 {
 	GameSurface surface("BouncingBall - Springbok Example", GameSurface::Windowed);
 	InputMonitor       input(&surface);
-	RenderContext2D renderer(&surface);
+	SpriteRenderer  renderer(&surface);
 	
 	ResourceManager::GetInstance()->findPrimaryResourcePath({FileInfo(__FILE__).up()+"/Assets", "./Assets"});
 	
@@ -34,7 +34,6 @@ int main()
 	Image ball("Ball.png");
 	Image bg("BG.png");
 	Image shadow("Shadow.png");
-	BatchRenderer2D batcher;
 	
 	while(!surface.closeRequested())
 	{
@@ -45,34 +44,34 @@ int main()
 		timer.start();
 		currentTime += deltaTime;
 		
-		batcher.startBatching(renderer);
+		Vec2F cursor = input.getPrimaryPointerDevice()->getCursorPosition(0);
+		renderer.Context.Camera.Position.X += deltaTime * 300 * cursor.X / 100;
+		
 		{
-			batcher.draw(bg);
+			renderer.drawRepeatedInf(bg, 0.0f);
 			
-			// First Shadow
-			Transform2D t = Position2D(-400 + currentTime * 350, +200);
-			t += Scale2D(ShadowScale[currentTime]);
-			Vec4F color = {Colors::White, ShadowAlpha[currentTime]};
-			batcher.draw(shadow, t, color);
+			Vec2F pos[3];
+			Vec2F scale[3];
+			Vec2F shadowPos[3];
+			Vec2F shadowScale[3];
+			Vec4F shadowColor[3];
+			for(int i = 0; i < 3; ++i)
+			{
+				pos[i] = {-400 - i*220 + currentTime * 350, +180 - BallHeight[currentTime + 0.32f*i] + i*20};
+				scale[i] = BallScale[currentTime + 0.32f*i];
+				shadowPos[i] = pos[i];
+				shadowPos[i].Y = 200 + i*20;
+				shadowColor[i] = {Colors::White, ShadowAlpha[currentTime+0.32f * i]};
+				shadowScale[i] = ShadowScale[currentTime + 0.32f*i];
+			}
 			
-			// Second Shadow
-			t = Position2D(-520 + currentTime * 350, +200);
-			t += Scale2D(ShadowScale[currentTime]);
-			color.W = ShadowAlpha[currentTime+0.32];
-			batcher.draw(shadow, t, color);
-			
-			
-			// First Ball
-			t = Position2D(-400 + currentTime * 350, +180 - BallHeight[currentTime]);
-			t += Scale2D(BallScale[currentTime]);
-			batcher.draw(ball, t);
-			
-			
-			// Second Ball
-			t = Position2D(-520 + currentTime * 350, +180 - BallHeight[currentTime+0.32]);
-			t += Scale2D(BallScale[currentTime+0.32]);
-			batcher.draw(ball, t);
+			renderer.draw(shadow, shadowPos[0], shadowColor[0], Blending::Alpha, Scale2D(shadowScale[0]));
+			renderer.draw(shadow, shadowPos[1], shadowColor[1], Blending::Alpha, Scale2D(shadowScale[1]));
+			renderer.draw(shadow, shadowPos[2], shadowColor[2], Blending::Alpha, Scale2D(shadowScale[2]));
+			renderer.draw(ball, pos[0], Colors::White, Blending::Alpha, Scale2D(scale[0]));
+			renderer.draw(ball, pos[1], Colors::White, Blending::Alpha, Scale2D(scale[1]));
+			renderer.draw(ball, pos[2], Colors::White, Blending::Alpha, Scale2D(scale[2]));
 		}
-		batcher.flushBatches();
+		renderer.flush();
 	}
 };

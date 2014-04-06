@@ -7,15 +7,11 @@
 
 #include <string>
 
+#include "Core/VertexStruct.h"
+#include "Core/Texture.h"
+
 #include <Springbok/Geometry/Rect.h>
 #include <Springbok/Generic/ObjectPointer.h>
-#include "VertexStruct.h"
-#include "Texture.h"
-
-class RenderContext2D;
-
-class Texture;
-
 
 class Image
 {
@@ -23,8 +19,8 @@ public:
 	Image(const std::string& filename);
 	Image(const Image& other, Vec2I position, Vec2I size);
 	Image(){};
-	Vec2<int> getSize();
-	Vec2<int> getSize() const;
+	Vec2<int> size();
+	Vec2<int> size() const;
 	bool valid() const;
 	Image cut(Vec2I position, Vec2I size);
 	

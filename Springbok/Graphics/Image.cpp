@@ -4,15 +4,30 @@
 // 0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "Image.h"
-#include "Texture.h"
+
+#include "Core/Texture.h"
+#include "Core/RenderContext2D.h"
+
 #include <Springbok/Resources/ResourceManager.h>
-#include "RenderContext2D.h"
-#include <iostream>
 
 Image::Image(const std::string& filename)
 {
 	mPath = filename;
 	lazyLoad();
+}
+
+void Image::lazyLoad()
+{
+	if(mTexture != nullptr)
+		if(mTexture->Valid)
+			return ;
+
+	mTexture = ResourceManager::GetInstance()->getResource<Texture>(mPath);
+	if(mTexture->Valid == false)
+		return;
+
+	mTexCoords = mTexture->TextureCoordinates;
+	mSize = mTexture->ImageSize;
 }
 
 Image::Image(const Image& other, Vec2I position, Vec2I size)
@@ -30,13 +45,13 @@ Image Image::cut(Vec2I position, Vec2I size)
 	return Image(*this, position, size);
 }
 
-Vec2< int > Image::getSize()
+Vec2< int > Image::size()
 {
 	lazyLoad();
 	return mSize;
 }
 
-Vec2< int > Image::getSize() const
+Vec2< int > Image::size() const
 {
 	return mSize;
 }
@@ -44,18 +59,4 @@ Vec2< int > Image::getSize() const
 bool Image::valid() const
 {
 	return mTexture && mTexture->Valid;
-}
-
-void Image::lazyLoad()
-{
-	if(mTexture != nullptr)
-		if(mTexture->Valid)
-			return ;
-
-	mTexture = ResourceManager::GetInstance()->getResource<Texture>(mPath);
-	if(mTexture->Valid == false)
-		return;
-
-	mTexCoords = mTexture->TextureCoordinates;
-	mSize = mTexture->ImageSize;
 }

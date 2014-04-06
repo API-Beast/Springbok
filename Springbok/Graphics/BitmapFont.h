@@ -7,8 +7,8 @@
 #pragma once
 #include <Springbok/Containers/List.h>
 #include "Image.h"
-#include "RenderContext2D.h"
-#include "Transform2D.h"
+#include "Core/RenderContext2D.h"
+#include "Core/Transform2D.h"
 
 class RenderContext2D;
 
@@ -53,6 +53,6 @@ void BitmapFont::TextLabel<T>::prepareVertices(RenderDataPointer<V, E>& data) co
 		V* oldVertex = data.Vertices;
 		sprite.prepareVertices(data);
 		Position2D(offset).transform(oldVertex, data.Vertices);
-		offset[0] += sprite.getSize()[0];
+		offset[0] += sprite.size()[0];
 	}	
 }

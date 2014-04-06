@@ -5,7 +5,7 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "Shader.h"
-#include "../Utils/Debug.h"
+#include <Springbok/Utils/Debug.h>
 
 #include <fstream>
 

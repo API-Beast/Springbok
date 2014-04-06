@@ -19,5 +19,5 @@ void Transform2D::transform(V* startVertex, V* endVertex, Vec2F cameraPos, Vec2F
 	
 	// And finally transform
 	for(V* it = startVertex; it < endVertex; ++it)
-		it->Position = transformVec2(it->Position)*coordinateMult;
+		it->Position = transformVec2(it->Position, cameraPos, size)*coordinateMult;
 }

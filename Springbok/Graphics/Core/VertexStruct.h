@@ -7,7 +7,6 @@
 #pragma once
 
 #include <Springbok/Geometry/Vec4.h>
-#include "Color.h"
 #include "GLES2.h"
 
 struct BasicVertex;
@@ -18,7 +17,7 @@ struct BasicVertex
 {
 	Vec2F Position  = 0.f;
 	Vec2F TexCoords = 0.f;
-	Vec4F Color     = Colors::White;
+	Vec4F Color     = 1.f;
 	
 	BasicVertex() = default;
 	BasicVertex(Vec4F clr){ Color = clr; };

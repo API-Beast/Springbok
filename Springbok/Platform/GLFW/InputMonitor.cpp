@@ -13,6 +13,7 @@ namespace
 struct GLFWMouse : public InputDevice
 {
 	GLFWwindow* mWindow;
+	GameSurface* mSurface;
 	
 	virtual const char* getIdentifier() const { return "Mouse"; };
 	virtual bool isMouse() const { return true; };
@@ -34,9 +35,9 @@ struct GLFWMouse : public InputDevice
 	
 	virtual Vec2F getCursorPosition(int index) const 
 	{
-		double x,y;
+		double x, y;
 		glfwGetCursorPos(mWindow, &x, &y);
-		return Vec2F(x, y);
+		return Vec2F(x, y) + mSurface->topLeft();
 	};
 };
 
@@ -68,6 +69,7 @@ struct GLFWKeyboard : public InputDevice
 struct InputMonitorData
 {
 	GLFWwindow* Window;
+	GameSurface* Surface;
 	GLFWKeyboard KeyboardDevice;
 	GLFWMouse MouseDevice;
 	std::vector<InputDevice*> Devices;
@@ -106,10 +108,12 @@ InputMonitor::InputMonitor(GameSurface* surface)
 {
 	d = new InputMonitorData;
 	GLFWwindow* window = (GLFWwindow*)surface->getWindowHandle();
+	d->Surface = surface;
 	d->Window = window;
 	d->Devices = {&(d->KeyboardDevice), &(d->MouseDevice)};
 	d->KeyboardDevice.mWindow = window;
 	d->MouseDevice.mWindow = window;
+	d->MouseDevice.mSurface = surface;
 	glfwSetKeyCallback(window, &keyCallback);
 	glfwSetMouseButtonCallback(window, &mouseButtonCallback);
 	WindowUserData* userData = (WindowUserData*)glfwGetWindowUserPointer(window);

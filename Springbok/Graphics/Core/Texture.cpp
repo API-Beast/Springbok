@@ -4,7 +4,7 @@
 // 0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "Texture.h"
-#include "../Dependencies/lodepng.h"
+#include "Springbok/Dependencies/lodepng.h"
 #include "GLES2.h"
 #include <vector>
 #include <cassert>

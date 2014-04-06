@@ -6,13 +6,18 @@
 #pragma once
 
 #include <Springbok/Geometry/Angle.h>
-#include <Springbok/Geometry/Vec2.h>
+#include <Springbok/Geometry/Vec3.h>
 #include <Springbok/Geometry/Rect.h>
 
-#include "Color.h"
 #include "ShaderProgram.h"
 #include "RenderTarget.h"
 #include "Transform2D.h"
+
+struct CameraData
+{
+	Vec2F Position  = 0.0f;
+	Vec2F Zoom      = 1.0f;
+};
 
 class RenderContext2D
 {
@@ -25,11 +30,11 @@ public:
 	const ShaderProgram& shader()       const { return mShader;       };
 	      RenderTarget*  renderTarget() const { return mRenderTarget; };
 				
-	void clear(Color clr = Colors::Black);
+	void clear(Vec3F clr);
+	
+	Vec2F cameraCenter() const { return Camera.Position; };
 public:
-	Vec2F CameraPos       = 0.0f;
-	Vec2F CamaraZoom      = 1.0f;
-	Vec2F CameraAlignment = 0.5f;
+	CameraData Camera;
 private:
 	ShaderProgram  mShader       = ShaderProgram::GetDefaultShader();
 	RenderTarget*  mRenderTarget = nullptr;

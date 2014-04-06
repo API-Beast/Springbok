@@ -29,13 +29,13 @@ void InitData()
 	
 	ShadowAlpha.insert(0.0f, 1.00f);
 	ShadowAlpha.insert(0.1f, 0.75f);
-	ShadowAlpha.insert(0.5f, 0.10f);
+	ShadowAlpha.insert(0.5f, 0.30f);
 	ShadowAlpha.insert(0.9f, 0.75f);
 	ShadowAlpha.insert(1.0f, 1.00f);
 	ShadowAlpha.enableRepeat();
 	
-	ShadowScale.insert(0.0f, 1.f);
-	ShadowScale.insert(0.5f, 2.f);
-	ShadowScale.insert(1.0f, 1.f);
+	ShadowScale.insert(0.0f, 0.7f);
+	ShadowScale.insert(0.5f, 1.3f);
+	ShadowScale.insert(1.0f, 0.7f);
 	ShadowScale.enableRepeat();
 }

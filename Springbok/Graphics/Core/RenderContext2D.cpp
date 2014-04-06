@@ -32,7 +32,7 @@ void RenderContext2D::setRenderTarget(RenderTarget* target)
 	PrintGLError();
 }
 
-void RenderContext2D::clear(Color clr)
+void RenderContext2D::clear(Vec3F clr)
 {
 	glClearColor(clr.X, clr.Y, clr.Z, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);

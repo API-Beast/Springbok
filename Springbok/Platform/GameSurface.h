@@ -7,7 +7,7 @@
 #include <string>
 
 #include <Springbok/Geometry/Vec2.h>
-#include <Springbok/Graphics/RenderTarget.h>
+#include <Springbok/Graphics/Core/RenderTarget.h>
 
 class GameSurfaceData;
 
