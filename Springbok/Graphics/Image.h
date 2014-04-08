@@ -21,6 +21,7 @@ public:
 	Image(){};
 	Vec2<int> size();
 	Vec2<int> size() const;
+	ObjectPointer<Texture> texture() const{ return mTexture; };
 	bool valid() const;
 	Image cut(Vec2I position, Vec2I size);
 	

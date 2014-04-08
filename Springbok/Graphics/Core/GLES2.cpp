@@ -297,7 +297,7 @@ bool _PrintGLError(const char* file, int line)
 	GLenum error = glGetError();
 	if(error != GL_NO_ERROR)
 	{
-		std::string errorStr;
+		std::string errorStr = "???";
 	
 		switch(error)
 		{

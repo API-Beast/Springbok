@@ -76,7 +76,61 @@ Texture::Texture(const std::string& filename)
 
 	TextureCoordinates = calcTextureCoordinates(0, ImageSize);
 	Valid = true;
-	return;
+}
+
+Texture::Texture(int width, int height, int precision)
+{
+	Index = 0xFFFE;
+	glGenTextures(1, &Index);
+  glBindTexture(GL_TEXTURE_2D, Index);
+	
+	if(PrintGLError() || Index == 0xFFFE)
+	{
+		Valid = false;
+		Index = 0;
+		return ;
+	}
+	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	PrintGLError();
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	PrintGLError();
+	
+	GLenum format = GL_RGBA;
+	if(precision == 16)
+		format = GL_RGBA16F_EXT;
+	if(precision == 32)
+		format = GL_RGBA32F_EXT;
+	ImageSize = TextureSize = Vec2I{width, height};
+	glTexImage2D(GL_TEXTURE_2D, 0, format, TextureSize.X, TextureSize.Y, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+	PrintGLError();
+	
+	TextureCoordinates = calcTextureCoordinates(0, ImageSize);
+	Valid = true;
+}
+
+void Texture::enableFiltering()
+{
+	glBindTexture(GL_TEXTURE_2D, Index);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+}
+
+void Texture::enableFilteringMipmap()
+{
+	glBindTexture(GL_TEXTURE_2D, Index);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glGenerateMipmap(GL_TEXTURE_2D);
+}
+
+void Texture::disableFiltering()
+{
+	glBindTexture(GL_TEXTURE_2D, Index);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 }
 
 Texture::Texture(Texture&& other)

@@ -4,7 +4,7 @@
 //  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
-#include <Springbok/Graphics/GLES2.h>
+#include <Springbok/Graphics/Core/GLES2.h>
 #include <Springbok/Utils/Debug.h>
 #include <GLFW/glfw3.h>
 #include "../GameSurface.h"

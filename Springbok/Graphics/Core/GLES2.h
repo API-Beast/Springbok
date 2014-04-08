@@ -308,7 +308,11 @@ enum OpenGLEnums
 	GL_FRAMEBUFFER_BINDING            = 0x8CA6,
 	GL_RENDERBUFFER_BINDING           = 0x8CA7,
 	GL_MAX_RENDERBUFFER_SIZE          = 0x84E8,
-	GL_INVALID_FRAMEBUFFER_OPERATION  = 0x0506
+	GL_INVALID_FRAMEBUFFER_OPERATION  = 0x0506,
+	
+	// These are not in the ES 2 profile, but we want them anyway.
+	GL_RGBA16F_EXT    = 0x881A,
+	GL_RGBA32F_EXT    = 0x8814
 };
 
 using GLenum     = unsigned int;

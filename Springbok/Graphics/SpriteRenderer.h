@@ -8,6 +8,7 @@
 
 #include "Core/BatchRenderer.h"
 #include "Color.h"
+#include "Framebuffer.h"
 #include "../Geometry/Vec4.h"
 
 class SpriteRenderer
@@ -18,6 +19,9 @@ public:
 	void clear(Vec3F color = Colors::White);
 	void flush();
 	
+	void drawRenderpass(const Framebuffer& buffer);
+	template<typename T>
+	void draw           (const T& obj, Transform2D transformation, Vec4F color=Colors::White, Blending mode = Blending::Alpha);
 	template<typename T>
 	void draw           (const T& obj, Vec2F position, Vec4F color=Colors::White, Blending mode = Blending::Alpha, Transform2D transformation = Transform2D());
 	template<typename T>

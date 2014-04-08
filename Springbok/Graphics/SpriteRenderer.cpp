@@ -22,3 +22,10 @@ void SpriteRenderer::flush()
 {
 	Batcher.flushBatches();	
 }
+
+void SpriteRenderer::drawRenderpass(const Framebuffer& buffer)
+{
+	Batcher.flushBatches();
+	Batcher.drawRect(RectF(-1, 2), RectF(0, 1), buffer.ColorAttachment->Index);
+	Batcher.flushBatches();
+}

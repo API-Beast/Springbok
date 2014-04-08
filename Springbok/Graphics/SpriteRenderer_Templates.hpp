@@ -15,6 +15,12 @@ void SpriteRenderer::draw(const T& obj, Vec2F position, Vec4F color, Blending mo
 }
 
 template<typename T>
+void SpriteRenderer::draw(const T& obj, Transform2D transformation, Vec4F color, Blending mode)
+{
+	Batcher.draw(obj, transformation, BasicVertex(color), BasicElement(mode));
+}
+
+template<typename T>
 void SpriteRenderer::drawRepeatedInf(const T& obj, Vec2F offset, Vec2F scale, Vec2F parralaxity, Vec4F color, Blending mode)
 {
 	CameraData oldCam = Context.Camera;

@@ -21,6 +21,9 @@ public:
 	void startBatching(const RenderContext2D& context);
 	template<typename T>
 	void draw(const T& object, Transform2D transformation = Transform2D(), const V& vertex = V(), const E& element = E());
+	template<typename T>
+	void drawRaw(const T& object, const V& vertex = V(), const E& element = E());
+	void drawRect(RectF vertices, RectF texCoords, unsigned int texture, const V& vertex = V(), E element = E());
 	void flushBatches();
 	RenderTarget* renderTarget() const { return mCurrentContext->renderTarget(); };
 private:

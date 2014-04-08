@@ -56,7 +56,7 @@ void BatchRenderer<E,V>::draw(const T& object, Transform2D transformation, const
 		// Rewind, flush, and press play again
 		mParams = oldParams;
 		flushBatches();
-		draw<T>(object, transformation);
+		draw<T>(object, transformation, vertex, element);
 	}
 	else
 	{
@@ -68,8 +68,70 @@ void BatchRenderer<E,V>::draw(const T& object, Transform2D transformation, const
 };
 
 template<class E, class V>
+template<typename T>
+void BatchRenderer<E,V>::drawRaw(const T& object, const V& vertex, const E& element)
+{	
+	RenderDataPointer<V, E> oldParams = mParams;
+	
+	mParams.DefaultElement = element;
+	mParams.DefaultVertex  = vertex;
+	mParams.updateDefaults();
+	
+	// Get the data before it is changed by prepareVertices.
+	V* oldVertices = mVertexData + mParams.AddedVertices;
+	
+	object.prepareVertices(mParams);
+	
+	if(mParams.AddedVertices > mMaxVertices)
+	{
+		//Debug::Write("BatchRenderer: Wrote more vertices than we could handle. Flushing all batches and restarting.");
+		// Rewind, flush, and press play again
+		mParams = oldParams;
+		flushBatches();
+		drawRaw<T>(object, vertex, element);
+	}
+};
+
+template<class E, class V>
+void BatchRenderer<E,V>::drawRect(RectF vertices, RectF texCoords, unsigned int texture, const V& vertex, E element)
+{
+	RenderDataPointer<V, E> oldParams = mParams;
+	
+	mParams.DefaultElement = element;
+	mParams.DefaultVertex  = vertex;
+	mParams.updateDefaults();
+	
+	V* oldVertices = mVertexData + mParams.AddedVertices;
+	
+	for(int i = 0; i < 4; ++i)
+	{
+		mParams.Vertices->Position  = vertices.Points[i];
+		mParams.Vertices->TexCoords = texCoords.Points[i];
+		mParams.appendVertex();
+	}
+	mParams.appendIndex(0);
+	mParams.appendIndex(1);
+	mParams.appendIndex(2);
+	mParams.appendIndex(3);
+	
+	element.Texture = texture;
+	mParams.appendElement(element);
+	
+	if(mParams.AddedVertices > mMaxVertices)
+	{
+		mParams = oldParams;
+		flushBatches();
+		drawRect(vertices, texCoords, texture, vertex, element);
+	}
+};
+
+template<class E, class V>
 void BatchRenderer<E,V>::flushBatches()
 {
+	// Skip if nothing would be drawn
+	if(mParams.AddedVertices <= 2)
+		return;
+	
 	if(!mGLStateIsSet)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER,         mVertexBuffer);

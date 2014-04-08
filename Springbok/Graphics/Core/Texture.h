@@ -12,11 +12,15 @@ struct Texture
 {
 	Texture() = delete;
 	Texture(const std::string& filename);
+	Texture(int width, int height, int precision);
 	Texture(Texture&& other);
 	Texture(const Texture&) = delete;
 	virtual ~Texture();
 	
 	RectF calcTextureCoordinates(Vec2I pos, Vec2I size);
+	void enableFiltering();
+	void enableFilteringMipmap();
+	void disableFiltering();
 	
 	bool Valid = false;
 	unsigned int Index = 0;
