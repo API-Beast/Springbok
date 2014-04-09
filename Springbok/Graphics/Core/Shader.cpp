@@ -35,14 +35,12 @@ Shader::Shader(Shader::ShaderType type)
 Shader::Shader(const std::string& path, Shader::ShaderType type)
 {
 	std::ifstream file(path, std::ios::binary);
-	std::streambuf* fileBuffer = file.rdbuf();
-	std::string fileContent;
-	auto size = fileBuffer->pubseekoff(0, std::ios_base::end);
-	fileContent.reserve(size);
-	fileBuffer->sgetn(&fileContent[0], size);
+	std::string fileContent((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
 	
 	Handle = glCreateShader(type);
 	Type = type;
+	loadSourceFromBuffer(fileContent);
+	PrintGLError();
 }
 
 Shader::~Shader()

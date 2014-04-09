@@ -16,6 +16,10 @@ struct ShaderProgram
 	
 	ShaderProgram() = default;
 	ShaderProgram(const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
+	ShaderProgram(const std::string& fragmentShaderPath);
+	
+	void loadVertexShader(const std::string& path);
+	void loadFragmentShader(const std::string& path);
 	
 	void bindVertexAttribute(int index, const char* attrib) const;
 	int getUniformIndex(const char* attrib) const;

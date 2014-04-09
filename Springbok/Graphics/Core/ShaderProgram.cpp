@@ -29,8 +29,25 @@ namespace
 ShaderProgram::ShaderProgram(const std::string& vertexShaderPath, const std::string& fragmentShaderPath)
 {
 	VertexShader   = ResourceManager::GetInstance()->getResource<Shader>(vertexShaderPath, Shader::Vertex);
-	FragmentShader = ResourceManager::GetInstance()->getResource<Shader>(vertexShaderPath, Shader::Fragment);
+	FragmentShader = ResourceManager::GetInstance()->getResource<Shader>(fragmentShaderPath, Shader::Fragment);
 }
+
+ShaderProgram::ShaderProgram(const std::string& fragmentShaderPath)
+{
+	VertexShader   = GetDefaultShader().VertexShader;
+	FragmentShader = ResourceManager::GetInstance()->getResource<Shader>(fragmentShaderPath, Shader::Fragment);
+}
+
+void ShaderProgram::loadFragmentShader(const std::string& path)
+{
+	FragmentShader = ResourceManager::GetInstance()->getResource<Shader>(path, Shader::Fragment);
+}
+
+void ShaderProgram::loadVertexShader(const std::string& path)
+{
+	VertexShader   = ResourceManager::GetInstance()->getResource<Shader>(path, Shader::Vertex);
+}
+
 
 void ShaderProgram::deleteShader()
 {
@@ -49,6 +66,7 @@ bool ShaderProgram::link()
 	glAttachShader(Handle, VertexShader   -> Handle);
 	glAttachShader(Handle, FragmentShader -> Handle);
 	glLinkProgram(Handle);
+	PrintGLError();
 	int success;
 	glGetProgramiv(Handle, GL_LINK_STATUS, &success);
 	if(!success)

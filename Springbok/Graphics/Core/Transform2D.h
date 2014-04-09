@@ -53,11 +53,11 @@ inline Transform2D PositionGUI(float v0, float v1){ return PositionGUI(Vec2F(v0,
 inline Transform2D     Align2D(float v0, float v1){ return     Align2D(Vec2F(v0, v1)); };
 inline Transform2D  Parallax2D(float v0, float v1){ return  Parallax2D(Vec2F(v0, v1)); };
 
-inline Mat2  Scale2D(Vec2F size  ){ return Mat2({size.X, 0},                 {0, size.Y}                );};																					
-inline Mat2 Rotate2D(Angle rot   ){ return Mat2(rot.rotateVec(Vec2F(1, 0))*-1,  rot.rotateVec(Vec2F(0, -1))*-1);};																		
-inline Mat2  Shear2D(Vec2F factor){ return Mat2({1, factor.X},               {factor.Y, 1}              );};
+inline Transform2D  Scale2D(Vec2F size  ){ return Mat2({size.X, 0},                 {0, size.Y}                );};																					
+inline Transform2D Rotate2D(Angle rot   ){ return Mat2(rot.rotateVec(Vec2F(1, 0))*-1,  rot.rotateVec(Vec2F(0, -1))*-1);};																		
+inline Transform2D  Shear2D(Vec2F factor){ return Mat2({1, factor.X},               {factor.Y, 1}              );};
 
-inline Mat2  Scale2D(float v0, float v1){ return Scale2D(Vec2F(v0, v1)); };
-inline Mat2  Shear2D(float v0, float v1){ return Shear2D(Vec2F(v0, v1)); };
+inline Transform2D Scale2D(float v0, float v1){ return Scale2D(Vec2F(v0, v1)); };
+inline Transform2D Shear2D(float v0, float v1){ return Shear2D(Vec2F(v0, v1)); };
 
 #include "Transform2D_Templates.hpp"
