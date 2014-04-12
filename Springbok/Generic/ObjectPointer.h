@@ -53,7 +53,7 @@ public:
 	ObjectPointer<T>& operator =(const ObjectPointer< T >& other);
 	T* operator->() const;
 	operator T*() const;
-	void replaceWith(T* newPtr);
+	void replaceWith(T* newPtr, bool remove);
 	void destroy();
 protected:
 	void markAsDestroyed(T* memory);

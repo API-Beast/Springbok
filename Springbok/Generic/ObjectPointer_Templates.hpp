@@ -77,9 +77,11 @@ T* ObjectPointer<T>::operator->() const
 }
 
 template<typename T>
-void ObjectPointer<T>::replaceWith(T* newPtr)
+void ObjectPointer<T>::replaceWith(T* newPtr, bool remove)
 {
 	// Ensure that the right destructor is called.
+  if(remove)
+    mPointer->Destructor->destroy(mPointer->MemoryLocation);
 	mPointer->MemoryLocation = newPtr;
 }
 
