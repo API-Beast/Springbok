@@ -34,6 +34,7 @@ add_subdirectory(Containers)
 add_subdirectory(Procedural)
 add_subdirectory(Dependencies)
 add_subdirectory(Utils)
+add_subdirectory(Shapes)
 
 set(SUBTARGETS sbAnimation sbAudio sbContainers sbDependencies sbGeneric sbGeometry sbGraphics sbMath sbParsing sbPlatform sbProcedural sbResources sbUtils)
 
