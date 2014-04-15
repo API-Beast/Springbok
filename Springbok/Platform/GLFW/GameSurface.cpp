@@ -27,7 +27,7 @@ namespace
 	};
 };
 
-GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
+GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint, int antiAlias)
 {
 	d = new GameSurfaceData;
 	
@@ -35,6 +35,7 @@ GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint)
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	glfwWindowHint(GLFW_SAMPLES, antiAlias);
 	
 	if(flags & Windowed)
 	{

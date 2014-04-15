@@ -21,7 +21,7 @@ public:
 		NoVSync = 2
 	};
 public:
-	GameSurface(const std::string& title, int flags = None, Vec2U sizeHint = Vec2U(800, 600));
+	GameSurface(const std::string& title, int flags = None, Vec2U sizeHint = Vec2U(800, 600), int antiAlias = 0);
 	~GameSurface();
 	
 	void switchBuffers();
