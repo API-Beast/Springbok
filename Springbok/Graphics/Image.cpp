@@ -12,32 +12,32 @@
 
 Image::Image(const std::string& filename)
 {
-	mPath = filename;
+	Path = filename;
 	lazyLoad();
 }
 
 void Image::lazyLoad()
 {
-	if(mTexture != nullptr)
-		if(mTexture->Valid)
+	if(Data != nullptr)
+		if(Data->Valid)
 			return ;
 
-	mTexture = ResourceManager::GetInstance()->getResource<Texture>(mPath);
-	if(mTexture->Valid == false)
+	Data = ResourceManager::GetInstance()->getResource<Texture>(Path);
+	if(Data->Valid == false)
 		return;
 
-	mTexCoords = mTexture->TextureCoordinates;
-	mSize = mTexture->ImageSize;
+	TexCoords = Data->TextureCoordinates;
+	mSize     = Data->ImageSize;
 }
 
 Image::Image(const Image& other, Vec2I position, Vec2I size)
 {
-	mTexture = other.mTexture;
-	mPath = other.mPath;
+	Data = other.Data;
+	Path = other.Path;
 	mOffset = other.mOffset + position;
 	mSize = size.upperBound(other.mSize - position);
 
-	mTexCoords = mTexture->calcTextureCoordinates(mOffset, mSize);
+	TexCoords = Data->calcTextureCoordinates(mOffset, mSize);
 }
 
 Image Image::cut(Vec2I position, Vec2I size)
@@ -58,5 +58,5 @@ Vec2< int > Image::size() const
 
 bool Image::valid() const
 {
-	return mTexture && mTexture->Valid;
+	return Data && Data->Valid;
 }

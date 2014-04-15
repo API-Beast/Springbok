@@ -20,8 +20,7 @@ ObjectPointer< T > ResourceManager::getResource(const std::string& path, Args...
 		auto& resource = resourceIter->second;
 		if(false) // Should reload?
 		{
-			resource.Pointer.destroy();
-			resource.Pointer.replaceWith(reinterpret_cast<void*>(new T(resource.ResolvedPath, args...)));;
+			resource.Pointer.replaceWith(reinterpret_cast<void*>(new T(resource.ResolvedPath, args...)), true);;
 			resource.DataType = typeid(T).hash_code();
 		}
 		else;

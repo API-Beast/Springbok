@@ -32,7 +32,7 @@ void replaceWith()
 	int* y = new int(1000);
 	ObjectPointer<int> ptrA = x;
 	ObjectPointer<int> ptrB = x;
-	ptrA.replaceWith(y);
+	ptrA.replaceWith(y, true);
 	// *ptrA == *ptrB == *y == 1000 now
 	*ptrB = 2000;
 	// *ptrA == *ptrB == *y == 2000 now
@@ -45,6 +45,8 @@ void replaceWith()
 	SST_M_ASSERT((*ptrA) == 2000);
 	SST_M_ASSERT((*ptrB) == 2000);
 	SST_M_ASSERT_END;
+	
+	delete y;
 }
 
 SST::SimpleTest a("Generic/ObjectPointer", &basicUsage,  SST::Required);

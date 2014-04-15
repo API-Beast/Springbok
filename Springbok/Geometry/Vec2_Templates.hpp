@@ -74,6 +74,12 @@ constexpr float Vec2<T>::dot(Vec2<T> other) const
 	return X * other.X + Y * other.Y;
 }
 
+template<typename T>
+constexpr Vec2<T> Vec2<T>::rot90() const
+{
+	return Vec2F(-Y, X);
+}
+
 /*template<typename T>
 Vec2<T> Vec2<T>::projected(Vec2<T> line) const
 {

@@ -13,15 +13,18 @@
 #include <Springbok/Geometry/Rect.h>
 #include <Springbok/Generic/ObjectPointer.h>
 
-class Image
+struct Image
 {
+public:
+	ObjectPointer<Texture> Data = nullptr;
+	std::string Path;
+	RectF TexCoords = RectF(0.0, 0.0, 1.f, 1.f);
 public:
 	Image(const std::string& filename);
 	Image(const Image& other, Vec2I position, Vec2I size);
 	Image(){};
 	Vec2<int> size();
 	Vec2<int> size() const;
-	ObjectPointer<Texture> texture() const{ return mTexture; };
 	bool valid() const;
 	Image cut(Vec2I position, Vec2I size);
 	
@@ -29,9 +32,6 @@ public:
 	void prepareVertices(RenderDataPointer< V, E >& data) const;
 private:
 	void lazyLoad();
-	ObjectPointer<Texture> mTexture = nullptr;
-	std::string mPath;
-	RectF mTexCoords = RectF(0.0, 0.0, 1.f, 1.f);
 	Vec2<int> mOffset = Vec2<int>(0, 0);
 	Vec2<int> mSize = Vec2<int>(0, 0);
 };
@@ -43,7 +43,7 @@ void Image::prepareVertices(RenderDataPointer<V, E>& data) const
 	for(int i = 0; i < 4; ++i)
 	{
 		data.Vertices->Position  = vertexCoords.Points[i];
-		data.Vertices->TexCoords = mTexCoords.Points[i];
+		data.Vertices->TexCoords = TexCoords.Points[i];
 		data.appendVertex();
 	}
 	data.appendIndex(0);
@@ -52,6 +52,6 @@ void Image::prepareVertices(RenderDataPointer<V, E>& data) const
 	data.appendIndex(3);
 	
 	E element = data.DefaultElement;
-	element.Texture = mTexture->Index;
+	element.Texture = Data->Index;
 	data.appendElement(element);
 }

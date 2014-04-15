@@ -1,2 +1,3 @@
 add_subdirectory(BouncingBall)
 add_subdirectory(Particles)
+add_subdirectory(VisTests)

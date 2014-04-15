@@ -11,12 +11,22 @@
 template<typename T>
 void SpriteRenderer::draw(const T& obj, Vec2F position, Vec4F color, Blending mode, Transform2D transformation)
 {
+	if(!IsBatcherStarted)
+	{
+		Batcher.startBatching(Context);
+		IsBatcherStarted = true;
+	}
 	Batcher.draw(obj, Position2D(position) + transformation, BasicVertex(color), BasicElement(mode));
 }
 
 template<typename T>
 void SpriteRenderer::draw(const T& obj, Transform2D transformation, Vec4F color, Blending mode)
 {
+	if(!IsBatcherStarted)
+	{
+		Batcher.startBatching(Context);
+		IsBatcherStarted = true;
+	}
 	Batcher.draw(obj, transformation, BasicVertex(color), BasicElement(mode));
 }
 

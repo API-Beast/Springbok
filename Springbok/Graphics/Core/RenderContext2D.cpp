@@ -13,6 +13,7 @@
 RenderContext2D::RenderContext2D(RenderTarget* target)
 {
 	glEnable(GL_BLEND);
+	glDisable(GL_CULL_FACE);
 	setRenderTarget(target);
 	setShader      (mShader);
 	PrintGLError();
@@ -28,7 +29,8 @@ void RenderContext2D::setShader(ShaderProgram shader)
 void RenderContext2D::setRenderTarget(RenderTarget* target)
 {
 	mRenderTarget = target;
-	mRenderTarget->bind();
+	if(target)
+		mRenderTarget->bind();
 	PrintGLError();
 }
 

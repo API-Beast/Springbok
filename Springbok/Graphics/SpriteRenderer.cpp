@@ -10,12 +10,12 @@ SpriteRenderer::SpriteRenderer(RenderTarget* target)
 :
 Context(target)
 {
-	Batcher.startBatching(Context);
 }
 
 void SpriteRenderer::clear(Vec3F color)
 {
 	Context.clear(color);
+	Batcher.startBatching(Context);
 }
 
 void SpriteRenderer::flush()

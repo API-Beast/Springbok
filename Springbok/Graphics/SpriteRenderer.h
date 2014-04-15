@@ -14,14 +14,14 @@
 class SpriteRenderer
 {
 public:
-	SpriteRenderer(RenderTarget* target);
+	SpriteRenderer(RenderTarget* target = nullptr);
 	
 	void clear(Vec3F color = Colors::White);
 	void flush();
 	
 	void drawRenderpass(const Framebuffer& buffer);
 	template<typename T>
-	void draw           (const T& obj, Transform2D transformation, Vec4F color=Colors::White, Blending mode = Blending::Alpha);
+	void draw           (const T& obj, Transform2D transformation=Transform2D(), Vec4F color=Colors::White, Blending mode = Blending::Alpha);
 	template<typename T>
 	void draw           (const T& obj, Vec2F position, Vec4F color=Colors::White, Blending mode = Blending::Alpha, Transform2D transformation = Transform2D());
 	template<typename T>
@@ -31,6 +31,7 @@ public:
 public:
 	BatchRenderer2D Batcher;
 	RenderContext2D Context;
+	bool IsBatcherStarted = false;
 };
 
 #include "SpriteRenderer_Templates.hpp"

@@ -81,6 +81,8 @@ Vec2<T> RandomNumberGenerator::getVec2(Vec2<T> min, Vec2<T> max)
 	return Vec2<T>(min.X + getFloat() * (NextBiggerValue(max.X) - min.X), min.Y + getFloat() * (NextBiggerValue(max.Y) - min.Y));
 };
 
-
-
-
+template<typename T>
+Vec3<T> RandomNumberGenerator::getVec3(Vec3<T> min, Vec3<T> max)
+{
+	return Vec3<T>(min.X + getFloat() * (NextBiggerValue(max.X) - min.X), min.Y + getFloat() * (NextBiggerValue(max.Y) - min.Y), min.Z + getFloat() * (NextBiggerValue(max.Z) - min.Z));
+};

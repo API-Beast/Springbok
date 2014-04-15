@@ -54,7 +54,9 @@ public:
 	constexpr float         sqLength() const;
 	constexpr Vec2<float> normalized() const; //!< Returns the normalized version of \c this. A normalized vector (also called unit vector) has a length of 1 or 0.
 
-	constexpr float dot(Vec2<T> other) const; //!< Returns the dot product between \c this and \c other.
+	constexpr float     dot(Vec2<T> other) const; //!< Returns the dot product between \c this and \c other.
+	
+	constexpr Vec2<T> rot90() const; //!< Returns a vector that is 90° towards \c this 
 	
 	Vec2<T> lowerBound(Vec2<T> other) const;
 	Vec2<T> upperBound(Vec2<T> other) const;

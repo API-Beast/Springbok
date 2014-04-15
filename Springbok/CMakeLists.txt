@@ -36,7 +36,7 @@ add_subdirectory(Dependencies)
 add_subdirectory(Utils)
 add_subdirectory(Shapes)
 
-set(SUBTARGETS sbAnimation sbAudio sbContainers sbDependencies sbGeneric sbGeometry sbGraphics sbMath sbParsing sbPlatform sbProcedural sbResources sbUtils)
+set(SUBTARGETS sbAnimation sbAudio sbContainers sbDependencies sbGeneric sbGeometry sbGraphics sbMath sbParsing sbPlatform sbProcedural sbResources sbUtils sbShapes)
 
 RESOLVE_SUBTARGET_CHILDREN(SUBTARGETS ${SUBTARGETS})
 GET_SUBTARGET_OBJECTS(SUBTARGETS_EXPANDED ${SUBTARGETS})
