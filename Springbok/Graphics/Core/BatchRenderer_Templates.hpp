@@ -63,7 +63,7 @@ void BatchRenderer<E,V>::draw(const T& object, Transform2D transformation, const
 		transformation.transform(oldVertices,
 														mParams.Vertices,
 														mCurrentContext->cameraCenter(),
-														Vec2F(1, -1) / (mCurrentContext->renderTarget()->size()/2));
+														Vec2F(1, -1) / (mCurrentContext->renderTarget()->size()/2) * mCurrentContext->Camera.Zoom);
 	}
 };
 

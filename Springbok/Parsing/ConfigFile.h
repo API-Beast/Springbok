@@ -16,8 +16,8 @@ public:
 		operator std::string() const { if(Data.empty()) return ""; else return Data.front(); };
 		
 		std::vector<std::string> toList(){ return Data; };
-		float toFloat(){ return std::stof(Data.front()); };
-		int   toInt  (){ return std::stoi(Data.front()); };
+		float toFloat(){ try{ return std::stof(Data.front()); }catch(...){ return 1.f; };  };
+		int   toInt  (){ try{ return std::stoi(Data.front()); }catch(...){ return 1; }; };
 		
 		//std::string& operator[](int i){ return Data[i]; };
 		PossibleArray& operator=(const std::vector<std::string>& other);
