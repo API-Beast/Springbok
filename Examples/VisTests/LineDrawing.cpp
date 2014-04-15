@@ -25,14 +25,14 @@ void LineDrawing::onClick(Vec2F pos)
 {
 	if(LastClickTimer <= 0)
 	{
-		Line.insert(pos, 3 + gRNG.getNumber(2), gRNG.getVec3(Colors::Dawnbringer::Purple[1], Colors::Dawnbringer::Yellow[1]));
+		Line.insert(pos, 3 + gRNG.getNumber(2));
 		LineSubdivided = Line;
-		LineSubdivided.Points.front().Width = 1.0;
+		LineSubdivided.Points.front().Width = 0.0;
 		LineSubdivided.Points.front().Color = Colors::Dawnbringer::Green[1];
-		LineSubdivided.Points.back().Width = 1.0;
+		LineSubdivided.Points.back().Width = 0.0;
 		LineSubdivided.Points.back().Color = Colors::Dawnbringer::Blue[2];
-		LineSubdivided.divideEquidistant(3);
-		LineSubdivided.applyTexture(Image("Line.png"), LineSubdivided.calcLength()/64);
+		LineSubdivided.divideEquidistant(5);
+		LineSubdivided.applyTexture(Image("Line.png"), LineSubdivided.calcLength()/50);
 		LastClickTimer += 0.2f;
 	}
 }

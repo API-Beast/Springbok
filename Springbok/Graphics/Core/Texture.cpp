@@ -56,7 +56,8 @@ Texture::Texture(const std::string& filename)
 	PrintGLError();
 
 	ImageSize = Vec2I{width, height};
-	TextureSize = Vec2I{makePowerOfTwo(width), makePowerOfTwo(height)};
+	//TextureSize = Vec2I{makePowerOfTwo(width), makePowerOfTwo(height)};
+	TextureSize = ImageSize;
 
 	if(!(TextureSize == ImageSize))
 	{
