@@ -97,6 +97,16 @@ bool SST::SimpleTest::run(ostream& out, bool catchExceptions)
 			out << "Signal: " << s.signal << endl;
 			result = false;
 		}
+		catch(const char* str)
+		{
+			out << "C-String: " << str << endl;
+			result = false;
+		}
+		catch(const std::string& str)
+		{
+			out << "String: " << str << endl;
+			result = false;
+		}
 		catch(...)
 		{
 			out << "Unhandled and unknown exception catched." << endl;

@@ -37,3 +37,9 @@ public:
 	auto end() -> decltype(mContainer->begin()+mEnd) { return mContainer->begin()+mEnd; };
 	int length(){ return mEnd - mBegin; };
 };
+
+template<typename T>
+auto Subrange(T& container, int start, int end) -> ContainerSubrange<T, decltype(container[0])>
+{
+	return ContainerSubrange<T, decltype(container[0])>(container, start, end);
+};

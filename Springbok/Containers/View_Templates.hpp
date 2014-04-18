@@ -19,32 +19,32 @@ template<typename T, typename C>
 void ViewBase<T, C>::update()
 {
 	// Resize the array to fit the actual data
-	if(mData.UsedLength > mViewOf->UsedLength)
+	if(Data.UsedLength > ViewOf->UsedLength)
 	{
-		for(int i = 0; i < mViewOf->UsedLength; ++i)
-			if(mData[i] >= mViewOf->UsedLength)
+		for(int i = 0; i < ViewOf->UsedLength; ++i)
+			if(Data[i] >= ViewOf->UsedLength)
 			{
-				mData.quickRemove(i);
+				Data.quickRemove(i);
 				i--;
 			}
 	}
-	else if(mData.UsedLength < mViewOf->UsedLength)
-		for(int i = mData.UsedLength; i < mViewOf->UsedLength; ++i)
-			mData.pushBack(i);
+	else if(Data.UsedLength < ViewOf->UsedLength)
+		for(int i = Data.UsedLength; i < ViewOf->UsedLength; ++i)
+			Data.pushBack(i);
 	
 	// Sort
-	for(int i = 1; i < mData.UsedLength; ++i)
+	for(int i = 1; i < Data.UsedLength; ++i)
 	{
-		int temp = mData[i];
+		int temp = Data[i];
 		int j = i -1;
 		
-		while((j >= 0) && (compare(makeRef(mViewOf->front(mData[j])), makeRef(mViewOf->front(temp)))))
+		while((j >= 0) && (compare(makeRef(ViewOf->front(Data[j])), makeRef(ViewOf->front(temp)))))
 		{
-			mData[j + 1] = mData[j];
+			Data[j + 1] = Data[j];
 			j--;
 		}
 		
-		mData[j+1] = temp;
+		Data[j+1] = temp;
 	}
 }
 
@@ -58,12 +58,12 @@ int ViewBase<T, C>::findIndex(const C& searchFor, int minmin, int maxmax, int pr
 	if(min >= max)
 	{
 		min = Max(mid - 1, 0);
-		max = Min(mid + 1, mData.UsedLength-1);
+		max = Min(mid + 1, Data.UsedLength-1);
 		int i = min;
 		while(i < max)
 		{
-			auto& value  = makeRef((*mViewOf)[mData[i]]);
-			auto& valueB = makeRef((*mViewOf)[mData[i+1]]);
+			auto& value  = makeRef((*ViewOf)[Data[i]]);
+			auto& valueB = makeRef((*ViewOf)[Data[i+1]]);
 			if(compareValEq(value, searchFor))
 				return i;
 			if(!compareVal(value, searchFor))
@@ -74,7 +74,7 @@ int ViewBase<T, C>::findIndex(const C& searchFor, int minmin, int maxmax, int pr
 		return max;
 	}
 	
-	auto& value = makeRef((*mViewOf)[mData[mid]]);
+	auto& value = makeRef((*ViewOf)[Data[mid]]);
 	if(compareVal(value, searchFor))
 		return findIndex(searchFor, min, mid-1, mid);
 	if(!compareVal(value, searchFor))
@@ -85,19 +85,19 @@ int ViewBase<T, C>::findIndex(const C& searchFor, int minmin, int maxmax, int pr
 template<typename T, typename C>
 int ViewBase<T, C>::findIndex(const C& searchFor)
 {
-	if(mData.Memory == nullptr)
+	if(Data.Memory == nullptr)
 		return 0;
-	return findIndex(searchFor, 0, mData.UsedLength - 1, 0);
+	return findIndex(searchFor, 0, Data.UsedLength - 1, 0);
 };
 
 template<typename T, typename C>
 ContainerSubrange<ViewBase<T, C>, T> ViewBase<T, C>::getRange(const C& start, const C& end)
 {
-	if(mViewOf->UsedLength == 0)
+	if(ViewOf->UsedLength == 0)
 		return ContainerSubrange<ViewBase<T, C>, T>(*this, 0, 0);
 	
 	int startIndex = findIndex(start);
-	int endIndex = findIndex(end, startIndex, mData.UsedLength - 1, startIndex);
+	int endIndex = findIndex(end, startIndex, Data.UsedLength - 1, startIndex);
 	if(startIndex > endIndex)
 		return ContainerSubrange<ViewBase<T, C>, T>(*this, startIndex, startIndex+1);
 	return ContainerSubrange<ViewBase<T, C>, T>(*this, startIndex, endIndex+1);

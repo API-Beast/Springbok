@@ -61,6 +61,7 @@ public:
 	void clear();
 	
 	bool empty() const{ return UsedLength == 0; };
+	int length() const{ return UsedLength; }
 protected:
 	void memMove(T* dst, const T* src, int length);
 public:
