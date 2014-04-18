@@ -60,7 +60,23 @@ bool InputDevice::anyButtonPressed() const
 	return false;
 }
 
-std::string InputDevice::getNameOfButton(int index) const
+int InputDevice::numberOfScrollWheels() const
+{
+	return 0;
+}
+
+Vec2F InputDevice::getScrollWheelState(int index) const
+{
+	return 0;
+}
+
+void InputDevice::setScrollWheelState(Vec2F value, int index)
+{
+
+}
+
+
+std::string InputDevice::getButtonName(int index) const
 {
 	return std::string(getIdentifier()) + std::to_string(index);
 }

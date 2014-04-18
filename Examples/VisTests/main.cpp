@@ -50,7 +50,7 @@ int main()
 		
 		for(ButtonPressEvent press : input.poll())
 		{
-			if(press.From->getNameOfButton(press.Button) == "Esc")
+			if(press.From->getButtonName(press.Button) == "Esc")
 				surface.requestClose();
 			if(press.From->numberOfCursors())
 				curTest->onClick(press.From->getCursorPosition(0));

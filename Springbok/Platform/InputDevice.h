@@ -18,14 +18,18 @@ public:
 	virtual const char* getIdentifier() const;
 	
 	virtual int   numberOfAxes() const;
-	virtual float getAxisState(int index) const;
+	virtual float getAxisState(int index = 0) const;
 	
 	virtual int   numberOfButtons() const;
-	virtual bool  getButtonState(int index) const;
+	virtual bool  getButtonState(int index = 0) const;
 	virtual bool  anyButtonPressed() const;
 	
 	virtual int   numberOfCursors() const;
-	virtual Vec2F getCursorPosition(int index) const;
+	virtual Vec2F getCursorPosition(int index = 0) const;
 	
-	virtual std::string getNameOfButton(int index) const;
+	virtual int   numberOfScrollWheels() const;
+	virtual Vec2F getScrollWheelState(int index = 0) const;
+	virtual void  setScrollWheelState(Vec2F value, int index = 0);
+	
+	virtual std::string getButtonName(int index) const;
 };

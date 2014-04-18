@@ -47,11 +47,11 @@ int main()
 		
 		for(ButtonPressEvent press : input.poll())
 		{
-			if(press.From->getNameOfButton(press.Button) == "F1")
+			if(press.From->getButtonName(press.Button) == "F1")
 				kParticles = BoundBy(1, kParticles-5, 500);
-			if(press.From->getNameOfButton(press.Button) == "F2")
+			if(press.From->getButtonName(press.Button) == "F2")
 				kParticles = BoundBy(1, kParticles+5, 500);
-			if(press.From->getNameOfButton(press.Button) == "Esc")
+			if(press.From->getButtonName(press.Button) == "Esc")
 				surface.requestClose();
 		}
 		

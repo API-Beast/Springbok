@@ -2,6 +2,8 @@
 #include "../GameSurface.h"
 #include "../InputDevice.h"
 #include <GLFW/glfw3.h>
+#include <Springbok/Geometry/Vec3.h>
+#include <Springbok/Utils/Debug.h>
 
 namespace
 {
@@ -14,6 +16,7 @@ struct GLFWMouse : public InputDevice
 {
 	GLFWwindow* mWindow;
 	GameSurface* mSurface;
+	Vec2F mScrollWheel;
 	
 	virtual const char* getIdentifier() const { return "Mouse"; };
 	virtual bool isMouse() const { return true; };
@@ -21,7 +24,7 @@ struct GLFWMouse : public InputDevice
 	virtual int numberOfButtons() const { return GLFW_MOUSE_BUTTON_LAST; };
 	virtual int numberOfCursors() const { return 1; };
 	
-	virtual bool getButtonState(int index) const 
+	virtual bool getButtonState(int index = 0) const 
 	{
 		return glfwGetMouseButton(mWindow, index);
 	};
@@ -32,12 +35,19 @@ struct GLFWMouse : public InputDevice
 				return true;
 		return false;
 	};
-	
-	virtual Vec2F getCursorPosition(int index) const 
+	virtual Vec2F getCursorPosition(int index = 0) const 
 	{
 		double x, y;
 		glfwGetCursorPos(mWindow, &x, &y);
 		return Vec2F(x, y) + mSurface->topLeft();
+	};
+	virtual Vec2F getScrollWheelState(int index = 0) const
+	{
+		return mScrollWheel;
+	};
+	virtual void setScrollWheelState(Vec2F value, int index = 0)
+	{
+		mScrollWheel = value;
 	};
 };
 
@@ -60,7 +70,7 @@ struct GLFWKeyboard : public InputDevice
 				return true;
 		return false;
 	};
-	virtual std::string getNameOfButton(int index) const
+	virtual std::string getButtonName(int index) const
 	{
 		return KeyCodeToKeyName(index);
 	};
@@ -102,6 +112,13 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 	d->Events.push_back(event);
 };
 
+void scrollCallback(GLFWwindow* window, double scrollX, double scrollY)
+{
+	InputMonitorData* d = ((WindowUserData*)glfwGetWindowUserPointer(window))->imd;
+	d->MouseDevice.mScrollWheel[0] += scrollX;
+	d->MouseDevice.mScrollWheel[1] += scrollY;
+};
+
 }
 
 InputMonitor::InputMonitor(GameSurface* surface)
@@ -116,6 +133,7 @@ InputMonitor::InputMonitor(GameSurface* surface)
 	d->MouseDevice.mSurface = surface;
 	glfwSetKeyCallback(window, &keyCallback);
 	glfwSetMouseButtonCallback(window, &mouseButtonCallback);
+	glfwSetScrollCallback(window, &scrollCallback);
 	WindowUserData* userData = (WindowUserData*)glfwGetWindowUserPointer(window);
 	userData->imd = d;
 };
