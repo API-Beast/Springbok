@@ -12,7 +12,7 @@
 struct AssetDefinition
 {
 	// Fonts
-	BitmapFont SmallFont;
+	BitmapFont Font;
 
 	// Particles
 	ParticleDefinition Spark;

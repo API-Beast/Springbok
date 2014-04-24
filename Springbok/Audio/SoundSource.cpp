@@ -25,6 +25,15 @@ SoundInstance* SoundSource::play(Vec2F position, SoundManager* s)
 		Sample->WarnedAboutStereoPosition = true;
 		Debug::Write("WARNING: Trying to play stereo sound $ at a position, non-global sound samples should be mono as attenuation doesn't work with Stereo.", Sample->Location);
 	}
+	if(Sample->Valid == false)
+	{
+		if(!Sample->WarnedAboutStereoPosition)
+		{
+			Sample->WarnedAboutStereoPosition = true;
+			Debug::Write("WARNING: Trying to play invalid sound, see errors above.");
+		}
+		return nullptr;
+	}
 		
 	if(!s->canManageMoreSoundInstances()) s->cleanUp();
 	SoundInstance* instance = new SoundInstance(*this, position.X, position.Y);

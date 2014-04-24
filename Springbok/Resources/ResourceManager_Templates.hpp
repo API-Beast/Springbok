@@ -18,13 +18,9 @@ ObjectPointer< T > ResourceManager::getResource(const std::string& path, Args...
 	if(resourceIter != Resources.end())
 	{
 		auto& resource = resourceIter->second;
-		if(false) // Should reload?
-		{
-			resource.Pointer.replaceWith(reinterpret_cast<void*>(new T(resource.ResolvedPath, args...)), true);;
-			resource.DataType = typeid(T).hash_code();
-		}
-		else;
-			//assert(typeid(T).hash_code() == resource.DataType);
+		
+		// Reload file
+		// resource.Pointer.replaceWith(reinterpret_cast<void*>(new T(resource.ResolvedPath, args...)), true);
 
 		return reinterpret_pointer_cast<T*>(resource.Pointer);
 	}
@@ -33,19 +29,21 @@ ObjectPointer< T > ResourceManager::getResource(const std::string& path, Args...
 		auto& resource = Resources[path];
 		resource.RequestedPath = path;
 		resource.ResolvedPath  = getPath(path);
-		resource.Pointer  = new T(resource.ResolvedPath, args...);
 		resource.DataType = typeid(T).hash_code();
 		if(FileInfo(resource.ResolvedPath).Type != FileInfo::File)
 		{
 			if(!PrintedResourceSearchPath)
 			{
 				PrintedResourceSearchPath = true;
-				Debug::Write("Searching in primary directory: $", PrimaryResourcePath);
+				Debug::Write("INFO: Searching for files in: $", PrimaryResourcePath);
 				for(const std::string& modpath : ModPaths)
-						Debug::Write("  Searching in mod directory: $", modpath);
+						Debug::Write("INFO:  Also in: $", modpath);
 			}
-			Debug::Write("Can't find path for $", path);
+			Debug::Write("ERROR: Can't find file: $", path);
+			resource.Pointer  = new T();
 		}
+		else
+			resource.Pointer  = new T(resource.ResolvedPath, args...);
 		return reinterpret_pointer_cast<T*>(resource.Pointer);
 	}
 };

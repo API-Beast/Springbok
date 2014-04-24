@@ -10,7 +10,7 @@
 
 struct Texture
 {
-	Texture() = delete;
+	Texture() = default;
 	Texture(const std::string& filename);
 	Texture(int width, int height, int precision);
 	Texture(Texture&& other);

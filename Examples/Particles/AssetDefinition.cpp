@@ -9,7 +9,7 @@
 void AssetDefinition::initAll()
 {
 	initParticles();
-	SmallFont.loadGrid(Image("SmallFont.png"), 0, 16);	
+	Font.loadGrid(Image("SmallFont.png"), 0, 16);	
 }
 
 void AssetDefinition::initParticles()

@@ -7,29 +7,25 @@ namespace Debug
 	void Write(const char* message);
 
 	template<typename T, typename... Args> void Write(const char* message, T value, Args... args)
-	{	
-		if (message[0] == '\0')
+	{
+		if(message[0] == '\0')
 			return;
-		while (*message) 
+		
+		while(*message) 
 		{
-			if (*message == '$') 
+			if(*message == '$') 
 			{
-				if (*(message + 1) == '$') 
-				{
-					++message;
-				}
-				else
-				{
-					std::cout << value;
-					char next = (message + 1)[0];
-					if (next == '\0')
-						std::cout << std::endl;
- 					else Write(message + 1, args...); 
-					return;
-				}
+				std::cerr << value;
+				Write(message + 1, args...); 
+				return;
 			}
-			std::cout << *message++;
+			else if(*message == '\0')
+				std::cerr << std::endl;
+			else
+				std::cerr.put(*message++);
 		}
-		std::cout << "\nWARNING: extra arguments provided to Debug::Write()" << std::endl;
+		// More values given than dollars; Just give the beggar valuables.
+		// Ehem, I mean, fallback to printing the remaining values as list
+		std::cerr << "; " << value << std::endl;
 	}
 }

@@ -20,7 +20,10 @@ SoundSample::SoundSample(const std::string& filename)
 	int error = 0;
 	stb_vorbis* file = stb_vorbis_open_filename(const_cast<char*>(filename.c_str()), &error, NULL);
 	if(error)
+	{
 		Debug::Write("stb_vorbis error while loading $: $", filename, error);
+		Valid = false;
+	}
 	else
 	{
 		stb_vorbis_info info = stb_vorbis_get_info(file);
@@ -38,8 +41,9 @@ SoundSample::SoundSample(const std::string& filename)
 		int alError = alGetError();
 		if(alError)
 			Debug::Write("OpenAL error after loading $: $", filename, alError);
+		
+		Valid = true;
 	}
-	//free(buffer);
 }
 
 SoundSample::~SoundSample()

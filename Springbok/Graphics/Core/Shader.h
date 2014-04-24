@@ -21,6 +21,7 @@ struct Shader
 	ShaderType Type;
 	std::string Path;
 	
+	Shader() = default;
 	Shader(Shader::ShaderType type);
 	Shader(const std::string& path, ShaderType type);
 	~Shader();

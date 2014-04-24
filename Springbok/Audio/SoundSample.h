@@ -10,10 +10,13 @@
 //! @ingroup Audio-Internals
 struct SoundSample
 {
+	SoundSample() = default;
 	SoundSample(const std::string& filename);
 	~SoundSample();
 	unsigned int BufferIndex;
 	int Channels = 1;
 	std::string Location;
 	bool WarnedAboutStereoPosition = false;
+	bool WarnedAboutInvalid = false;
+	bool Valid = false;
 };
