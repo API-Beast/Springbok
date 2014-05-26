@@ -1,4 +1,4 @@
-set(H_FILES ConfigFile.h UTF8.h UTF8_Templates.hpp Unicode.h StringParser.h StringParser_Templates.hpp)
+set(H_FILES ConfigFile.h UTF8.h UTF8_Templates.hpp Unicode.h StringParser.h StringParser_Templates.hpp Utils.h)
 set(CPP_FILES ConfigFile.cpp UTF8.cpp StringParser.cpp)
 add_library(sbParsing OBJECT ${H_FILES} ${CPP_FILES})
 

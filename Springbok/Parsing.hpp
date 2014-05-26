@@ -5,4 +5,5 @@
 #include <Springbok/Parsing/StringParser.h>
 #include <Springbok/Parsing/Unicode.h>
 #include <Springbok/Parsing/UTF8.h>
+#include <Springbok/Parsing/Utils.h>
 

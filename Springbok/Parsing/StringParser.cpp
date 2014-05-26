@@ -67,24 +67,24 @@ void StringParser::reset(int to)
 	mCurPosition = to;
 }
 
-std::string StringParser::advanceTo(Codepoint point)
+std::string StringParser::advanceTo(Codepoint point, bool includeEnd)
 {
 	int start = mCurPosition;
 	Codepoint cur;
-	cur = UTF8::DecodeAt(mStringToParse, start);
 	int stop = start;
+	cur = UTF8::DecodeNext(mStringToParse, &stop);
 	while(stop < mStringToParse.size())
 	{
 		if(cur == point)
 		{
 			mCurPosition = stop;
-			UTF8::SkipForward(mStringToParse, &mCurPosition, 1);
-			return postProcess(mStringToParse.substr(start, stop-start));
+			if(includeEnd) UTF8::SkipForward(mStringToParse, &mCurPosition, 1);
+			return postProcess(mStringToParse.substr(start, mCurPosition-start));
 		}
 		cur = UTF8::DecodeNext(mStringToParse, &stop);
 	}
 	mCurPosition = stop;
-	return postProcess(mStringToParse.substr(start, stop-start));
+	return postProcess(mStringToParse.substr(start, mCurPosition-start));
 }
 
 Codepoint StringParser::next()
@@ -110,4 +110,5 @@ std::string StringParser::postProcess(const std::string& s)
 {
 	if(StripWhitespace)
 		return UTF8::Strip(s, Or(&UCS::IsWhitespace, &UCS::IsInvisible));
+	return s;
 }
