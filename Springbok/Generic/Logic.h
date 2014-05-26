@@ -18,6 +18,12 @@ _And<A,B> And(const A& a, const B& b)
 	return _And<A,B>(a, b);
 };
 
+template<typename A>
+_Not<A> Not(const A& a)
+{
+	return _Not<A>(a);
+};
+
 template<typename T>
 _InSet<T> InSet(const std::initializer_list<T>& list)
 {

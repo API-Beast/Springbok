@@ -52,3 +52,12 @@ struct _EqualTo
 		return Value == arg;
 	};
 };
+
+template<class A>
+struct _Not
+{
+	const A& a;
+	constexpr _Not(const A& _a) : a(_a){};
+	template<typename... T>
+	auto operator()(T... args) const -> decltype(!a(args...)) { return !a(args...); };
+};
