@@ -6,6 +6,8 @@
 
 #pragma once
 #include <Springbok/Containers/List.h>
+#include <Springbok/Parsing/UTF8.h>
+
 #include "Image.h"
 #include "Core/RenderContext2D.h"
 #include "Core/Transform2D.h"
@@ -21,10 +23,9 @@ public:
 		Image Sprite;
 	};
 	
-	template<class T>
 	struct TextLabel
 	{
-		T String;
+		std::string String;
 		BitmapFont* Font;
 		template<class V = BasicVertex, class E = BasicElement>
 		void prepareVertices(RenderDataPointer<V, E>& data) const;
@@ -33,26 +34,26 @@ public:
 	void loadCharacter(char32_t which, Image sprite);
 	void loadRange(Image spriteSheet, char32_t start, char32_t end);
 	void loadGrid(Image spriteSheet, char32_t start, Vec2I charSize);
-	template<class T>
-	TextLabel<T> text(T v)
-	{
-		return TextLabel<T>{v, this};
-	};
+	TextLabel text(const std::string& v);
 public:
 	Map<Glyph, char32_t, &Glyph::Codepoint> LoadedCharacters;
 };
 
-template<class T>
 template<class V, class E>
-void BitmapFont::TextLabel<T>::prepareVertices(RenderDataPointer<V, E>& data) const
+void BitmapFont::TextLabel::prepareVertices(RenderDataPointer<V, E>& data) const
 {
 	Vec2F offset = 0;
-	for(const auto& c : String)
+	int index = 0;
+	Codepoint c = UTF8::DecodeAt(String, index);
+	while(c)
 	{
 		const Image& sprite = Font->LoadedCharacters[c].Sprite;
 		V* oldVertex = data.Vertices;
 		sprite.prepareVertices(data);
 		Position2D(offset).transform(oldVertex, data.Vertices);
 		offset[0] += sprite.size()[0];
-	}	
+		
+		
+		c = UTF8::DecodeNext(String, &index);
+	};
 }

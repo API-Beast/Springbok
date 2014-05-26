@@ -32,3 +32,8 @@ void BitmapFont::loadGrid(Image spriteSheet, char32_t start, Vec2I charSize)
 			LoadedCharacters[index].Sprite = spriteSheet.cut(Vec2I(row, collumn)*charSize, charSize);
 		}
 }
+
+BitmapFont::TextLabel BitmapFont::text(const std::string& v)
+{
+	return TextLabel {v, this};
+}
