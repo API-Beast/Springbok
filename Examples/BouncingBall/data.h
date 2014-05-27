@@ -7,7 +7,7 @@
 #pragma once
 
 #include <Springbok/Animation/KeyframeList.h>
-#include <Springbok/Geometry/Vec2.h>
+#include <Springbok/Types/Vec2.h>
 
 extern KeyframeList<float> BallHeight;
 extern KeyframeList<Vec2F> BallScale;

@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <Springbok/Geometry/Vec2.h>
+#include <Springbok/Types.hpp>
 #include <string>
 
 class InputDevice

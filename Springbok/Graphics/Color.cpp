@@ -5,7 +5,7 @@
 
 #include "Color.h"
 #include  <Springbok/Math/Operations.h>
-#include  <Springbok/Geometry/Angle.h>
+#include  <Springbok/Types/Angle.h>
 
 #define PI 3.14159265358979323846
 

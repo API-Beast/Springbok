@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "Vec2.h"
-#include "../Math/Range.h"
+#include <Springbok/Types/Vec2.h>
+#include <Springbok/Types/Range.h>
 
 struct AbstractBoundingShape
 {

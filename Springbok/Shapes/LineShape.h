@@ -5,11 +5,11 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #pragma once
-#include "../Geometry/Vec4.h"
-#include "../Geometry/Rect.h"
-#include "../Containers/List.h"
-#include "../Graphics/Core/VertexStruct.h"
-#include "../Graphics/Image.h"
+#include <Springbok/Types/Vec4.h>
+#include <Springbok/Geometry/Rect.h>
+#include <Springbok/Containers/List.h>
+#include <Springbok/Graphics/Core/VertexStruct.h>
+#include <Springbok/Graphics/Image.h>
 
 struct LineShape
 {

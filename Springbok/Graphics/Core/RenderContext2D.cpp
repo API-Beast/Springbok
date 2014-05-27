@@ -4,8 +4,9 @@
 // 0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "RenderContext2D.h"
-#include <Springbok/Generic/PointerGuard.h>
 #include "GLES2.h"
+
+#include <Springbok/Types/PointerGuard.h>
 #include <Springbok/Utils/Debug.h>
 
 #include <iostream>

@@ -12,8 +12,8 @@ void basicUsage()
 	// Result == (0.0f, 0.7f)
 	//! [intersect]
 	SST_M_ASSERT_START;
-	SST_M_ASSERT(result.Start == 0.0f);
-	SST_M_ASSERT(result.End   == 0.7f);
+	SST_M_ASSERT(result.MinVal == 0.0f);
+	SST_M_ASSERT(result.MaxVal == 0.7f);
 	SST_M_ASSERT_END;
 }
 

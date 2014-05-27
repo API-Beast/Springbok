@@ -6,7 +6,7 @@
 
 #include "ShaderProgram.h"
 #include <Springbok/Resources/ResourceManager.h>
-#include <Springbok/Generic/PointerGuard.h>
+#include <Springbok/Types/PointerGuard.h>
 #include <Springbok/Utils/Debug.h>
 
 namespace

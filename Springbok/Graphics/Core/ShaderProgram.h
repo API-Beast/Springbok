@@ -5,8 +5,8 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "Shader.h"
-#include <Springbok/Generic/ObjectPointer.h>
-#include <Springbok/Geometry/Vec4.h>
+#include <Springbok/Types/ObjectPointer.h>
+#include <Springbok/Types/Vec4.h>
 
 struct ShaderProgram
 {

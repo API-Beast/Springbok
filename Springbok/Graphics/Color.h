@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <Springbok/Geometry/Vec3.h>
+#include <Springbok/Types/Vec3.h>
 
 using Color = Vec3F;
 

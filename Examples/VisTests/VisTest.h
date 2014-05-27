@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <Springbok/Geometry/Vec2.h>
+#include <Springbok/Types/Vec2.h>
 
 class SpriteRenderer;
 class GameSurface;

@@ -6,7 +6,7 @@
 #include "SoundManager.h"
 #include "SoundInstance.h"
 #include <cassert>
-#include <Springbok/Generic/PointerGuard.h>
+#include <Springbok/Types/PointerGuard.h>
 #include <AL/al.h>
 
 SoundManager* SoundManager::gInstance = nullptr;
@@ -58,7 +58,8 @@ void SoundManager::setChannelVolume(int channel, float volume)
 {
 	mChannelVolume[channel] = volume;
 	for(SoundInstance* instance : mSoundInstances)
-		instance->setChannelVolume(volume);
+		if(instance->Channel == channel)
+			instance->setChannelVolume(volume);
 }
 
 void SoundManager::manageSoundInstance(SoundInstance* instance)

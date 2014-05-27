@@ -10,10 +10,8 @@
 #include <climits>
 
 #include <ctime>
-#include <Springbok/Geometry/Vec3.h>
-#include <Springbok/Math/Operations.h>
-#include <Springbok/Math/Range.h>
-#include <Springbok/Geometry/Angle.h>
+#include <Springbok/Math.hpp>
+#include <Springbok/Types.hpp>
 
 //~ ## class RandomNumberGenerator
 //~ A minimal & cheap generator for pseudo-random numbers.

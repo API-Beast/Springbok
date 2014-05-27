@@ -5,7 +5,7 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "Noise.h"
-#include "../Math/Range.h"
+#include <Springbok/Types/Range.h>
 
 float Noise1D::calc(float index)
 {

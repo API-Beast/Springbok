@@ -55,7 +55,7 @@ namespace
 		List<int> data(4096);
 		SortedView<int> view(data);
 		
-		for(int i = 1; i < 64000; ++i)
+		for(int i = 1; i < 2000; ++i)
 		{
 			float action = RNG.getFloat();
 			if(action < 0.25f)

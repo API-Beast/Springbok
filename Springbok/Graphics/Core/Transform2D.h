@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include <Springbok/Geometry/Vec2.h>
-#include <Springbok/Geometry/Angle.h>
-#include <Springbok/Geometry/Mat2.h>
+#include <Springbok/Types/Vec2.h>
+#include <Springbok/Types/Angle.h>
+#include <Springbok/Types/Mat2.h>
 #include "VertexStruct.h"
 #include <Springbok/Utils/Debug.h>
 

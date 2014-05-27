@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <Springbok/Geometry/Vec4.h>
+#include <Springbok/Types/Vec4.h>
 #include "GLES2.h"
 
 struct BasicVertex;

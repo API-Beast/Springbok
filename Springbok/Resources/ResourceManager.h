@@ -8,7 +8,7 @@
 #include <vector>
 #include <map>
 #include <string>
-#include "../Generic/ObjectPointer.h"
+#include <Springbok/Types/ObjectPointer.h>
 
 class ResourceManager;
 

@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include "Vec2.h"
-#include "Angle.h"
+#include <Springbok/Types/Vec2.h>
+#include <Springbok/Types/Angle.h>
 
 /** @cond */
 template<typename T>

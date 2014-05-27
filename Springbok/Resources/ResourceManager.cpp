@@ -3,7 +3,7 @@
 // TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 // 0. You just DO WHAT THE FUCK YOU WANT TO.
 
-#include <Springbok/Generic/PointerGuard.h>
+#include <Springbok/Types/PointerGuard.h>
 #include <Springbok/Platform/FileInfo.h>
 #include "ResourceManager.h"
 #include <iostream>

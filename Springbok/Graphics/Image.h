@@ -11,7 +11,7 @@
 #include "Core/Texture.h"
 
 #include <Springbok/Geometry/Rect.h>
-#include <Springbok/Generic/ObjectPointer.h>
+#include <Springbok/Types/ObjectPointer.h>
 
 struct Image
 {

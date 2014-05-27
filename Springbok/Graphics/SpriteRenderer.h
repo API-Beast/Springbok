@@ -9,7 +9,7 @@
 #include "Core/BatchRenderer.h"
 #include "Color.h"
 #include "Framebuffer.h"
-#include "../Geometry/Vec4.h"
+#include <Springbok/Types/Vec2.h>
 
 class SpriteRenderer
 {

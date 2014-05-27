@@ -1,5 +1,5 @@
 #include "List.h"
-#include "../Geometry/Vec2.h"
+#include <Springbok/Types/Vec2.h>
 #include "SSTest.h"
 
 namespace

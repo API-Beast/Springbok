@@ -2,7 +2,7 @@
 #include "../GameSurface.h"
 #include "../InputDevice.h"
 #include <GLFW/glfw3.h>
-#include <Springbok/Geometry/Vec3.h>
+#include <Springbok/Types/Vec3.h>
 #include <Springbok/Utils/Debug.h>
 
 namespace
