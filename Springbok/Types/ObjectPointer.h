@@ -61,6 +61,9 @@ private:
 	ObjectData* mPointer;
 };
 
+template<class T>
+using ObjPtr = ObjectPointer<T>;
+
 /** @name pointer_cast
  *  Converts to \a ptr to raw pointer which is then cast to a pointer of type \a X.
  *  @returns The cast pointer.

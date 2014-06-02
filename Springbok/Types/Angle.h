@@ -64,7 +64,6 @@ Angle operator/(float value, Angle angle);
 
 #include "Angle_constexpr.h"
 
-// User defined suffixes should actually start with a underscore, but fuck the system.
 constexpr Angle operator "" _turn(long double num){ return Angle::FromTurn(num); };
 constexpr Angle operator "" _turn(unsigned long long num){ return Angle::FromTurn(num); };
 constexpr Angle operator "" _deg(long double num){ return Angle::FromDegree(num); };

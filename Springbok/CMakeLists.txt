@@ -38,7 +38,7 @@ add_subdirectory(Shapes)
 add_subdirectory(Types)
 
 set(SUBTARGETS sbAnimation sbAudio sbContainers sbDependencies sbGeneric sbGeometry sbGraphics sbMath sbParsing sbPlatform sbProcedural sbResources sbUtils sbShapes sbTypes)
-set(COMBINED_HEADERS Animation.hpp Audio.hpp Containers.hpp Generic.hpp Geometry.hpp Graphics.hpp Math.hpp Parsing.hpp Platform.hpp Procedural.hpp Resources.hpp Shapes.hpp Utils.hpp)
+set(COMBINED_HEADERS Animation.hpp Audio.hpp Containers.hpp Generic.hpp Geometry.hpp Graphics.hpp Math.hpp Parsing.hpp Platform.hpp Procedural.hpp Resources.hpp Shapes.hpp Utils.hpp Types.hpp)
 
 RESOLVE_SUBTARGET_CHILDREN(SUBTARGETS ${SUBTARGETS})
 GET_SUBTARGET_OBJECTS(SUBTARGETS_EXPANDED ${SUBTARGETS})
