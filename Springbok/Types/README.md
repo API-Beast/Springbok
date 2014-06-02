@@ -70,6 +70,15 @@ vec4.XYZ.dot(); // Calculate the dot while ignoring the alpha coordinate.h
 
 Note that unlike GLSL you can only access consectuitive elements like this, `.ZYX` for example is not valid, nor is `.XXY` and the like.
 
+### Colors
+Colors are defined as a simple Vec3F typedef and work the same way.
+
+The Color Header also contains a namespace with two preset palettes: Colors::Dawn and Colors::Neon. These are supposed to help you prototyping your game without having to think too much about details like exact color values.
+
+Dawn is a muted general purpose palette, it consists of 9 ramps (color arrays) with 3 entries each. The index 0 is the darkest variant of that color, the index 2 the brightest.
+
+![Dawn Palette Colors](PaletteDawn.png)
+
 ## Angles
 
 ### Angle Literals and Constructors

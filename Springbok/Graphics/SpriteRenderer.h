@@ -7,16 +7,15 @@
 #pragma once
 
 #include "Core/BatchRenderer.h"
-#include "Color.h"
 #include "Framebuffer.h"
-#include <Springbok/Types/Vec2.h>
+#include <Springbok/Types.hpp>
 
 class SpriteRenderer
 {
 public:
 	SpriteRenderer(RenderTarget* target = nullptr);
 	
-	void clear(Vec3F color = Colors::White);
+	void clear(Color color = Colors::White);
 	void flush();
 	
 	void drawRenderpass(const Framebuffer& buffer);

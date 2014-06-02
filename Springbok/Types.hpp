@@ -3,6 +3,7 @@
 
 #include <Springbok/Types/Angle.h>
 #include <Springbok/Types/Angle_constexpr.h>
+#include <Springbok/Types/Color.h>
 #include <Springbok/Types/Mat2.h>
 #include <Springbok/Types/ObjectPointer.h>
 #include <Springbok/Types/PointerGuard.h>

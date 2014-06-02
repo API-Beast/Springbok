@@ -5,8 +5,9 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #pragma once
+
+#include <Springbok/Types.hpp>
 #include <Springbok/Graphics/Image.h>
-#include <Springbok/Graphics/Color.h>
 #include <Springbok/Containers/List.h>
 #include <Springbok/Animation/KeyframeList.h>
 

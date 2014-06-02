@@ -1,4 +1,4 @@
-set(H_FILES Angle.h Angle_constexpr.h Mat2.h ObjectPointer.h ObjectPointer_Templates.hpp PointerGuard.h Range.h Range_Templates.hpp Vec2.h Vec2_Templates.hpp Vec3.h Vec3_Templates.hpp Vec4.h Vec4_Templates.hpp)
+set(H_FILES Angle.h Angle_constexpr.h Color.h Mat2.h ObjectPointer.h ObjectPointer_Templates.hpp PointerGuard.h Range.h Range_Templates.hpp Vec2.h Vec2_Templates.hpp Vec3.h Vec3_Templates.hpp Vec4.h Vec4_Templates.hpp)
 set(CPP_FILES Angle.cpp ObjectPointer.cpp)
 add_library(sbTypes OBJECT ${H_FILES} ${CPP_FILES})
 
