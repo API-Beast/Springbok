@@ -7,7 +7,7 @@
 #include <Springbok/Platform/InputMonitor.h>
 #include <Springbok/Platform/GameSurface.h>
 #include <Springbok/Platform/PreciseClock.h>
-#include <Springbok/Platform/FileInfo.h>
+#include <Springbok/Platform/FileSystem.h>
 #include <Springbok/Platform/InputDevice.h>
 
 #include <Springbok/Graphics/Core/RenderContext2D.h>
@@ -24,7 +24,7 @@ int main()
 	GameSurface surface("Particles - Springbok Example", GameSurface::Windowed | GameSurface::NoVSync);
 	InputMonitor       input(&surface);
 	RenderContext2D renderer(&surface);
-	ResourceManager::GetInstance()->findPrimaryResourcePath({FileInfo(__FILE__).up()+"/Assets", "./Assets"});
+	ResourceManager::GetInstance()->findPrimaryResourcePath({FileSystem::ParentPath(__FILE__)+"/Assets", "./Assets"});
 
 	// Start the timer
 	PreciseClock timer;

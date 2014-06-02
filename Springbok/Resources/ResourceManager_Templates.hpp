@@ -9,7 +9,7 @@
 #include <typeinfo>
 #include <cassert>
 #include <Springbok/Utils/Debug.h>
-#include <Springbok/Platform/FileInfo.h>
+#include <Springbok/Platform/FileSystem.h>
 
 template<typename T, class... Args>
 ObjectPointer< T > ResourceManager::getResource(const std::string& path, Args... args)
@@ -30,7 +30,7 @@ ObjectPointer< T > ResourceManager::getResource(const std::string& path, Args...
 		resource.RequestedPath = path;
 		resource.ResolvedPath  = getPath(path);
 		resource.DataType = typeid(T).hash_code();
-		if(FileInfo(resource.ResolvedPath).Type != FileInfo::File)
+		if(!FileSystem::Info(resource.ResolvedPath).IsFile)
 		{
 			if(!PrintedResourceSearchPath)
 			{

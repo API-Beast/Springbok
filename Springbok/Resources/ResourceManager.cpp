@@ -4,7 +4,7 @@
 // 0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include <Springbok/Types/PointerGuard.h>
-#include <Springbok/Platform/FileInfo.h>
+#include <Springbok/Platform/FileSystem.h>
 #include "ResourceManager.h"
 #include <iostream>
 
@@ -31,7 +31,7 @@ std::string ResourceManager::findPrimaryResourcePath(const vector< string >& pat
 	PrimaryResourcePath = ".";
 	for(const std::string& path : paths)
 	{
-		if(FileInfo(path).Type == FileInfo::Directory)
+		if(FileSystem::Info(path).IsFolder)
 		{
 			PrimaryResourcePath = path;
 			break;
@@ -63,7 +63,7 @@ std::string ResourceManager::getPath(const std::string& path)
 	for(const std::string& modpath : ModPaths)
 	{
 		std::string filepath = modpath + "/" + path;
-		if(FileInfo(path).Type == FileInfo::File)
+		if(FileSystem::Info(path).IsFile)
 			return filepath;
 	}
 	return PrimaryResourcePath + "/" + path;

@@ -7,7 +7,7 @@
 #include <Springbok/Platform/InputMonitor.h>
 #include <Springbok/Platform/GameSurface.h>
 #include <Springbok/Platform/PreciseClock.h>
-#include <Springbok/Platform/FileInfo.h>
+#include <Springbok/Platform/FileSystem.h>
 #include <Springbok/Platform/InputDevice.h>
 
 #include <Springbok/Graphics/Image.h>
@@ -23,7 +23,7 @@ int main()
 	InputMonitor       input(&surface);
 	SpriteRenderer  renderer(&surface);
 	
-	ResourceManager::GetInstance()->findPrimaryResourcePath({FileInfo(__FILE__).up()+"/Assets", "./Assets"});
+	ResourceManager::GetInstance()->findPrimaryResourcePath({FileSystem::ParentPath(__FILE__)+"/Assets", "./Assets"});
 	
 	InitData();
 	
