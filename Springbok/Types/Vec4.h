@@ -53,7 +53,7 @@ public:
 	constexpr Vec4(const P1& vx, const P2& vy, const P3& vz, const P4& vw) : X(vx), Y(vy), Z(vz), W(vw) {};
 	
 	T& operator[](int x);
-	const T& operator[](int x) const;
+	constexpr const T& operator[](int x) const;
 	
 	constexpr T sortingValue(){ return (X + Y * 100 + Z * 1000 + W * 10000); };
 	
@@ -91,9 +91,9 @@ bool InRange(Vec4<T> a, Vec4<T> b, float range)
 };
 
 #define def_operator(OPER)\
-template<typename T, typename P> constexpr auto operator OPER(const Vec4<T>& vec, const Vec4<P>& val) -> Vec4<decltype(vec.X OPER val.X)> { return {vec.X OPER val.X, vec.Y OPER val.Y, vec.Z OPER val.Z, vec.W OPER val.W}; }\
-template<typename T, typename P> constexpr auto operator OPER(const Vec4<T>& vec, const P& val) -> Vec4<decltype(vec.X OPER val)> { return {vec.X OPER val, vec.Y OPER val, vec.Y OPER val, vec.W OPER val}; }\
-template<typename T, typename P> constexpr auto operator OPER(const P& val, const Vec4<T>& vec) -> Vec4<decltype(vec.X OPER val)> { return {vec.X OPER val, vec.Y OPER val, vec.Y OPER val, vec.W OPER val}; }
+template<typename T, typename P> constexpr auto operator OPER(const Vec4<T>& vec, const Vec4<P>& val) -> Vec4<decltype(vec[0] OPER val[0])> { return {vec[0] OPER val[0], vec[1] OPER val[1], vec[2] OPER val[2], vec[3] OPER val[3]}; }\
+template<typename T, typename P> constexpr auto operator OPER(const Vec4<T>& vec, const P& val) -> Vec4<decltype(vec[0] OPER val)> { return {vec[0] OPER val, vec[1] OPER val, vec[2] OPER val, vec[3] OPER val}; }\
+template<typename T, typename P> constexpr auto operator OPER(const P& val, const Vec4<T>& vec) -> Vec4<decltype(vec[0] OPER val)> { return {vec[0] OPER val, vec[1] OPER val, vec[2] OPER val, vec[3] OPER val}; }
 def_operator(+);
 def_operator(-);
 def_operator(/);
@@ -102,8 +102,8 @@ def_operator(%);
 #undef def_operator
 
 #define def_assign_operator(OPER)\
-template<typename T, typename P> Vec4<T>& operator OPER(Vec4<T>& vec, const Vec4<P>& val) { vec.X OPER val.X; vec.Y OPER val.Y; vec.Z OPER val.Z; vec.W OPER val.W; return vec; };\
-template<typename T, typename P> Vec4<T>& operator OPER(Vec4<T>& vec, const P& val) { vec.X OPER val; vec.Y OPER val; vec.Z OPER val; vec.W OPER val; return vec; };
+template<typename T, typename P> Vec4<T>& operator OPER(Vec4<T>& vec, const Vec4<P>& val) { vec[0] OPER val[0]; vec[1] OPER val[1]; vec[2] OPER val[2]; vec[3] OPER val[3]; return vec; };\
+template<typename T, typename P> Vec4<T>& operator OPER(Vec4<T>& vec, const P& val) { vec[0] OPER val; vec[1] OPER val; vec[2] OPER val; vec[3] OPER val; return vec; };
 def_assign_operator(+=);
 def_assign_operator(-=);
 def_assign_operator(*=);

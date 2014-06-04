@@ -38,7 +38,7 @@ public:
 	constexpr Vec2(const P1& vx, const P2& vy) : X(vx), Y(vy) {};
 	
 	T& operator[](int x);
-	const T& operator[](int x) const;
+	constexpr const T& operator[](int x) const;
 	template<typename P> constexpr bool operator==(const Vec2<P>& other){ return X == other.X && Y == other.Y;  };
 	template<typename P> constexpr bool operator>(const Vec2<P>& other){ return (X + Y * 8) > (other.X + other.Y * 8);  };
 	template<typename P> constexpr bool operator<(const Vec2<P>& other){ return (X + Y * 8) < (other.X + other.Y * 8);  };
@@ -81,9 +81,9 @@ bool InRange(Vec2<T> a, Vec2<T> b, float range)
 };
 
 #define def_operator(OPER)\
-template<typename T, typename P> constexpr auto operator OPER(const Vec2<T>& vec, const Vec2<P>& val) -> Vec2<decltype(vec.X OPER val.X)> { return {vec.X OPER val.X, vec.Y OPER val.Y}; }\
-template<typename T, typename P> constexpr auto operator OPER(const Vec2<T>& vec, const P& val) -> Vec2<decltype(vec.X OPER val)> { return {vec.X OPER val, vec.Y OPER val}; }\
-template<typename T, typename P> constexpr auto operator OPER(const P& val, const Vec2<T>& vec) -> Vec2<decltype(vec.X OPER val)> { return {vec.X OPER val, vec.Y OPER val}; }
+template<typename T, typename P> constexpr auto operator OPER(const Vec2<T>& vec, const Vec2<P>& val) -> Vec2<decltype(vec.X OPER val.X)> { return {vec[0] OPER val[0], vec[1] OPER val[1]}; }\
+template<typename T, typename P> constexpr auto operator OPER(const Vec2<T>& vec, const P& val) -> Vec2<decltype(vec.X OPER val)> { return {vec[0] OPER val, vec[1] OPER val}; }\
+template<typename T, typename P> constexpr auto operator OPER(const P& val, const Vec2<T>& vec) -> Vec2<decltype(vec.X OPER val)> { return {vec[0] OPER val, vec[1] OPER val}; }
 def_operator(+);
 def_operator(-);
 def_operator(/);
@@ -92,8 +92,8 @@ def_operator(%);
 #undef def_operator
 
 #define def_assign_operator(OPER)\
-template<typename T, typename P> Vec2<T>& operator OPER(Vec2<T>& vec, const Vec2<P>& val) { vec.X OPER val.X; vec.Y OPER val.Y; return vec; };\
-template<typename T, typename P> Vec2<T>& operator OPER(Vec2<T>& vec, const P& val) { vec.X OPER val; vec.Y OPER val; return vec; };
+template<typename T, typename P> Vec2<T>& operator OPER(Vec2<T>& vec, const Vec2<P>& val) { vec[0] OPER val[0]; vec[1] OPER val[1]; return vec; };\
+template<typename T, typename P> Vec2<T>& operator OPER(Vec2<T>& vec, const P& val) { vec[0] OPER val; vec[1] OPER val; return vec; };
 def_assign_operator(+=);
 def_assign_operator(-=);
 def_assign_operator(*=);

@@ -22,7 +22,7 @@ T& Vec4<T>::operator[](int i)
 }
 
 template<typename T>
-const T& Vec4<T>::operator[](int i) const
+constexpr const T& Vec4<T>::operator[](int i) const
 {
 	return Val[i];
 }
