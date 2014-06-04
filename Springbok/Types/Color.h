@@ -8,7 +8,9 @@
 
 #include "Vec4.h"
 
-using Color = Vec3F;
+using ColorRGB  = Vec3F;
+using ColorRGBA = Vec4F;
+using Color     = ColorRGB;
 
 constexpr Color RGB(float red, float green, float blue)
 {
@@ -16,6 +18,16 @@ constexpr Color RGB(float red, float green, float blue)
 								green,
 							  blue );
 };
+
+constexpr ColorRGBA RGB(float red, float green, float blue, float alpha)
+{
+	return ColorRGBA( red  ,
+								    green,
+							      blue ,
+										alpha
+									);
+};
+
 
 constexpr Color HTMLColor(unsigned int hex)
 {
