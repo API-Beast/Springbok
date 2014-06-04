@@ -8,7 +8,9 @@
 
 #include "Vec4.h"
 
-using Color = Vec3F;
+using ColorRGB  = Vec3F;
+using ColorRGBA = Vec4F;
+using Color     = ColorRGB;
 
 constexpr Color RGB(float red, float green, float blue)
 {
@@ -16,6 +18,16 @@ constexpr Color RGB(float red, float green, float blue)
 								green,
 							  blue );
 };
+
+constexpr ColorRGBA RGB(float red, float green, float blue, float alpha)
+{
+	return ColorRGBA( red  ,
+								    green,
+							      blue ,
+										alpha
+									);
+};
+
 
 constexpr Color HTMLColor(unsigned int hex)
 {
@@ -26,11 +38,18 @@ constexpr Color HTMLColor(unsigned int hex)
 
 namespace Colors
 {
-	static constexpr Color White = Color(1.0f);
-	static constexpr Color Black = Color(0.0f);
+	static constexpr ColorRGB  White = RGB(1, 1, 1);
+	static constexpr ColorRGB  Black = RGB(0, 0, 0);
+	
+	static constexpr ColorRGB  Red   = RGB(1, 0, 0);
+	static constexpr ColorRGB  Green = RGB(0, 1, 0);
+	static constexpr ColorRGB  Blue  = RGB(0, 0, 1);
+	
+	static constexpr ColorRGBA Transparent = ColorRGBA(White, 0.0f);
+	static constexpr ColorRGBA Opaque      = ColorRGBA(White, 1.0f);
 	
 #define _(NAME, CODE) static constexpr Color NAME = HTMLColor(CODE)
-#define ___(NAME, CODEA, CODEB, CODEC) static constexpr Color NAME[] = {HTMLColor(CODEA), HTMLColor(CODEB), HTMLColor(CODEC)}
+#define ___(NAME, CODEA, CODEB, CODEC) static constexpr ColorRGB NAME[] = {HTMLColor(CODEA), HTMLColor(CODEB), HTMLColor(CODEC)}
 
 	// Based on Dawnbringers 32 Color palette.
 	// Good for dark on bright background.
