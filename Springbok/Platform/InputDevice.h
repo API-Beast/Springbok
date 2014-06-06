@@ -6,6 +6,7 @@
 #pragma once
 
 #include <Springbok/Types.hpp>
+#include <vector>
 #include <string>
 
 class InputDevice
@@ -15,21 +16,27 @@ public:
 	virtual bool isGamepad() const;
 	virtual bool isMouse() const;
 	
-	virtual const char* getIdentifier() const;
+	virtual const char* id() const;
 	
 	virtual int   numberOfAxes() const;
-	virtual float getAxisState(int index = 0) const;
-	
-	virtual int   numberOfButtons() const;
-	virtual bool  getButtonState(int index = 0) const;
-	virtual bool  anyButtonPressed() const;
+	virtual float axisState(int index = 0) const;
 	
 	virtual int   numberOfCursors() const;
-	virtual Vec2F getCursorPosition(int index = 0) const;
+	virtual Vec2F cursorPosition(int index = 0) const;
 	
 	virtual int   numberOfScrollWheels() const;
-	virtual Vec2F getScrollWheelState(int index = 0) const;
+	virtual Vec2F scrollWheelState(int index = 0) const;
 	virtual void  setScrollWheelState(Vec2F value, int index = 0);
 	
-	virtual std::string getButtonName(int index) const;
+	virtual std::string buttonName(int index) const;
+	
+public:
+	std::vector<int> CurrentlyPressedKeys;
+	void registerKeyPress(int key);
+	void registerKeyRelease(int key);
+	
+	virtual int   numberOfKeys() const;
+	virtual bool  isKeyPressed(int index = 0) const;
+	virtual bool  isKeyPressed(const std::string& str) const;
+	virtual bool  anyKeyPressed() const;
 };

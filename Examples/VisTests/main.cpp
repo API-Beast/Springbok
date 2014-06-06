@@ -50,10 +50,10 @@ int main()
 		
 		for(ButtonPressEvent press : input.poll())
 		{
-			if(press.From->getButtonName(press.Button) == "Esc")
+			if(press.From->buttonName(press.Button) == "Esc")
 				surface.requestClose();
 			if(press.From->numberOfCursors())
-				curTest->onClick(press.From->getCursorPosition(0));
+				curTest->onClick(press.From->cursorPosition(0));
 		}
 		
 		float dt = timer.elapsed() - gameTime;

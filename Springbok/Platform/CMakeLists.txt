@@ -1,7 +1,7 @@
 find_package(GLFW REQUIRED)
 
 set(H_FILES FileSystem.h PreciseClock.h InputDevice.h ButtonPressEvent.h InputMonitor.h GameSurface.h)
-set(CPP_FILES FileSystem.cpp PreciseClock.cpp InputDevice.cpp ButtonPressEvent.cpp)
+set(CPP_FILES FileSystem.cpp PreciseClock.cpp InputDevice.cpp)
 
 add_subdirectory(GLFW)
 

@@ -18,30 +18,19 @@ struct GLFWMouse : public InputDevice
 	GameSurface* mSurface;
 	Vec2F mScrollWheel;
 	
-	virtual const char* getIdentifier() const { return "Mouse"; };
+	virtual const char* id() const { return "Mouse"; };
 	virtual bool isMouse() const { return true; };
 	
-	virtual int numberOfButtons() const { return GLFW_MOUSE_BUTTON_LAST; };
+	virtual int numberOfKeys() const { return GLFW_MOUSE_BUTTON_LAST; };
 	virtual int numberOfCursors() const { return 1; };
 	
-	virtual bool getButtonState(int index = 0) const 
-	{
-		return glfwGetMouseButton(mWindow, index);
-	};
-	virtual bool anyButtonPressed() const
-	{
-		for (int i = 0; i < GLFW_MOUSE_BUTTON_LAST; ++i)
-			if(glfwGetMouseButton(mWindow, i))
-				return true;
-		return false;
-	};
-	virtual Vec2F getCursorPosition(int index = 0) const 
+	virtual Vec2F cursorPosition(int index = 0) const 
 	{
 		double x, y;
 		glfwGetCursorPos(mWindow, &x, &y);
 		return Vec2F(x, y) + mSurface->topLeft();
 	};
-	virtual Vec2F getScrollWheelState(int index = 0) const
+	virtual Vec2F scrollWheelState(int index = 0) const
 	{
 		return mScrollWheel;
 	};
@@ -55,22 +44,11 @@ struct GLFWKeyboard : public InputDevice
 {
 	GLFWwindow* mWindow;
 	
-	virtual const char* getIdentifier() const { return "Keyboard"; };
+	virtual const char* id() const { return "Keyboard"; };
 	virtual bool isKeyboard() const { return true; };
 		
-	virtual int numberOfButtons() const { return GLFW_KEY_LAST; };
-	virtual bool getButtonState(int index) const 
-	{
-		return glfwGetKey(mWindow, index);
-	};
-	virtual bool anyButtonPressed() const
-	{
-		for (int i = 1; i < 100; ++i)
-			if(glfwGetKey(mWindow, i))
-				return true;
-		return false;
-	};
-	virtual std::string getButtonName(int index) const
+	virtual int numberOfKeys() const { return GLFW_KEY_LAST; };
+	virtual std::string buttonName(int index) const
 	{
 		return KeyCodeToKeyName(index);
 	};
@@ -90,26 +68,43 @@ namespace
 {
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if(action == GLFW_REPEAT || action == GLFW_RELEASE)
-		return;
 	InputMonitorData* d = ((WindowUserData*)glfwGetWindowUserPointer(window))->imd;
-	ButtonPressEvent event;
-	event.Type = Keyboard;
-	event.Button = key;
-	event.From = &(d->KeyboardDevice);
-	event.Released = action;
-	d->Events.push_back(event);
+	
+	if(action == GLFW_RELEASE)
+	{
+		d->KeyboardDevice.registerKeyRelease(key);
+		return;
+	}
+	else if(action == GLFW_REPEAT) return;
+	else if(action == GLFW_PRESS)
+	{
+		ButtonPressEvent event;
+		event.Type = Keyboard;
+		event.Button = key;
+		event.From = &(d->KeyboardDevice);
+		d->Events.push_back(event);
+		d->KeyboardDevice.registerKeyPress(key);
+	}
 };
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
 	InputMonitorData* d = ((WindowUserData*)glfwGetWindowUserPointer(window))->imd;
-	ButtonPressEvent event;
-	event.Type = Mouse;
-	event.Button = button;
-	event.From = &(d->MouseDevice);
-	event.Released = action;
-	d->Events.push_back(event);
+	if(action == GLFW_RELEASE)
+	{
+		d->MouseDevice.registerKeyRelease(button);
+		return;
+	}
+	else if(action == GLFW_REPEAT) return;
+	else if(action == GLFW_PRESS)
+	{
+		ButtonPressEvent event;
+		event.Type = Mouse;
+		event.Button = button;
+		event.From = &(d->MouseDevice);
+		d->Events.push_back(event);
+		d->MouseDevice.registerKeyPress(button);
+	}
 };
 
 void scrollCallback(GLFWwindow* window, double scrollX, double scrollY)
@@ -143,11 +138,6 @@ std::vector< InputDevice* > InputMonitor::getDevices() const
 	return d->Devices;
 }
 
-InputDevice* InputMonitor::getPrimaryPointerDevice() const
-{
-	return &(d->MouseDevice);
-}
-
 InputMonitor::~InputMonitor()
 {
 	delete d;
@@ -162,3 +152,42 @@ std::vector<ButtonPressEvent> InputMonitor::poll()
 		return retVal;
 	}
 };
+
+InputDevice* InputMonitor::mouse() const
+{
+	return &d->MouseDevice;
+}
+
+InputDevice* InputMonitor::keyboard() const
+{
+	return &d->KeyboardDevice;
+}
+
+bool InputMonitor::isKeyPressed(int key)
+{
+	return d->KeyboardDevice.isKeyPressed(key);
+}
+
+bool InputMonitor::isMouseButtonPressed(int button)
+{
+	return d->MouseDevice.isKeyPressed(button);
+}
+
+bool InputMonitor::isKeyPressed(const std::string& key)
+{
+	for(InputDevice* device : getDevices())
+		if(device->isKeyPressed(key))
+			return true;
+
+	return false;
+}
+
+Vec2F InputMonitor::mousePosition()
+{
+	return d->MouseDevice.cursorPosition();
+}
+
+float InputMonitor::scrollState()
+{
+	return d->MouseDevice.scrollWheelState()[1];
+}

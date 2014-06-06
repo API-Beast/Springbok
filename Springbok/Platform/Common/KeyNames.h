@@ -5,8 +5,9 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #pragma once
+#include <string>
 
-inline const char* KeyCodeToKeyName(short i)
+inline std::string KeyCodeToKeyName(short i)
 {
 	switch(i)
 	{
@@ -55,12 +56,12 @@ inline const char* KeyCodeToKeyName(short i)
 		Key("X", 88);
 		Key("Y", 89);
 		Key("Z", 90);
-		Key("LEFT_BRACKET", 91); 
-		Key("BACKSLASH", 92); 
-		Key("RIGHT_BRACKET", 93); 
-		Key("GRAVE_ACCENT", 96); 
-		Key("WORLD_1", 161);
-		Key("WORLD_2", 162);
+		Key("[", 91); 
+		Key("\\", 92); 
+		Key("]", 93); 
+		Key("`", 96); 
+		Key("World 1", 161);
+		Key("World 2", 162);
 
 		/* Function keys */
 		Key("Esc", 256);
@@ -134,6 +135,6 @@ inline const char* KeyCodeToKeyName(short i)
 		Key("Meta  (Right)", 347);
 		Key("Menu", 348);
 		
-		default: return "Unknown Key";
+		default: return "Key "+std::to_string(i);
 	};
 };

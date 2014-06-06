@@ -44,7 +44,7 @@ int main()
 		timer.start();
 		currentTime += deltaTime;
 		
-		Vec2F cursor = input.getPrimaryPointerDevice()->getCursorPosition(0);
+		Vec2F cursor = input.mousePosition();
 		renderer.Context.Camera.Position.X += deltaTime * 300 * cursor.X / 100;
 		
 		{

@@ -4,8 +4,11 @@
 // 0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #pragma once
+
 #include "ButtonPressEvent.h"
+#include <Springbok/Types.hpp>
 #include <vector>
+#include <string>
 
 class GameSurface;
 class InputMonitorData;
@@ -16,10 +19,18 @@ class InputMonitor
 public:
 	InputMonitor(GameSurface* surface);
 	~InputMonitor();
-	/*int numberOfDevices();
-	InputDevice* deviceByIndex(int index);*/
+	
+	// Device API
 	std::vector<InputDevice*> getDevices() const;
-	InputDevice* getPrimaryPointerDevice() const;
+	InputDevice* mouse() const;
+	InputDevice* keyboard() const;
+	
+	// Simplified API for quick prototyping
+	bool isKeyPressed(int key);
+	bool isKeyPressed(const std::string& key);
+	bool isMouseButtonPressed(int button);
+	Vec2F mousePosition();
+	float scrollState();
 	
 	std::vector<ButtonPressEvent>  poll();
 private:
