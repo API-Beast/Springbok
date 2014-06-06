@@ -10,17 +10,16 @@
 
 using namespace std;
 
-
 ResourceManager* ResourceManager::gInstance = nullptr;
-
-// Make sure that gInstance gets deleted when the application gets closed
-namespace
-{
-	PointerGuard<ResourceManager> guard(&ResourceManager::gInstance);
-}
 
 ResourceManager* ResourceManager::GetInstance()
 {
+	// Solution for Bug #14
+	// Order of destruction is dependent from order of construction
+	// So we need to construct PointerGuard on the first call to GetInstance
+	// Not before
+	static PointerGuard<ResourceManager> guard(&ResourceManager::gInstance);
+	
 	if(gInstance == nullptr)
 		gInstance = new ResourceManager;
 	return gInstance;

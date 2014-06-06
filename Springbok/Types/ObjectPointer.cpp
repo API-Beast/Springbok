@@ -7,8 +7,6 @@
 
 #include <cassert>
 
-std::list<ObjectData> ObjectData::gObjects;
-
 void DestructorBase::destroy(void* pointer)
 {
 	assert(pointer == nullptr);
@@ -22,4 +20,13 @@ void Destructor<void>::destroy(void* pointer)
 ObjectData::~ObjectData()
 {
 	delete Destructor;
+}
+
+std::list< ObjectData >& ObjectData::ObjectDataList()
+{
+	// Bug #14 - ObjectData was destroyed before ResourceManager
+	// Destruction order is dependend from Construction Order
+	// So we need to lazy-initialize this
+	static std::list<ObjectData> objects;
+	return objects;
 }

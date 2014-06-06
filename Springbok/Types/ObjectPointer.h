@@ -4,6 +4,7 @@
 // 0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #pragma once
+
 #include <list>
 
 //! @cond
@@ -35,7 +36,7 @@ public:
 	~ObjectData();
 	bool operator<(const ObjectData& other) const { return MemoryLocation < other.MemoryLocation; };
 	bool operator==(const ObjectData& other) const {  return MemoryLocation && (MemoryLocation == other.MemoryLocation); };
-	static std::list<ObjectData> gObjects;
+	static std::list<ObjectData>& ObjectDataList();
 };
 
 //! @endcond

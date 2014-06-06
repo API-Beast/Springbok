@@ -24,21 +24,26 @@ template<typename T>
 template<typename U>
 ObjectPointer<T>::ObjectPointer(U* ptr)
 {
-	// Object already registered
-	for(ObjectData& data : ObjectData::gObjects)
+	if(ptr == 0)
+		mPointer = nullptr;
+	else
 	{
-		if(data.MemoryLocation == ptr)
+		// Object already registered
+		for(ObjectData& data : ObjectData::ObjectDataList())
 		{
-			mPointer = &data;
-			return;
+			if(data.MemoryLocation == ptr)
+			{
+				mPointer = &data;
+				return;
+			}
 		}
+		
+		// Object not registered yet
+		ObjectData::ObjectDataList().emplace_back();
+		mPointer = &(ObjectData::ObjectDataList().back());
+		mPointer->Destructor = new Destructor<U>;
+		mPointer->MemoryLocation = ptr;
 	}
-	
-	// Object not registered yet
-	ObjectData::gObjects.emplace_back();
-	mPointer = &(ObjectData::gObjects.back());
-	mPointer->Destructor = new Destructor<U>;
-	mPointer->MemoryLocation = ptr;
 }
 
 template<typename T>
