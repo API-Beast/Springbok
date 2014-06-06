@@ -6,7 +6,6 @@
 #include <Springbok/Types/PointerGuard.h>
 #include <Springbok/Platform/FileSystem.h>
 #include "ResourceManager.h"
-#include <iostream>
 
 using namespace std;
 
@@ -18,6 +17,7 @@ ResourceManager* ResourceManager::GetInstance()
 	// Order of destruction is dependent from order of construction
 	// So we need to construct PointerGuard on the first call to GetInstance
 	// Not before
+	ObjectData::ObjectDataList(); // Always initialize ObjectData before ResourceManager
 	static PointerGuard<ResourceManager> guard(&ResourceManager::gInstance);
 	
 	if(gInstance == nullptr)
