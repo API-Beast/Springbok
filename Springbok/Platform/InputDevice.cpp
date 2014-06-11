@@ -73,12 +73,17 @@ std::string InputDevice::buttonName(int index) const
 
 void InputDevice::registerKeyPress(int key)
 {
-	CurrentlyPressedKeys.push_back(key);
+	for(int i = 0; i < 10; ++i)
+		if(CurrentlyPressedKeys[i] == -1)
+		{
+			CurrentlyPressedKeys[i] = key;
+			break;
+		}
 }
 
 void InputDevice::registerKeyRelease(int key)
 {
-	for(int i = 0; i < CurrentlyPressedKeys.size(); ++i)
+	for(int i = 0; i < 10; ++i)
 		if(CurrentlyPressedKeys[i] == key)
 			CurrentlyPressedKeys[i] = -1;
 }

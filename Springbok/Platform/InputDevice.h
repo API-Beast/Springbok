@@ -31,7 +31,7 @@ public:
 	virtual std::string buttonName(int index) const;
 	
 public:
-	std::vector<int> CurrentlyPressedKeys;
+	int CurrentlyPressedKeys[10];
 	void registerKeyPress(int key);
 	void registerKeyRelease(int key);
 	
