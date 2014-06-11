@@ -61,8 +61,7 @@ int main()
 		
 		curTest->draw(dt, renderer);
 		
-		// TODO: Align seems not to work correctly, thus the Position2D(8, 8)
-		Transform2D gui = PositionGUI(surface.topLeft()) + Position2D(8, 8) + Align2D(0.f, 0.f);
+		Transform2D gui = PositionGUI(surface.topLeft());
 		renderer.draw(font.text(std::to_string(int(dt*1000))+"ms = "+std::to_string(int(1.f/dt))+" FPS"), gui);
 		renderer.flush();
 	}

@@ -56,6 +56,21 @@ Vec2< int > Image::size() const
 	return mSize;
 }
 
+void Image::setAlign(Vec2F align)
+{
+	mAlignment = align;
+}
+
+void Image::setCenter(Vec2I pos)
+{
+	mAlignment = pos / Vec2F(mSize);
+}
+
+Vec2I Image::center() const
+{
+	return mSize * mAlignment;
+}
+
 bool Image::valid() const
 {
 	return Data && Data->Valid;

@@ -15,7 +15,7 @@ void LineDrawing::initialize()
 void LineDrawing::draw(float deltaTime, SpriteRenderer& r)
 {
 	r.clear(Colors::Dawn::Charcoal[0]);
-	r.draw(LineSubdivided, Align2D(0, 0), Colors::White);
+	r.draw(LineSubdivided, 0, Colors::White);
 	
 	if(LastClickTimer > 0)
 		LastClickTimer -= deltaTime;

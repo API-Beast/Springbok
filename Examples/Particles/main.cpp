@@ -96,7 +96,7 @@ int main()
 		batcher.startBatching(renderer);
 		{
 			// TODO: Align seems not to work correctly, thus the Position2D(8, 8)
-			Transform2D gui = PositionGUI(surface.topLeft()) + Position2D(8, 8) + Align2D(0.f, 0.f);
+			Transform2D gui = PositionGUI(surface.topLeft());
 			auto drawText = [&](int row, const std::string& text)
 			{
 				batcher.draw(gAssets.Font.text(text), gui+Position2D(0, 16*row));

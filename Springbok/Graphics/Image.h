@@ -23,8 +23,11 @@ public:
 	Image(const std::string& filename);
 	Image(const Image& other, Vec2I position, Vec2I size);
 	Image(){};
-	Vec2<int> size();
-	Vec2<int> size() const;
+	Vec2I size();
+	Vec2I size() const;
+	Vec2I center() const;
+	void setCenter(Vec2I pos);
+	void setAlign(Vec2F align);
 	bool valid() const;
 	Image cut(Vec2I position, Vec2I size);
 	
@@ -32,14 +35,15 @@ public:
 	void prepareVertices(RenderDataPointer< V, E >& data) const;
 private:
 	void lazyLoad();
-	Vec2<int> mOffset = Vec2<int>(0, 0);
-	Vec2<int> mSize = Vec2<int>(0, 0);
+	Vec2I mOffset    = Vec2I(0, 0);
+	Vec2I mSize      = Vec2I(0, 0);
+	Vec2F mAlignment = 0.5f;
 };
 
 template<class V, class E>
 void Image::prepareVertices(RenderDataPointer<V, E>& data) const
 {
-	RectF vertexCoords(0, mSize);
+	RectF vertexCoords(-center(), mSize);
 	for(int i = 0; i < 4; ++i)
 	{
 		data.Vertices->Position  = vertexCoords.Points[i];
