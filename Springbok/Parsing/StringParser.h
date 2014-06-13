@@ -11,9 +11,9 @@ class StringParser
 {
 public:
 	StringParser(const std::string& toParse, int start = 0);
-	std::string advanceTo(Codepoint point, bool includeEnd=false);
+	std::string advanceTo(Codepoint point);
 	template<typename C>
-	std::string advanceTo(const C& cond, bool includeEnd=false);
+	std::string advanceTo(const C& cond);
 	Codepoint next();
 	Codepoint skipAhead();
 	Codepoint peekAhead();

@@ -52,7 +52,5 @@ King
 	SST_M_ASSERT_END;
 }
 
-// TODO: Crashes the application inside the STL, the exception doesn't get catched either ???
-//SST::SimpleTest a("Parsing/ConfigFile", &basicUsage,  SST::Required);
-
+SST::SimpleTest a("Parsing/ConfigFile", &basicUsage,  SST::Required);
 }

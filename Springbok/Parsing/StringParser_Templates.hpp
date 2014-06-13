@@ -6,7 +6,7 @@
 #include "StringParser.h"
 
 template<typename C>
-std::string StringParser::advanceTo(const C& cond, bool includeEnd)
+std::string StringParser::advanceTo(const C& cond)
 {
 	int start = mCurPosition;
 	Codepoint cur;
@@ -17,8 +17,9 @@ std::string StringParser::advanceTo(const C& cond, bool includeEnd)
 		if(cond(cur))
 		{
 			mCurPosition = stop;
-			if(includeEnd) UTF8::SkipForward(mStringToParse, &mCurPosition, 1);
-			return postProcess(mStringToParse.substr(start, mCurPosition-start));
+			std::string retVal = mStringToParse.substr(start, mCurPosition-start);
+			UTF8::SkipForward(mStringToParse, &mCurPosition, 1);
+			return postProcess(retVal);
 		}
 		cur = UTF8::DecodeNext(mStringToParse, &stop);
 	}

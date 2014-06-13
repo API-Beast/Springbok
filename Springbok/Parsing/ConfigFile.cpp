@@ -44,7 +44,6 @@ namespace
 					};
 					return result;
 				};
-				p.skipAhead();
 				std::string value = p.advanceTo(EqualTo('\n'));
 				// Arrays
 				if(value[0] == '[' && value.back() == ']')
@@ -145,11 +144,17 @@ ConfigFile::ConfigFile(const string& path, ResourceManager* manager)
 
 ConfigFile::ConfigFile(){}
 
-void ConfigFile::loadFromFile(const string& path, ResourceManager* manager)
+void ConfigFile::loadFromFile(string path, ResourceManager* manager)
 {
+	path = manager->getPath(path);
 	std::ifstream file(path, std::ios::binary);
-	std::string fileContent((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
-	loadFromBuffer(fileContent);
+	if(file.is_open())
+	{
+		std::string fileContent((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
+		loadFromBuffer(fileContent);
+	}
+	else
+		Debug::Write("ERROR: Config File loader, file $ does not exist.", path);
 }
 
 void ConfigFile::loadFromBuffer(const string& content)

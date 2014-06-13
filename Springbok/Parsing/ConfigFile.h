@@ -56,7 +56,7 @@ public:
 	ConfigFile();
 	ConfigFile(const std::string& path, ResourceManager* manager = ResourceManager::GetInstance());
 	void loadFromBuffer(const std::string& content);
-	void loadFromFile(const std::string& path, ResourceManager* manager = ResourceManager::GetInstance());
+	void loadFromFile(std::string path, ResourceManager* manager = ResourceManager::GetInstance());
 	operator ConfigFile::Object&(){ return Root; };
 	PossibleArray& operator[](const std::string& key){ return Root[key]; };
 	Object& getObject(const std::string& key){ return Root.getObject(key); };
