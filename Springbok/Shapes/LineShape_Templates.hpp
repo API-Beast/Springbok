@@ -16,30 +16,31 @@ void LineShape::prepareVertices(RenderDataPointer< V, E >& data) const
 	for(int i = 0; i < Points.UsedLength; ++i)
 	{
 		Vec2F tangent;
-		Point pFirs = Points[i-1];
-		Point pCurr = Points[i  ];
-		Point pNext = Points[i+1];
+		int x = BoundBy(1, i, Points.UsedLength-2);
+
+		Point pPrev = Points[x-1];
+		Point pTang = Points[x  ];
+		Point pNext = Points[x+1];
 		
-		Vec2F  inTangent = pFirs.Position - pCurr.Position;
-		Vec2F outTangent = pCurr.Position - pNext.Position;
+		Vec2F  inTangent = pPrev.Position - pTang.Position;
+		Vec2F outTangent = pTang.Position - pNext.Position;
 		
-		// pNext was invalid
-		if(i > (Points.UsedLength-1)) outTangent = inTangent; 
-		// pFirs was invalid
-		if(i < 1) inTangent = outTangent;
-		// Will be garbage if both were invalid, but that would imply it was a curve with a single point which won't be visible anyway.
 		tangent = (inTangent + outTangent) / 2;
+		if(tangent.isNull())
+			tangent = Vec2F(1, 0);
 		
 		Vec2F side = tangent.rot90().normalized();
 		
-		data.Vertices->Position  = pCurr.Position + (pCurr.Width/2) *  side;
-		data.Vertices->TexCoords = texStart + Vec2F(pCurr.TexCoord, 0) * texSize;
-		data.Vertices->Color     = pCurr.Color;
+		Point curPoint = Points[i];
+		
+		data.Vertices->Position  = curPoint.Position + (curPoint.Width/2) *  side;
+		data.Vertices->TexCoords = texStart + Vec2F(curPoint.TexCoord, 0) * texSize;
+		data.Vertices->Color     = curPoint.Color;
 		data.appendVertex();
 		
-		data.Vertices->Position  = pCurr.Position + (pCurr.Width/2) * -side;
-		data.Vertices->TexCoords = texStart + Vec2F(pCurr.TexCoord, 1) * texSize;
-		data.Vertices->Color     = pCurr.Color;
+		data.Vertices->Position  = curPoint.Position + (curPoint.Width/2) * -side;
+		data.Vertices->TexCoords = texStart + Vec2F(curPoint.TexCoord, 1) * texSize;
+		data.Vertices->Color     = curPoint.Color;
 		data.appendVertex();
 		
 		data.appendIndex(i*2);

@@ -7,6 +7,39 @@
 #include "LineShape.h"
 #include "../Animation/Interpolation.h"
 
+LineShape LineShape::Arrow(Vec2F vec, float width, ColorRGBA endClr, ColorRGBA startClr)
+{
+	LineShape retVal;
+	retVal.insert(0, width, startClr);
+	retVal.insert(vec, width, endClr);
+	retVal.divideEquidistant(5);
+	return retVal;
+}
+
+LineShape LineShape::Arrow(Vec2F vec, const Image& arrowImg, ColorRGBA clr, float width)
+{
+	if(width == -1.f)
+		width = arrowImg.size().Y;
+	LineShape retVal;
+	retVal.insert(0, width, clr);
+	retVal.insert(vec, width, clr);
+	retVal.divideEquidistant(5);
+	retVal.applyTexture(arrowImg);
+	return retVal;
+}
+
+LineShape LineShape::Arrow(Vec2F vec, LineStyle style, ColorRGBA clr, float width)
+{
+	if(width == -1.f)
+		width = style.TexImage.size().Y;
+	LineShape retVal;
+	retVal.insert(0, width, clr);
+	retVal.insert(vec, width, clr);
+	retVal.divideEquidistant(5);
+	retVal.applyStyle(style);
+	return retVal;
+}
+
 void LineShape::insert(Vec2F position, float width, Vec4F color)
 {
 	Point p;
@@ -68,4 +101,53 @@ void LineShape::applyTexture(const Image& img, float repetitions)
 		length += (Points[i].Position - Points[i-1].Position).length();
 		Points[i].TexCoord = (length / maxLength) * repetitions;
 	}
+}
+
+void LineShape::applyStyle(const LineStyle& style)
+{
+	TexImage = style.TexImage;
+	
+	float length = 0;
+	float maxLength = calcLength();
+	
+	float texLength = style.TexImage.Data->TextureSize.X;
+	float normCenterStart = style.CenterStartPx / texLength;
+	float normCenterEnd   = style.CenterEndPx   / texLength;
+	
+	float centerStart  = style.StartLength;
+	float centerEnd    = maxLength - style.EndLength; 
+	float centerLength = maxLength - style.StartLength - style.EndLength;
+	
+	Points[0].TexCoord = 0;
+	for(int i = 1; i < Points.UsedLength; ++i)
+	{
+		length += (Points[i].Position - Points[i-1].Position).length();
+		// Start
+		if(length < style.StartLength)
+			Points[i].TexCoord = normCenterStart * (length / style.StartLength);
+		// End
+		else if(length > centerEnd)
+		{
+			float endPos = (length - centerEnd) / style.EndLength;
+			Points[i].TexCoord = normCenterEnd + (1.f - normCenterEnd)*endPos;
+		}
+		// Center
+		// TODO: Implement "Repeat" center mode
+		else
+		{
+			float centerPos = (length - centerStart) / centerLength;
+			Points[i].TexCoord = normCenterStart + (normCenterEnd - normCenterStart)*centerPos;
+		}
+	}
+}
+
+LineStyle::LineStyle(Image img, int start, int end)
+{
+	TexImage = img;
+	CenterStartPx = start;
+	CenterEndPx   = img.size().X - end;
+	Mode = Stretch;
+	StartLength    = start;
+	RepitionLength = img.size().X - start - end;
+	EndLength      = end;
 }

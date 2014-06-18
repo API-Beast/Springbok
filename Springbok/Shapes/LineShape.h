@@ -5,21 +5,38 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #pragma once
-#include <Springbok/Types/Vec4.h>
-#include <Springbok/Geometry/Rect.h>
+#include <Springbok/Types.hpp>
+
 #include <Springbok/Containers/List.h>
 #include <Springbok/Graphics/Core/VertexStruct.h>
 #include <Springbok/Graphics/Image.h>
+
+struct LineStyle
+{
+	LineStyle(Image img, int start, int end);
+	LineStyle(){};
+	Image TexImage;
+	int   CenterStartPx = -1;
+	int   CenterEndPx   = -1;
+	enum
+	{
+		Stretch,
+		Repeat
+	} Mode = Stretch;
+	float StartLength    = -1;
+	float RepitionLength = -1;
+	float EndLength      = -1;
+};
 
 struct LineShape
 {
 public:
 	struct Point
 	{
-		Vec2F Position = 0.f;
-		float    Width = 1.f;
-		float TexCoord = 0.f;
-		Vec4F Color    = {1, 1, 1, 1};
+		Vec2F Position  = 0.f;
+		float    Width  = 1.f;
+		float TexCoord  = 0.f;
+		ColorRGBA Color = {1, 1, 1, 1};
 	};
 public:
 	List<Point>   Points;
@@ -28,7 +45,12 @@ public:
 	void  insert(Vec2F position, float width=3, Vec4F color=1);
 	void  divideEquidistant(float pixels);
 	void  applyTexture(const Image& img, float repetitions = 1.f);
+	void  applyStyle(const LineStyle& style);
 	float calcLength();
+public:
+	static LineShape Arrow(Vec2F vec, float width = 3.f, ColorRGBA endClr = Colors::White, ColorRGBA startClr = Colors::White);
+	static LineShape Arrow(Vec2F vec, const Image& arrowImg, ColorRGBA clr = Colors::White, float width = -1.f);
+	static LineShape Arrow(Vec2F vec, LineStyle style, ColorRGBA clr = Colors::White, float width = -1.f);
 public:
 	template<class V = BasicVertex, class E = BasicElement>
 	void prepareVertices(RenderDataPointer< V, E >& data) const;
