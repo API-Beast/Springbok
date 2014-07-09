@@ -216,3 +216,12 @@ std::string UTF8::Encode(Codepoint c)
 	
 	return text;
 }
+
+bool UTF8::Contains(const std::string& str, Codepoint c)
+{
+	int i = 0;
+	Codepoint cur = UTF8::DecodeAt(str, i);
+	while(cur = UTF8::DecodeNext(str, &i))
+		if(cur == c) return true;
+	return false;
+}

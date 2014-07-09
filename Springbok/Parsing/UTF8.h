@@ -34,6 +34,7 @@ namespace UTF8
 	template<typename C> std::string StripRight(const std::string& str, const C& c);
 	
 	std::string Chop(const std::string& str, int fromStart, int fromEnd);
+	bool Contains(const std::string& str, Codepoint c);
 }
 
 #include "UTF8_Templates.hpp"
