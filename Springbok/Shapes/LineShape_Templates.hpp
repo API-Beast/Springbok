@@ -13,10 +13,10 @@ void LineShape::prepareVertices(RenderDataPointer< V, E >& data) const
 {
 	Vec2F texStart = TexImage.TexCoords.Top.Left;
 	Vec2F texSize  = TexImage.TexCoords.Bottom.Right - TexImage.TexCoords.Top.Left;
-	for(int i = 0; i < Points.UsedLength; ++i)
+	for(int i = 0; i < Points.size(); ++i)
 	{
 		Vec2F tangent;
-		int x = BoundBy(1, i, Points.UsedLength-2);
+		int x = BoundBy<int>(1, i, Points.size()-2);
 
 		Point pPrev = Points[x-1];
 		Point pTang = Points[x  ];
@@ -33,14 +33,14 @@ void LineShape::prepareVertices(RenderDataPointer< V, E >& data) const
 		
 		Point curPoint = Points[i];
 		
-		data.Vertices->Position  = curPoint.Position + (curPoint.Width/2) *  side;
-		data.Vertices->TexCoords = texStart + Vec2F(curPoint.TexCoord, 0) * texSize;
-		data.Vertices->Color     = curPoint.Color;
+		data.Vertices->Position   = curPoint.Position + (curPoint.Width/2) *  side;
+		data.Vertices->TexCoords  = texStart + Vec2F(curPoint.TexCoord, 0) * texSize;
+		data.Vertices->Color     *= curPoint.Color;
 		data.appendVertex();
 		
-		data.Vertices->Position  = curPoint.Position + (curPoint.Width/2) * -side;
-		data.Vertices->TexCoords = texStart + Vec2F(curPoint.TexCoord, 1) * texSize;
-		data.Vertices->Color     = curPoint.Color;
+		data.Vertices->Position   = curPoint.Position + (curPoint.Width/2) * -side;
+		data.Vertices->TexCoords  = texStart + Vec2F(curPoint.TexCoord, 1) * texSize;
+		data.Vertices->Color     *= curPoint.Color;
 		data.appendVertex();
 		
 		data.appendIndex(i*2);

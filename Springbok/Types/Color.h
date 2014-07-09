@@ -67,14 +67,6 @@ namespace Colors
 		___(Blue,      0x3F3F74, 0x5B6EE1, 0x5FCDE4);
 		___(Purple,    0x45283C, 0x76428A, 0xD77BBA);
 	}
-	
-	// TODO
-	// Spaaace!
-	// Good for bright on dark background. (e.g. Spaaaace!)
-	/*namespace Neon
-	{
-		
-	};*/
 #undef _
 #undef ___
 };

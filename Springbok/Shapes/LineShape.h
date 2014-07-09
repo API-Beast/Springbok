@@ -7,7 +7,7 @@
 #pragma once
 #include <Springbok/Types.hpp>
 
-#include <Springbok/Containers/List.h>
+#include <vector>
 #include <Springbok/Graphics/Core/VertexStruct.h>
 #include <Springbok/Graphics/Image.h>
 
@@ -18,11 +18,6 @@ struct LineStyle
 	Image TexImage;
 	int   CenterStartPx = -1;
 	int   CenterEndPx   = -1;
-	enum
-	{
-		Stretch,
-		Repeat
-	} Mode = Stretch;
 	float StartLength    = -1;
 	float RepitionLength = -1;
 	float EndLength      = -1;
@@ -39,7 +34,7 @@ public:
 		ColorRGBA Color = {1, 1, 1, 1};
 	};
 public:
-	List<Point>   Points;
+	std::vector<Point>   Points;
 	Image       TexImage;
 public:
 	void  insert(Vec2F position, float width=3, Vec4F color=1);
@@ -51,6 +46,7 @@ public:
 	static LineShape Arrow(Vec2F vec, float width = 3.f, ColorRGBA endClr = Colors::White, ColorRGBA startClr = Colors::White);
 	static LineShape Arrow(Vec2F vec, const Image& arrowImg, ColorRGBA clr = Colors::White, float width = -1.f);
 	static LineShape Arrow(Vec2F vec, LineStyle style, ColorRGBA clr = Colors::White, float width = -1.f);
+	static LineShape TurnIndicator(Angle turns, float radius, LineStyle style, ColorRGBA clr = Colors::White, float width = -1.f);
 public:
 	template<class V = BasicVertex, class E = BasicElement>
 	void prepareVertices(RenderDataPointer< V, E >& data) const;
