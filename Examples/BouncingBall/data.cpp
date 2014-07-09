@@ -14,9 +14,9 @@ KeyframeList<Vec2F> ShadowScale;
 void InitData()
 {
 	BallHeight.insert(0.0f, 0.f);
-	BallHeight.insert(0.1f, 50.f);
-	BallHeight.insert(0.5f, 150.f);
-	BallHeight.insert(0.9f, 50.f);
+	BallHeight.insert(0.2f, 50.f);
+	BallHeight.insert(0.5f, 350.f);
+	BallHeight.insert(0.8f, 50.f);
 	BallHeight.insert(1.0f, 0.f);
 	BallHeight.enableRepeat();
 	

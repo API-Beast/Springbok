@@ -8,7 +8,7 @@
 
 #include <Springbok/Types.hpp>
 #include <Springbok/Graphics/Image.h>
-#include <Springbok/Containers/List.h>
+#include <vector>
 #include <Springbok/Animation/KeyframeList.h>
 
 struct ParticleDefinition
@@ -34,7 +34,7 @@ struct Particle
 
 struct ParticleSystem
 {
-	List<Particle> Particles;
+	std::vector<Particle> Particles;
 	int OverwriteIndex = 0;
 	ParticleSystem(int size);
 	void addParticle(Particle particle);

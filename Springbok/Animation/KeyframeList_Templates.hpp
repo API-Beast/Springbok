@@ -7,17 +7,23 @@
 
 #include "KeyframeList.h"
 #include "Interpolation.h"
+#include <algorithm>
 
 template<typename T>
 T KeyframeList<T>::operator[](float position) const
 {
 	if(RepeatAnimation)
 		if(position < FirstKeyFrame || position > LastKeyFrame)
-		{
 			position = FirstKeyFrame + Modulo(position, LastKeyFrame-FirstKeyFrame);
-		}
 	
-	int index = Keyframes.findIndex(position);
+	// This is a bit tricky
+	// std::lower_bound returns the first item that is not smaller than b
+	// We change the comparison to smaller than or equal to b
+	// So the returned iterator is always bigger than b
+	// Then we subtract 1 from the index so we get the value that is smaller or equal to b.
+	auto compare = [](const Keyframe& a, float b){ return a.Time <= b; };
+	auto it = std::lower_bound(Keyframes.begin(), Keyframes.end(), position, compare);
+	int index = it - Keyframes.begin() - 1;
 	
 	if(index == -1)
 		index = 0;
@@ -26,19 +32,19 @@ T KeyframeList<T>::operator[](float position) const
 		return T();
 	
 	// For linear interpolation
-	Keyframe start = Keyframes.Data[index];
+	Keyframe start = Keyframes[index];
 	Keyframe end = start;
 	
 	// For cubic interpolation
 	Keyframe prev = start;
 	Keyframe next = start;
 	
-	if(index + 1 < Keyframes.Data.UsedLength)
-		end = Keyframes.Data[index+1];
-	if(index + 2 < Keyframes.Data.UsedLength)
-		next = Keyframes.Data[index+2];
+	if(index + 1 < Keyframes.size())
+		end = Keyframes[index+1];
+	if(index + 2 < Keyframes.size())
+		next = Keyframes[index+2];
 	if(index > 0)
-		prev = Keyframes.Data[index-1];
+		prev = Keyframes[index-1];
 	
 	if(start.Time == end.Time)
 		return start.Value;
@@ -49,7 +55,10 @@ T KeyframeList<T>::operator[](float position) const
 template<typename T>
 void KeyframeList<T>::insert(float position, const T& value)
 {
-	Keyframes.insert({position, value});
+	auto compare = [](const Keyframe& a, float b){ return a.Time < b; };
+	auto it = std::lower_bound(Keyframes.begin(), Keyframes.end(), position, compare);
+	
+	Keyframes.insert(it, {position, value});
 	if(position < FirstKeyFrame)
 		FirstKeyFrame = position;
 	if(position > LastKeyFrame)

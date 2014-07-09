@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <Springbok/Containers/List.h>
+#include <vector>
 #include "Interpolation.h"
 
 template<typename T>
@@ -16,7 +16,7 @@ public:
 public:
 	KeyframeList() = default;
 	KeyframeList(const std::initializer_list<Keyframe>& list) : Keyframes(list){};
-	KeyframeList(const T& value){ Keyframes.insert({0.0f, value}); };
+	KeyframeList(const T& value){ Keyframes.push_back({0.0f, value}); };
 	~KeyframeList();
 	template<typename E>
 	void setInterpolationMethod(Interpolation interpolation, const E& easingFunction);
@@ -28,7 +28,7 @@ public:
 private:
 	Interpolation InterpolationMethod = Interpolation::Cubic;
 	EasingFunctionBase* EasingFunction = nullptr;
-	Map<Keyframe, float, &Keyframe::Time> Keyframes;
+	std::vector<Keyframe> Keyframes;
 	float FirstKeyFrame  = 9999999;
 	float LastKeyFrame   = 0;
 	bool RepeatAnimation = false;

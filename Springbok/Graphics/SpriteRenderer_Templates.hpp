@@ -56,5 +56,5 @@ void SpriteRenderer::drawRepeatedInf(const T& obj, Vec2F offset, Vec2F scale, Ve
 template<typename T>
 void SpriteRenderer::drawStretched(const T& obj, Vec2F position, Vec2F size, Vec4F color, Blending mode, Transform2D transformation)
 {
-	Batcher.draw(obj, Position2D(position) + transformation + Scale2D(obj.size() / size), BasicVertex(color), BasicElement(mode));
+	Batcher.draw(obj, Position2D(position) + transformation + Scale2D(size / obj.size()), BasicVertex(color), BasicElement(mode));
 }

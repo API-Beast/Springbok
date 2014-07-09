@@ -8,7 +8,7 @@
 
 void BitmapFont::loadCharacter(char32_t which, Image sprite)
 {
-	LoadedCharacters[which].Sprite = sprite;
+	LoadedCharacters[which] = sprite;
 }
 
 void BitmapFont::loadRange(Image spriteSheet, char32_t start, char32_t end)
@@ -19,8 +19,8 @@ void BitmapFont::loadRange(Image spriteSheet, char32_t start, char32_t end)
 	int widthPerChar = width / numChar;
 	for(int i = 0; i < numChar; ++i)
 	{
-		LoadedCharacters[start + i].Sprite = spriteSheet.cut(Vec2I(widthPerChar*i, 0), Vec2I(widthPerChar, height));
-		LoadedCharacters[start + i].Sprite.setAlign(0);
+		LoadedCharacters[start + i] = spriteSheet.cut(Vec2I(widthPerChar*i, 0), Vec2I(widthPerChar, height));
+		LoadedCharacters[start + i].setAlign(0);
 	}
 }
 
@@ -32,8 +32,8 @@ void BitmapFont::loadGrid(Image spriteSheet, char32_t start, Vec2I charSize)
 		for(int row = 0; row < maxRow; ++row)
 		{
 			int index = start + collumn * maxRow + row;
-			LoadedCharacters[index].Sprite = spriteSheet.cut(Vec2I(row, collumn)*charSize, charSize);
-			LoadedCharacters[index].Sprite.setAlign(0);
+			LoadedCharacters[index] = spriteSheet.cut(Vec2I(row, collumn)*charSize, charSize);
+			LoadedCharacters[index].setAlign(0);
 		}
 }
 

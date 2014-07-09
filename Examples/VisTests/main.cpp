@@ -28,8 +28,8 @@ int main()
 	InputMonitor input(&surface);
 	ResourceManager::GetInstance()->findPrimaryResourcePath({FileSystem::ParentPath(__FILE__)+"/Assets", "./Assets"});
 	
-	List<VisTest*> tests;
-	tests.pushBack(new LineDrawing);
+	std::vector<VisTest*> tests;
+	tests.push_back(new LineDrawing);
 	
 	BitmapFont font;
 	font.loadGrid(Image("SmallFont.png"), 0, 16);	

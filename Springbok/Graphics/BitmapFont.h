@@ -5,7 +5,9 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #pragma once
-#include <Springbok/Containers/List.h>
+
+#include <map>
+#include <vector>
 #include <Springbok/Parsing/UTF8.h>
 
 #include "Image.h"
@@ -17,12 +19,6 @@ class RenderContext2D;
 class BitmapFont
 {
 public:
-	struct Glyph
-	{
-		char32_t Codepoint;
-		Image Sprite;
-	};
-	
 	struct TextLabel
 	{
 		std::string String;
@@ -36,7 +32,7 @@ public:
 	void loadGrid(Image spriteSheet, char32_t start, Vec2I charSize);
 	TextLabel text(const std::string& v);
 public:
-	Map<Glyph, char32_t, &Glyph::Codepoint> LoadedCharacters;
+	std::map<char32_t, Image> LoadedCharacters;
 };
 
 template<class V, class E>
@@ -47,7 +43,7 @@ void BitmapFont::TextLabel::prepareVertices(RenderDataPointer<V, E>& data) const
 	Codepoint c = UTF8::DecodeAt(String, index);
 	while(c)
 	{
-		const Image& sprite = Font->LoadedCharacters[c].Sprite;
+		const Image& sprite = Font->LoadedCharacters[c];
 		V* oldVertex = data.Vertices;
 		sprite.prepareVertices(data);
 		Position2D(offset).transform(oldVertex, data.Vertices);

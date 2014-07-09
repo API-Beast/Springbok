@@ -7,23 +7,23 @@
 #pragma once
 
 #include <string>
-#include <Springbok/Containers/List.h>
+#include <vector>
 
 class CliArgumentParser
 {
 public:
 	struct SwitchDefinition
 	{
-		List<std::string> Names;
+		std::vector<std::string> Names;
 		int AcceptedParameters = 0;
 		bool ParametersOptional = true;
 		
 		bool IsSet = false;
-		List<std::string> Parameters;
+		std::vector<std::string> Parameters;
 		
 		explicit operator bool(){ return IsSet; };
 		std::string operator[](int index) const{ return Parameters[index]; };
-		int length() const { return Parameters.UsedLength; };
+		int length() const { return Parameters.size(); };
 	};
 	using string = const std::string&;
 public:
@@ -35,11 +35,11 @@ public:
 	std::string getSyntax();
 	
 	void parse(int argc, char** argv);
-	void parse(const List<std::string>& arguments);
+	void parse(const std::vector<std::string>& arguments);
 	SwitchDefinition& operator[](string name);
 public:	
-	List<SwitchDefinition> Switches;
-	List<std::string> LooseArguments;
+	std::vector<SwitchDefinition> Switches;
+	std::vector<std::string> LooseArguments;
 protected:
 	SwitchDefinition* find(string name);
 };

@@ -22,8 +22,9 @@ CliArgumentParser::SwitchDefinition& CliArgumentParser::operator[](CliArgumentPa
 		return *def;
 			
 	SwitchDefinition definition;
-	definition.Names.pushBack(name);
-	return Switches.pushBack(definition);
+	definition.Names.push_back(name);
+	Switches.push_back(definition);
+	return Switches.back();
 }
 
 void CliArgumentParser::addSwitch(CliArgumentParser::string name, CliArgumentParser::string alias, int parameter, bool optionalParameters)
@@ -35,11 +36,11 @@ void CliArgumentParser::addSwitch(CliArgumentParser::string name, CliArgumentPar
 void CliArgumentParser::addSwitch(CliArgumentParser::string name, int parameter, bool optionalParameters)
 {
 	SwitchDefinition definition;
-	definition.Names.pushBack(name);
+	definition.Names.push_back(name);
 	definition.AcceptedParameters = parameter;
 	definition.ParametersOptional = optionalParameters;
 	
-	Switches.pushBack(definition);
+	Switches.push_back(definition);
 }
 
 void CliArgumentParser::addAlias(CliArgumentParser::string name, CliArgumentParser::string alias, CliArgumentParser::string alias2)
@@ -50,7 +51,7 @@ void CliArgumentParser::addAlias(CliArgumentParser::string name, CliArgumentPars
 
 void CliArgumentParser::addAlias(CliArgumentParser::string name, CliArgumentParser::string alias)
 {
-	(*this)[name].Names.pushBack(alias);
+	(*this)[name].Names.push_back(alias);
 }
 
 std::string CliArgumentParser::getSyntax()
@@ -88,13 +89,13 @@ std::string CliArgumentParser::getSyntax()
 
 void CliArgumentParser::parse(int argc, char** argv)
 {
-	List<std::string> converted;
+	std::vector<std::string> converted;
 	for(int i = 0; i < argc; ++i)
-		converted.pushBack(argv[i]);
+		converted.push_back(argv[i]);
 	parse(converted);
 }
 
-void CliArgumentParser::parse(const List< std::string >& arguments)
+void CliArgumentParser::parse(const std::vector< std::string >& arguments)
 {
 	std::string curKey;
 	SwitchDefinition* curSwitch = nullptr;
@@ -110,7 +111,7 @@ void CliArgumentParser::parse(const List< std::string >& arguments)
 		
 		if(endParsing)
 		{
-			LooseArguments.pushBack(curArgument);
+			LooseArguments.push_back(curArgument);
 			continue;
 		}
 		
@@ -122,7 +123,7 @@ void CliArgumentParser::parse(const List< std::string >& arguments)
 			if(curSwitch)
 			{
 				curSwitch->IsSet = true;
-				curSwitch->Parameters.pushBack(curArgument.substr(eqPos));
+				curSwitch->Parameters.push_back(curArgument.substr(eqPos));
 				continue;
 			}
 		}
@@ -137,9 +138,9 @@ void CliArgumentParser::parse(const List< std::string >& arguments)
 			}
 		}
 		
-		if(curSwitch && curSwitch->Parameters.UsedLength < curSwitch->AcceptedParameters)
-			curSwitch->Parameters.pushBack(curArgument);
+		if(curSwitch && curSwitch->Parameters.size() < curSwitch->AcceptedParameters)
+			curSwitch->Parameters.push_back(curArgument);
 		else
-			LooseArguments.pushBack(curArgument);
+			LooseArguments.push_back(curArgument);
 	}
 }

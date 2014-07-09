@@ -95,7 +95,6 @@ int main()
 		
 		batcher.startBatching(renderer);
 		{
-			// TODO: Align seems not to work correctly, thus the Position2D(8, 8)
 			Transform2D gui = PositionGUI(surface.topLeft());
 			auto drawText = [&](int row, const std::string& text)
 			{
@@ -103,7 +102,7 @@ int main()
 			};
 			
 			drawText(0, std::to_string(int(dt*1000))+"ms = "+std::to_string(int(1.f/dt))+" FPS");
-			drawText(1, "Particles: "+std::to_string(particles.Particles.UsedLength));
+			drawText(1, "Particles: "+std::to_string(particles.Particles.size()));
 			drawText(2, "Target count: "+std::to_string(kParticles)+"000 (Change with F1 and F2 Keys.)");
 			
 			for(Particle& particle : particles.Particles)

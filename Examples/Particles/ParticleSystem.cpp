@@ -8,24 +8,27 @@
 
 ParticleSystem::ParticleSystem(int length)
 {
-	Particles = List<Particle>(length);
+	Particles.reserve(length);
 }
 
 void ParticleSystem::addParticle(Particle particle)
 {
-	if(Particles.UsedLength < Particles.MemoryLength)
-		Particles.pushBack(particle);
+	if(Particles.size() < Particles.capacity())
+		Particles.push_back(particle);
 	else // Overwrite old particles if memory limit is overstepped
 		Particles[OverwriteIndex++] = particle;
 }
 
 void ParticleSystem::cleanUp()
 {
-	for(int i = 0; i < Particles.UsedLength; ++i)
+	for(int i = 0; i < Particles.size(); ++i)
 	{
 		if(Particles[i].Age > Particles[i].Definition->LifeTime)
-			Particles.quickRemove(i--);
+		{
+			Particles[i--] = Particles.back();
+			Particles.pop_back();
+		}
 	}
-	if(Particles.UsedLength < Particles.MemoryLength)
+	if(Particles.size() < Particles.capacity())
 		OverwriteIndex = 0;
 }
