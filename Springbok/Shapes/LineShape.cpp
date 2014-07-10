@@ -12,7 +12,7 @@ LineShape LineShape::Arrow(Vec2F vec, float width, ColorRGBA endClr, ColorRGBA s
 	LineShape retVal;
 	retVal.insert(0, width, startClr);
 	retVal.insert(vec, width, endClr);
-	retVal.divideEquidistant(5);
+	retVal.divideCubic(5);
 	return retVal;
 }
 
@@ -23,7 +23,7 @@ LineShape LineShape::Arrow(Vec2F vec, const Image& arrowImg, ColorRGBA clr, floa
 	LineShape retVal;
 	retVal.insert(0, width, clr);
 	retVal.insert(vec, width, clr);
-	retVal.divideEquidistant(5);
+	retVal.divideCubic(5);
 	retVal.applyTexture(arrowImg);
 	return retVal;
 }
@@ -35,7 +35,7 @@ LineShape LineShape::Arrow(Vec2F vec, LineStyle style, ColorRGBA clr, float widt
 	LineShape retVal;
 	retVal.insert(0, width, clr);
 	retVal.insert(vec, width, clr);
-	retVal.divideEquidistant(5);
+	retVal.divideCubic(5);
 	retVal.applyStyle(style);
 	return retVal;
 }
@@ -76,19 +76,44 @@ float LineShape::calcLength()
 	return length;
 }
 
-void LineShape::divideEquidistant(float pixels)
+void LineShape::divideLinear(float pixels)
 {
 	std::vector<Point> newPoints;
 	
 	for(int i = 1; i < Points.size(); ++i)
 	{
-		Point p1 = Points[i-1];
-		Point p2 = Points[i];
-		Point p3 = p2;
-		Point p0 = p1;
+		Point p0, p1;
+		p0 = Points[i-1];
+		p1 = Points[i];
 		
-		if(i >= 2)                    p0 = Points[i-2];
-		if(i < Points.size() - 1) p3 = Points[i+1];
+		float length = (p0.Position - p1.Position).length();
+		int segments = 1 + length / pixels;
+		
+		newPoints.push_back(p0);
+		for(int j = 1; j < segments; ++j)
+		{
+			float factor = 1.f / segments * j;
+			Point newP = p0.blend(p1, factor);
+			newPoints.push_back(newP);
+		}
+		newPoints.push_back(p1);
+	}
+	Points = newPoints;
+}
+
+void LineShape::divideCubic(float pixels)
+{
+	std::vector<Point> newPoints;
+	
+	for(int i = 1; i < Points.size(); ++i)
+	{
+		Point p0, p1, p2, p3;
+		p1 = Points[i-1];
+		p2 = Points[i];
+		p0 = (i >= 2 ?
+		      Points[i-2] : p1);
+		p3 = (i < Points.size() - 1 ?
+		      Points[i+1] : p1);
 		
 		float length = (p1.Position - p2.Position).length();
 		int segments = 1 + length / pixels;
@@ -105,6 +130,52 @@ void LineShape::divideEquidistant(float pixels)
 			newPoints.push_back(newP);
 		}
 		newPoints.push_back(p2);
+	}
+	Points = newPoints;
+}
+
+LineShape::Point LineShape::Point::blend(const LineShape::Point& other, float factor)
+{
+	LineShape::Point retVal;
+	float nFactor = 1.f - factor;
+	retVal.Position = (this->Position * nFactor + other.Position * factor);
+	retVal.Color    = (this->Color    * nFactor + other.Color    * factor);
+	retVal.TexCoord = (this->TexCoord * nFactor + other.TexCoord * factor);
+	retVal.Width    = (this->Width    * nFactor + other.Width    * factor);
+	return retVal;
+}
+
+void LineShape::divideCubicBezier(float pixels)
+{
+	std::vector<Point> newPoints;
+	
+	for(int i = 1; i < Points.size(); i+=3)
+	{
+		Point p0, p1, p2, p3;
+		p0 = Points[i-1];
+		p1 = Points[i];
+		p2 = (i < Points.size() - 1) ?
+		      Points[i+1] : p1;
+		p3 = (i < Points.size() - 2) ?
+		      Points[i+2] : p2;
+		
+		float length = (p0.Position - p3.Position).length();
+		int segments = 1 + length / pixels;
+		
+		for(int j = 1; j < segments; ++j)
+		{
+			float factor = 1.f / segments * j;
+			Point qA = p0.blend(p1, factor);
+			Point qB = p1.blend(p2, factor);
+			Point qC = p2.blend(p3, factor);
+			
+			Point pA = qA.blend(qB, factor);
+			Point pB = qB.blend(qC, factor);
+			
+			Point newP = pA.blend(pB, factor);
+			newPoints.push_back(newP);
+		}
+		newPoints.push_back(p3);
 	}
 	Points = newPoints;
 }

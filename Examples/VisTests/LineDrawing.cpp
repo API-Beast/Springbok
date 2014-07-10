@@ -15,6 +15,7 @@ void LineDrawing::initialize()
 void LineDrawing::draw(float deltaTime, SpriteRenderer& r)
 {
 	r.clear(Colors::Dawn::Charcoal[0]);
+	r.draw(Line, 0, RGB(1.0f, 1.0f, 1.0f, 0.2f));
 	r.draw(LineSubdivided, 0, Colors::White);
 	
 	if(LastClickTimer > 0)
@@ -25,14 +26,15 @@ void LineDrawing::onClick(Vec2F pos)
 {
 	if(LastClickTimer <= 0)
 	{
-		Line.insert(pos, 3 + gRNG.getNumber(2));
+		Line.insert(pos, 5);
+		Line.applyTexture(Image("Line.png"));
 		LineSubdivided = Line;
 		LineSubdivided.Points.front().Width = 0.0;
 		LineSubdivided.Points.front().Color = Colors::Dawn::Green[1];
 		LineSubdivided.Points.back().Width = 0.0;
 		LineSubdivided.Points.back().Color = Colors::Dawn::Blue[2];
-		LineSubdivided.divideEquidistant(5);
-		LineSubdivided.applyTexture(Image("Line.png"), LineSubdivided.calcLength()/50);
+		LineSubdivided.divideCubicBezier(5);
+		LineSubdivided.applyTexture(Image("LineDotted.png"), LineSubdivided.calcLength()/50);
 		LastClickTimer += 0.2f;
 	}
 }

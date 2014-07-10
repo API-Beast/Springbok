@@ -28,17 +28,20 @@ struct LineShape
 public:
 	struct Point
 	{
-		Vec2F Position  = 0.f;
-		float    Width  = 1.f;
-		float TexCoord  = 0.f;
+		Vec2F Position = 0.f;
+		float    Width = 1.f;
+		float TexCoord = 0.f;
 		ColorRGBA Color = {1, 1, 1, 1};
+		Point blend(const Point& other, float factor);
 	};
 public:
 	std::vector<Point>   Points;
 	Image       TexImage;
 public:
 	void  insert(Vec2F position, float width=3, Vec4F color=1);
-	void  divideEquidistant(float pixels);
+	void  divideLinear(float pixels);
+	void  divideCubic(float pixels);
+	void  divideCubicBezier(float pixels);
 	void  applyTexture(const Image& img, float repetitions = 1.f);
 	void  applyStyle(const LineStyle& style);
 	float calcLength();
