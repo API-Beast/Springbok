@@ -8,27 +8,29 @@
 #include <Springbok/Parsing.hpp>
 #include <algorithm>
 
-ValueTree::ValueTree(StringC name)
+using namespace std;
+
+ValueTree::ValueTree(const string& name)
 {
 	Identifier = name;
 }
 
-StrList& ValueTree::attr(StringC name)
+ValueTree::StrList& ValueTree::attr(const string& name)
 {
-	auto value = std::find_if(Values.begin(), Values.end(),
-							 [name](const std::pair<String, StrList>& x){ return x.first == name; });
+	auto value = find_if(Values.begin(), Values.end(),
+							 [name](const pair<string, StrList>& x){ return x.first == name; });
 	if(value != Values.end())
 	{
 		return value->second;
 	}
 	else
 	{
-		Values.push_back(std::make_pair(name, StrList()));
+		Values.push_back(make_pair(name, StrList()));
 		return Values.back().second;
 	}
 }
 
-StrList ValueTree::getList(StringC spec) const
+ValueTree::StrList ValueTree::getList(const string& spec) const
 {
 	const StrList* list = nullptr;
 	findPathSpec(spec, nullptr, &list, nullptr);
@@ -38,14 +40,14 @@ StrList ValueTree::getList(StringC spec) const
 		return StrList();
 }
 
-const ValueTree* ValueTree::getSubTree(StringC spec) const
+const ValueTree* ValueTree::getSubTree(const string& spec) const
 {
 	const ValueTree* tree = nullptr;
 	findPathSpec(spec, nullptr, nullptr, &tree);
 	return tree;
 }
 
-String ValueTree::getValue(StringC spec) const
+string ValueTree::getValue(const string& spec) const
 {
 	const StrList* list = nullptr;
 	findPathSpec(spec, nullptr, &list, nullptr);
@@ -55,12 +57,12 @@ String ValueTree::getValue(StringC spec) const
 		return "";
 }
 
-StrList& ValueTree::insertList(StringC spec)
+ValueTree::StrList& ValueTree::insertList(const string& spec)
 {
 	size_t dotPos = spec.find_last_of('.');
 	ValueTree* tree = this;
-	String key = spec;
-	if(dotPos != std::string::npos)
+	string key = spec;
+	if(dotPos != string::npos)
 	{
 		tree = insertSubTree(spec.substr(0, dotPos));
 		key  = spec.substr(dotPos+1);
@@ -68,12 +70,12 @@ StrList& ValueTree::insertList(StringC spec)
 	return tree->attr(key);
 }
 
-String& ValueTree::insertValue(StringC spec)
+string& ValueTree::insertValue(const string& spec)
 {
 	size_t dotPos = spec.find_last_of('.');
 	ValueTree* tree = this;
-	String key = spec;
-	if(dotPos != std::string::npos)
+	string key = spec;
+	if(dotPos != string::npos)
 	{
 		tree = insertSubTree(spec.substr(0, dotPos));
 		key  = spec.substr(dotPos+1);
@@ -84,15 +86,15 @@ String& ValueTree::insertValue(StringC spec)
 	return list[0];
 }
 
-ValueTree* ValueTree::insertSubTree(StringC spec)
+ValueTree* ValueTree::insertSubTree(const string& spec)
 {
 	StringParser p(spec);
 	ValueTree* context = this;
 	while(!p.atEnd())
 	{
-		String subspec = p.advanceTo(Codepoint('.'));
+		string subspec = p.advanceTo(Codepoint('.'));
 		// Does it already exist?
-		auto child = std::find_if(context->Children.begin(), context->Children.end(),
+		auto child = find_if(context->Children.begin(), context->Children.end(),
 															[subspec](const ValueTree& x){ return x.Identifier == subspec; });
 		if(child == context->Children.end())
 		{
@@ -105,18 +107,18 @@ ValueTree* ValueTree::insertSubTree(StringC spec)
 	return context;
 }
 
-void ValueTree::findPathSpec(StringC spec, bool* found, const StrList** retValue, const ValueTree** retSubtree, const ValueTree** lastFoundParent, String* relativeToLast) const
+void ValueTree::findPathSpec(const string& spec, bool* found, const StrList** retValue, const ValueTree** retSubtree, const ValueTree** lastFoundParent, string* relativeToLast) const
 {
 	StringParser p(spec);
 	const ValueTree* context = this;
 	while(!p.atEnd())
 	{
-		String subspec = p.advanceTo(Codepoint('.'));
+		string subspec = p.advanceTo(Codepoint('.'));
 		// Is it a value?
 		if(p.atEnd()) // Only the last subspec can refer to a value
 		{
-			auto value = std::find_if(context->Values.begin(), context->Values.end(),
-			             [subspec](const std::pair<String, StrList>& x){ return x.first == subspec; });
+			auto value = find_if(context->Values.begin(), context->Values.end(),
+			             [subspec](const pair<string, StrList>& x){ return x.first == subspec; });
 			if(value != context->Values.end())
 			{
 				if(found)    *found    = true;
@@ -126,7 +128,7 @@ void ValueTree::findPathSpec(StringC spec, bool* found, const StrList** retValue
 			else; // Fall through, check for child instead
 		}
 		// Is it a child?
-		auto child = std::find_if(context->Children.begin(), context->Children.end(),
+		auto child = find_if(context->Children.begin(), context->Children.end(),
 															[subspec](const ValueTree& x){ return x.Identifier == subspec; });
 		if(child != context->Children.end())
 		{

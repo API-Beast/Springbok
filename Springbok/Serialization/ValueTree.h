@@ -12,31 +12,27 @@
 class ValueTree
 {
 public:
-	template<class T>
-	using std::vector    = std::vector<T>;
 	template<class A, class B>
 	using Map     = std::vector<std::pair<A, B>>;
-	using String  = std::string;
-	using StringC = const std::string&;
 	using StrList = std::vector<std::string>;
 public:
 	ValueTree(){};
-	ValueTree(StringC name);
+	ValueTree(const std::string& name);
 	
-	StrList& attr(StringC name);
+	StrList& attr(const std::string& name);
 	
-	String     getValue  (StringC spec) const;
-	StrList    getList   (StringC spec) const;
-	const ValueTree* getSubTree(StringC spec) const;
+	std::string getValue(const std::string& spec) const;
+	StrList      getList(const std::string& spec) const;
+	const ValueTree* getSubTree(const std::string& spec) const;
 	
-	String&    insertValue  (StringC spec);
-	StrList&   insertList   (StringC spec);
-	ValueTree* insertSubTree(StringC spec);
+	std::string& insertValue(const std::string& spec);
+	StrList&     insertList(const std::string& spec);
+	ValueTree*   insertSubTree(const std::string& spec);
 	
 	// The actual functions, the above are just shortcuts
-	void findPathSpec(StringC spec, bool* found, const StrList** retValue, const ValueTree** retSubtree, const ValueTree** lastFoundParent = nullptr, String* relativeToLast = nullptr) const;
+	void findPathSpec(const std::string& spec, bool* found, const StrList** retValue, const ValueTree** retSubtree, const ValueTree** lastFoundParent = nullptr, std::string* relativeToLast = nullptr) const;
 public:
-	Map<String, StrList> Values;
+	Map<std::string, StrList> Values;
 	std::vector<ValueTree>      Children;
-	String               Identifier = "_root_";
+	std::string               Identifier = "_root_";
 };
