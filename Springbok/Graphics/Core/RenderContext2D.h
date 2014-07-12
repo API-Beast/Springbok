@@ -7,7 +7,6 @@
 
 #include <Springbok/Types/Angle.h>
 #include <Springbok/Types/Vec3.h>
-#include <Springbok/Geometry/Rect.h>
 
 #include "ShaderProgram.h"
 #include "RenderTarget.h"

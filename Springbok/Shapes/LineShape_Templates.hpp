@@ -11,8 +11,8 @@
 template<class V, class E>
 void LineShape::prepareVertices(RenderDataPointer< V, E >& data) const
 {
-	Vec2F texStart = TexImage.TexCoords.Top.Left;
-	Vec2F texSize  = TexImage.TexCoords.Bottom.Right - TexImage.TexCoords.Top.Left;
+	Vec2F texStart = TexImage.TexCoords.Points[0];
+	Vec2F texSize  = TexImage.TexCoords.size();
 	for(int i = 0; i < Points.size(); ++i)
 	{
 		Vec2F tangent;

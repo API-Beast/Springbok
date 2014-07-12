@@ -10,7 +10,7 @@
 #include "Core/VertexStruct.h"
 #include "Core/Texture.h"
 
-#include <Springbok/Geometry/Rect.h>
+#include <Springbok/Types/Rect.h>
 #include <Springbok/Types/ObjectPointer.h>
 
 struct Image
@@ -18,7 +18,7 @@ struct Image
 public:
 	ObjectPointer<Texture> Data = nullptr;
 	std::string Path;
-	RectF TexCoords = RectF(0.0, 0.0, 1.f, 1.f);
+	Rect TexCoords = Rect(0.0, 0.0, 1.f, 1.f);
 public:
 	Image(const std::string& filename);
 	Image(const Image& other, Vec2I position, Vec2I size);
@@ -43,7 +43,7 @@ private:
 template<class V, class E>
 void Image::prepareVertices(RenderDataPointer<V, E>& data) const
 {
-	RectF vertexCoords(-center(), mSize);
+	Rect vertexCoords(-center(), mSize);
 	for(int i = 0; i < 4; ++i)
 	{
 		data.Vertices->Position  = vertexCoords.Points[i];

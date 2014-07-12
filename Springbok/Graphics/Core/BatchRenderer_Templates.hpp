@@ -93,7 +93,7 @@ void BatchRenderer<E,V>::drawRaw(const T& object, const V& vertex, const E& elem
 };
 
 template<class E, class V>
-void BatchRenderer<E,V>::drawRect(RectF vertices, RectF texCoords, unsigned int texture, const V& vertex, E element)
+void BatchRenderer<E,V>::drawRect(Rect vertices, Rect texCoords, unsigned int texture, const V& vertex, E element)
 {
 	RenderDataPointer<V, E> oldParams = mParams;
 	

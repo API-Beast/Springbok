@@ -11,6 +11,8 @@
 #include "RenderTarget.h"
 #include "RenderContext2D.h"
 
+#include <Springbok/Types/Rect.h>
+
 class RenderContext2D;
 
 template<class E = BasicElement, class V = BasicVertex>
@@ -23,7 +25,7 @@ public:
 	void draw(const T& object, Transform2D transformation = Transform2D(), const V& vertex = V(), const E& element = E());
 	template<typename T>
 	void drawRaw(const T& object, const V& vertex = V(), const E& element = E());
-	void drawRect(RectF vertices, RectF texCoords, unsigned int texture, const V& vertex = V(), E element = E());
+	void drawRect(Rect vertices, Rect texCoords, unsigned int texture, const V& vertex = V(), E element = E());
 	void flushBatches();
 	RenderTarget* renderTarget() const { return mCurrentContext->renderTarget(); };
 private:

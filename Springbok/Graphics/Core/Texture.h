@@ -6,7 +6,7 @@
 #pragma once
 
 #include <string>
-#include <Springbok/Geometry/Rect.h>
+#include <Springbok/Types/Rect.h>
 
 struct Texture
 {
@@ -17,7 +17,7 @@ struct Texture
 	Texture(const Texture&) = delete;
 	virtual ~Texture();
 	
-	RectF calcTextureCoordinates(Vec2I pos, Vec2I size);
+	Rect calcTextureCoordinates(Vec2I pos, Vec2I size);
 	void enableFiltering();
 	void enableFilteringMipmap();
 	void disableFiltering();
@@ -26,5 +26,5 @@ struct Texture
 	unsigned int Index = 0;
 	Vec2I ImageSize;
 	Vec2I TextureSize;
-  RectF TextureCoordinates;
+  Rect TextureCoordinates;
 };
