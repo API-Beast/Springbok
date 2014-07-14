@@ -1,0 +1,14 @@
+[Group]
+Key=Value
+String="ABCDEF"
+Array=[A, B, C]
+; This is a comment
+
+LargeGroup
+{
+	[SubGroup]
+	SubValue=10
+	
+	[SubGroup]
+	SubValue=20
+}

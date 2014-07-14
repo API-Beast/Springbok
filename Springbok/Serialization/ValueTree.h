@@ -21,12 +21,12 @@ public:
 	
 	StrList& attr(const std::string& name);
 	
-	std::string getValue(const std::string& spec) const;
-	StrList      getList(const std::string& spec) const;
-	const ValueTree* getSubTree(const std::string& spec) const;
+	std::string      value(const std::string& spec) const;
+	StrList          array(const std::string& spec) const;
+	const ValueTree* subTree(const std::string& spec) const;
 	
 	std::string& insertValue(const std::string& spec);
-	StrList&     insertList(const std::string& spec);
+	StrList&     insertArray(const std::string& spec);
 	ValueTree*   insertSubTree(const std::string& spec);
 	
 	// The actual functions, the above are just shortcuts

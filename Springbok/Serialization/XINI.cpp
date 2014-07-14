@@ -6,6 +6,7 @@
 
 #include "XINI.h"
 #include <Springbok/Parsing.hpp>
+#include <Springbok/Utils.hpp>
 #include <Springbok/Generic/Logic.h>
 #include <vector>
 
@@ -48,6 +49,7 @@ void LoadXINI(const std::string& content, ValueTree* parent)
 	{
 		key = p.advanceTo(isOperator);
 		Codepoint oper = p.last();
+		bool enclosed = false;
 		switch(oper)
 		{
 			// ------------------------------------------------------------------
@@ -75,7 +77,6 @@ void LoadXINI(const std::string& content, ValueTree* parent)
 			// ### Key = Value
 			// ------------------------------------------------------------------
 			case '=':
-				bool enclosed = false;
 				value = p.advanceTo(U'\n');
 				if(value.back() == '"')
 				{
@@ -87,20 +88,27 @@ void LoadXINI(const std::string& content, ValueTree* parent)
 					StringParser lookAhead = p;
 					// Look at the next line, if it is not a valid [ABC], ABC{} or A=B structure consume it.
 					std::string newKey = lookAhead.advanceTo(Or(isOperator, InSet({',', '"', '\n'})));
-					if(isOperator(lookAhead.last()) && newKey.find_first_of(' ') == -1)
+					bool properSyntax = isOperator(lookAhead.last()) && newKey.find_first_of(' ') == -1;
+					
+					std::string add = "";
+					if(!properSyntax)
+						add = p.advanceTo(U'\n');
+					
+					if(add.empty() || properSyntax)
 					{
 						if(!enclosed && value.front() == '[' && value.back() == ']')
-							context->insertList(key) = ParseArray(value);
+							context->insertArray(key) = ParseArray(value);
 						else
 							context->insertValue(key) = value;
 						break;
 					}
-					
-					std::string add = p.advanceTo('\n');
-					if(add.front()=='"' && add.back()=='"')
-						add = UTF8::Chop(add, 1, 1);
-					value += "\n";
-					value += add;
+					else
+					{
+						if(add.front()=='"' && add.back()=='"')
+							add = UTF8::Chop(add, 1, 1);
+						value += "\n";
+						value += add;
+					}
 				}
 				break;
 			default:
@@ -113,6 +121,7 @@ void LoadXINI(const std::string& content, ValueTree* parent)
 ValueTree LoadXINI(const std::string& path)
 {
 	ValueTree root;
+	LoadXINI(ReadFileFull(path), &root);
 	return root;
 }
 
@@ -120,14 +129,10 @@ void WriteXINI(const ValueTree& tree, std::ostream& out, int intendation)
 {
 	std::string intend  = std::string(intendation * 2, ' ');
 	bool anyContent = false;
-	auto printEntry = [&out](StringC entry)
+	auto printEntry = [&out](const std::string& entry)
 	{
 		if(entry.empty())
 			out << "\"\"";
-		else if(UTF8::Contains('\n'))
-		{
-			
-		}
 		else if(entry.size() > 10
 			   || entry != UTF8::Strip(entry, &UCS::IsWhitespace)
 				 || entry != UTF8::Strip(entry, U'"'))
@@ -138,8 +143,8 @@ void WriteXINI(const ValueTree& tree, std::ostream& out, int intendation)
 	
 	for(auto value : tree.Values)
 	{
-		const String&  key = value.first;
-		const StrList& val = value.second;
+		const string&  key = value.first;
+		const vector<string>& val = value.second;
 		out << intend << key << "=";
 		if(val.size() == 1)
 		{
@@ -150,7 +155,7 @@ void WriteXINI(const ValueTree& tree, std::ostream& out, int intendation)
 		{
 			bool first = true;
 			out << '[';
-			for(String entry : val)
+			for(string entry : val)
 			{
 				if(!first)
 					out << ", ";

@@ -72,7 +72,7 @@ std::string StringParser::advanceTo(Codepoint point)
 	int start = mCurPosition;
 	Codepoint cur;
 	int stop = start;
-	cur = UTF8::DecodeNext(mStringToParse, &stop);
+	cur = UTF8::DecodeAt(mStringToParse, stop);
 	while(stop < mStringToParse.size())
 	{
 		if(cur == point)

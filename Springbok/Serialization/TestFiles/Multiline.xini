@@ -1,0 +1,11 @@
+Description="A value can"
+            "span multiple"
+            lines
+; Add some more content to catch some more parser errors should they appear.
+Group
+{
+	MultiLineArray=["A Array", "should be able",
+	                "to span multiple lines",
+	                too]
+	InsignificantValue=bro.
+}

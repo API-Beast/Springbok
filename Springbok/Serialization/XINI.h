@@ -12,4 +12,5 @@
 #include <ostream>
 
 ValueTree LoadXINI(const std::string& path);
+void LoadXINI(const std::string& content, ValueTree* parent);
 void WriteXINI(const ValueTree& tree, std::ostream& out, int intendation = 0);

@@ -30,7 +30,7 @@ ValueTree::StrList& ValueTree::attr(const string& name)
 	}
 }
 
-ValueTree::StrList ValueTree::getList(const string& spec) const
+ValueTree::StrList ValueTree::array(const string& spec) const
 {
 	const StrList* list = nullptr;
 	findPathSpec(spec, nullptr, &list, nullptr);
@@ -40,14 +40,14 @@ ValueTree::StrList ValueTree::getList(const string& spec) const
 		return StrList();
 }
 
-const ValueTree* ValueTree::getSubTree(const string& spec) const
+const ValueTree* ValueTree::subTree(const string& spec) const
 {
 	const ValueTree* tree = nullptr;
 	findPathSpec(spec, nullptr, nullptr, &tree);
 	return tree;
 }
 
-string ValueTree::getValue(const string& spec) const
+string ValueTree::value(const string& spec) const
 {
 	const StrList* list = nullptr;
 	findPathSpec(spec, nullptr, &list, nullptr);
@@ -57,7 +57,7 @@ string ValueTree::getValue(const string& spec) const
 		return "";
 }
 
-ValueTree::StrList& ValueTree::insertList(const string& spec)
+ValueTree::StrList& ValueTree::insertArray(const string& spec)
 {
 	size_t dotPos = spec.find_last_of('.');
 	ValueTree* tree = this;
