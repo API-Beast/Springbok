@@ -35,7 +35,7 @@ struct SinusEasing : public EasingFunctionBase
 {
 	float easeIn(float val) const
 	{
-		return std::sin(val * PI/4) * (1/std::sin(PI/4));
+		return std::sin(val * Pi/4) * (1/std::sin(Pi/4));
 	};
 };
 

@@ -9,15 +9,15 @@
 #include <cmath>
 
 //! A half turn in radians. Equal to the ratio of a circle's circumference to it's diameter.
-constexpr float PI  = 3.14159;
+constexpr float Pi  = 3.14159;
 //! A full turn in radians. Equal to the ratio of a circle's circumference to it's radius.
-constexpr float Tau = PI * 2;
+constexpr float Tau = Pi * 2;
 
 //! @ingroup Angle
 //! @{
 struct Angle
 {
-	explicit constexpr Angle(float value) : Data((PositiveModulo(value, Tau) > PI) ? (PositiveModulo(value, Tau) - Tau) : PositiveModulo(value, Tau)){};
+	explicit constexpr Angle(float value) : Data((PositiveModulo(value, Tau) > Pi) ? (PositiveModulo(value, Tau) - Tau) : PositiveModulo(value, Tau)){};
 	explicit Angle(Vec2F vec, Vec2F up=Vec2F(0.0f, -1.0f));
 	Angle()=default;
 	explicit operator float() const;

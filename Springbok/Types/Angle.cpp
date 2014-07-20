@@ -26,7 +26,7 @@ float Angle::toDegree() const
 void Angle::sanitize()
 {
 	Data = PositiveModulo(Data, Tau);
-	if(Data > PI)
+	if(Data > Pi)
 		Data -= Tau;
 }
 

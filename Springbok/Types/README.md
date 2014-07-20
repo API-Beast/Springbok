@@ -86,10 +86,10 @@ Dawn is a muted general purpose palette, it consists of 9 ramps (color arrays) w
 Angle a = 0.5_turn;  // A half turn.
 Angle b = 180_deg;   // Equals 180°
 Angle c = 3.142_rad; // Is almost 3.142 in Radian. (You probably don't want to declare variables like this)
-Angle d = Angle(PI); // The float constructor is explicit and will take Radians as unit.
+Angle d = Angle(Pi); // The float constructor is explicit and will take Radians as unit.
 Angle e = Angle::FromTurn(0.5f); // If you need to pass float variables in other formats.
 Angle f = Angle::FromDegree(180.0f);
-Angle g = Angle::FromRadians(PI); // Lastly, for verbosity
+Angle g = Angle::FromRadians(Pi); // Lastly, for verbosity
 ```
 Note that Angles are internally stored as a value wrapped to -PI to +PI.
 ```cpp
