@@ -12,7 +12,7 @@ LineShape LineShape::Arrow(Vec2F vec, float width, ColorRGBA endClr, ColorRGBA s
 	LineShape retVal;
 	retVal.insert(0, width, startClr);
 	retVal.insert(vec, width, endClr);
-	retVal.divideCubic(5);
+	retVal.divideSmooth(5);
 	return retVal;
 }
 
@@ -23,7 +23,7 @@ LineShape LineShape::Arrow(Vec2F vec, const Image& arrowImg, ColorRGBA clr, floa
 	LineShape retVal;
 	retVal.insert(0, width, clr);
 	retVal.insert(vec, width, clr);
-	retVal.divideCubic(5);
+	retVal.divideSmooth(5);
 	retVal.applyTexture(arrowImg);
 	return retVal;
 }
@@ -35,7 +35,7 @@ LineShape LineShape::Arrow(Vec2F vec, LineStyle style, ColorRGBA clr, float widt
 	LineShape retVal;
 	retVal.insert(0, width, clr);
 	retVal.insert(vec, width, clr);
-	retVal.divideCubic(5);
+	retVal.divideSmooth(5);
 	retVal.applyStyle(style);
 	return retVal;
 }
@@ -101,7 +101,7 @@ void LineShape::divideLinear(float pixels)
 	Points = newPoints;
 }
 
-void LineShape::divideCubic(float pixels)
+void LineShape::divideSmooth(float pixels)
 {
 	std::vector<Point> newPoints;
 	

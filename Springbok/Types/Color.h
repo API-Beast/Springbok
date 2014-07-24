@@ -7,6 +7,7 @@
 #pragma once
 
 #include "Vec4.h"
+#include "Angle.h"
 
 using ColorRGB  = Vec3F;
 using ColorRGBA = Vec4F;
@@ -28,13 +29,14 @@ constexpr ColorRGBA RGB(float red, float green, float blue, float alpha)
 									);
 };
 
-
 constexpr Color HTMLColor(unsigned int hex)
 {
 	return Color( ( (hex >> (8*2)) & 0xff ) / 255.f, 
 							  ( (hex >> (8*1)) & 0xff ) / 255.f,
 							  ( (hex >> (8*0)) & 0xff ) / 255.f);
 };
+
+Color HCL(Angle hue, float chroma, float luma);
 
 namespace Colors
 {

@@ -7,23 +7,19 @@
 #pragma once
 
 #include "VisTest.h"
-#include <Springbok/Graphics/SpriteRenderer.h>
-#include <Springbok/Shapes/LineShape.h>
+#include <Springbok/Graphics/Image.h>
 
-struct LineDrawing : public VisTest
+struct ColorGen : public VisTest
 {
-	LineShape Line;
-	LineShape LineSubdivided;
-	float LastClickTimer = 0;
-	enum{Smooth, CubicBezier, Linear}
-	Mode = Smooth;
+	Image Blob;
+  double x=0;
+	double y=0;
 	
-	void subdivide();
-	virtual void initialize();
 	virtual void draw(float deltaTime, SpriteRenderer& r);
+	virtual void initialize();
 	virtual void onClick(Vec2F pos);
 	virtual void onIncrement();
 	virtual void onDecrement();
-	virtual std::string description();
-	virtual std::string status();
+	virtual std::string description(){ return "Click to change base color."; };
+	virtual std::string status(){ return "Color Generator: Hue " + std::to_string(x) + " Chroma " + std::to_string(y); };
 };

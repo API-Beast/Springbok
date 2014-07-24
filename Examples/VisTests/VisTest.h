@@ -20,4 +20,6 @@ public:
 	virtual void onClick(Vec2F pos){};
 	virtual void onIncrement(){};
 	virtual void onDecrement(){};
+	virtual std::string description(){ return "Empty Test"; };
+	virtual std::string status(){ return "Invalid"; };
 };

@@ -126,12 +126,6 @@ constexpr auto Power(const A& a, float n) -> decltype(a * a)
 	return std::pow(a, n);
 }
 
-template<typename A>
-constexpr auto Power(const A& a, int n) -> decltype(a * a)
-{
-	return (n <= 1) ? a : a * Power(a, n-1);
-}
-
 template<int N, typename A>
 constexpr auto Power(const A& a) -> decltype(a * a)
 {
