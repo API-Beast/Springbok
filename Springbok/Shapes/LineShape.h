@@ -31,7 +31,7 @@ public:
 		Vec2F Position = 0.f;
 		float    Width = 1.f;
 		float TexCoord = 0.f;
-		ColorRGBA Color = {1, 1, 1, 1};
+		Vec4F Color = 1.f;
 		Point blend(const Point& other, float factor);
 	};
 public:
@@ -46,10 +46,10 @@ public:
 	void  applyStyle(const LineStyle& style);
 	float calcLength();
 public:
-	static LineShape Arrow(Vec2F vec, float width = 3.f, ColorRGBA endClr = Colors::White, ColorRGBA startClr = Colors::White);
-	static LineShape Arrow(Vec2F vec, const Image& arrowImg, ColorRGBA clr = Colors::White, float width = -1.f);
-	static LineShape Arrow(Vec2F vec, LineStyle style, ColorRGBA clr = Colors::White, float width = -1.f);
-	static LineShape TurnIndicator(Angle turns, float radius, LineStyle style, ColorRGBA clr = Colors::White, float width = -1.f);
+	static LineShape Arrow(Vec2F vec, float width = 3.f, Vec4F endClr = Colors::White, Vec4F startClr = Colors::White);
+	static LineShape Arrow(Vec2F vec, const Image& arrowImg, Vec4F clr = Colors::White, float width = -1.f);
+	static LineShape Arrow(Vec2F vec, LineStyle style, Vec4F clr = Colors::White, float width = -1.f);
+	static LineShape TurnIndicator(Angle turns, float radius, LineStyle style, Vec4F clr = Colors::White, float width = -1.f);
 public:
 	template<class V = BasicVertex, class E = BasicElement>
 	void prepareVertices(RenderDataPointer< V, E >& data) const;

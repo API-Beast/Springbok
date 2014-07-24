@@ -7,7 +7,7 @@
 #include "LineShape.h"
 #include "../Animation/Interpolation.h"
 
-LineShape LineShape::Arrow(Vec2F vec, float width, ColorRGBA endClr, ColorRGBA startClr)
+LineShape LineShape::Arrow(Vec2F vec, float width, Vec4F endClr, Vec4F startClr)
 {
 	LineShape retVal;
 	retVal.insert(0, width, startClr);
@@ -16,7 +16,7 @@ LineShape LineShape::Arrow(Vec2F vec, float width, ColorRGBA endClr, ColorRGBA s
 	return retVal;
 }
 
-LineShape LineShape::Arrow(Vec2F vec, const Image& arrowImg, ColorRGBA clr, float width)
+LineShape LineShape::Arrow(Vec2F vec, const Image& arrowImg, Vec4F clr, float width)
 {
 	if(width == -1.f)
 		width = arrowImg.size().Y;
@@ -28,7 +28,7 @@ LineShape LineShape::Arrow(Vec2F vec, const Image& arrowImg, ColorRGBA clr, floa
 	return retVal;
 }
 
-LineShape LineShape::Arrow(Vec2F vec, LineStyle style, ColorRGBA clr, float width)
+LineShape LineShape::Arrow(Vec2F vec, LineStyle style, Vec4F clr, float width)
 {
 	if(width == -1.f)
 		width = style.TexImage.size().Y;
@@ -40,7 +40,7 @@ LineShape LineShape::Arrow(Vec2F vec, LineStyle style, ColorRGBA clr, float widt
 	return retVal;
 }
 
-LineShape LineShape::TurnIndicator(Angle turns, float radius, LineStyle style, ColorRGBA clr, float width)
+LineShape LineShape::TurnIndicator(Angle turns, float radius, LineStyle style, Vec4F clr, float width)
 {
 	if(width == -1.f)
 		width = style.TexImage.size().Y;

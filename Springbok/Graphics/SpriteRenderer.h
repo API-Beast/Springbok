@@ -15,7 +15,7 @@ class SpriteRenderer
 public:
 	SpriteRenderer(RenderTarget* target = nullptr);
 	
-	void clear(Color color = Colors::White);
+	void clear(Vec3F color = Colors::White);
 	void flush();
 	
 	void drawRenderpass(const Framebuffer& buffer);

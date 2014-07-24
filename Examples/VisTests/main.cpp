@@ -78,7 +78,7 @@ int main()
 		float dt = timer.elapsed() - gameTime;
 		gameTime = timer.elapsed();
 		
-		renderer.clear(Colors::Dawn::Charcoal[0]);
+		renderer.clear(Colors::Black);
 		curTest->draw(dt, renderer);
 		
 		renderer.draw(font.text(std::to_string(int(dt*1000))+"ms = "+std::to_string(int(1.f/dt))+" FPS"), surface.topLeft());

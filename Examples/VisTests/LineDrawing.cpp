@@ -36,9 +36,9 @@ void LineDrawing::subdivide()
 {
 	LineSubdivided = Line;
 	LineSubdivided.Points.front().Width = 0.0;
-	LineSubdivided.Points.front().Color = Colors::Dawn::Green[1];
+	LineSubdivided.Points.front().Color = Colors::Green;
 	LineSubdivided.Points.back().Width = 0.0;
-	LineSubdivided.Points.back().Color = Colors::Dawn::Blue[2];
+	LineSubdivided.Points.back().Color = Colors::Blue;
 	
 	if(Mode == CubicBezier)
 		LineSubdivided.divideCubicBezier(5);

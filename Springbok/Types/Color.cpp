@@ -38,8 +38,18 @@ namespace
 	};
 };
 
-Color HCL(Angle hue, float chroma, float luma)
+Vec3F HCL(Angle hue, float chroma, float luma)
 {
 	Vec3F lab = {luma, chroma*hue.cos(), chroma*hue.sin()};
 	return Lab2RGB(lab);
+}
+
+Vec4F Int32Color(unsigned int hex)
+{
+	union
+	{
+		unsigned int hex;
+		Vec4<unsigned char> color;
+	} val = {hex};
+	return Vec4F(val.color) / 256.f;
 }

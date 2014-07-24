@@ -12,7 +12,7 @@ Context(target)
 {
 }
 
-void SpriteRenderer::clear(Color color)
+void SpriteRenderer::clear(Vec3F color)
 {
 	Context.clear(color);
 	Batcher.startBatching(Context);

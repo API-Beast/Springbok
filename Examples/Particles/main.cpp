@@ -43,7 +43,7 @@ int main()
 	while(!surface.closeRequested())
 	{
 		surface.switchBuffers();
-		renderer.clear(Colors::Dawn::Red[0] / 2);
+		renderer.clear(Colors::Red / 3);
 		
 		for(ButtonPressEvent press : input.poll())
 		{
