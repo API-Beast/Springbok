@@ -71,7 +71,17 @@ Vec2I Image::center() const
 	return mSize * mAlignment;
 }
 
+Vec2F Image::alignment() const
+{
+	return mAlignment;
+}
+
 bool Image::valid() const
 {
 	return Data && Data->Valid;
+}
+
+Vec2I Image::offset() const
+{
+	return mOffset;
 }

@@ -24,8 +24,10 @@ public:
 	Image(const Image& other, Vec2I position, Vec2I size);
 	Image(){};
 	Vec2I size();
+	Vec2I offset() const;
 	Vec2I size() const;
 	Vec2I center() const;
+	Vec2F alignment() const;
 	void setCenter(Vec2I pos);
 	void setAlign(Vec2F align);
 	bool valid() const;

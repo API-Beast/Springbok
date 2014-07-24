@@ -8,6 +8,7 @@
 #include <Springbok/Types/ObjectPointer.h>
 #include <Springbok/Types/PointerGuard.h>
 #include <Springbok/Types/Range.h>
+#include <Springbok/Types/Rect.h>
 #include <Springbok/Types/Vec2.h>
 #include <Springbok/Types/Vec3.h>
 #include <Springbok/Types/Vec4.h>
@@ -87,6 +88,15 @@
  * 
  * Note that unlike GLSL you can only access consectuitive elements like this, `.ZYX` for example is not valid, nor is `.XXY` and the like.
  * 
+ * ### Colors
+ * Colors are defined as a simple Vec3F typedef and work the same way.
+ * 
+ * The Color Header also contains a namespace with two preset palettes: Colors::Dawn and Colors::Neon. These are supposed to help you prototyping your game without having to think too much about details like exact color values.
+ * 
+ * Dawn is a muted general purpose palette, it consists of 9 ramps (color arrays) with 3 entries each. The index 0 is the darkest variant of that color, the index 2 the brightest.
+ * 
+ * ![Dawn Palette Colors](PaletteDawn.png)
+ * 
  * ## Angles
  * 
  * ### Angle Literals and Constructors
@@ -94,10 +104,10 @@
  * Angle a = 0.5_turn;  // A half turn.
  * Angle b = 180_deg;   // Equals 180°
  * Angle c = 3.142_rad; // Is almost 3.142 in Radian. (You probably don't want to declare variables like this)
- * Angle d = Angle(PI); // The float constructor is explicit and will take Radians as unit.
+ * Angle d = Angle(Pi); // The float constructor is explicit and will take Radians as unit.
  * Angle e = Angle::FromTurn(0.5f); // If you need to pass float variables in other formats.
  * Angle f = Angle::FromDegree(180.0f);
- * Angle g = Angle::FromRadians(PI); // Lastly, for verbosity
+ * Angle g = Angle::FromRadians(Pi); // Lastly, for verbosity
  * ```
  * Note that Angles are internally stored as a value wrapped to -PI to +PI.
  * ```cpp
