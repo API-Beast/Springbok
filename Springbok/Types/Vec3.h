@@ -66,7 +66,7 @@ public:
 template<typename T>
 float Distance(Vec3<T> a, Vec3<T> b)
 {
-	return (a - b).getLength();
+	return (a - b).length();
 };
 
 template<typename T>

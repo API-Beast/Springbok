@@ -6,4 +6,4 @@ set_property(TARGET sbTypes PROPERTY OBJ_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set_property(TARGET sbTypes PROPERTY OBJ_INSTALL_HEADERS ${H_FILES})
 set_property(TARGET sbTypes PROPERTY OBJ_INSTALL_LOCATION Types)
 
-ADD_SSTEST_FILE(SpringbokTest Angle_Tests.cpp Vec2_Tests.cpp Range_Tests.cpp ObjectPointer_Tests.cpp)
+ADD_SSTEST_FILE(SpringbokTest Color_Tests.cpp Angle_Tests.cpp Vec2_Tests.cpp Range_Tests.cpp ObjectPointer_Tests.cpp)
