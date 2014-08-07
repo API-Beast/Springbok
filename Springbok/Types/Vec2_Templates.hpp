@@ -91,3 +91,10 @@ float Vec2<T>::projectAxis(Vec2<T> axis) const
 {
 	return (this->dot(axis) * (*this)).getLength();
 }
+
+template<typename T>
+bool Vec2<T>::isInBounds(Vec2<T> lower, Vec2<T> upper)
+{
+	return lower.X <= X && lower.Y <= Y &&
+	       upper.X >= X && upper.Y >= Y;
+}

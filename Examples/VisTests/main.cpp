@@ -17,23 +17,26 @@
 #include <Springbok/Resources/ResourceManager.h>
 #include <Springbok/Procedural/RandomNumberGenerator.h>
 #include <Springbok/Graphics/BitmapFont.h>
+#include <Springbok/Animation/Interpolation.h>
 
 #include "VisTest.h"
 #include "LineDrawing.h"
 #include "ColorGen.h"
+#include "TileMapDrawing.h"
 
 // Warning, quick and ugly code to test features.
 
 int main()
 {
 	// Initialization
-	GameSurface  surface("VisTests - Springbok Example", GameSurface::Windowed, {800, 600}, 8);
+	GameSurface  surface("VisTests - Springbok Example", GameSurface::Windowed, {800, 600}, 0);
 	InputMonitor input(&surface);
 	ResourceManager::GetInstance()->findPrimaryResourcePath({FileSystem::ParentPath(__FILE__)+"/Assets", "./Assets"});
 	
 	std::vector<VisTest*> tests;
 	tests.push_back(new LineDrawing);
 	tests.push_back(new ColorGen);
+	tests.push_back(new TileMapDrawing);
 	
 	BitmapFont font;
 	font.loadGrid(Image("SmallFont.png"), 0, 16);	
@@ -61,7 +64,7 @@ int main()
 			if(press.From->buttonName(press.Button) == "Keypad -")
 				curTest->onDecrement();
 			auto activateTest = [&](const std::string& key, int i)
-			{ if(press.From->buttonName(press.Button) == key && tests.size() >= i)
+			{ if(press.From->buttonName(press.Button) == key && tests.size() > i)
 				{
 					curTest = tests[i];
 					curTest->initialize();

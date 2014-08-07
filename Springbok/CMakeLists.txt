@@ -35,9 +35,10 @@ add_subdirectory(Serialization)
 add_subdirectory(Shapes)
 add_subdirectory(Types)
 add_subdirectory(Utils)
+add_subdirectory(World)
 
-set(SUBTARGETS sbAnimation sbAudio sbDependencies sbGeneric sbGraphics sbMath sbParsing sbPlatform sbProcedural sbResources sbSerialization sbUtils sbShapes sbTypes)
-set(COMBINED_HEADERS Animation.hpp Audio.hpp Containers.hpp Generic.hpp Graphics.hpp Math.hpp Parsing.hpp Platform.hpp Procedural.hpp Resources.hpp Shapes.hpp Utils.hpp Types.hpp)
+set(SUBTARGETS sbAnimation sbAudio sbDependencies sbGeneric sbGraphics sbMath sbParsing sbPlatform sbProcedural sbResources sbSerialization sbUtils sbShapes sbTypes sbWorld)
+set(COMBINED_HEADERS Animation.hpp Audio.hpp Generic.hpp Graphics.hpp Math.hpp Parsing.hpp Platform.hpp Procedural.hpp Resources.hpp Shapes.hpp Utils.hpp Types.hpp World.hpp)
 
 RESOLVE_SUBTARGET_CHILDREN(SUBTARGETS ${SUBTARGETS})
 GET_SUBTARGET_OBJECTS(SUBTARGETS_EXPANDED ${SUBTARGETS})

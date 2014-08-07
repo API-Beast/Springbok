@@ -27,7 +27,6 @@ T InterpolateCubic(const T& prev, const T& start, const T& end, const T& after, 
 {
 	// Don't ask me for proper names for these variables or the logic behind them, this is math.
 	// And I have no idea about math.
-	// If somebody has a non-math (e.g. written in logic, not math) explanation for Cubic Interpolation, I would be grateful.
 	T a0, a1, a2;
 	a0 = after - end - prev + start;
 	a1 = prev - start - a0;
@@ -95,7 +94,7 @@ T Interpolate(Interpolation kind, const T& prev, const T& start, const T& end, c
 template<typename T, typename D>
 T Approach(const T& from, const T& to, D limit)
 {
-	D diff = Abs((D)(from - to));
+	D diff = Abs((from - to));
 	limit = Min<D>(diff, limit);
 	if(diff > limit)
 	{

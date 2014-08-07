@@ -60,6 +60,7 @@ public:
 	
 	Vec2<T> lowerBound(Vec2<T> other) const;
 	Vec2<T> upperBound(Vec2<T> other) const;
+	bool    isInBounds(Vec2<T> lower, Vec2<T> upper);
 	
 	/*Vec2<T> projected(Vec2<T> line) const; //!< Project this two dimensional vector onto \a axis. @return The projected vector in the 2D space. */// <- Superflucious?
 	float projectAxis(Vec2<T> axis) const; //!< Project this two dimensional vector onto \a axis. @return The position of the vector on \a axis.
