@@ -1,5 +1,5 @@
-set(H_FILES Angle.h Angle_constexpr.h Color.h Mat2.h ObjectPointer.h ObjectPointer_Templates.hpp PointerGuard.h Range.h Range_Templates.hpp Rect.h Vec2.h Vec2_Templates.hpp Vec3.h Vec3_Templates.hpp Vec4.h Vec4_Templates.hpp)
-set(CPP_FILES Angle.cpp ObjectPointer.cpp Rect.cpp Color.cpp)
+set(H_FILES MemoryBlock.h DataBlock.h DataBlock_Templates.hpp Angle.h Angle_constexpr.h Color.h Mat2.h ObjectPointer.h ObjectPointer_Templates.hpp PointerGuard.h Range.h Range_Templates.hpp Rect.h Vec2.h Vec2_Templates.hpp Vec3.h Vec3_Templates.hpp Vec4.h Vec4_Templates.hpp)
+set(CPP_FILES MemoryBlock.cpp Angle.cpp ObjectPointer.cpp Rect.cpp Color.cpp)
 add_library(sbTypes OBJECT ${H_FILES} ${CPP_FILES})
 
 set_property(TARGET sbTypes PROPERTY OBJ_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
