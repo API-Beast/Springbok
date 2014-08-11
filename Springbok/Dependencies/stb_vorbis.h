@@ -1,3 +1,5 @@
+#include "stb_vorbis_config.h"
+
 #ifndef STB_VORBIS_INCLUDE_STB_VORBIS_H
 #define STB_VORBIS_INCLUDE_STB_VORBIS_H
 

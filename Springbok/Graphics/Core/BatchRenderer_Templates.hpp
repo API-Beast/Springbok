@@ -62,8 +62,20 @@ void BatchRenderer<E,V>::draw(const T& object, Transform2D transformation, const
 	{
 		transformation.transform(oldVertices,
 														mParams.Vertices,
-														mCurrentContext->cameraCenter(),
-														Vec2F(1, -1) / (mCurrentContext->renderTarget()->size()/2) * mCurrentContext->Camera.Zoom);
+														mCurrentContext->cameraCenter());
+		
+		if(RoundCoordinates)
+		{
+			Vec2F coordMult = Vec2F(1) / (mCurrentContext->renderTarget()->size()/2) * mCurrentContext->Camera.Zoom;
+			for(V* it = oldVertices; it < mParams.Vertices; ++it)
+				it->Position  = ((Vec2F(1, -1) * Vec2F(Round(it->Position.X), Round(it->Position.Y))) + 0.375f) * coordMult;
+		}
+		else
+		{
+			Vec2F coordMult = Vec2F(1, -1) / (mCurrentContext->renderTarget()->size()/2) * mCurrentContext->Camera.Zoom;
+			for(V* it = oldVertices; it < mParams.Vertices; ++it)
+				it->Position  *= coordMult;
+		}
 	}
 };
 

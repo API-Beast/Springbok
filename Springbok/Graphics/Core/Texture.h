@@ -7,11 +7,13 @@
 
 #include <string>
 #include <Springbok/Types/Rect.h>
+#include "TextureData.h"
 
 struct Texture
 {
 	Texture() = default;
 	Texture(const std::string& filename);
+	Texture(const TextureData& tex);
 	Texture(int width, int height, int precision);
 	Texture(Texture&& other);
 	Texture(const Texture&) = delete;

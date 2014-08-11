@@ -18,6 +18,7 @@
 #include <Springbok/Procedural/RandomNumberGenerator.h>
 #include <Springbok/Graphics/BitmapFont.h>
 #include <Springbok/Animation/Interpolation.h>
+#include <Springbok/Serialization/ToString.h>
 
 #include "VisTest.h"
 #include "LineDrawing.h"
@@ -74,9 +75,13 @@ int main()
 			activateTest("F4" , 3); activateTest("F5" ,  4); activateTest("F6" ,  5);
 			activateTest("F7" , 6); activateTest("F8" ,  7); activateTest("F9" ,  8);
 			activateTest("F10", 9); activateTest("F11", 10); activateTest("F12", 11);
+			
 			if(press.From->numberOfCursors())
-				curTest->onClick(press.From->cursorPosition(0));
+				curTest->onClick(press.From->cursorPosition(0) / renderer.Context.Camera.Zoom);
 		}
+		
+		renderer.Context.Camera.Zoom *= (1 + input.scrollState() / 15);
+		input.setScrollState(0);
 		
 		float dt = timer.elapsed() - gameTime;
 		gameTime = timer.elapsed();
@@ -84,10 +89,16 @@ int main()
 		renderer.clear(Colors::Black);
 		curTest->draw(dt, renderer);
 		
-		renderer.draw(font.text(std::to_string(int(dt*1000))+"ms = "+std::to_string(int(1.f/dt))+" FPS"), surface.topLeft());
+		auto oldCam = renderer.Context.Camera;
+		renderer.Context.Camera = CameraData();
+		
+		renderer.draw(font.text(ToString(int(dt*1000))+"ms = "+ToString(int(1.f/dt))+" FPS") , surface.topLeft());
 		renderer.draw(font.text(curTest->description()), surface.topLeft() + Vec2F(0, 16));
 		renderer.draw(font.text(curTest->status()),      surface.topLeft() + Vec2F(0, 32));
+		renderer.draw(font.text(HumanString(oldCam.Zoom.Y)+"x Zoom"), surface.bottomRight() - Vec2F(160, 16));
 		renderer.flush();
+		
+		renderer.Context.Camera = oldCam;
 	}
 	return 0;
 };

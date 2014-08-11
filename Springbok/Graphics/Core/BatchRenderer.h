@@ -28,6 +28,9 @@ public:
 	void drawRect(Rect vertices, Rect texCoords, unsigned int texture, const V& vertex = V(), E element = E());
 	void flushBatches();
 	RenderTarget* renderTarget() const { return mCurrentContext->renderTarget(); };
+public:
+	// Options
+	bool RoundCoordinates = true; // If true all coordinates are rounded to the nearest pixel before being pushed to the GPU
 private:
 	const RenderContext2D* mCurrentContext = nullptr;
 	

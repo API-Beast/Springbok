@@ -1,3 +1,5 @@
+#include "lodepng_config.h"
+
 /*
 LodePNG version 20131222
 

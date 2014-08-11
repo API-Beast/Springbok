@@ -1,7 +1,7 @@
 #include "Transform2D.h"
 
 template<class V>
-void Transform2D::transform(V* startVertex, V* endVertex, Vec2F cameraPos, Vec2F coordinateMult) const
+void Transform2D::transform(V* startVertex, V* endVertex, Vec2F cameraPos) const
 {
 	Vec2F minPos(9999999, 9999999);
 	Vec2F maxPos;
@@ -19,5 +19,5 @@ void Transform2D::transform(V* startVertex, V* endVertex, Vec2F cameraPos, Vec2F
 	
 	// And finally transform
 	for(V* it = startVertex; it < endVertex; ++it)
-		it->Position = transformVec2(it->Position, cameraPos, size)*coordinateMult;
+		it->Position = transformVec2(it->Position, cameraPos, size);
 }

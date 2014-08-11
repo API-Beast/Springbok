@@ -24,15 +24,17 @@ namespace
 
 Rect Texture::calcTextureCoordinates(Vec2I pos, Vec2I size)
 {
-	return Rect(pos / Vec2F(TextureSize), (size) / Vec2F(TextureSize));
+	return Rect((Vec2F(pos) + 0.375f) / Vec2F(TextureSize), (Vec2F(size) - 0.375f) / Vec2F(TextureSize));
 }
 
 Texture::Texture(const std::string& filename)
+ :
+ Texture(TextureData::FromFile(filename))
 {
-	std::vector<unsigned char> bitmap;
-	unsigned int width;
-	unsigned int height;
+}
 
+Texture::Texture(const TextureData& tex)
+{
 	Index = 0xFFFE;
 	glGenTextures(1, &Index);
   glBindTexture(GL_TEXTURE_2D, Index);
@@ -43,32 +45,29 @@ Texture::Texture(const std::string& filename)
 		Index = 0;
 		return ;
 	}
-
-	unsigned error = lodepng::decode(bitmap, width, height, filename);
-	if(error)
-		Debug::Write("Can't decode $ as PNG: $", filename, lodepng_error_text(error));
-
+	
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	PrintGLError();
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	PrintGLError();
 
-	ImageSize = Vec2I{width, height};
-	//TextureSize = Vec2I{makePowerOfTwo(width), makePowerOfTwo(height)};
+	ImageSize = Vec2I{tex.Data.Width, tex.Data.Height};
 	TextureSize = ImageSize;
+	//TextureSize = Vec2I{makePowerOfTwo(width), makePowerOfTwo(height)};
 
+	// TODO: Handle non-dense texture data
 	if(!(TextureSize == ImageSize))
 	{
 		std::vector<uint32_t> empty(TextureSize.X * TextureSize.Y, 0);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureSize.X, TextureSize.Y, 0, GL_RGBA, GL_UNSIGNED_BYTE, empty.data());
-		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, ImageSize.X, ImageSize.Y, GL_RGBA, GL_UNSIGNED_BYTE, bitmap.data());
+		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, ImageSize.X, ImageSize.Y, GL_RGBA, GL_UNSIGNED_BYTE, tex.Data.DataPtr);
 		PrintGLError();
 	}
 	else
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureSize.X, TextureSize.Y, 0, GL_RGBA, GL_UNSIGNED_BYTE, bitmap.data());
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureSize.X, TextureSize.Y, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex.Data.DataPtr);
 		PrintGLError();
 	}
 

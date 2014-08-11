@@ -19,7 +19,7 @@ struct Transform2D
 	Transform2D(Vec2I pos, Vec2F parallaxity = 1.f, Mat2 matrix = Mat2::Identity());
 	
 	template<class V = BasicVertex>
- 	void transform(V* startVertex, V* endVertex, Vec2F cameraPos = 0, Vec2F coordinateMult = 1) const;
+ 	void transform(V* startVertex, V* endVertex, Vec2F cameraPos = 0) const;
 	
 	Vec2F transformVec2(Vec2F v, Vec2F cameraPos = 0, Vec2F size = 0) const;
 	
@@ -50,9 +50,9 @@ inline Transform2D  Position2D(float v0, float v1){ return  Position2D(Vec2F(v0,
 inline Transform2D PositionGUI(float v0, float v1){ return PositionGUI(Vec2F(v0, v1)); }; // Render without Camera influence
 inline Transform2D  Parallax2D(float v0, float v1){ return  Parallax2D(Vec2F(v0, v1)); };
 
-inline Transform2D  Scale2D(Vec2F size  ){ return Mat2({size.X, 0},                 {0, size.Y}                );};
+inline Transform2D  Scale2D(Vec2F size  ){ return Mat2({size.X, 0},                    {0, size.Y}                );};
 inline Transform2D Rotate2D(Angle rot   ){ return Mat2(rot.rotateVec(Vec2F(1, 0))*-1,  rot.rotateVec(Vec2F(0, -1))*-1);};
-inline Transform2D  Shear2D(Vec2F factor){ return Mat2({1, factor.X},               {factor.Y, 1}              );};
+inline Transform2D  Shear2D(Vec2F factor){ return Mat2({1, factor.X},                  {factor.Y, 1}              );};
 
 inline Transform2D Scale2D(float v0, float v1){ return Scale2D(Vec2F(v0, v1)); };
 inline Transform2D Shear2D(float v0, float v1){ return Shear2D(Vec2F(v0, v1)); };

@@ -191,3 +191,8 @@ float InputMonitor::scrollState()
 {
 	return d->MouseDevice.scrollWheelState()[1];
 }
+
+void InputMonitor::setScrollState(float state)
+{
+	d->MouseDevice.setScrollWheelState(state);
+}

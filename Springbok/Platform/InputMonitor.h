@@ -30,7 +30,9 @@ public:
 	bool isKeyPressed(const std::string& key);
 	bool isMouseButtonPressed(int button);
 	Vec2F mousePosition();
+	
 	float scrollState();
+	void setScrollState(float state);
 	
 	std::vector<ButtonPressEvent>  poll();
 private:
