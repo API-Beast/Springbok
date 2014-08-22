@@ -24,10 +24,16 @@ constexpr Vec4F RGB(float red, float green, float blue, float alpha)
 							 alpha);
 };
 
-Vec4F Int32Color(unsigned int hex);
 Vec3F HCL(Angle hue, float chroma, float luma);
+
+Vec4F      Int2Color(u_int32_t hex);
+u_int32_t  Color2Int(Vec4F clr);
+
 Vec3F Lab2RGB(Vec3F lab);
 Vec3F RGB2Lab(Vec3F rgb);
+
+Vec4F Lab2RGB(Vec4F laba);
+Vec4F RGB2Lab(Vec4F rgba);
 
 constexpr Vec3F RefWhiteD65 = {0.950470, 1.000000, 1.088830}; // CIE standard illuminant D65
 

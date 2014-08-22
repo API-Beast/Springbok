@@ -13,6 +13,7 @@
 #include <Springbok/Types/Rect.h>
 #include <Springbok/Types/ObjectPointer.h>
 
+// TODO Remove Lazy Load
 struct Image
 {
 public:
@@ -22,6 +23,7 @@ public:
 public:
 	Image(const std::string& filename);
 	Image(const Image& other, Vec2I position, Vec2I size);
+	Image(TextureData& data);
 	Image(){};
 	Vec2I size();
 	Vec2I offset() const;

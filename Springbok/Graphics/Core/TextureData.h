@@ -19,7 +19,7 @@ struct TextureData
 {
 	static TextureData FromFile(const std::string& path);
 	bool exportToPNG(const std::string& path);
-	std::vector<Vec4I> findFrames(Vec4F border = Colors::Transparent);
+	std::vector<Vec4I> findFrames(Vec4F borderColor = Colors::Transparent, bool findBaseline = true);
 	
-	DataBlock2D<int32_t> Data;
+	DataBlock2D<u_int32_t> Data;
 };

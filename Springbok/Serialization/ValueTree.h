@@ -33,6 +33,6 @@ public:
 	void findPathSpec(const std::string& spec, bool* found, const StrList** retValue, const ValueTree** retSubtree, const ValueTree** lastFoundParent = nullptr, std::string* relativeToLast = nullptr) const;
 public:
 	Map<std::string, StrList> Values;
-	std::vector<ValueTree>      Children;
+	std::vector<ValueTree>    Children;
 	std::string               Identifier = "_root_";
 };

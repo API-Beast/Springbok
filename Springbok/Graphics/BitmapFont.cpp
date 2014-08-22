@@ -5,6 +5,7 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "BitmapFont.h"
+#include <Springbok/Resources.hpp>
 
 void BitmapFont::loadCharacter(char32_t which, Image sprite)
 {
@@ -35,6 +36,10 @@ void BitmapFont::loadGrid(Image spriteSheet, char32_t start, Vec2I charSize)
 			LoadedCharacters[index] = spriteSheet.cut(Vec2I(row, collumn)*charSize, charSize);
 			LoadedCharacters[index].setAlign(0);
 		}
+}
+
+void BitmapFont::loadAutoExtract(std::string path, std::string chars, int spacing)
+{
 }
 
 BitmapFont::TextLabel BitmapFont::text(const std::string& v)

@@ -115,6 +115,7 @@ def_assign_operator(%=);
 using Vec4F = Vec4<float>;
 using Vec4I = Vec4<int>;
 using Vec4U = Vec4<unsigned>;
+using Vec4C = Vec4<unsigned char>;
 //~!
 
 #include "Vec4_Templates.hpp"

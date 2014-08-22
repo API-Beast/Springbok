@@ -101,6 +101,7 @@ def_assign_operator(%=);
 using Vec3F = Vec3<float>;
 using Vec3I = Vec3<int>;
 using Vec3U = Vec3<unsigned>;
+using Vec3C = Vec3<unsigned char>;
 //! @}
 
 #include "Vec3_Templates.hpp"

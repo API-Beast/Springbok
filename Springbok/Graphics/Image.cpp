@@ -40,6 +40,10 @@ Image::Image(const Image& other, Vec2I position, Vec2I size)
 	TexCoords = Data->calcTextureCoordinates(mOffset, mSize);
 }
 
+Image::Image(TextureData& data)
+{
+}
+
 Image Image::cut(Vec2I position, Vec2I size)
 {
 	return Image(*this, position, size);

@@ -107,6 +107,7 @@ def_assign_operator(%=);
 using Vec2F = Vec2<float>;
 using Vec2I = Vec2<int>;
 using Vec2U = Vec2<unsigned>;
+using Vec2C = Vec2<unsigned char>;
 //! @}
 
 template<typename T>

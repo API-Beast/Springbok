@@ -30,6 +30,7 @@ public:
 	void loadCharacter(char32_t which, Image sprite);
 	void loadRange(Image spriteSheet, char32_t start, char32_t end);
 	void loadGrid(Image spriteSheet, char32_t start, Vec2I charSize);
+	void loadAutoExtract(std::string data, std::string chars, int spacing);
 	TextLabel text(const std::string& v);
 public:
 	std::map<char32_t, Image> LoadedCharacters;

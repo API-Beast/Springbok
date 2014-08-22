@@ -9,6 +9,8 @@
 
 #include <ctime>
 
+// Fractal 1D-Perlin Noise
+// I think...
 struct Noise1D
 {
 	unsigned int Seed = std::time(0);// This seed will be used to initialize the noise

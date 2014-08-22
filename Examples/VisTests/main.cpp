@@ -40,7 +40,8 @@ int main()
 	tests.push_back(new TileMapDrawing);
 	
 	BitmapFont font;
-	font.loadGrid(Image("SmallFont.png"), 0, 16);	
+	font.loadGrid(Image("SmallFont.png"), 0, 16);
+	//font.loadAutoExtract("outline_font.png", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789-+=!?.,:;'\"()_", 8);
 	
 	VisTest* curTest = tests[0];
 

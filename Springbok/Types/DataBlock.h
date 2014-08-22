@@ -30,3 +30,5 @@ struct DataBlock2D : public MemoryBlock
 	T& at(Vec2I i){ return at(i.X, i.Y); };
 	DataBlock2D<T> subDataBlock(Vec2I i, Vec2I size){ return subDataBlock(i.X, i.Y, size.X, size.Y); };
 };
+
+#include "DataBlock_Templates.hpp"
