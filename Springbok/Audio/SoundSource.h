@@ -7,8 +7,8 @@
 
 #include <string>
 
-#include <Springbok/Types/Vec2.h>
-#include <Springbok/Types/ObjectPointer.h>
+#include <Springbok/Foundation/Vec2.h>
+#include <Springbok/Foundation/ObjectPointer.h>
 #include "SoundManager.h"
 
 class SoundInstance;

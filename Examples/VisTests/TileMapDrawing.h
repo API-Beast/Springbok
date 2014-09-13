@@ -8,7 +8,7 @@
 
 #include "VisTest.h"
 
-#include <Springbok/World.hpp>
+#include <Springbok/Experimental/TileMapIterator.h>
 #include <Springbok/Graphics/Image.h>
 
 #include <map>

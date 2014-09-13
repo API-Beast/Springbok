@@ -8,7 +8,7 @@
 #include "Core/Texture.h"
 #include "Core/RenderContext2D.h"
 
-#include <Springbok/Resources/ResourceManager.h>
+#include <Springbok/Foundation/ResourceManager.h>
 
 Image::Image(const std::string& filename)
 {

@@ -14,10 +14,13 @@
 #include <Springbok/Graphics/Core/BatchRenderer.h>
 #include <Springbok/Graphics/Image.h>
 
-#include <Springbok/Resources/ResourceManager.h>
-#include <Springbok/Procedural/RandomNumberGenerator.h>
+#include <Springbok/Foundation/ResourceManager.h>
+
 #include <Springbok/Graphics/BitmapFont.h>
-#include <Springbok/Animation/Interpolation.h>
+
+#include <Springbok/Utils/Functions.h>
+#include <Springbok/Utils/RandomNumberGenerator.h>
+
 #include <Springbok/Serialization/ToString.h>
 
 #include "VisTest.h"

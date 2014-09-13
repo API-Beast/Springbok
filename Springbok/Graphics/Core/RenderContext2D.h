@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include <Springbok/Types/Angle.h>
-#include <Springbok/Types/Vec3.h>
+#include <Springbok/Foundation/Angle.h>
+#include <Springbok/Foundation/Vec3.h>
 
 #include "ShaderProgram.h"
 #include "RenderTarget.h"

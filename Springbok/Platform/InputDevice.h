@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <Springbok/Types.hpp>
+#include <Springbok/Foundation.hpp>
 #include <vector>
 #include <string>
 

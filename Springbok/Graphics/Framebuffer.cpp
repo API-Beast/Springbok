@@ -6,7 +6,7 @@
 
 #include "Framebuffer.h"
 #include "Core/GLES2.h"
-#include <Springbok/Utils/Debug.h>
+#include <Springbok/Utils/Functions.h>
 
 Framebuffer::Framebuffer(int width, int height, int precision)
 {
@@ -38,7 +38,7 @@ Framebuffer::Framebuffer(int width, int height, int precision)
 						case GL_FRAMEBUFFER_UNSUPPORTED:           				 errorStr="UNSUPPORTED";           break;
 						case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT: errorStr="INCOMPLETE_MISSING_ATTACHMENT"; break;
 		}
-		Debug::Write("Framebuffer($, $)\n OpenGL Framebuffer Incomplete: $ -> $", width, height, status, errorStr);
+		DebugLog("Framebuffer($, $)\n OpenGL Framebuffer Incomplete: $ -> $", width, height, status, errorStr);
 		ColorAttachment.destroy();
 		glDeleteFramebuffers(1, &Index);
 		return;

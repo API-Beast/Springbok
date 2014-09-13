@@ -6,7 +6,7 @@
 
 #include "GLES2.h"
 #include <Springbok/Platform/GameSurface.h>
-#include <Springbok/Utils/Debug.h>
+#include <Springbok/Utils/Functions.h>
 
 namespace FunctionPointers
 {
@@ -151,7 +151,7 @@ namespace FunctionPointers
 bool LoadOpenGLFunctions(GameSurface* surface)
 {
 	bool failure = false;
-#define oglLoadFunc(A) FunctionPointers::A = surface->getGLFunction<decltype(FunctionPointers::A)>(#A); if(FunctionPointers::A == nullptr){ Debug::Write("Couldn't load OpenGL function $", #A); failure = true; }
+#define oglLoadFunc(A) FunctionPointers::A = surface->getGLFunction<decltype(FunctionPointers::A)>(#A); if(FunctionPointers::A == nullptr){ DebugLog("Couldn't load OpenGL function $", #A); failure = true; }
 	oglLoadFunc(glActiveTexture);
 	oglLoadFunc(glAttachShader);
 	oglLoadFunc(glBindAttribLocation);
@@ -307,7 +307,7 @@ bool _PrintGLError(const char* file, int line)
 						case GL_OUT_OF_MEMORY:          				errorStr="OUT_OF_MEMORY";          break;
 						case GL_INVALID_FRAMEBUFFER_OPERATION:  errorStr="INVALID_FRAMEBUFFER_OPERATION";  break;
 		}
-		Debug::Write("$ at line $\n OpenGL Error: $ -> $", file, line, error, errorStr);
+		DebugLog("$ at line $\n OpenGL Error: $ -> $", file, line, error, errorStr);
 		return true;
 	}
 	return false;

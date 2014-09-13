@@ -6,7 +6,7 @@
 
 #include "LineDrawing.h"
 #include <Springbok/Platform/GameSurface.h>
-#include <Springbok/Procedural/RandomNumberGenerator.h>
+#include <Springbok/Utils/RandomNumberGenerator.h>
 
 void LineDrawing::initialize()
 {

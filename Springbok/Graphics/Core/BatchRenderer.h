@@ -10,8 +10,7 @@
 #include "Transform2D.h"
 #include "RenderTarget.h"
 #include "RenderContext2D.h"
-
-#include <Springbok/Types/Rect.h>
+#include "Rect.h"
 
 class RenderContext2D;
 

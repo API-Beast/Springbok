@@ -3,7 +3,6 @@
 
 #include "StringParser.h"
 #include "Unicode.h"
-#include <Springbok/Generic/Logic.h>
 
 bool StringParser::atEnd()
 {
@@ -110,6 +109,6 @@ StringParser::StringParser(const std::string& toParse, int start) : mStringToPar
 std::string StringParser::postProcess(const std::string& s)
 {
 	if(StripWhitespace)
-		return UTF8::Strip(s, Or(&UCS::IsWhitespace, &UCS::IsInvisible));
+		return UTF8::StripWhile(s, [](Codepoint c){ return UCS::IsWhitespace(c) || UCS::IsInvisible(c); });
 	return s;
 }

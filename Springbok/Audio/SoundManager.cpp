@@ -6,7 +6,7 @@
 #include "SoundManager.h"
 #include "SoundInstance.h"
 #include <cassert>
-#include <Springbok/Types/PointerGuard.h>
+#include <Springbok/Foundation/PointerGuard.h>
 #include <AL/al.h>
 
 SoundManager* SoundManager::gInstance = nullptr;

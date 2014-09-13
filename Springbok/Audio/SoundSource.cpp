@@ -8,8 +8,8 @@
 #include "SoundManager.h"
 #include "SoundSample.h"
 
-#include <Springbok/Resources/ResourceManager.h>
-#include <Springbok/Utils/Debug.h>
+#include <Springbok/Foundation/ResourceManager.h>
+#include <Springbok/Utils/Functions.h>
 
 SoundSource::SoundSource(const std::string& filename)
 {
@@ -23,14 +23,14 @@ SoundInstance* SoundSource::play(Vec2F position, SoundManager* s)
 	if(Sample->Channels > 1 && !Sample->WarnedAboutStereoPosition)
 	{
 		Sample->WarnedAboutStereoPosition = true;
-		Debug::Write("WARNING: Trying to play stereo sound $ at a position, non-global sound samples should be mono as attenuation doesn't work with Stereo.", Sample->Location);
+		DebugLog("WARNING: Trying to play stereo sound $ at a position, non-global sound samples should be mono as attenuation doesn't work with Stereo.", Sample->Location);
 	}
 	if(Sample->Valid == false)
 	{
 		if(!Sample->WarnedAboutStereoPosition)
 		{
 			Sample->WarnedAboutStereoPosition = true;
-			Debug::Write("WARNING: Trying to play invalid sound, see errors above.");
+			DebugLog("WARNING: Trying to play invalid sound, see errors above.");
 		}
 		return nullptr;
 	}

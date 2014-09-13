@@ -8,7 +8,7 @@
 
 #include "VisTest.h"
 #include <Springbok/Graphics/SpriteRenderer.h>
-#include <Springbok/Shapes/LineShape.h>
+#include <Springbok/Graphics/LineShape.h>
 
 struct LineDrawing : public VisTest
 {

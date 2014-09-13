@@ -5,9 +5,9 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "ShaderProgram.h"
-#include <Springbok/Resources/ResourceManager.h>
-#include <Springbok/Types/PointerGuard.h>
-#include <Springbok/Utils/Debug.h>
+#include <Springbok/Foundation/ResourceManager.h>
+#include <Springbok/Foundation/PointerGuard.h>
+#include <Springbok/Utils/Functions.h>
 
 namespace
 {
@@ -71,7 +71,7 @@ bool ShaderProgram::link()
 	glGetProgramiv(Handle, GL_LINK_STATUS, &success);
 	if(!success)
 	{
-		Debug::Write("Shader linking failed:\n $", GetShaderProgramLog(Handle));
+		DebugLog("Shader linking failed:\n $", GetShaderProgramLog(Handle));
 	}
 	PrintGLError();
 }

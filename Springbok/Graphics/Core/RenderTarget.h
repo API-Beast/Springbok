@@ -5,7 +5,7 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #pragma once
-#include <Springbok/Types/Vec2.h>
+#include <Springbok/Foundation/Vec2.h>
 
 class RenderTarget
 {

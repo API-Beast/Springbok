@@ -6,8 +6,7 @@
 
 #include <string>
 #include <Springbok/Parsing/UTF8.h>
-#include <Springbok/Generic/Logic.h>
-#include <Springbok/Math/Operations.h>
+#include <Springbok/Utils/Math.h>
 
 template<typename T> std::string ToString(T x){ return std::to_string(x); };
 inline std::string ToString(const std::string& x){ return x; };

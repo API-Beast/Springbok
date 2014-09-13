@@ -52,7 +52,7 @@ void BatchRenderer<E,V>::draw(const T& object, Transform2D transformation, const
 	
 	if(mParams.AddedVertices > mMaxVertices)
 	{
-		//Debug::Write("BatchRenderer: Wrote more vertices than we could handle. Flushing all batches and restarting.");
+		//DebugLog("BatchRenderer: Wrote more vertices than we could handle. Flushing all batches and restarting.");
 		// Rewind, flush, and press play again
 		mParams = oldParams;
 		flushBatches();
@@ -96,7 +96,7 @@ void BatchRenderer<E,V>::drawRaw(const T& object, const V& vertex, const E& elem
 	
 	if(mParams.AddedVertices > mMaxVertices)
 	{
-		//Debug::Write("BatchRenderer: Wrote more vertices than we could handle. Flushing all batches and restarting.");
+		//DebugLog("BatchRenderer: Wrote more vertices than we could handle. Flushing all batches and restarting.");
 		// Rewind, flush, and press play again
 		mParams = oldParams;
 		flushBatches();

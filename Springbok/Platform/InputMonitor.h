@@ -6,7 +6,7 @@
 #pragma once
 
 #include "ButtonPressEvent.h"
-#include <Springbok/Types.hpp>
+#include <Springbok/Foundation.hpp>
 #include <vector>
 #include <string>
 

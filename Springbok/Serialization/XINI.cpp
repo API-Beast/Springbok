@@ -7,7 +7,6 @@
 #include "XINI.h"
 #include <Springbok/Parsing.hpp>
 #include <Springbok/Utils.hpp>
-#include <Springbok/Generic/Logic.h>
 #include <vector>
 
 using namespace std;
@@ -41,7 +40,7 @@ void LoadXINI(const std::string& content, ValueTree* parent)
 	p.StripWhitespace = true;
 	p.SkipWhitespace  = true;
 	
-	auto isOperator = InSet({'=', '{', '[', ';', '#'});
+	auto isOperator = [](Codepoint c){ return c == '=' || c == '{' || c == '[' || c == ';' || '#'; };
 	
 	std::string key, value;
 	bool unfinalizedEntry = false;
@@ -87,7 +86,8 @@ void LoadXINI(const std::string& content, ValueTree* parent)
 				{
 					StringParser lookAhead = p;
 					// Look at the next line, if it is not a valid [ABC], ABC{} or A=B structure consume it.
-					std::string newKey = lookAhead.advanceTo(Or(isOperator, InSet({',', '"', '\n'})));
+					auto lambda = [&](Codepoint c){ return isOperator(c) || c==',' || c=='"' || c=='\n'; };
+					std::string newKey = lookAhead.advanceTo(lambda);
 					bool properSyntax = isOperator(lookAhead.last()) && newKey.find_first_of(' ') == -1;
 					
 					std::string add = "";
@@ -112,7 +112,7 @@ void LoadXINI(const std::string& content, ValueTree* parent)
 				}
 				break;
 			default:
-				Debug::Write("XINI parser is broken. Unimplemented operator: $", oper);
+				DebugLog("XINI parser is broken. Unimplemented operator: $", oper);
 		}
 		
 	}
@@ -134,7 +134,7 @@ void WriteXINI(const ValueTree& tree, std::ostream& out, int intendation)
 		if(entry.empty())
 			out << "\"\"";
 		else if(entry.size() > 10
-			   || entry != UTF8::Strip(entry, &UCS::IsWhitespace)
+			   || entry != UTF8::StripWhile(entry, &UCS::IsWhitespace)
 				 || entry != UTF8::Strip(entry, U'"'))
 			out << '"' << entry << '"';
 		else

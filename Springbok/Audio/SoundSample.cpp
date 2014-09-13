@@ -6,7 +6,7 @@
 #include "SoundSample.h"
 #include "../Dependencies/stb_vorbis.h"
 #include "SoundManager.h"
-#include <Springbok/Utils/Debug.h>
+#include <Springbok/Utils/Functions.h>
 #include <AL/al.h>
 #include <cassert>
 
@@ -21,7 +21,7 @@ SoundSample::SoundSample(const std::string& filename)
 	stb_vorbis* file = stb_vorbis_open_filename(const_cast<char*>(filename.c_str()), &error, NULL);
 	if(error)
 	{
-		Debug::Write("stb_vorbis error while loading $: $", filename, error);
+		DebugLog("stb_vorbis error while loading $: $", filename, error);
 		Valid = false;
 	}
 	else
@@ -40,7 +40,7 @@ SoundSample::SoundSample(const std::string& filename)
 		Channels = info.channels;
 		int alError = alGetError();
 		if(alError)
-			Debug::Write("OpenAL error after loading $: $", filename, alError);
+			DebugLog("OpenAL error after loading $: $", filename, alError);
 		
 		Valid = true;
 	}

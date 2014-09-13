@@ -5,7 +5,7 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include <Springbok/Graphics/Core/GLES2.h>
-#include <Springbok/Utils/Debug.h>
+#include <Springbok/Utils/Functions.h>
 #include <GLFW/glfw3.h>
 #include "../GameSurface.h"
 #include "WindowUserData.h"
@@ -63,7 +63,7 @@ GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint, in
 	else glfwSwapInterval(1);
 	
 	if(!LoadOpenGLFunctions(this))
-		Debug::Write("Loading OpenGL functions failed.");
+		DebugLog("Loading OpenGL functions failed.");
 }
 
 GameSurface::~GameSurface()

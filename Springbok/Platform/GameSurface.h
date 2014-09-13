@@ -6,7 +6,7 @@
 #pragma once
 #include <string>
 
-#include <Springbok/Types/Vec2.h>
+#include <Springbok/Foundation/Vec2.h>
 #include <Springbok/Graphics/Core/RenderTarget.h>
 
 class GameSurfaceData;

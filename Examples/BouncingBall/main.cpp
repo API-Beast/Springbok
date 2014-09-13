@@ -13,7 +13,7 @@
 #include <Springbok/Graphics/Image.h>
 #include <Springbok/Graphics/SpriteRenderer.h>
 
-#include <Springbok/Resources/ResourceManager.h>
+#include <Springbok/Foundation/ResourceManager.h>
 
 #include "data.h"
 

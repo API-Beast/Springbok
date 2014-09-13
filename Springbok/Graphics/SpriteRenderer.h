@@ -8,7 +8,7 @@
 
 #include "Core/BatchRenderer.h"
 #include "Framebuffer.h"
-#include <Springbok/Types.hpp>
+#include <Springbok/Foundation.hpp>
 
 class SpriteRenderer
 {

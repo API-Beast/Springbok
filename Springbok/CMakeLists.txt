@@ -21,24 +21,21 @@ option(BUILD_STATIC "If ON Springbok will be build as static lib instead." ON)
 ##       Library        ##
 ## -------------------- ##
 
-add_subdirectory(Animation)
-add_subdirectory(Audio)
-add_subdirectory(Dependencies)
-add_subdirectory(Generic)
-add_subdirectory(Graphics)
-add_subdirectory(Math)
-add_subdirectory(Platform)
-add_subdirectory(Resources)
-add_subdirectory(Parsing)
-add_subdirectory(Procedural)
-add_subdirectory(Serialization)
-add_subdirectory(Shapes)
-add_subdirectory(Types)
-add_subdirectory(Utils)
-add_subdirectory(World)
+add_subdirectory(Foundation/)
+add_subdirectory(Utils/)
+add_subdirectory(Dependencies/)
 
-set(SUBTARGETS sbAnimation sbAudio sbDependencies sbGeneric sbGraphics sbMath sbParsing sbPlatform sbProcedural sbResources sbSerialization sbUtils sbShapes sbTypes sbWorld)
-set(COMBINED_HEADERS Animation.hpp Audio.hpp Generic.hpp Graphics.hpp Math.hpp Parsing.hpp Platform.hpp Procedural.hpp Resources.hpp Shapes.hpp Utils.hpp Types.hpp World.hpp)
+add_subdirectory(Graphics/)
+add_subdirectory(Audio/)
+add_subdirectory(Parsing/)
+
+add_subdirectory(Platform/)
+add_subdirectory(Experimental/)
+add_subdirectory(Serialization/)
+
+
+set(SUBTARGETS sbFoundation sbUtils sbDependencies sbGraphics sbAudio sbParsing sbPlatform sbExperimental sbSerialization)
+set(COMBINED_HEADERS Foundation.hpp Utils.hpp Dependencies.hpp Graphics.hpp Audio.hpp Parsing.hpp Experimental.hpp Serialization.hpp)
 
 RESOLVE_SUBTARGET_CHILDREN(SUBTARGETS ${SUBTARGETS})
 GET_SUBTARGET_OBJECTS(SUBTARGETS_EXPANDED ${SUBTARGETS})

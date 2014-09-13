@@ -5,7 +5,7 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "BitmapFont.h"
-#include <Springbok/Resources.hpp>
+#include <Springbok/Foundation/ResourceManager.h>
 
 void BitmapFont::loadCharacter(char32_t which, Image sprite)
 {

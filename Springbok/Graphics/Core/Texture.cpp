@@ -10,7 +10,7 @@
 #include <cassert>
 #include <iostream>
 
-#include <Springbok/Utils/Debug.h>
+#include <Springbok/Utils/Functions.h>
 
 namespace
 {

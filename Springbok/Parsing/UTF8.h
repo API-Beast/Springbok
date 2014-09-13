@@ -29,9 +29,9 @@ namespace UTF8
 	std::string StripLeft (const std::string& str, Codepoint c);
 	std::string StripRight(const std::string& str, Codepoint c);
 	
-	template<typename C> std::string Strip     (const std::string& str, const C& c);
-	template<typename C> std::string StripLeft (const std::string& str, const C& c);
-	template<typename C> std::string StripRight(const std::string& str, const C& c);
+	template<typename C> std::string StripWhile(const std::string& str, const C& c);
+	template<typename C> std::string StripLeftWhile(const std::string& str, const C& c);
+	template<typename C> std::string StripRightWhile(const std::string& str, const C& c);
 	
 	std::string Chop(const std::string& str, int fromStart, int fromEnd);
 	bool Contains(const std::string& str, Codepoint c);

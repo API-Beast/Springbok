@@ -10,8 +10,8 @@
 #include "Core/VertexStruct.h"
 #include "Core/Texture.h"
 
-#include <Springbok/Types/Rect.h>
-#include <Springbok/Types/ObjectPointer.h>
+#include "Core/Rect.h"
+#include <Springbok/Foundation/ObjectPointer.h>
 
 // TODO Remove Lazy Load
 struct Image

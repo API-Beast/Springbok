@@ -6,11 +6,12 @@
 
 #pragma once
 
-#include <Springbok/Types/Vec2.h>
-#include <Springbok/Types/Angle.h>
-#include <Springbok/Types/Mat2.h>
+#include <Springbok/Foundation/Vec2.h>
+#include <Springbok/Foundation/Angle.h>
+#include <Springbok/Utils/Functions.h>
+
+#include "Mat2.h"
 #include "VertexStruct.h"
-#include <Springbok/Utils/Debug.h>
 
 struct Transform2D
 {

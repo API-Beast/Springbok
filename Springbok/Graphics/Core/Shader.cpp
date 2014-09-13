@@ -5,7 +5,7 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "Shader.h"
-#include <Springbok/Utils/Debug.h>
+#include <Springbok/Utils/Functions.h>
 
 #include <fstream>
 
@@ -62,9 +62,9 @@ bool Shader::compile()
 	if(!success)
 	{
 		if(Type == Vertex)
-			Debug::Write("Vertex shader compilation failed:\n $", GetShaderLog(Handle));
+			DebugLog("Vertex shader compilation failed:\n $", GetShaderLog(Handle));
 		if(Type == Fragment)
-			Debug::Write("Fragment shader compilation failed:\n $", GetShaderLog(Handle));
+			DebugLog("Fragment shader compilation failed:\n $", GetShaderLog(Handle));
 	}
 	return success;
 }

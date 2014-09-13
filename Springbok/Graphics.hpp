@@ -4,5 +4,6 @@
 #include <Springbok/Graphics/BitmapFont.h>
 #include <Springbok/Graphics/Framebuffer.h>
 #include <Springbok/Graphics/Image.h>
+#include <Springbok/Graphics/LineShape.h>
 #include <Springbok/Graphics/SpriteRenderer.h>
 

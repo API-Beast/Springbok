@@ -6,7 +6,7 @@
 
 #include "TextureData.h"
 #include "../../Dependencies/lodepng.h"
-#include <Springbok/Utils/Debug.h>
+#include <Springbok/Utils/Functions.h>
 #include <cassert>
 
 TextureData TextureData::FromFile(const std::string& path)
@@ -22,7 +22,7 @@ TextureData TextureData::FromFile(const std::string& path)
 	r.Data.UsedBytes     = r.Data.ReservedBytes;
 	
 	if(error)
-		Debug::Write("Can't decode $ as PNG: $", path, lodepng_error_text(error));
+		DebugLog("Can't decode $ as PNG: $", path, lodepng_error_text(error));
 	return r;
 }
 

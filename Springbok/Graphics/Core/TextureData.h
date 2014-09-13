@@ -11,9 +11,9 @@
 
 #include <cstdint>
 
-#include <Springbok/Types/DataBlock.h>
-#include <Springbok/Types/Rect.h>
-#include <Springbok/Types/Color.h>
+#include <Springbok/Foundation/DataBlock.h>
+#include <Springbok/Utils/Color.h>
+#include "Rect.h"
 
 struct TextureData
 {

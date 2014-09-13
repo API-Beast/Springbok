@@ -1,6 +1,5 @@
 #include "UTF8.h"
 #include "SSTest.h"
-#include <Springbok/Generic/Logic.h>
 
 namespace
 {
@@ -26,9 +25,9 @@ void test()
 void strip()
 {
 	SST_M_ASSERT_START;
-	SST_M_ASSERT_EQ(UTF8::StripLeft("__Test__", EqualTo('_')), "Test__");
-	SST_M_ASSERT_EQ(UTF8::StripRight("__Test__", EqualTo('_')), "__Test");
-	SST_M_ASSERT_EQ(UTF8::Strip("__Test__", EqualTo('_')), "Test");
+	SST_M_ASSERT_EQ(UTF8::StripLeft("__Test__", u'_'), "Test__");
+	SST_M_ASSERT_EQ(UTF8::StripRight("__Test__", u'_'), "__Test");
+	SST_M_ASSERT_EQ(UTF8::Strip("__Test__", u'_'), "Test");
 	SST_M_ASSERT_END;	
 }
 

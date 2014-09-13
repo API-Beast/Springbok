@@ -44,7 +44,7 @@ void SpriteRenderer::drawRepeatedInf(const T& obj, Vec2F offset, Vec2F scale, Ve
 	Vec2F size = obj.size() * scale;
 	Vec2I max = (Context.renderTarget()->size() / size) + 8;
 	Vec2I i;
-	offset = Modulo(offset, size);
+	offset = {Modulo(offset.X, size.X), Modulo(offset.Y, size.Y)};
 	
 	for(i.X = -max.X/2; i.X < max.X/2; ++i.X)
 		for(i.Y = -max.Y/2; i.Y < max.Y/2; ++i.Y)

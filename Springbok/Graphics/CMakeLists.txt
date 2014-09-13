@@ -1,5 +1,5 @@
-set(H_FILES BitmapFont.h Framebuffer.h Image.h SpriteRenderer.h SpriteRenderer_Templates.hpp)
-set(CPP_FILES BitmapFont.cpp Framebuffer.cpp Image.cpp SpriteRenderer.cpp)
+set(H_FILES LineShape.h LineShape_Templates.hpp BitmapFont.h Framebuffer.h Image.h SpriteRenderer.h SpriteRenderer_Templates.hpp)
+set(CPP_FILES LineShape.cpp BitmapFont.cpp Framebuffer.cpp Image.cpp SpriteRenderer.cpp)
 
 add_library(sbGraphics OBJECT ${H_FILES} ${CPP_FILES})
 

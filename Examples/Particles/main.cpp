@@ -14,8 +14,8 @@
 #include <Springbok/Graphics/Core/BatchRenderer.h>
 #include <Springbok/Graphics/Image.h>
 
-#include <Springbok/Resources/ResourceManager.h>
-#include <Springbok/Procedural/RandomNumberGenerator.h>
+#include <Springbok/Foundation/ResourceManager.h>
+#include <Springbok/Utils/RandomNumberGenerator.h>
 #include "AssetDefinition.h"
 
 int main()
@@ -68,17 +68,17 @@ int main()
 			{
 				Particle party;
 				party.Definition = &gAssets.Spark;
-				party.Position   = Vec2F(gRNG.getNumber(-surface.size().X/2, +surface.size().X/2), surface.size().Y/2 + 100);
-				party.Velocity   = Vec2F(0.f, -surface.size().Y/2) + gRNG.getVec2(Vec2F(-400), Vec2F(400));
+				party.Position   = Vec2F(gRNG.randFloat(-surface.size().X/2, +surface.size().X/2), surface.size().Y/2 + 100);
+				party.Velocity   = Vec2F(0.f, -surface.size().Y/2) + gRNG.randVec2F(-400, 400);
 				party.Position  -= party.Velocity*particleEmitAccum;
 				party.Age -= particleEmitAccum;
-				party.Size = gRNG.getNumber(0.01f, 10.0f);
-				party.Size.Y *= gRNG.getNumber(1.f, 3.0f);
-				party.Color.X = 0.75f + gRNG.getFloat()/4;
-				party.Color.Z = 0.75f + gRNG.getFloat()/4;
+				party.Size = gRNG.randFloat(0.01f, 10.0f);
+				party.Size.Y *= gRNG.randFloat(1.f, 3.0f);
+				party.Color.X = 0.75f + gRNG.randFloat(0.25f);
+				party.Color.Z = 0.75f + gRNG.randFloat(0.25f);
 				party.Color.W = (10.f - party.Size.X) / 10;
-				party.Rotation = Angle::FromTurn(gRNG.getFloat());
-				if(gRNG.getFloat() < (0.20/kParticles))
+				party.Rotation = Angle::FromTurn(gRNG.randFloat());
+				if(gRNG.randFloat() < (0.20/kParticles))
 					party.Color.W *= (kParticles/5);
 				particles.addParticle(party);
 			}

@@ -18,24 +18,24 @@ void InitData()
 	BallHeight.insert(0.5f, 350.f);
 	BallHeight.insert(0.8f, 50.f);
 	BallHeight.insert(1.0f, 0.f);
-	BallHeight.enableRepeat();
+	BallHeight.Repeat = true;
 	
 	BallScale.insert(0.0f, Vec2F(1.0f, 0.9f));
 	BallScale.insert(0.1f, Vec2F(0.9f, 1.1f));
 	BallScale.insert(0.5f, Vec2F(1.0f, 1.0f));
 	BallScale.insert(0.9f, Vec2F(0.9f, 1.1f));
 	BallScale.insert(1.0f, Vec2F(1.0f, 0.9f));
-	BallScale.enableRepeat();
+	BallScale.Repeat = true;
 	
 	ShadowAlpha.insert(0.0f, 1.00f);
 	ShadowAlpha.insert(0.1f, 0.75f);
 	ShadowAlpha.insert(0.5f, 0.30f);
 	ShadowAlpha.insert(0.9f, 0.75f);
 	ShadowAlpha.insert(1.0f, 1.00f);
-	ShadowAlpha.enableRepeat();
+	ShadowAlpha.Repeat = true;
 	
 	ShadowScale.insert(0.0f, 0.7f);
 	ShadowScale.insert(0.5f, 1.3f);
 	ShadowScale.insert(1.0f, 0.7f);
-	ShadowScale.enableRepeat();
+	ShadowScale.Repeat = true;
 }

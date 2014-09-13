@@ -6,10 +6,11 @@
 
 #pragma once
 
-#include <Springbok/Types.hpp>
+#include <Springbok/Foundation.hpp>
 #include <Springbok/Graphics/Image.h>
+#include <Springbok/Utils/KeyframeList.h>
+
 #include <vector>
-#include <Springbok/Animation/KeyframeList.h>
 
 struct ParticleDefinition
 {

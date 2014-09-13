@@ -6,7 +6,7 @@
 #pragma once
 
 #include <string>
-#include <Springbok/Types/Rect.h>
+#include "Rect.h"
 #include "TextureData.h"
 
 struct Texture

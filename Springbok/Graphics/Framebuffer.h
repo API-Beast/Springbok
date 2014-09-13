@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <Springbok/Types/ObjectPointer.h>
+#include <Springbok/Foundation/ObjectPointer.h>
 
 #include "Core/RenderTarget.h"
 #include "Core/Texture.h"

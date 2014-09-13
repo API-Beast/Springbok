@@ -7,7 +7,7 @@
 
 #include <vector>
 #include <AL/alc.h>
-#include <Springbok/Types/Vec2.h>
+#include <Springbok/Foundation/Vec2.h>
 
 class SoundInstance;
 
