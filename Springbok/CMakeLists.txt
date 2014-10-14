@@ -34,8 +34,8 @@ add_subdirectory(Experimental/)
 add_subdirectory(Serialization/)
 
 
-set(SUBTARGETS sbFoundation sbUtils sbDependencies sbGraphics sbAudio sbParsing sbPlatform sbExperimental sbSerialization)
-set(COMBINED_HEADERS Foundation.hpp Utils.hpp Dependencies.hpp Graphics.hpp Audio.hpp Parsing.hpp Experimental.hpp Serialization.hpp)
+set(SUBTARGETS sbFoundation sbUtils sbDependencies sbGraphics sbAudio sbParsing sbPlatform sbExperimental sbSerialization sbPlatform)
+set(COMBINED_HEADERS Foundation.hpp Utils.hpp Dependencies.hpp Graphics.hpp Audio.hpp Parsing.hpp Experimental.hpp Serialization.hpp Platform.hpp)
 
 RESOLVE_SUBTARGET_CHILDREN(SUBTARGETS ${SUBTARGETS})
 GET_SUBTARGET_OBJECTS(SUBTARGETS_EXPANDED ${SUBTARGETS})
