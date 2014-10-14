@@ -8,7 +8,7 @@
 template<typename C>
 std::string StringParser::advanceTo(const C& cond)
 {
-	int start = mCurPosition;
+	int start = Position;
 	Codepoint cur;
 	int stop = start;
 	cur = UTF8::DecodeAt(mStringToParse, stop);
@@ -16,13 +16,35 @@ std::string StringParser::advanceTo(const C& cond)
 	{
 		if(cond(cur))
 		{
-			mCurPosition = stop;
-			std::string retVal = mStringToParse.substr(start, mCurPosition-start);
-			UTF8::SkipForward(mStringToParse, &mCurPosition, 1);
+			Position = stop;
+			std::string retVal = mStringToParse.substr(start, Position-start);
+			UTF8::SkipForward(mStringToParse, &Position, 1);
 			return postProcess(retVal);
 		}
 		cur = UTF8::DecodeNext(mStringToParse, &stop);
 	}
-	mCurPosition = stop;
-	return postProcess(mStringToParse.substr(start, mCurPosition-start));
+	Position = stop;
+	return postProcess(mStringToParse.substr(start, Position-start));
+};
+
+template<typename C>
+std::string StringParser::advanceWhile(const C& cond)
+{
+	int start = Position;
+	Codepoint cur;
+	int stop = start;
+	cur = UTF8::DecodeAt(mStringToParse, stop);
+	while(stop < mStringToParse.size())
+	{
+		if(!cond(cur))
+		{
+			Position = stop;
+			std::string retVal = mStringToParse.substr(start, Position-start);
+			// Note that we don't skip forward here
+			return postProcess(retVal);
+		}
+		cur = UTF8::DecodeNext(mStringToParse, &stop);
+	}
+	Position = stop;
+	return postProcess(mStringToParse.substr(start, Position-start));
 };

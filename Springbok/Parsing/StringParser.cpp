@@ -6,13 +6,13 @@
 
 bool StringParser::atEnd()
 {
-	return !(mCurPosition < mStringToParse.size());
+	return !(Position < mStringToParse.size());
 }
 
 std::string StringParser::advanceToNested(Codepoint open, Codepoint close)
 {
-	int start = mCurPosition;
-	int stop = mCurPosition;
+	int start = Position;
+	int stop = Position;
 	int currentNesting = 1;
 	Codepoint cur = UTF8::DecodeAt(mStringToParse, stop);
 	while(stop < mStringToParse.size())
@@ -25,30 +25,30 @@ std::string StringParser::advanceToNested(Codepoint open, Codepoint close)
 			break;
 		cur = UTF8::DecodeNext(mStringToParse, &stop);
 	}
-	mCurPosition = stop;
-	UTF8::SkipForward(mStringToParse, &mCurPosition, 1);
+	Position = stop;
+	UTF8::SkipForward(mStringToParse, &Position, 1);
 	return postProcess(mStringToParse.substr(start, stop-start));
 }
 
 Codepoint StringParser::peek(int i)
 {
-	int temp = mCurPosition;
+	int temp = Position;
 	UTF8::SkipForward(mStringToParse, &temp, i);
 	return UTF8::DecodeAt(mStringToParse, temp);
 }
 
 Codepoint StringParser::skipAhead()
 {
-	Codepoint cur = UTF8::DecodeAt(mStringToParse, mCurPosition);
+	Codepoint cur = UTF8::DecodeAt(mStringToParse, Position);
 	if(SkipWhitespace)
 		while(UCS::IsWhitespace(cur))
-			cur = UTF8::DecodeNext(mStringToParse, &mCurPosition);
-	return mCurPosition;
+			cur = UTF8::DecodeNext(mStringToParse, &Position);
+	return Position;
 }
 
 Codepoint StringParser::peekAhead()
 {
-	int temp = mCurPosition;
+	int temp = Position;
 	Codepoint cur = UTF8::DecodeAt(mStringToParse, temp);
 	if(SkipWhitespace)
 		while(UCS::IsWhitespace(cur))
@@ -63,12 +63,12 @@ Codepoint StringParser::last()
 
 void StringParser::reset(int to)
 {
-	mCurPosition = to;
+	Position = to;
 }
 
 std::string StringParser::advanceTo(Codepoint point)
 {
-	int start = mCurPosition;
+	int start = Position;
 	Codepoint cur;
 	int stop = start;
 	cur = UTF8::DecodeAt(mStringToParse, stop);
@@ -76,24 +76,24 @@ std::string StringParser::advanceTo(Codepoint point)
 	{
 		if(cur == point)
 		{
-			mCurPosition = stop;
-			std::string result = mStringToParse.substr(start, mCurPosition-start);
-			UTF8::SkipForward(mStringToParse, &mCurPosition, 1);
+			Position = stop;
+			std::string result = mStringToParse.substr(start, Position-start);
+			UTF8::SkipForward(mStringToParse, &Position, 1);
 			return postProcess(result);
 		}
 		cur = UTF8::DecodeNext(mStringToParse, &stop);
 	}
-	mCurPosition = stop;
-	return postProcess(mStringToParse.substr(start, mCurPosition-start));
+	Position = stop;
+	return postProcess(mStringToParse.substr(start, Position-start));
 }
 
 Codepoint StringParser::next()
 {
-	Codepoint cur = UTF8::DecodeAt(mStringToParse, mCurPosition);
+	Codepoint cur = UTF8::DecodeAt(mStringToParse, Position);
 	if(SkipWhitespace)
 		while(UCS::IsWhitespace(cur))
-			cur = UTF8::DecodeNext(mStringToParse, &mCurPosition);
-	return UTF8::DecodeNext(mStringToParse, &mCurPosition);
+			cur = UTF8::DecodeNext(mStringToParse, &Position);
+	return UTF8::DecodeNext(mStringToParse, &Position);
 }
 
 std::string StringParser::str()
@@ -101,7 +101,7 @@ std::string StringParser::str()
 	return mStringToParse;
 }
 
-StringParser::StringParser(const std::string& toParse, int start) : mStringToParse(toParse), mCurPosition(start)
+StringParser::StringParser(const std::string& toParse, int start) : mStringToParse(toParse), Position(start)
 {
 
 }
@@ -111,4 +111,14 @@ std::string StringParser::postProcess(const std::string& s)
 	if(StripWhitespace)
 		return UTF8::StripWhile(s, [](Codepoint c){ return UCS::IsWhitespace(c) || UCS::IsInvisible(c); });
 	return s;
+}
+
+void StringParser::reroll(int i)
+{
+	UTF8::SkipBackward(mStringToParse, &Position, i);
+}
+
+void StringParser::skip(int i)
+{
+	UTF8::SkipForward(mStringToParse, &Position, i);
 }
