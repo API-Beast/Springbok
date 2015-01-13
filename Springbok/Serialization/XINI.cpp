@@ -40,7 +40,7 @@ void LoadXINI(const std::string& content, ValueTree* parent)
 	p.StripWhitespace = true;
 	p.SkipWhitespace  = true;
 	
-	auto isOperator = [](Codepoint c){ return c == '=' || c == '{' || c == '[' || c == ';' || '#'; };
+	auto isOperator = [](Codepoint c){ return c == '=' || c == '{' || c == '[' || c == ';' || c == '#'; };
 	
 	std::string key, value;
 	bool unfinalizedEntry = false;
