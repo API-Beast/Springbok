@@ -12,7 +12,7 @@ struct Mat2
 {
 	Vec2F Rows[2];
 	
-	constexpr Mat2(Vec2F r0, Vec2F r1) : Rows({r0, r1}){};
+	Mat2(Vec2F r0, Vec2F r1){ Rows[0] = r0; Rows[1] = r1; };
 	      Vec2F& operator[](int index)      { return Rows[index]; };
 	const Vec2F& operator[](int index) const{ return Rows[index]; };
 	
@@ -29,7 +29,7 @@ struct Mat2
 			      {Rows[1].dot(Collums[0]), Rows[1].dot(Collums[1])}};
 	};
 	
-	static constexpr Mat2 Identity(){ return Mat2(Vec2F(1, 0), Vec2F(0, 1)); }; 
+	static Mat2 Identity(){ return Mat2(Vec2F(1, 0), Vec2F(0, 1)); }; 
 };
 
 #define def_operator(OPER)\

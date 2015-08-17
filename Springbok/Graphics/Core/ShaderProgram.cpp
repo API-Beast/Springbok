@@ -72,8 +72,10 @@ bool ShaderProgram::link()
 	if(!success)
 	{
 		DebugLog("Shader linking failed:\n $", GetShaderProgramLog(Handle));
+		return false;
 	}
 	PrintGLError();
+	return true;
 }
 
 namespace

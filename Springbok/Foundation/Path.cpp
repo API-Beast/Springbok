@@ -7,6 +7,8 @@
 #include "Path.h"
 #include <Springbok/Platform/FileSystem.h>
 
+std::vector<std::string> Path::gSearchPaths;
+
 Path::Path(const std::string& path, const std::vector< std::string >& searchPaths)
 {
 	for(const std::string& searchpath : searchPaths)

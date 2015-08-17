@@ -13,7 +13,7 @@ MACRO(ENABLE_CPP11)
   ENDIF()
   
   if(HAS_CPP11_FLAG OR HAS_CPP0X_FLAG)
-    ADD_DEFINITIONS(${CPP11_FLAG})
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPP11_FLAG}")
   else()
     message(WARNING "C++11 Features are required but not detected.")
   endif()

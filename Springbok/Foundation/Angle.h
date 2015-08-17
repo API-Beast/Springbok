@@ -9,9 +9,9 @@
 #include <cmath>
 
 //! A half turn in radians. Equal to the ratio of a circle's circumference to it's diameter.
-constexpr float Pi  = 3.14159;
+constexpr double Pi  = 3.141592653589793;
 //! A full turn in radians. Equal to the ratio of a circle's circumference to it's radius.
-constexpr float Tau = Pi * 2;
+constexpr double Tau = Pi * 2;
 
 //! @ingroup Angle
 //! @{
@@ -50,8 +50,6 @@ struct Angle
 	constexpr double sin();
 	constexpr double cos();
 	static constexpr Angle Atan2(double a, double b);
-	static constexpr Angle Acos(double A);
-	static constexpr Angle Asin(double A);
 	
 public:
 	static Angle FromBooleanDirectionMatrix(bool up, bool right, bool down, bool left);
