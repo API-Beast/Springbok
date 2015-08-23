@@ -12,6 +12,10 @@
 #include <unistd.h>
 #include <cstdlib>
 
+#ifdef _WIN32
+	#include <windows.h>
+#endif
+
 FileSystem::Info::Info(const std::string& path)
 {
 	Path = path;
@@ -25,6 +29,9 @@ FileSystem::Info::Info(const std::string& path)
 			IsFolder = true;
 		if((fileInfo.st_mode & S_IFREG) == S_IFREG)
 			IsFile = true;
+
+		#ifdef S_IFLNK
+		// TODO: Make this work under Windows.
 		if((fileInfo.st_mode & S_IFLNK) == S_IFLNK)
 		{
 			IsLink = true;
@@ -33,6 +40,7 @@ FileSystem::Info::Info(const std::string& path)
 			buffer[fileInfo.st_size] = '\0';
 			LinkedPath = buffer;
 		}
+		#endif
 		
 		LastModification = time(NULL) - fileInfo.st_mtime;
 		Size = fileInfo.st_size;
@@ -41,15 +49,22 @@ FileSystem::Info::Info(const std::string& path)
 
 std::string FileSystem::ParentPath(const std::string& path)
 {
-	return path.substr(0, path.find_last_of('/'));
+	return path.substr(0, path.find_last_of("/\\"));
 }
 
 std::string FileSystem::AbsolutePath(const std::string& path)
 {
-	char* rp = realpath(path.c_str(), NULL);
-	std::string retVal = rp;
-	free(rp);
-	return retVal;
+	#ifdef _WIN32
+		char buffer[4096];
+		GetFullPathName(path.c_str(), 4096, buffer, NULL);
+		std::string retVal = buffer;
+		return retVal;
+	#else
+		char* rp = realpath(path.c_str(), NULL);
+		std::string retVal = rp;
+		free(rp);
+		return retVal;
+	#endif
 }
 
 std::string FileSystem::RelativePath(const std::string& path, const std::string& relativeTo)
@@ -72,7 +87,4 @@ std::string FileSystem::RelativePath(const std::string& path, const std::string&
 	}
 }
 
-std::vector< std::string > FileSystem::FolderContents(const std::string& dir)
-{
 
-}

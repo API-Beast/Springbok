@@ -34,7 +34,6 @@ namespace
 {
 #ifdef SPRINGBOK_WINDOWS
 double gConversion = 0.0;
-bool gHasPerformanceCounter = false;
 #endif
 
 #ifdef SPRINGBOK_MAC
@@ -49,13 +48,10 @@ double gPrecision = 0.0;
 PreciseClock::PreciseClock()
 {
 	d = new PreciseClockData;
-#ifdef SPRINGBOK_WINDOWS
-	if(gHasPerformanceCounter == -1)
-	{
-		LARGE_INTEGER freq;
-		gHasPerformanceCounter = QueryPerformanceFrequency(&freq);
-		gConversion = 1.0 / double(freq.QuadPart);
-	}
+#ifdef SPRINGBOK_WINDOWS 
+	LARGE_INTEGER freq;
+	QueryPerformanceFrequency(&freq);
+	gConversion = 1.0 / double(freq.QuadPart);
 #endif
 #ifdef SPRINGBOK_MAC
 	if(gConversion == 0.)
@@ -115,9 +111,6 @@ double PreciseClock::elapsed()
 
 bool PreciseClock::isMonotonic()
 {
-#ifdef SPRINGBOK_WINDOWS
-	return gHasPerformanceCounter;
-#endif
 	return true;
 }
 

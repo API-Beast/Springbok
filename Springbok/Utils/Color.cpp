@@ -68,7 +68,7 @@ Vec3F HCL(Angle hue, float chroma, float luma)
 	return Lab2RGB(lab);
 }
 
-Vec4F Int2Color(u_int32_t hex)
+Vec4F Int2Color(unsigned int hex)
 {
 	union
 	{
@@ -79,7 +79,7 @@ Vec4F Int2Color(u_int32_t hex)
 	return Vec4F(val.color) / 256.f;
 }
 
-u_int32_t Color2Int(Vec4F clr)
+unsigned int Color2Int(Vec4F clr)
 {
 	union
 	{

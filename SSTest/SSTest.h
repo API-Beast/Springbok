@@ -181,6 +181,10 @@ typename std::enable_if<!std::is_convertible<T, To>::value, T>::type ToType(cons
 
 bool AlmostEqual(float A, float B, int maxUlps);
 
+#ifdef _MSC_VER // Visual Studio
+	#define __PRETTY_FUNCTION__ __FUNCTION__
+#endif
+
 #define SST_ASSERT(x) if(!(x)) throw SST::AssertFailure(#x , __FILE__, __PRETTY_FUNCTION__, __LINE__)
 #define SST_ASSERT_EQ(x, y) { auto ass__a = (x); auto ass__b = (y); if(!(ass__a == ass__b)) throw SST::AssertFailure( std::string(#x " == " #y), SST::ToString(SST::ToType<decltype(ass__b)>(ass__a)) + " != " + SST::ToString(ass__b), __FILE__, __PRETTY_FUNCTION__, __LINE__); }
 #define SST_M_ASSERT_START { std::vector<SST::AssertFailure> __asserts__

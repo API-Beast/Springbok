@@ -21,5 +21,5 @@ struct TextureData
 	bool exportToPNG(const std::string& path);
 	std::vector<Vec4I> findFrames(Vec4F borderColor = Colors::Transparent, bool findBaseline = true);
 	
-	DataBlock2D<u_int32_t> Data;
+	DataBlock2D<unsigned int> Data;
 };

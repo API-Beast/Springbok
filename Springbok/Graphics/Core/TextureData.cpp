@@ -18,7 +18,7 @@ TextureData TextureData::FromFile(const std::string& path)
 	r.Data.Width         = w;
 	r.Data.Height        = h;
 	r.Data.Autonomous    = true;
-	r.Data.ReservedBytes = r.Data.Width * r.Data.Height * sizeof(u_int32_t);
+	r.Data.ReservedBytes = r.Data.Width * r.Data.Height * sizeof(unsigned int);
 	r.Data.UsedBytes     = r.Data.ReservedBytes;
 	
 	if(error)
@@ -37,7 +37,7 @@ bool TextureData::exportToPNG(const std::string& path)
 std::vector< Vec4I > TextureData::findFrames(Vec4F border, bool findBaseline)
 {
 	std::vector<Vec4I> frames;
-	u_int32_t borderClr = Color2Int(border);
+	unsigned int borderClr = Color2Int(border);
 	frames.reserve(24);
 	
 	for(int y = 0; y < Data.Height; ++y)

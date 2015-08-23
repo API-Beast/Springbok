@@ -26,8 +26,8 @@ constexpr Vec4F RGB(float red, float green, float blue, float alpha)
 
 Vec3F HCL(Angle hue, float chroma, float luma);
 
-Vec4F      Int2Color(u_int32_t hex);
-u_int32_t  Color2Int(Vec4F clr);
+Vec4F Int2Color(unsigned int hex);
+unsigned int Color2Int(Vec4F clr);
 
 Vec3F Lab2RGB(Vec3F lab);
 Vec3F RGB2Lab(Vec3F rgb);
