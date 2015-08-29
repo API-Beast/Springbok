@@ -6,8 +6,8 @@
 #pragma once
 
 #include <string>
-#include "Rect.h"
 #include "TextureData.h"
+#include "Rect.h"
 
 struct Texture
 {

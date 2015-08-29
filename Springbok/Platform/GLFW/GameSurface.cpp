@@ -59,8 +59,10 @@ GameSurface::GameSurface(const std::string& title, int flags, Vec2U sizeHint, in
 	
 	glfwSetWindowSizeCallback(d->Window, &windowSizeCallback);
 	
-	if(flags & NoVSync) glfwSwapInterval(0);
-	else glfwSwapInterval(1);
+	if(flags & NoVSync)
+		glfwSwapInterval(0);
+	else
+		glfwSwapInterval(1);
 	
 	if(!LoadOpenGLFunctions(this))
 		DebugLog("Loading OpenGL functions failed.");

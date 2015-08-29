@@ -76,7 +76,7 @@ float LineShape::calcLength()
 	return length;
 }
 
-void LineShape::divideLinear(float pixels)
+void LineShape::divideLinear(float pixels, int maxSegments)
 {
 	std::vector<Point> newPoints;
 	
@@ -88,6 +88,9 @@ void LineShape::divideLinear(float pixels)
 		
 		float length = (p0.Position - p1.Position).length();
 		int segments = 1 + length / pixels;
+
+		if((segments > maxSegments) && (maxSegments != -1))
+			segments = maxSegments;
 		
 		newPoints.push_back(p0);
 		for(int j = 1; j < segments; ++j)
@@ -101,7 +104,7 @@ void LineShape::divideLinear(float pixels)
 	Points = newPoints;
 }
 
-void LineShape::divideSmooth(float pixels)
+void LineShape::divideSmooth(float pixels, int maxSegments)
 {
 	std::vector<Point> newPoints;
 	
@@ -117,6 +120,9 @@ void LineShape::divideSmooth(float pixels)
 		
 		float length = (p1.Position - p2.Position).length();
 		int segments = 1 + length / pixels;
+
+		if((segments > maxSegments) && (maxSegments != -1))
+			segments = maxSegments;
 		
 		newPoints.push_back(p1);
 		for(int j = 1; j < segments; ++j)

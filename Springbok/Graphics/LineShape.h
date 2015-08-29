@@ -39,8 +39,8 @@ public:
 	Image              TexImage;
 public:
 	void  insert(Vec2F position, float width=3, Vec4F color=1);
-	void  divideLinear(float pixels);
-	void  divideSmooth(float pixels);
+	void  divideLinear(float pixels, int maxSegments=500);
+	void  divideSmooth(float pixels, int maxSegments=500);
 	void  divideCubicBezier(float pixels);
 	void  applyTexture(const Image& img, float repetitions = 1.f);
 	void  applyStyle(const LineStyle& style);

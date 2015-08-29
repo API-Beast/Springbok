@@ -13,7 +13,6 @@
 
 #include <Springbok/Foundation/DataBlock.h>
 #include <Springbok/Utils/Color.h>
-#include "Rect.h"
 
 struct TextureData
 {

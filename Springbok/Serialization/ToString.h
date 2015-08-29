@@ -4,6 +4,8 @@
 //  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
+#pragma once
+
 #include <string>
 #include <Springbok/Parsing/UTF8.h>
 #include <Springbok/Utils/Math.h>

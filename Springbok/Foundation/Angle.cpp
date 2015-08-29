@@ -165,3 +165,8 @@ Angle operator/(float value, Angle angle)
 {
 	return angle / value;
 }
+
+Angle Angle::Atan2(double y, double x)
+{
+	return Angle::FromRadians(std::atan2(y, x));
+};

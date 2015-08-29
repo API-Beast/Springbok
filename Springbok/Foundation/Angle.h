@@ -49,7 +49,7 @@ struct Angle
 	
 	constexpr double sin();
 	constexpr double cos();
-	static constexpr Angle Atan2(double a, double b);
+	static Angle Atan2(double y, double x);
 	
 public:
 	static Angle FromBooleanDirectionMatrix(bool up, bool right, bool down, bool left);
