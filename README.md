@@ -1,6 +1,5 @@
 
-## Springbok was once again reorganized and the new version can be found [here](https://github.com/API-Beast/Springbok).
-
+## Springbok was once again reorganized and the new version can be found [here](https://github.com/API-Beast/Springbok). This repository remains on Git-Hub as a lot of functionality was removed from the new version.
 
 # Springbok
 
