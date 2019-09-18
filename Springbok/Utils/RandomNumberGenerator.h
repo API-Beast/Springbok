@@ -6,22 +6,21 @@
 
 #pragma once
 
-#include <Springbok/Foundation/Vec3.h>
+#include <stdint.h>
 
-#include <ctime>
-
-//~ ## class RandomNumberGenerator
-//~ A minimal & cheap generator for pseudo-random numbers.
+//~ ### RandomNumberGenerator
+//~ *Dependencies: Standard headers only (stdint.h, math.h, limits.h)*
+//~
+//~ A minimal and very fast generator for pseudo-random numbers based on [GameRand](http://goo.gl/jKX3nV).
 class RandomNumberGenerator
 {
 public:
-	//~ ### Constructors
+	//~ #### Constructors
 	//~ These all set the seed to the specified parameters.
-	RandomNumberGenerator(unsigned int seed = unsigned(std::time(0)));  // Derive the 64-Bit seed from a 32-Bit seed. If no seed is given use the system time as seed.
-	RandomNumberGenerator(unsigned int lowSeed, unsigned int highSeed);
-	RandomNumberGenerator(unsigned long long int fullSeed);
+	RandomNumberGenerator(uint32_t seed);  // Derive the 64-Bit seed from a 32-Bit seed.
+	RandomNumberGenerator(uint32_t lowSeed, uint32_t highSeed);
 	
-	//~ ### Generator Functions
+	//~ #### Generator Functions
 	//~ Generate random numbers inside a specific range, this Range is always inclusive. (E.g. it is always possible that it returns the max value itself.)
 	float randFloat();                     // float in [0.0, 1.0]
 	float randFloat(float min, float max); // [min, max]
@@ -30,22 +29,10 @@ public:
 	int randInt(int max);
 	int randInt(int min, int max);
 
-	//~ These functions generate a random number for every component of the vector and return them, again in a vector.
-	Vec2F randVec2F(){ return randVec2F(0.f, 1.f); };
-	Vec3F randVec3F(){ return randVec3F(0.f, 1.f); };
-	Vec2F randVec2F(Vec2F max){ return randVec2F(0.f, max); };
-	Vec3F randVec3F(Vec3F max){ return randVec3F(0.f, max); };
-	Vec2F randVec2F(Vec2F min, Vec2F max);
-	Vec3F randVec3F(Vec3F min, Vec3F max);
-
 	//~ Generates 32 random bits, all other generator functions are based on this one.
-	unsigned int generate();
+	uint32_t generate();
 public:
-	//~ ### Member Variables
-	unsigned int HighSeed; // First 32 Bits of the Seed.
-	unsigned int LowSeed;  // Last  32 Bits of the Seed.
+	//~ #### Member Variables
+	uint32_t HighSeed; // First 32 Bits of the Seed.
+	uint32_t LowSeed;  // Last  32 Bits of the Seed.
 };
-
-//~ ### Global Variables
-//~ Outside of class scope
-extern RandomNumberGenerator gRNG; // A global, default-initialized instance of the RandomNumberGenerator for convinience.

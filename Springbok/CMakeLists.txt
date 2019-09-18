@@ -30,12 +30,11 @@ add_subdirectory(Audio/)
 add_subdirectory(Parsing/)
 
 add_subdirectory(Platform/)
-add_subdirectory(Experimental/)
 add_subdirectory(Serialization/)
 
 
-set(SUBTARGETS sbFoundation sbUtils sbDependencies sbGraphics sbAudio sbParsing sbPlatform sbExperimental sbSerialization sbPlatform)
-set(COMBINED_HEADERS Foundation.hpp Utils.hpp Dependencies.hpp Graphics.hpp Audio.hpp Parsing.hpp Experimental.hpp Serialization.hpp Platform.hpp)
+set(SUBTARGETS sbFoundation sbUtils sbDependencies sbGraphics sbAudio sbParsing sbPlatform sbSerialization sbPlatform)
+set(COMBINED_HEADERS Foundation.hpp Utils.hpp Dependencies.hpp Graphics.hpp Audio.hpp Parsing.hpp Serialization.hpp Platform.hpp)
 
 RESOLVE_SUBTARGET_CHILDREN(SUBTARGETS ${SUBTARGETS})
 GET_SUBTARGET_OBJECTS(SUBTARGETS_EXPANDED ${SUBTARGETS})

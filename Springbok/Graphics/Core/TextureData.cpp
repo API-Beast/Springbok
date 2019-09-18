@@ -12,9 +12,9 @@
 TextureData TextureData::FromFile(const std::string& path)
 {
 	TextureData r;
-  unsigned error;
+	unsigned error;
 	unsigned w, h;
-  error = lodepng_decode32_file(&(r.Data.DataPtr), &w, &h, path.c_str());
+	error = lodepng_decode32_file(&(r.Data.DataPtr), &w, &h, path.c_str());
 	r.Data.Width         = w;
 	r.Data.Height        = h;
 	r.Data.Autonomous    = true;

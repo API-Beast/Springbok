@@ -7,6 +7,7 @@
 #pragma once
 
 #include <Springbok/Foundation/Vec2.h>
+#include <string>
 
 class SpriteRenderer;
 class GameSurface;

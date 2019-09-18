@@ -25,6 +25,7 @@ int main()
 	InputMonitor       input(&surface);
 	RenderContext2D renderer(&surface);
 	ResourceManager::GetInstance()->findPrimaryResourcePath({FileSystem::ParentPath(__FILE__)+"/Assets", "./Assets"});
+	RandomNumberGenerator rng(234576543);
 
 	// Start the timer
 	PreciseClock timer;
@@ -68,17 +69,17 @@ int main()
 			{
 				Particle party;
 				party.Definition = &gAssets.Spark;
-				party.Position   = Vec2F(gRNG.randFloat(-surface.size().X/2, +surface.size().X/2), surface.size().Y/2 + 100);
-				party.Velocity   = Vec2F(0.f, -surface.size().Y/2) + gRNG.randVec2F(-400, 400);
+				party.Position   = Vec2F(rng.randFloat(-surface.size().X/2, +surface.size().X/2), surface.size().Y/2 + 100);
+				party.Velocity   = Vec2F(0.f, -surface.size().Y/2) + Vec2F(rng.randFloat(-400, 400), rng.randFloat(-400, 400));
 				party.Position  -= party.Velocity*particleEmitAccum;
 				party.Age -= particleEmitAccum;
-				party.Size = gRNG.randFloat(0.01f, 10.0f);
-				party.Size.Y *= gRNG.randFloat(1.f, 3.0f);
-				party.Color.X = 0.75f + gRNG.randFloat(0.25f);
-				party.Color.Z = 0.75f + gRNG.randFloat(0.25f);
+				party.Size = rng.randFloat(0.01f, 10.0f);
+				party.Size.Y *= rng.randFloat(1.f, 3.0f);
+				party.Color.X = 0.75f + rng.randFloat(0.25f);
+				party.Color.Z = 0.75f + rng.randFloat(0.25f);
 				party.Color.W = (10.f - party.Size.X) / 10;
-				party.Rotation = Angle::FromTurn(gRNG.randFloat());
-				if(gRNG.randFloat() < (0.20/kParticles))
+				party.Rotation = Angle::FromTurn(rng.randFloat());
+				if(rng.randFloat() < (0.20/kParticles))
 					party.Color.W *= (kParticles/5);
 				particles.addParticle(party);
 			}

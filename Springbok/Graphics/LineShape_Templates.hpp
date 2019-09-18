@@ -26,7 +26,7 @@ void LineShape::prepareVertices(RenderDataPointer< V, E >& data) const
 		Vec2F outTangent = pTang.Position - pNext.Position;
 		
 		tangent = (inTangent + outTangent) / 2;
-		if(tangent.isNull())
+		if(tangent == Vec2F(0, 0))
 			tangent = Vec2F(1, 0);
 		
 		Vec2F side = tangent.rot90().normalized();

@@ -21,8 +21,3 @@ Vec2F Rect::size() const
 {
 	return Points[3] - Points[0];
 };
-
-bool Rect::pointInside(Vec2F pos) const
-{
-	return (Points[0] < pos) && (pos < Points[3]);
-}

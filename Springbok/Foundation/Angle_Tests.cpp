@@ -1,4 +1,5 @@
 #include "Angle.h"
+#include "Vec2_Extra.h"
 #include <SSTest.h>
 
 namespace

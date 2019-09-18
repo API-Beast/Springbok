@@ -23,8 +23,8 @@ struct Mat2
 	Mat2 mult(Mat2 other) const
 	{
 		Vec2F Collums[2];
-		Collums[0] = Vec2F(other.Rows[0][0], other.Rows[1][0]);
-		Collums[1] = Vec2F(other.Rows[0][1], other.Rows[1][1]);
+		Collums[0] = Vec2F(other.Rows[0].X, other.Rows[1].Y);
+		Collums[1] = Vec2F(other.Rows[0].Y, other.Rows[1].X);
 		return {{Rows[0].dot(Collums[0]), Rows[0].dot(Collums[1])},
 			      {Rows[1].dot(Collums[0]), Rows[1].dot(Collums[1])}};
 	};

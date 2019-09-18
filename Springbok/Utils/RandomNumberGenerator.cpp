@@ -5,10 +5,8 @@
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
 #include "RandomNumberGenerator.h"
-#include <cmath>
-#include <climits>
-
-RandomNumberGenerator gRNG;
+#include <math.h>
+#include <limits.h>
 
 namespace
 {
@@ -25,7 +23,7 @@ namespace
 }
 
 // Based on http://www.redditmirror.cc/cache/websites/mjolnirstudios.com_7yjlc/mjolnirstudios.com/IanBullard/files/79ffbca75a75720f066d491e9ea935a0-10.html
-RandomNumberGenerator::RandomNumberGenerator(unsigned int seed)
+RandomNumberGenerator::RandomNumberGenerator(uint32_t seed)
 {
 	// The Problem with this RNG is that very similar seeds result in very similar results, making it not suitable for passing arbitary information as seed, we try to fix this by applying a hash function to the seed.
 	uint32_t h = hash(seed);
@@ -33,21 +31,15 @@ RandomNumberGenerator::RandomNumberGenerator(unsigned int seed)
 	HighSeed = h ^ 0x49616E42;
 }
 
-RandomNumberGenerator::RandomNumberGenerator(unsigned int lowSeed, unsigned int highSeed)
+RandomNumberGenerator::RandomNumberGenerator(uint32_t lowSeed, uint32_t highSeed)
 {
 	LowSeed = hash(lowSeed);
 	HighSeed = hash(highSeed);
 }
 
-RandomNumberGenerator::RandomNumberGenerator(long long unsigned int fullSeed)
+uint32_t RandomNumberGenerator::generate()
 {
-	LowSeed = (unsigned int)fullSeed;
-	HighSeed = (unsigned int)(fullSeed << (sizeof(unsigned int)*8));
-}
-
-unsigned int RandomNumberGenerator::generate()
-{
-	static const int shift = sizeof(int)/2 * 8;
+	static const int shift = sizeof(uint32_t)/2 * 8;
 	HighSeed =  (HighSeed >> shift) + (HighSeed << shift);
 	HighSeed += LowSeed;
 	LowSeed  += HighSeed;
@@ -66,26 +58,16 @@ int RandomNumberGenerator::randInt(int min, int max)
 
 float RandomNumberGenerator::randFloat()
 {
-	return generate() / double(UINT_MAX);
+	return generate() / double(UINT32_MAX);
 }
 
 float RandomNumberGenerator::randFloat(float min, float max)
 {
 	// With max instead of the std::nextafterf max would be exclusive, e.g. it would never be reached.
-	return min + randFloat() * (std::nextafterf(max, INFINITY) - min);
+	return min + randFloat() * (nextafterf(max, INFINITY) - min);
 }
 
 float RandomNumberGenerator::randFloat(float max)
 {
 	return randFloat(0.f, max);
-}
-
-Vec2F RandomNumberGenerator::randVec2F(Vec2F min, Vec2F max)
-{
-	return {randFloat(min.X, max.X), randFloat(min.Y, max.Y)};
-}
-
-Vec3F RandomNumberGenerator::randVec3F(Vec3F min, Vec3F max)
-{
-	return {randFloat(min.X, max.X), randFloat(min.Y, max.Y), randFloat(min.Z, max.Z)};
 }

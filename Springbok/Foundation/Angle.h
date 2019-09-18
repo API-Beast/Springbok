@@ -6,6 +6,7 @@
 #pragma once
 
 #include "Vec2.h"
+#include "../Utils/Math.h"
 #include <cmath>
 
 //! A half turn in radians. Equal to the ratio of a circle's circumference to it's diameter.

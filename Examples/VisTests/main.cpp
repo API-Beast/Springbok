@@ -26,7 +26,6 @@
 #include "VisTest.h"
 #include "LineDrawing.h"
 #include "ColorGen.h"
-#include "TileMapDrawing.h"
 
 // Warning, quick and ugly code to test features.
 
@@ -40,7 +39,7 @@ int main()
 	std::vector<VisTest*> tests;
 	tests.push_back(new LineDrawing);
 	tests.push_back(new ColorGen);
-	tests.push_back(new TileMapDrawing);
+	//tests.push_back(new TileMapDrawing);
 	
 	BitmapFont font;
 	font.loadGrid(Image("SmallFont.png"), 0, 16);

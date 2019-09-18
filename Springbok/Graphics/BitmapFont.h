@@ -48,7 +48,7 @@ void BitmapFont::TextLabel::prepareVertices(RenderDataPointer<V, E>& data) const
 		V* oldVertex = data.Vertices;
 		sprite.prepareVertices(data);
 		Position2D(offset).transform(oldVertex, data.Vertices);
-		offset[0] += sprite.size()[0];
+		offset.X += sprite.size().X;
 		
 		
 		c = UTF8::DecodeNext(String, &index);

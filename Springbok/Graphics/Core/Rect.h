@@ -18,5 +18,4 @@ public:
 	Rect(Vec2F pos, Vec2F size) : Rect(pos.X, pos.Y, size.X, size.Y){};
 	
 	Vec2F size() const;
-	bool pointInside(Vec2F pos) const;
 };
