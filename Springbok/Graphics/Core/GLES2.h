@@ -485,10 +485,16 @@ namespace FunctionPointers
 	extern void (*glVertexAttrib4f)(GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
 	extern void (*glVertexAttrib4fv)(GLuint index, const GLfloat *v);
 	extern void (*glVertexAttribPointer)(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer);
+
+	// Extra Functions
+	extern GLuint (*glGetDebugMessageLog)(GLuint count, GLsizei bufSize, GLenum *sources, GLenum *types, GLuint *ids, GLenum *severities, GLsizei *lengths, GLchar *messageLog);
+	extern void (*glGenVertexArrays)(GLsizei n, GLuint *arrays);
+	extern void (*glBindVertexArray)(GLuint array);
 };
 using namespace FunctionPointers;
 
 class GameSurface;
 bool LoadOpenGLFunctions(GameSurface* surface);
 bool _PrintGLError(const char* file, int line);
-#define PrintGLError( ) _PrintGLError(__FILE__, __LINE__)
+//#define PrintGLError( ) _PrintGLError(__FILE__, __LINE__)
+#define PrintGLError( ) (0)

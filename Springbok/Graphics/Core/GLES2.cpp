@@ -146,6 +146,10 @@ namespace FunctionPointers
 	void (*glVertexAttrib4f)(GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) = nullptr;
 	void (*glVertexAttrib4fv)(GLuint index, const GLfloat *v) = nullptr;
 	void (*glVertexAttribPointer)(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer) = nullptr;
+
+	GLuint (*glGetDebugMessageLog)(GLuint count, GLsizei bufSize, GLenum *sources, GLenum *types, GLuint *ids, GLenum *severities, GLsizei *lengths, GLchar *messageLog) = nullptr;
+	void (*glGenVertexArrays)(GLsizei n, GLuint *arrays) = nullptr;
+	void (*glBindVertexArray)(GLuint array) = nullptr;
 };
 
 bool LoadOpenGLFunctions(GameSurface* surface)
@@ -288,13 +292,35 @@ bool LoadOpenGLFunctions(GameSurface* surface)
 	oglLoadFunc(glVertexAttrib4f);
 	oglLoadFunc(glVertexAttrib4fv);
 	oglLoadFunc(glVertexAttribPointer);
+	// Additional functions
+	oglLoadFunc(glGetDebugMessageLog);
+	oglLoadFunc(glGenVertexArrays);
+	oglLoadFunc(glBindVertexArray);
 #undef oglLoadFunc
 	return !failure;
 };
 
 bool _PrintGLError(const char* file, int line)
 {
-	GLenum error = glGetError();
+	while(true)
+	{
+		GLchar bfr[512];
+		GLenum source[5];
+		GLenum type[5];
+		GLuint id[5];
+		GLenum severity[5];
+		GLsizei length[5];
+		auto msgs = glGetDebugMessageLog(1, 512, source, type, id, severity, length, bfr);
+		if(msgs)
+		{
+			bfr[512*5-1] = '\0';
+			DebugLog("$ at line $\n$", file, line, bfr);
+		}
+		else
+			break;
+	}
+	
+	/*GLenum error = glGetError();
 	if(error != GL_NO_ERROR)
 	{
 		std::string errorStr = "???";
@@ -309,6 +335,6 @@ bool _PrintGLError(const char* file, int line)
 		}
 		DebugLog("$ at line $\n OpenGL Error: $ -> $", file, line, error, errorStr);
 		return true;
-	}
+	}*/
 	return false;
 };

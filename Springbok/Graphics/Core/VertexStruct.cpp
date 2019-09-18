@@ -6,6 +6,7 @@
 
 #include "VertexStruct.h"
 #include "ShaderProgram.h"
+#include "RenderContext2D.h"
 
 template<typename T, typename U> constexpr const void* offsetOf(U T::*member)
 {
@@ -23,9 +24,10 @@ void BasicVertex::SetupOffsets()
 	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 32, offsetOf(&BasicVertex::Color));
 }
 
-void BasicElement::SetupUniforms(const ShaderProgram* shader)
+void BasicElement::SetupUniforms(const RenderContext2D* context)
 {
-	shader->setUniform("TextureSampler", 0);
+	context->shader().setUniform("TextureSampler", 0);
+	context->shader().setUniform("CoordMult", Vec2F(1) / (context->renderTarget()->size()/2) * context->Camera.Zoom);
 }
 
 void BasicElement::bindUniforms() const

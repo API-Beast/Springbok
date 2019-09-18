@@ -12,6 +12,7 @@
 struct BasicVertex;
 struct BasicElement;
 struct ShaderProgram;
+struct RenderContext2D;
 
 struct BasicVertex
 {
@@ -42,7 +43,7 @@ struct BasicElement
 	BasicElement() = default;
 	BasicElement(Blending mode){ BlendMode = mode; };
 	
-	static void SetupUniforms(const ShaderProgram* shader);
+	static void SetupUniforms(const RenderContext2D* context);
 	
 	void bindUniforms() const;
 	bool canBeBatched(const BasicElement& other)

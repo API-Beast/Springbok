@@ -7,14 +7,14 @@
 
 Rect::Rect(float x, float y, float width, float height)
 {
-	Points[0][0] = x;
-	Points[0][1] = y;
-	Points[1][0] = x + width;
-	Points[1][1] = y;
-	Points[2][0] = x;
-	Points[2][1] = y + height;
-	Points[3][0] = x + width;
-	Points[3][1] = y + height;
+	Points[0].X = x;
+	Points[0].Y = y;
+	Points[1].X = x + width;
+	Points[1].Y = y;
+	Points[2].X = x;
+	Points[2].Y = y + height;
+	Points[3].X = x + width;
+	Points[3].Y = y + height;
 };
 
 Vec2F Rect::size() const

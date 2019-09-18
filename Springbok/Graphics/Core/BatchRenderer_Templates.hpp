@@ -26,13 +26,18 @@ BatchRenderer<E,V>::BatchRenderer(int bytes) // Bytes is 2 MB by default
 	mElementData = new E       [mMaxElements + 2]; 
 	mIndexData   = new GLushort[mMaxIndices  + mExtraVertices*2]; 
 	
+	glGenVertexArrays(1, &mVertexArray);
+	glBindVertexArray(mVertexArray);
+
 	glGenBuffers(1, &mVertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, mMaxVertices * sizeof(V), NULL, GL_DYNAMIC_DRAW); 
+	PrintGLError();
 	
 	glGenBuffers(1, &mIndexBuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIndexBuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, mMaxIndices * sizeof(GLushort), NULL, GL_DYNAMIC_DRAW); 
+	PrintGLError();
 };
 
 template<class E, class V>
@@ -59,24 +64,7 @@ void BatchRenderer<E,V>::draw(const T& object, Transform2D transformation, const
 		draw<T>(object, transformation, vertex, element);
 	}
 	else
-	{
-		transformation.transform(oldVertices,
-														mParams.Vertices,
-														mCurrentContext->cameraCenter());
-		
-		if(RoundCoordinates)
-		{
-			Vec2F coordMult = Vec2F(1) / (mCurrentContext->renderTarget()->size()/2) * mCurrentContext->Camera.Zoom;
-			for(V* it = oldVertices; it < mParams.Vertices; ++it)
-				it->Position  = ((Vec2F(1, -1) * Vec2F(Round(it->Position.X), Round(it->Position.Y))) + 0.375f) * coordMult;
-		}
-		else
-		{
-			Vec2F coordMult = Vec2F(1, -1) / (mCurrentContext->renderTarget()->size()/2) * mCurrentContext->Camera.Zoom;
-			for(V* it = oldVertices; it < mParams.Vertices; ++it)
-				it->Position  *= coordMult;
-		}
-	}
+		transformation.transform(oldVertices, mParams.Vertices, mCurrentContext->cameraCenter());
 };
 
 template<class E, class V>
@@ -146,15 +134,20 @@ void BatchRenderer<E,V>::flushBatches()
 	
 	if(!mGLStateIsSet)
 	{
+		glBindVertexArray(mVertexArray);
 		glBindBuffer(GL_ARRAY_BUFFER,         mVertexBuffer);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,  mIndexBuffer);
-		
+		PrintGLError();
 		V::SetupOffsets();
-		E::SetupUniforms(&mCurrentContext->shader());
+		PrintGLError();
+		E::SetupUniforms(mCurrentContext);
+		PrintGLError();
 		mGLStateIsSet = true;
 	}
 	
 	glBufferSubData(GL_ARRAY_BUFFER,         0, Min(mParams.AddedVertices, mMaxVertices) * sizeof(V), mVertexData);
+	PrintGLError();
+	
 	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, Min(mParams.AddedIndices, mMaxIndices) * sizeof(GLushort), mIndexData);
 	
 	PrintGLError();
@@ -162,6 +155,7 @@ void BatchRenderer<E,V>::flushBatches()
 	for(E* it = mElementData; it < last; ++it)
 	{
 		it->bindUniforms();
+		PrintGLError();
 		GLushort numIndices = (it->IndexEnd - it->IndexStart) - 1;
 		glDrawElements(GL_TRIANGLE_STRIP, numIndices, GL_UNSIGNED_SHORT, (const void*)((it->IndexStart - mIndexData)*sizeof(GLushort)));
 	}

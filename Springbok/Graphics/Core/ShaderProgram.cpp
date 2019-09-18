@@ -84,6 +84,8 @@ namespace
 	R"(
 		#version 120
 		
+		uniform vec2 CoordMult;
+
 		attribute vec2 Position;
 		attribute vec2 TextureCoordinate;
 		attribute vec4 Color;
@@ -94,7 +96,7 @@ namespace
 		void main()
 		{
 			texCoord = TextureCoordinate;
-			gl_Position = vec4(Position, 0.0, 1.0);
+			gl_Position = vec4(Position * CoordMult * vec2(1.0, -1.0), 0.0, 1.0);
 			fragColor = Color;
 		}
 	)";

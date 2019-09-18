@@ -4,6 +4,8 @@
 //  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
+#pragma once
+
 #include "Shader.h"
 #include <Springbok/Foundation/ObjectPointer.h>
 #include <Springbok/Foundation/Vec4.h>

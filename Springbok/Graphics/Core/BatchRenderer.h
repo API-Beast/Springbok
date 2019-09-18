@@ -39,6 +39,7 @@ private:
 	
 	GLuint mVertexBuffer = 0;
 	GLuint mIndexBuffer  = 0;
+	GLuint mVertexArray = 0;
 	
 	int mMaxVertices = 0;
 	int mMaxElements = 0;

@@ -17,12 +17,12 @@ struct Transform2D
 {
 	Transform2D() = default;
 	Transform2D(Mat2 matrix);
-	Transform2D(Vec2I pos, Vec2F parallaxity = 1.f, Mat2 matrix = Mat2::Identity());
+	Transform2D(Vec2F pos, Vec2F parallaxity = 1.f, Mat2 matrix = Mat2::Identity());
 	
 	template<class V = BasicVertex>
  	void transform(V* startVertex, V* endVertex, Vec2F cameraPos = 0) const;
 	
-	Vec2F transformVec2(Vec2F v, Vec2F cameraPos = 0, Vec2F size = 0) const;
+	Vec2F transformVec2(Vec2F v, Vec2F cameraPos = 0) const;
 	
 	Transform2D  operator+ (const Transform2D& other) const;
 	Transform2D  operator- (const Transform2D& other) const;
@@ -37,7 +37,7 @@ struct Transform2D
 	Transform2D inverse() const;
 	
 	Mat2  Matrix         = Mat2(Vec2F(1, 0), Vec2F(0, 1));
-	Vec2I Offset         = 0;
+	Vec2F Offset         = 0;
 	Vec2F Parallaxity    = 1.f;
 };
 

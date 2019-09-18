@@ -10,7 +10,7 @@ Transform2D::Transform2D(Mat2 matrix) : Matrix(matrix)
 {
 }
 
-Transform2D::Transform2D(Vec2I pos, Vec2F parallaxity, Mat2 matrix):
+Transform2D::Transform2D(Vec2F pos, Vec2F parallaxity, Mat2 matrix):
 	Offset(pos), Parallaxity(parallaxity), Matrix(matrix)
 {
 }
@@ -46,7 +46,7 @@ Transform2D Transform2D::inverse() const
 	return Transform2D() - *this;
 }
 
-Vec2F Transform2D::transformVec2(Vec2F v, Vec2F cameraPos, Vec2F size) const
+Vec2F Transform2D::transformVec2(Vec2F v, Vec2F cameraPos) const
 {
 	return Matrix.transform(v) + Offset - cameraPos * Parallaxity;
 }

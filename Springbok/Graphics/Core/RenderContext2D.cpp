@@ -14,6 +14,7 @@
 RenderContext2D::RenderContext2D(RenderTarget* target)
 {
 	glEnable(GL_BLEND);
+	//glEnable(0x92E0);
 	glDisable(GL_CULL_FACE);
 	setRenderTarget(target);
 	setShader      (mShader);
