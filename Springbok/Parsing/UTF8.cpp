@@ -101,7 +101,7 @@ Codepoint UTF8::DecodeReverse(const std::string& str, int* position)
 	if((*position) <= 0)
 		return 0;
 	(*position)--;
-	while(position > 0)
+	while((*position) > 0)
 	{
 		if(toUC(str[*position]) >= 0x80 && toUC(str[*position]) < 0xC0)
 			(*position)--;

@@ -34,7 +34,7 @@ enum Category
 class AbstractTest
 {
 public:
-	virtual bool run(std::ostream& out, bool catchExceptions = true){};
+	virtual bool run(std::ostream& out, bool catchExceptions = true){ return false; };
 	virtual Category getCategory(){ return Loose; };
 	virtual const char* getIdentifier(){ return "!Missing!"; };
 };
