@@ -15,7 +15,7 @@ In order to build Springbok you will need:
 - A recent version of CMake
 - [OpenAL][1], OpenGL 2.1 and [GLFW 3][2]
 
-  [1]: http://kcat.strangesoft.net/openal.html
+  [1]: https://github.com/kcat/openal-soft
   [2]: http://www.glfw.org/
 
 Now you need to generate a makefile/project and invoke it, under Linux this typically look like this:
